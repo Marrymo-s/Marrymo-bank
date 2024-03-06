@@ -22,7 +22,7 @@ public class User {
     private Long userSequence;
 
     @NotNull
-    @Column(name="kakao_id")
+    @Column(name="kakao_id", nullable = false)
     private String kakaoId;
 
     @Column(name="bank_code")
