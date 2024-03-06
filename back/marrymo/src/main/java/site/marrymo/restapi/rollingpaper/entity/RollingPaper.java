@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import site.marrymo.restapi.user.entity.User;
 
@@ -18,17 +19,21 @@ public class RollingPaper {
     @Column(name = "rolling_paper_id")
     private Long rollingPaperId;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_sequence")
+    @JoinColumn(name = "user_sequence", nullable = false)
     private User user;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String writer;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String content;
 
-    @Column(name = "created_at")
+    @NotNull
+    @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
