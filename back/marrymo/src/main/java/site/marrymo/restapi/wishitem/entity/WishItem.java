@@ -5,13 +5,17 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.web.multipart.MultipartFile;
+
+import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.user.entity.User;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE wish_item SET deleted_at = NOW() WHERE wish_item_sequence = ?")
 @Table(name = "wish_item")
-public class WishItem {
+public class WishItem extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wish_item_sequence")

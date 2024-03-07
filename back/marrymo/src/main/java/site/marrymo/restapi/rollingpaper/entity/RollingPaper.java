@@ -6,18 +6,22 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+
+import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.user.entity.User;
 
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE rolling_paper SET deleted_at = NOW() WHERE rolling_paper_sequence = ?")
 @Table(name = "rolling_paper")
-public class RollingPaper {
+public class RollingPaper extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rolling_paper_id")
-    private Long rollingPaperId;
+    @Column(name = "rolling_paper_sequence")
+    private Long rollingPaperSequence;
 
     @NotNull
     @ManyToOne
@@ -31,11 +35,6 @@ public class RollingPaper {
     @NotNull
     @Column(nullable = false)
     private String content;
-
-    @NotNull
-    @Column(name = "created_at", nullable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
     @Builder
     public RollingPaper(User user, String writer, String content){
