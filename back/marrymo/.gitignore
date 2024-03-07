@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Sonarlint plugin
+.idea/**/sonarlint/
+
+# SonarQube Plugin
+.idea/**/sonarIssues.xml
