@@ -47,8 +47,14 @@ public class Moneygift extends BaseTimeEntity {
 
     @Builder
     public Moneygift(
+                     Type type,
                      int amount,
                      String relationship,
                      String sender
-                     )
+                     ){
+        this.type = type;
+        this.amount = amount;
+        this.relationship = relationship;
+        this.sender = sender;
+    }
 }
