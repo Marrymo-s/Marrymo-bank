@@ -1,10 +1,7 @@
 package site.marrymo.restapi.user.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 
 import org.antlr.v4.runtime.misc.NotNull;
@@ -16,6 +13,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE user SET deleted_at = NOW() WHERE user_sequence = ?")
 @Table(name="user")
