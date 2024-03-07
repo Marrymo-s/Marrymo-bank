@@ -5,8 +5,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import site.marrymo.restapi.global.entity.BaseTimeEntity;
+
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
@@ -14,15 +17,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE user SET deleted_at = NOW() WHERE user_sequence = ?")
 @Table(name="user")
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_sequence")
     private Long userSequence;
 
     @NotNull
-    @Column(name="kakao_id")
+    @Column(name="kakao_id", nullable = false)
     private String kakaoId;
 
     @Column(name="bank_code")
@@ -47,17 +51,6 @@ public class User {
     @Column(name="withdraw_at")
     private LocalDateTime withdrawAt;
 
-    @NotNull
-    @CreationTimestamp
-    @Column(name="created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name="modified_at")
-    private LocalDateTime modifiedAt;
-
-    @Column(name="deleted_at")
-    private LocalDateTime deletedAt;
-
     @Builder
     public User(String kakaoId,
                 String bankCode,
@@ -66,10 +59,7 @@ public class User {
                 String userCode,
                 String email,
                 String refreshToken,
-                boolean isWithdraw,
-                LocalDateTime withdrawAt,
-                LocalDateTime modifiedAt,
-                LocalDateTime deletedAt){
+                boolean isWithdraw){
         this.kakaoId = kakaoId;
         this.bankCode = bankCode;
         this.account = account;
@@ -79,7 +69,5 @@ public class User {
         this.refreshToken = refreshToken;
         this.isWithdraw = isWithdraw;
         this.withdrawAt = withdrawAt;
-        this.modifiedAt = modifiedAt;
-        this.deletedAt = deletedAt;
     }
 }
