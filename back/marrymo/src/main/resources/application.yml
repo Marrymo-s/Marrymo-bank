@@ -30,6 +30,7 @@ spring :
       port: 6379
       host: localhost
 
+# log 설정
 logging:
   level:
     root: info
