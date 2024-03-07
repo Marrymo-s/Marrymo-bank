@@ -9,8 +9,11 @@ import org.hibernate.annotations.SQLDelete;
 
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.user.entity.User;
+import site.marrymo.restapi.wedding_img.entity.WeddingImg;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -69,6 +72,9 @@ public class Card extends BaseTimeEntity {
     @NotNull
     @Column(name = "is_issued")
     private boolean isIssued;
+
+    @OneToMany(mappedBy = "card")
+    private List<WeddingImg> weddingImgs=new ArrayList<>();
 
     @Builder
     public Card(String groomName,
