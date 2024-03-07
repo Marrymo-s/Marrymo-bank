@@ -75,6 +75,9 @@ public class Card extends BaseTimeEntity {
     @Column(name = "is_issued")
     private boolean isIssued;
 
+    @NotNull
+    private String greeting;
+
     @OneToMany(mappedBy = "card")
     private List<WeddingImg> weddingImgs=new ArrayList<>();
 
