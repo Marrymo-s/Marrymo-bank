@@ -1,4 +1,4 @@
-package site.marrymo.restapi.config;
+package site.marrymo.restapi.global.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

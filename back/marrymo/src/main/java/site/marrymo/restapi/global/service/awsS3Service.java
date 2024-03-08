@@ -1,4 +1,4 @@
-package site.marrymo.restapi.s3.service;
+package site.marrymo.restapi.global.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
