@@ -1,5 +1,4 @@
 
-
 # database 세팅
 spring :
   datasource:
@@ -7,6 +6,10 @@ spring :
     url: jdbc:mysql://127.0.0.1:3306/marrymo?useSSL=false&serverTimezone=UTC
     username: root
     password: hat1da2chi3go4
+
+  # aws application-aws.yml 사용
+  profiles:
+    active: aws
 
   h2:
      console:
