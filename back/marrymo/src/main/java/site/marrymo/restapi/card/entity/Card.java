@@ -121,4 +121,52 @@ public class Card extends BaseTimeEntity {
         this.isIssued = isIssued;
         this.greeting = greeting;
     }
+
+    public void modifyGroomName(String groomName){
+        this.groomName = groomName;
+    }
+
+    public void modifyBrideName(String brideName){
+        this.brideName = brideName;
+    }
+
+    public void modifyGroomContact(String groomContact){
+        this.groomContact = groomContact;
+    }
+
+    public void modifyBrideContact(String brideContact){
+        this.brideContact = brideContact;
+    }
+
+    public void modifyWeddingDate(LocalDate weddingDate){
+        this.weddingDate = weddingDate;
+    }
+
+    public void modifyWeddingTime(LocalTime weddingTime){
+        this.weddingTime = weddingTime;
+    }
+
+    public void modifyLocation(String location){
+        this.location = location;
+    }
+
+    public void modifyGreeting(String greeting){
+        this.greeting = greeting;
+    }
+
+    public void modifyGroomFather(String groomFather){
+        this.groomFather = groomFather;
+    }
+
+    public void modifyGroomMother(String groomMother){
+        this.groomMother = groomMother;
+    }
+
+    public void modifyBrideFather(String brideFather){
+        this.brideFather = brideFather;
+    }
+
+    public void modifyBrideMother(String brideMother){
+        this.brideMother = brideMother;
+    }
 }
