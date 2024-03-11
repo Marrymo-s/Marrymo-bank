@@ -4,11 +4,12 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Data
 @Builder
-public class UserRegistRequest {
+public class UserModifyRequest {
     @NotEmpty(message = "신랑 이름은 빈칸이면 안되고 null이어도 안됩니다")
     private String groomName;
 
