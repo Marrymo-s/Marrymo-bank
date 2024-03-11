@@ -1,9 +1,9 @@
-package site.marrymo.restapi.wishitem.Service;
+package site.marrymo.restapi.wishitem.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import site.marrymo.restapi.wishitem.Repository.WishItemRepository;
+import site.marrymo.restapi.wishitem.repository.WishItemRepository;
 
 @Service
 @Slf4j
