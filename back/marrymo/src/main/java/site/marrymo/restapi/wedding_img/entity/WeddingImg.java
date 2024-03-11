@@ -13,7 +13,7 @@ import site.marrymo.restapi.global.entity.BaseTimeEntity;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE wish_item SET deleted_at = NOW() WHERE wish_item_sequence = ?")
+@SQLDelete(sql = "UPDATE wedding_img SET deleted_at = NOW() WHERE img_sequence = ?")
 @Table(name = "wedding_img")
 public class WeddingImg extends BaseTimeEntity {
 
