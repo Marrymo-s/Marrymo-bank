@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import site.marrymo.restapi.user.dto.request.UserModifyRequest;
 import site.marrymo.restapi.user.dto.request.UserRegistRequest;
 import site.marrymo.restapi.user.service.UserService;
 
@@ -18,5 +20,10 @@ public class UserController {
     @PostMapping
     public void registUserInfo(@Valid UserRegistRequest userRegistRequest){
         userService.registUserInfo(1L, userRegistRequest);
+    }
+
+    @PutMapping
+    public void modifyUserInfo(@Valid UserModifyRequest userModifyRequest){
+        userService.modifyUserInfo(1L, userModifyRequest);
     }
 }
