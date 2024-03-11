@@ -8,9 +8,9 @@ public class MarrymoException extends RuntimeException{
     private final String errorCode;
     private final String message;
 
-    public MarrymoException(int statusCode, String errorCode, String message){
-        this.statusCode = statusCode;
-        this.errorCode = errorCode;
-        this.message = message;
+    public MarrymoException(ErrorCode errorCode){
+        this.statusCode = errorCode.getStatusCode();
+        this.errorCode = errorCode.getErrorCode();
+        this.message = errorCode.getMessage();
     }
 }
