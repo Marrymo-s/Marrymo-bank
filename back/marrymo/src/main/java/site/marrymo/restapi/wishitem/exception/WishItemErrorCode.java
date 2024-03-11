@@ -1,4 +1,9 @@
 package site.marrymo.restapi.wishitem.exception;
 
-public class WishItemErrorCode {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public WishItemErrorCode {
 }

@@ -10,8 +10,6 @@ import java.util.List;
 @Data
 @Builder
 public class WishItemGetResponse {
-    private List<WishItem> items;
-
     @Data
     @Builder
     public static class WishItem {
