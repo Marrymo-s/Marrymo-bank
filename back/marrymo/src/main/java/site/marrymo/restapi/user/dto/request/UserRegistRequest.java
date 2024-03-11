@@ -1,13 +1,9 @@
 package site.marrymo.restapi.user.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -25,10 +21,10 @@ public class UserRegistRequest {
     @NotEmpty(message = "신부 연락처는 빈칸이면 안되고 null이어도 안됩니다")
     private String brideContact;
 
-    @NotNull(message = "결혼식 날짜는 빈칸이면 안되고 null이어도 안됩니다")
+    @NotEmpty(message = "결혼식 날짜는 빈칸이면 안되고 null이어도 안됩니다")
     private String weddingDate;
 
-    @NotNull(message = "결혼식 시간은 빈칸이면 안되고 null이어도 안됩니다")
+    @NotEmpty(message = "결혼식 시간은 빈칸이면 안되고 null이어도 안됩니다")
     private String weddingTime;
 
     @NotEmpty(message = "결혼식 날짜는 빈칸이면 안되고 null이어도 안됩니다")
