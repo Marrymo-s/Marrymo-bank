@@ -27,9 +27,9 @@ public class Card extends BaseTimeEntity {
     @Column(name = "card_sequence")
     private Long cardSequence;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence")
-    User user;
+    private User user;
 
     @NotNull
     @Column(name = "groom_name")

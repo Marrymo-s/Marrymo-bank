@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.SQLDelete;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.moneygift_history.dto.Type;
 import site.marrymo.restapi.user.entity.User;
@@ -14,6 +15,7 @@ import site.marrymo.restapi.wishitem.entity.WishItem;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE moneygift_history SET deleted_at = NOW() WHERE moneygift_sequence = ?")
 @Table(name = "moneygift_history")
 public class Moneygift extends BaseTimeEntity {
     @Id
@@ -35,7 +37,7 @@ public class Moneygift extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private Integer amount;
 
     @NotNull
     @Column(name = "relationship", nullable = false)
