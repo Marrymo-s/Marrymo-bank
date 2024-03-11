@@ -94,4 +94,8 @@ public class User extends BaseTimeEntity {
         this.isWithdraw = isWithdraw;
         this.withdrawAt = withdrawAt;
     }
+
+    public void modifyUserEmail(String email){
+        this.email = email;
+    }
 }

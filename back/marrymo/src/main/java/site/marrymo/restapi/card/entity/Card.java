@@ -12,7 +12,9 @@ import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.wedding_img.entity.WeddingImg;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class Card extends BaseTimeEntity {
     @Column(name = "card_sequence")
     private Long cardSequence;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence")
     private User user;
 
@@ -49,7 +51,11 @@ public class Card extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "wedding_date")
-    private LocalDateTime weddingDate;
+    private LocalDate weddingDate;
+
+    @NotNull
+    @Column(name = "wedding_time")
+    private LocalTime weddingTime;
 
     @NotNull
     @Column(name = "invitation_url")
@@ -82,24 +88,30 @@ public class Card extends BaseTimeEntity {
     private List<WeddingImg> weddingImgs=new ArrayList<>();
 
     @Builder
-    public Card(String groomName,
+    public Card(
+                User user,
+                String groomName,
                 String brideName,
                 String groomContact,
                 String brideContact,
-                LocalDateTime weddingDate,
+                LocalDate weddingDate,
+                LocalTime weddingTime,
                 String invitationUrl,
                 String location,
                 String groomFather,
                 String groomMother,
                 String brideFather,
                 String brideMother,
-                boolean isIssued
+                boolean isIssued,
+                String greeting
                 ){
+        this.user = user;
         this.groomName = groomName;
         this.brideName = brideName;
         this.groomContact = groomContact;
         this.brideContact = brideContact;
         this.weddingDate = weddingDate;
+        this.weddingTime = weddingTime;
         this.invitationUrl = invitationUrl;
         this.location = location;
         this.groomFather = groomFather;
@@ -107,5 +119,6 @@ public class Card extends BaseTimeEntity {
         this.brideFather = brideFather;
         this.brideMother = brideMother;
         this.isIssued = isIssued;
+        this.greeting = greeting;
     }
 }
