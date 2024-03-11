@@ -32,8 +32,10 @@ public class WeddingImg extends BaseTimeEntity {
 
     @Builder
     public WeddingImg(
-        String imgUrl
+            Card card,
+            String imgUrl
     ) {
+        this.card = card;
         this.imgUrl = imgUrl;
     }
 }
