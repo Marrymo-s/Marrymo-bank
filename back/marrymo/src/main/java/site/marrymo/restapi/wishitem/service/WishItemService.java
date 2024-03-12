@@ -82,7 +82,8 @@ public class WishItemService {
         return WishItemDetailResponse.builder()
                 .wishItemSequence(wishItem.getWishItemSequence())
                 .name(wishItem.getName())
-                .fund(wishItem.get)
+//                .fund(wishItem.get)
+                .build();
     }
 
     public void deleteWishItem(Long userSequence, WishItemDeleteRequest wishItemDeleteRequest) {
