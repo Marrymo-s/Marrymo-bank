@@ -31,4 +31,9 @@ public class UserController {
         UserGetResponse userGetResponse = userService.getUserInfo(1L);
         return ResponseEntity.ok(userGetResponse);
     }
+
+    @DeleteMapping
+    public void deleteUser(){
+        userService.deleteUser(1L);
+    }
 }
