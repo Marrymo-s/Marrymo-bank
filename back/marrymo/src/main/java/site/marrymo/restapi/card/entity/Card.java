@@ -169,4 +169,6 @@ public class Card extends BaseTimeEntity {
     public void modifyBrideMother(String brideMother){
         this.brideMother = brideMother;
     }
+
+    public void modifyIsIssued(Boolean isIssued) {this.isIssued = isIssued;}
 }
