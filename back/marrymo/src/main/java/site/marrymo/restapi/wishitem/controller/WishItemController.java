@@ -20,7 +20,7 @@ public class WishItemController {
     private final WishItemService wishItemService;
 
     @PostMapping
-    public void registWishItem(@Valid WishItemRegistRequest wishItemRegistRequest) {
+    public void registWishItem(@Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
         wishItemService.registWishItem(1L, wishItemRegistRequest);
     }
 
@@ -36,7 +36,7 @@ public class WishItemController {
 //    }
 
     @DeleteMapping
-    public void deleteWishItem(@Valid WishItemDeleteRequest wishItemDeleteRequest) {
+    public void deleteWishItem(@Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
         wishItemService.deleteWishItem(1L, wishItemDeleteRequest);
     }
 }
