@@ -3,12 +3,13 @@ package site.marrymo.restapi.user.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
 import site.marrymo.restapi.user.dto.request.UserModifyRequest;
 import site.marrymo.restapi.user.dto.request.UserRegistRequest;
+import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
+import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.service.UserService;
 
 @Slf4j
@@ -25,5 +26,22 @@ public class UserController {
     @PutMapping
     public void modifyUserInfo(@Valid UserModifyRequest userModifyRequest){
         userService.modifyUserInfo(1L, userModifyRequest);
+    }
+
+    @GetMapping
+    public ResponseEntity<UserGetResponse> getUserInfo(){
+        UserGetResponse userGetResponse = userService.getUserInfo(1L);
+        return ResponseEntity.ok(userGetResponse);
+    }
+
+    @DeleteMapping
+    public void deleteUser(){
+        userService.deleteUser(1L);
+    }
+
+    @PatchMapping("/invitation")
+    public ResponseEntity<InvitationIssueResponse> invitationIssued(@Valid @RequestBody InvitationIssueRequest invitationIssueRequest){
+        InvitationIssueResponse invitationIssueResponse = userService.invitationIssued(1L, invitationIssueRequest);
+        return ResponseEntity.ok(invitationIssueResponse);
     }
 }
