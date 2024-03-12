@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
 import site.marrymo.restapi.user.dto.request.UserModifyRequest;
 import site.marrymo.restapi.user.dto.request.UserRegistRequest;
+import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.service.UserService;
 
@@ -35,5 +37,11 @@ public class UserController {
     @DeleteMapping
     public void deleteUser(){
         userService.deleteUser(1L);
+    }
+
+    @PatchMapping("/invitation")
+    public ResponseEntity<InvitationIssueResponse> invitationIssued(@Valid @RequestBody InvitationIssueRequest invitationIssueRequest){
+        InvitationIssueResponse invitationIssueResponse = userService.invitationIssued(1L, invitationIssueRequest);
+        return ResponseEntity.ok(invitationIssueResponse);
     }
 }
