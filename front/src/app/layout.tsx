@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+// import localFont from 'next/font/local';
+// const Pretendard = localFont({
+//   src: './fonts/PretendardVariable.woff2',
+// });
+
+import './layout.css';
 
 const inter = Inter({ subsets: ['latin'] })
 

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import KakaoLoginButton from '@/containers/landing/KakaoLoginButton';
+
 const Landing = () => {
   return (
     <>

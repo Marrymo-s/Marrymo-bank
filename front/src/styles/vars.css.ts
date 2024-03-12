@@ -22,7 +22,14 @@ export const vars = createGlobalTheme(':root', {
   },
 
   borderRadius: {
-
+    '0x': '0px',
+    '1x': '8px',
+    '2x': '16px',
+    '3x': '24px',
+    '4x': '32px',
+    '5x': '40px',
+    top: '32px 32px 0 0',
+    full: '9999px', // 원을 만들 때 사용
   },
 
   // fontFamily: {
