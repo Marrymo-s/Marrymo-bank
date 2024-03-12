@@ -86,18 +86,18 @@ public class UserService {
 
         if(userRegistRequest.getImgUrl() != null){
             for(MultipartFile file : userRegistRequest.getImgUrl()){
-                System.out.println("fileName:"+file.getOriginalFilename());
-//                try {
+                try {
+                    String imgUrl = awsS3Service.uploadFileImage("wedding_img", file, user.getUserCode());
+                    System.out.println("imgUrl:"+imgUrl);
+
                     weddingImgRepository.save(
                             WeddingImg.builder()
                                     .card(card)
-                                    .imgUrl(file.getOriginalFilename())
+                                    .imgUrl(imgUrl)
                                     .build());
-
-//                    awsS3Service.uploadFileImage("wedding_img", file, user.getUserCode());
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
@@ -136,17 +136,17 @@ public class UserService {
 
         if(userModifyRequest.getImgUrl() != null){
             for(MultipartFile file : userModifyRequest.getImgUrl()){
-//                try {
-                weddingImgRepository.save(
+                try {
+                    String imgUrl = awsS3Service.uploadFileImage("wedding_img", file, user.getUserCode());
+
+                    weddingImgRepository.save(
                         WeddingImg.builder()
                                 .card(card)
-                                .imgUrl(file.getOriginalFilename())
+                                .imgUrl(imgUrl)
                                 .build());
-
-//                    awsS3Service.uploadFileImage("wedding_img", file, user.getUserCode());
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
