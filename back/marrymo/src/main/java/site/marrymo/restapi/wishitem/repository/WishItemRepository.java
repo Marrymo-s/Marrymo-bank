@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WishItemRepository extends JpaRepository<WishItem, Long> {
-    //db참조가 아니라 메서드로 찾아오기 user로 찾아고기
+    //db참조가 아니라 메서드로 찾아오기 user로 wishItem 찾아서 리스트로 반환
     //optional은 null을 자동으로 검사해줌
+    //원래는 findById가 기본으로 제공, 우리는 userSequence를 써서 선언해줘야 함.
     Optional<List<WishItem>> findByUser(User user);
 }

@@ -3,9 +3,6 @@ package site.marrymo.restapi.wishitem.dto.response;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
-import site.marrymo.restapi.wishitem.entity.WishItem;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -13,7 +10,7 @@ public class WishItemGetResponse {
     @Data
     @Builder
     public static class WishItem {
-        @NotEmpty(message = "빈칸이면 안되고 null이어도 안됩니다")
+        @NotEmpty(message = "빈칸이면 안되2고 null이어도 안됩니다")
         private Long wishItemSequence;
 
         @NotEmpty(message = "상품 이름은 빈칸이면 안되고 null이어도 안됩니다")
