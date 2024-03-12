@@ -11,8 +11,10 @@ import site.marrymo.restapi.card.repository.CardRepository;
 import site.marrymo.restapi.global.config.AwsS3Config;
 import site.marrymo.restapi.global.service.awsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
+import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
 import site.marrymo.restapi.user.dto.request.UserModifyRequest;
 import site.marrymo.restapi.user.dto.request.UserRegistRequest;
+import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
@@ -183,5 +185,20 @@ public class UserService {
            throw new UserException(UserErrorCode.USER_ALREADY_DELETE);
 
         userRepository.delete(user);
+    }
+
+    public InvitationIssueResponse invitationIssued(Long userSequence, InvitationIssueRequest invitationIssueRequest){
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+
+        Card card = user.getCard();
+        if(card == null){
+            throw new CardException(CardErrorCode.CARD_NOT_FOUND);
+        }
+
+        card.modifyIsIssued(invitationIssueRequest.getIsIssued());
+        cardRepository.save(card);
+
+        return InvitationIssueResponse.toDto(card.getInvitationUrl());
     }
 }
