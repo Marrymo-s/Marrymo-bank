@@ -13,6 +13,7 @@ import site.marrymo.restapi.global.service.awsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.dto.request.UserModifyRequest;
 import site.marrymo.restapi.user.dto.request.UserRegistRequest;
+import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -25,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -149,5 +151,22 @@ public class UserService {
                 }
             }
         }
+    }
+
+    public UserGetResponse getUserInfo(Long userSequence){
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+
+        Card card = cardRepository.findByUser(user)
+                .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND));
+
+        List<WeddingImg> weddingImgList = weddingImgRepository.findAll();
+        List<String> imgUrlList = new ArrayList<>();
+
+        for(WeddingImg weddingImg : weddingImgList){
+            imgUrlList.add(weddingImg.getImgUrl());
+        }
+
+        return UserGetResponse.toDto(user, card, imgUrlList);
     }
 }
