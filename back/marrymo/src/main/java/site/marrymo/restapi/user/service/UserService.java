@@ -164,6 +164,10 @@ public class UserService {
         List<String> imgUrlList = new ArrayList<>();
 
         for(WeddingImg weddingImg : weddingImgList){
+            //img가 삭제된 시간이 찍혀 있으면 얻어오지 않는다
+            if(weddingImg.getDeletedAt() != null)
+                continue;
+
             imgUrlList.add(weddingImg.getImgUrl());
         }
 
