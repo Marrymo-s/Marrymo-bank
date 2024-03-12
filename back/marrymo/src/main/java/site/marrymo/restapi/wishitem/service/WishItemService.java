@@ -1,5 +1,6 @@
 package site.marrymo.restapi.wishitem.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -7,7 +8,9 @@ import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
 import site.marrymo.restapi.user.repository.UserRepository;
+import site.marrymo.restapi.wishitem.dto.request.WishItemDeleteRequest;
 import site.marrymo.restapi.wishitem.dto.request.WishItemRegistRequest;
+import site.marrymo.restapi.wishitem.dto.response.WishItemDetailResponse;
 import site.marrymo.restapi.wishitem.dto.response.WishItemEach;
 import site.marrymo.restapi.wishitem.dto.response.WishItemGetResponse;
 import site.marrymo.restapi.wishitem.entity.WishItem;
@@ -64,5 +67,33 @@ public class WishItemService {
         return WishItemGetResponse.builder()
                 .items(wishItemEachList)
                 .build();
+    }
+
+    public WishItemDetailResponse getWishItemDetail(String userCode, Long wishItemSequence) {
+        //1. userCode로 사용자 조회
+        User user = userRepository.findByUserCode(userCode)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+
+        //2. wishItemSequence로 wishItem 조회
+        WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemSequence, user)
+                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+
+        //3. 반환
+        return WishItemDetailResponse.builder()
+                .wishItemSequence(wishItem.getWishItemSequence())
+                .name(wishItem.getName())
+                .fund(wishItem.get)
+    }
+
+    public void deleteWishItem(Long userSequence, WishItemDeleteRequest wishItemDeleteRequest) {
+        //사용자 조회
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+
+        //wishItemSequence로 wishItem 조회
+        WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemDeleteRequest.getWishItemSequence(), user)
+                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+
+        wishItemRepository.delete(wishItem);
     }
 }
