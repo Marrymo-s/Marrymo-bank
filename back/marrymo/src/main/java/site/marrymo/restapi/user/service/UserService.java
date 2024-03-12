@@ -173,4 +173,14 @@ public class UserService {
 
         return UserGetResponse.toDto(user, card, imgUrlList);
     }
+
+    public void deleteUser(Long userSequence){
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+
+        if(user.getDeletedAt() != null)
+           throw new UserException(UserErrorCode.USER_ALREADY_DELETE);
+
+        userRepository.delete(user);
+    }
 }
