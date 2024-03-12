@@ -1,8 +1,12 @@
 package site.marrymo.restapi.wishitem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.marrymo.restapi.wishitem.dto.response.WishItemGetResponse;
 import site.marrymo.restapi.wishitem.service.WishItemService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/wish-item")
@@ -17,9 +21,8 @@ public class WishItemController {
     }
 
     @GetMapping("/{userCode}")
-    public Wish getWishList(@PathVariable Long userCode) {
-        return wishItemService.
+    public ResponseEntity<WishItemGetResponse> getWishItems(@PathVariable String userCode) {
+        WishItemGetResponse items = wishItemService.getWishItems(userCode);
+        return ResponseEntity.ok(items);
     }
-
-
 }
