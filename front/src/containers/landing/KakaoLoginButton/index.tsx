@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
+import * as styles from './index.css';
 
 const KakaoLoginButton = () => {
   return (
@@ -11,7 +12,7 @@ const KakaoLoginButton = () => {
       width={500}
       height={100}
       sizes='90vw'
-      // className={styles.kakaoLoginImage}
+      className={styles.kakaoLoginImage}
       // onClick={kakaoLoginHandler}
     />
   )
