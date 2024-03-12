@@ -124,6 +124,7 @@ public class UserService {
         card.modifyWeddingDate(LocalDate.parse(userModifyRequest.getWeddingDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         card.modifyWeddingTime(LocalTime.parse(userModifyRequest.getWeddingTime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
         card.modifyLocation(userModifyRequest.getLocation());
+        card.modifyGreeting(userModifyRequest.getGreeting());
         card.modifyGroomFather(userModifyRequest.getGroomFather());
         card.modifyGroomMother(userModifyRequest.getGroomMother());
         card.modifyBrideFather(userModifyRequest.getBrideFather());
