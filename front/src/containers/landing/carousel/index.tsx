@@ -35,13 +35,13 @@ const Carousel = () => {
   };
   // 여기서 Image에 바닐라 익스트랙트로 width를 반응형으로 만들기
   return (
-    <div className={styles.carouselImage}>
+    <div className={styles.carouselWrapper}>
       <Image
         src={images[currentIndex]}
         alt="Carousel slide"
         // width={500}
         // height={300}
-        // layout="responsive"
+        // // layout="responsive"
         layout="fill"
         objectFit="cover" // 이미지가 컨테이너를 완전히 채우도록 하면서 이미지의 비율을 유지
       />

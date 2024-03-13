@@ -9,4 +9,7 @@ export const landingWrapper = style([
     {
       textAlign: 'center',
     }
-])
+]);
+
+
+

@@ -7,12 +7,13 @@ import * as styles from './index.css';
 
 import KakaoLoginButton from '@/containers/landing/KakaoLoginButton';
 import Carousel from '@/containers/landing/carousel';
+import Heading from '@/containers/landing/heading';
+
 
 const Landing = () => {
   return (
     <main className={styles.landingWrapper}>
-      <p><b>Marrymo</b>에서</p>
-      <p>우리만의 특별한 결혼식 만들기</p>
+      <Heading />
       <Carousel />
       <KakaoLoginButton />
     </main>
