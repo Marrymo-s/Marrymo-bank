@@ -60,7 +60,7 @@ public class UserService {
     public void registUserInfo(Long userSequence, UserRegistRequest userRegistRequest) {
         //user table에 email 정보 저장
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
 
         user.modifyUserEmail(userRegistRequest.getEmail());
@@ -109,7 +109,7 @@ public class UserService {
     public void modifyUserInfo(Long userSequence, UserModifyRequest userModifyRequest){
         //user table에 email 정보 저장
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
 
         user.modifyUserEmail(userModifyRequest.getEmail());
@@ -158,7 +158,7 @@ public class UserService {
 
     public UserGetResponse getUserInfo(Long userSequence){
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Card card = cardRepository.findByUser(user)
                 .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND));
@@ -179,7 +179,7 @@ public class UserService {
 
     public void deleteUser(Long userSequence){
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         if(user.getDeletedAt() != null)
            throw new UserException(UserErrorCode.USER_ALREADY_DELETE);
@@ -189,7 +189,7 @@ public class UserService {
 
     public InvitationIssueResponse invitationIssued(Long userSequence, InvitationIssueRequest invitationIssueRequest){
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Card card = user.getCard();
         if(card == null){

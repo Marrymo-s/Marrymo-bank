@@ -2,8 +2,10 @@ package site.marrymo.restapi.rollingpaper.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.marrymo.restapi.rollingpaper.dto.request.RollingPaperRegistRequest;
+import site.marrymo.restapi.rollingpaper.dto.response.RollingPaperGetResponse;
 import site.marrymo.restapi.rollingpaper.service.RollingPaperService;
 
 @RestController
@@ -18,5 +20,8 @@ public class RollingPaperController {
     }
 
     @GetMapping
-    public ResponseEntity getRollingPaper()
+    public ResponseEntity<RollingPaperGetResponse> getRollingPaper() {
+        RollingPaperGetResponse letterList = rollingPaperService.getRollingPaper(1L);
+        return ResponseEntity.ok(letterList);
+    }
 }

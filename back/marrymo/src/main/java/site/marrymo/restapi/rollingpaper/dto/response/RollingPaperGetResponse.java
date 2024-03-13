@@ -1,12 +1,12 @@
 package site.marrymo.restapi.rollingpaper.dto.response;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@NoArgsConstructor
+@Builder
 public class RollingPaperGetResponse {
     List<RollingPaperEach> letterList;
 }
