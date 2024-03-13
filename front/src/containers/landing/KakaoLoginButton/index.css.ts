@@ -11,5 +11,4 @@ export const kakaoLoginImage = style({
   marginTop: '10vh',
   marginBottom: '5vh',
   cursor: 'pointer',
-  // zIndex: vars.zIndex['z-2'],
 });

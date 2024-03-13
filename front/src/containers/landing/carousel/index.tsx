@@ -12,15 +12,15 @@ const images = [
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setCurrentIndex((prevIndex) =>
-  //       prevIndex === images.length - 1 ? 0 : prevIndex + 1
-  //     );
-  //   }, 1000); // 3초마다 실행
-  //
-  //   return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
-  // }, [currentIndex]); // currentIndex가 변경될 때마다 useEffect가 다시 실행됩니다.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 2000); // 3초마다 실행
+
+    return () => clearTimeout(timer); // 컴포넌트가 언마운트될 때 타이머 정리
+  }, [currentIndex]); // currentIndex가 변경될 때마다 useEffect가 다시 실행됩니다.
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) =>
@@ -33,17 +33,17 @@ const Carousel = () => {
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
-  // 여기서 Image에 바닐라 익스트랙트로 width를 반응형으로 만들기
+
   return (
     <div className={styles.carouselWrapper}>
       <Image
         src={images[currentIndex]}
         alt="Carousel slide"
-        // width={500}
-        // height={300}
-        // // layout="responsive"
-        layout="fill"
-        objectFit="cover" // 이미지가 컨테이너를 완전히 채우도록 하면서 이미지의 비율을 유지
+        width={0}
+        height={0}
+        sizes='100vw'
+        className={styles.carouselStyle}
+        priority
       />
     </div>
   )
