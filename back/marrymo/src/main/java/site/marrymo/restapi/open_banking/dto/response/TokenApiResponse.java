@@ -1,11 +1,9 @@
 package site.marrymo.restapi.open_banking.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-@Builder
+@Data
 public class TokenApiResponse {
-    private String accessToken;
-    private String userSeqNo;
+    private String access_token;
+    private String user_seq_no;
 }
