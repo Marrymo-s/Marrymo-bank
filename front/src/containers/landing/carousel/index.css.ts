@@ -7,25 +7,17 @@ export const carouselWrapper = style({
   width: '100%',
   height: '65vh',
   maxHeight: '600px',
-
   position: 'relative',
-  aspectRatio: '16 / 9', // 이미지 비율 유지
-
+  aspectRatio: '16 / 9', // 이미지 비율 유지 // 근데 주석처리해도 차이가 없음
   // 미디어 쿼리를 사용한 반응형 디자인
-  '@media': {
-    'screen and (max-width: 768px)': {
-      // height: '70vh',
-      minHeight: '300px', // 최소 높이 설정
-    },
-    // 430px 이하의 너비를 가진 화면에 대한 미디어 쿼리
-    'screen and (max-width: 430px)': {
-      // height: '60vh',
-      minHeight: '250px', // 430px 너비에서의 최소 높이 설정
-    },
-    // 최대 너비가 480px 이하인 화면
-    'screen and (max-width: 480px)': {
-      // height: '50vh',
-      minHeight: '200px', // 최소 높이 설정
-    },
-  },
+
 });
+
+export const carouselStyle = style({
+  position: 'absolute', // 컨테이너 내에서 자유롭게 배치
+  top: 0,
+  left: 0,
+  width: '100%', // 부모 컨테이너의 너비를 100% 채움
+  height: '100%', // 부모 컨테이너의 높이를 100% 채움
+  objectFit: 'cover', // 컨테이너에 맞게 이미지 비율을 유지하며 채움
+})

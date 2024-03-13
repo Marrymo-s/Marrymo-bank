@@ -11,5 +11,28 @@ export const landingWrapper = style([
     }
 ]);
 
+export const landingText = recipe({
+  base: {
+    color: vars.colors.black,
+    padding: vars.space['1x'],
+    marginTop: vars.space.none,
+    textAlign: 'center',
+  },
+  variants: {
+    contentType: {
+      title: {
+        fontSize: vars.fontSize['5x'],
+        fontWeight: vars.fontWeight['accent']
+      },
+      content: {
+        fontSize: vars.fontSize['3x'],
+        fontWeight: vars.fontWeight['normal'],
+        marginTop: vars.space['2x'],
+        marginBottom: vars.space['2x'],
+      },
+    }
+  }
+});
+
 
 
