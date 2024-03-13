@@ -30,7 +30,7 @@ public class WishItemService {
     public void registWishItem(Long userSequence, WishItemRegistRequest wishItemRegistRequest) {
         //사용자 조회
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         //WishItem 생성 및 저장
         WishItem wishItem = WishItem.builder()
@@ -46,7 +46,7 @@ public class WishItemService {
     public WishItemGetResponse getWishItems(String userCode) {
         //1. userCode로 사용자 조회
         User user = userRepository.findByUserCode(userCode)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         //여기 에러 바꾸기
         //2. user로 WishItem 엔티티 목록 조회
@@ -72,7 +72,7 @@ public class WishItemService {
     public WishItemDetailResponse getWishItemDetail(String userCode, Long wishItemSequence) {
         //1. userCode로 사용자 조회
         User user = userRepository.findByUserCode(userCode)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         //2. wishItemSequence로 wishItem 조회
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemSequence, user)
@@ -89,7 +89,7 @@ public class WishItemService {
     public void deleteWishItem(Long userSequence, WishItemDeleteRequest wishItemDeleteRequest) {
         //사용자 조회
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         //wishItemSequence로 wishItem 조회
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemDeleteRequest.getWishItemSequence(), user)

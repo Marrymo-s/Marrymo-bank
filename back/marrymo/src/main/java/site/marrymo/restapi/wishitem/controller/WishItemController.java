@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/api/wish-item")
 @RequiredArgsConstructor
 public class WishItemController {
-
     private final WishItemService wishItemService;
 
     @PostMapping
