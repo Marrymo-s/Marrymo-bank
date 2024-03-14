@@ -31,7 +31,8 @@ public class WishItemController {
 
     @GetMapping("/{userCode}/{wishItemSequence}")
     public ResponseEntity<WishItemDetailResponse> getWishItemDetail(@PathVariable String userCode, @PathVariable Long wishItemSequence) {
-
+        WishItemDetailResponse wishItemDetailResponse = wishItemService.getWishItemDetail(userCode, 1L);
+        return ResponseEntity.ok(wishItemDetailResponse);
     }
 
     @DeleteMapping
