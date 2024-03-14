@@ -49,5 +49,5 @@ server:
 
   #open-banking
 open-banking:
-  client_id: fe57b880-6b09-4967-b74a-dd9b09d5bf62
-  client_secret: 3f192e80-6581-4dc5-9b46-82142bdd3d9e
+  client_id: ${CLIENT_ID}
+  client_secret: ${CLIENT_SECRET}
