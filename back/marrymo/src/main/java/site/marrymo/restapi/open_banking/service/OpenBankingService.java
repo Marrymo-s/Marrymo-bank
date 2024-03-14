@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import site.marrymo.restapi.open_banking.dto.request.CodeRequest;
 import site.marrymo.restapi.open_banking.dto.request.TokenApiRequest;
+import site.marrymo.restapi.open_banking.dto.response.AccountInquiryResponse;
 import site.marrymo.restapi.open_banking.dto.response.TokenApiResponse;
 import org.springframework.http.HttpHeaders;
 
@@ -40,6 +41,23 @@ public class OpenBankingService {
                 .body(BodyInserters.fromFormData(tokenApiRequest.toMultiValueMap()))
                 .retrieve()
                 .bodyToMono(TokenApiResponse.class)
+                .block();
+    }
+
+    public AccountInquiryResponse callAccountListApi(String accessToken, String userSeqNo){
+        log.debug("accessToken:"+accessToken+", userSeqNo:"+userSeqNo);
+
+        return openBankingWebClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/v2.0/account/list")
+                        .queryParam("user_seq_no", userSeqNo)
+                        .queryParam("include_cancel_yn", "N")
+                        .queryParam("sort_order", "D")
+                        .build())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .retrieve()
+                .bodyToMono(AccountInquiryResponse.class)
                 .block();
     }
 }
