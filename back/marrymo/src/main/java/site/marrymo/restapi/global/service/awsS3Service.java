@@ -52,7 +52,4 @@ public class awsS3Service {
         return fileUrl;
     }
 
-    public String name(){
-        return "dsfdsf";
-    }
 }
