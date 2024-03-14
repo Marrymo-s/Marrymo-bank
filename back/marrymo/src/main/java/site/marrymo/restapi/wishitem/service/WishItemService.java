@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import site.marrymo.restapi.moneygift_history.entity.Moneygift;
+import site.marrymo.restapi.moneygift_history.repository.MoneygiftRepository;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class WishItemService {
     private final UserRepository userRepository;
     private final WishItemRepository wishItemRepository;
+    private final MoneygiftRepository moneygiftRepository;
 
     //아직 accessToken 없어서 userSequence 파라미터로 넣는 걸로
     public void registWishItem(Long userSequence, WishItemRegistRequest wishItemRegistRequest) {
@@ -78,11 +81,20 @@ public class WishItemService {
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemSequence, user)
                 .orElseThrow(() -> new RuntimeException("Wish items not found"));
 
-        //3. 반환
+        //3. user와 wishItem으로 moneygift 내역 list로 가져오기
+        List<Moneygift> moneygiftList = moneygiftRepository.findByUserAndWishItem(user, wishItem);
+//                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+
+        //4. moneygiftList에서 amount 합산하여 fund 계산
+        int fund = moneygiftList.stream()
+                .mapToInt(Moneygift::getAmount)
+                .sum();
+
+        //5. 반환
         return WishItemDetailResponse.builder()
                 .wishItemSequence(wishItem.getWishItemSequence())
                 .name(wishItem.getName())
-//                .fund(wishItem.get)
+                .fund(fund)
                 .price(wishItem.getPrice())
                 .img(wishItem.getImg())
                 .build();
