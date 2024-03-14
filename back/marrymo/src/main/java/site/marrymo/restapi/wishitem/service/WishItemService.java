@@ -83,6 +83,8 @@ public class WishItemService {
                 .wishItemSequence(wishItem.getWishItemSequence())
                 .name(wishItem.getName())
 //                .fund(wishItem.get)
+                .price(wishItem.getPrice())
+                .img(wishItem.getImg())
                 .build();
     }
 
@@ -90,7 +92,7 @@ public class WishItemService {
         //사용자 조회
         User user = userRepository.findByUserSequence(userSequence)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
-        log.debug("userEmail = ",user.getEmail());
+        //log.debug("userEmail = ",user.getEmail());
         //wishItemSequence로 wishItem 조회
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemDeleteRequest.getWishItemSequence(), user)
                 .orElseThrow(() -> new RuntimeException("Wish items not found"));

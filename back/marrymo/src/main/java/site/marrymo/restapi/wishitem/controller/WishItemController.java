@@ -29,10 +29,10 @@ public class WishItemController {
         return ResponseEntity.ok(items);
     }
 
-//    @GetMapping("/{userCode}/{wishItemSequence}")
-//    public ResponseEntity<WishItemDetailResponse> getWishItemDetail(@PathVariable String userCode, @PathVariable Long wishItemSequence) {
-//
-//    }
+    @GetMapping("/{userCode}/{wishItemSequence}")
+    public ResponseEntity<WishItemDetailResponse> getWishItemDetail(@PathVariable String userCode, @PathVariable Long wishItemSequence) {
+
+    }
 
     @DeleteMapping
     public void deleteWishItem(@Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
