@@ -79,7 +79,7 @@ public class Card extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "is_issued")
-    private boolean isIssued;
+    private Boolean isIssued;
 
     @NotNull
     private String greeting;

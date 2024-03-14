@@ -199,6 +199,6 @@ public class UserService {
         card.modifyIsIssued(invitationIssueRequest.getIsIssued());
         cardRepository.save(card);
 
-        return InvitationIssueResponse.toDto(card.getInvitationUrl());
+        return InvitationIssueResponse.toDto(card.getInvitationUrl(), invitationIssueRequest.getIsIssued());
     }
 }
