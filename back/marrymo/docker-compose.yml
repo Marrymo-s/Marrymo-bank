@@ -22,7 +22,6 @@ services:
     image: redis:latest
     hostname: redis
     container_name: redis
-    command: redis-server /usr/local/redis/redis.conf
     restart: always
     volumes:
       - ${REDIS_DATA_PATH}:/data # 앞: 로컬 / 뒤 : redis 이미지 공식 문서
