@@ -3,13 +3,7 @@
 ### Part
 - [ ] FE
 - [ ] BE
-- [ ] Infra
+- [x] Infra
 
 ### 한줄 설명
-
-
-### 기능 상세 설명
-- [x] : 햄버거 메뉴 제작
-- [ ] : 홈페이지 제작
-
-### 스크린샷
+dev/fe에서 Dockerfile과 docker-compose.yml 파일 만들어 업로드
