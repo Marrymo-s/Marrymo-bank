@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.SQLDelete;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
+import site.marrymo.restapi.moneygift_history.dto.GuestType;
 import site.marrymo.restapi.moneygift_history.dto.Type;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.wishitem.entity.WishItem;
@@ -23,13 +24,18 @@ public class Moneygift extends BaseTimeEntity {
     @Column(name = "moneygift_sequence")
     private Long moneygiftSequence;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence")
+    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wish_item_sequence", referencedColumnName = "wish_item_sequence")
     private WishItem wishItem;
+
+    @NotNull
+    @Column(name = "guest_type", nullable = false)
+    private GuestType guestType;
 
     @NotNull
     @Column(name = "type", nullable = false)
@@ -50,7 +56,7 @@ public class Moneygift extends BaseTimeEntity {
     @Builder
     public Moneygift(
                      Type type,
-                     int amount,
+                     Integer amount,
                      String relationship,
                      String sender
                      ){

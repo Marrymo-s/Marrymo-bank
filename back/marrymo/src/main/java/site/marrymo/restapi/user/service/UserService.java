@@ -11,8 +11,11 @@ import site.marrymo.restapi.card.repository.CardRepository;
 import site.marrymo.restapi.global.config.AwsS3Config;
 import site.marrymo.restapi.global.service.awsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
+import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
 import site.marrymo.restapi.user.dto.request.UserModifyRequest;
 import site.marrymo.restapi.user.dto.request.UserRegistRequest;
+import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
+import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -25,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -56,7 +60,7 @@ public class UserService {
     public void registUserInfo(Long userSequence, UserRegistRequest userRegistRequest) {
         //user table에 email 정보 저장
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
 
         user.modifyUserEmail(userRegistRequest.getEmail());
@@ -105,7 +109,7 @@ public class UserService {
     public void modifyUserInfo(Long userSequence, UserModifyRequest userModifyRequest){
         //user table에 email 정보 저장
         User user = userRepository.findByUserSequence(userSequence)
-                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUNT));
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
 
         user.modifyUserEmail(userModifyRequest.getEmail());
@@ -122,6 +126,7 @@ public class UserService {
         card.modifyWeddingDate(LocalDate.parse(userModifyRequest.getWeddingDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         card.modifyWeddingTime(LocalTime.parse(userModifyRequest.getWeddingTime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
         card.modifyLocation(userModifyRequest.getLocation());
+        card.modifyGreeting(userModifyRequest.getGreeting());
         card.modifyGroomFather(userModifyRequest.getGroomFather());
         card.modifyGroomMother(userModifyRequest.getGroomMother());
         card.modifyBrideFather(userModifyRequest.getBrideFather());
@@ -149,5 +154,51 @@ public class UserService {
                 }
             }
         }
+    }
+
+    public UserGetResponse getUserInfo(Long userSequence){
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        Card card = cardRepository.findByUser(user)
+                .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND));
+
+        List<WeddingImg> weddingImgList = weddingImgRepository.findAll();
+        List<String> imgUrlList = new ArrayList<>();
+
+        for(WeddingImg weddingImg : weddingImgList){
+            //img가 삭제된 시간이 찍혀 있으면 얻어오지 않는다
+            if(weddingImg.getDeletedAt() != null)
+                continue;
+
+            imgUrlList.add(weddingImg.getImgUrl());
+        }
+
+        return UserGetResponse.toDto(user, card, imgUrlList);
+    }
+
+    public void deleteUser(Long userSequence){
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        if(user.getDeletedAt() != null)
+           throw new UserException(UserErrorCode.USER_ALREADY_DELETE);
+
+        userRepository.delete(user);
+    }
+
+    public InvitationIssueResponse invitationIssued(Long userSequence, InvitationIssueRequest invitationIssueRequest){
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        Card card = user.getCard();
+        if(card == null){
+            throw new CardException(CardErrorCode.CARD_NOT_FOUND);
+        }
+
+        card.modifyIsIssued(invitationIssueRequest.getIsIssued());
+        cardRepository.save(card);
+
+        return InvitationIssueResponse.toDto(card.getInvitationUrl(), invitationIssueRequest.getIsIssued());
     }
 }
