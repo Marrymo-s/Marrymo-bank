@@ -25,7 +25,7 @@ public class Moneygift extends BaseTimeEntity {
     private Long moneygiftSequence;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence")
+    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,7 +55,7 @@ public class Moneygift extends BaseTimeEntity {
     @Builder
     public Moneygift(
                      Type type,
-                     int amount,
+                     Integer amount,
                      String relationship,
                      String sender
                      ){
