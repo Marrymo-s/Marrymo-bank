@@ -24,6 +24,7 @@ public class Moneygift extends BaseTimeEntity {
     @Column(name = "moneygift_sequence")
     private Long moneygiftSequence;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence", nullable = false)
     private User user;
