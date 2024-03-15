@@ -44,4 +44,5 @@ public class UserController {
         InvitationIssueResponse invitationIssueResponse = userService.invitationIssued(1L, invitationIssueRequest);
         return ResponseEntity.ok(invitationIssueResponse);
     }
+
 }
