@@ -11,7 +11,7 @@
 
     (feat/fe/.., feat/be/..) : dev/fe. dev/be 각각의 하위 브랜치
 
-<img src="GitBranch.PNG">
+![GitBranch](/uploads/5f069c5d72877acdcdbed1f0a0de9f58/GitBranch.PNG)
 
 ### 2. 커밋 컨벤션
 
