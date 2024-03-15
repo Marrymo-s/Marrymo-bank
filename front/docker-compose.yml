@@ -3,8 +3,8 @@ services:
   next-app:
     image : jaeyun1650/marrymo_fe
     container_name: next-app
-    expose:
-      - 3000
+    ports:
+      - 3000:3000
     networks:
       - marrymo_net
 
