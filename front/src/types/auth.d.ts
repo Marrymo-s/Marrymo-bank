@@ -1,15 +1,15 @@
 export interface signupRequest {
-  groomName: String,
-  brideName: String,
-  groomContact: String,
-  brideContact: String,
+  groomName: string,
+  brideName: string,
+  groomContact: string,
+  brideContact: string,
   weddingDate: LocalDate,
   weddingTime: LocalTime,
-  location: String,
-  email: String,
-  groomFather: String,
-  groomMother: String,
-  brideFather: String,
-  brideMother: String,
-  imgUrl: List<Object>
+  location: string,
+  email: string,
+  groomFather: string,
+  groomMother: string,
+  brideFather: string,
+  brideMother: string,
+  imgUrl: List<object>
 }
