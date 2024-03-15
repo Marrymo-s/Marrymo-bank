@@ -29,6 +29,7 @@ public class Card extends BaseTimeEntity {
     @Column(name = "card_sequence")
     private Long cardSequence;
 
+    @NotNull
     @OneToOne
     @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence", nullable = false)
     private User user;
