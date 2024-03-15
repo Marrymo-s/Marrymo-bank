@@ -1,10 +1,12 @@
+
+
 export interface signupRequest {
   groomName: string,
   brideName: string,
   groomContact: string,
   brideContact: string,
-  weddingDate: LocalDate,
-  weddingTime: LocalTime,
+  weddingDate: string,
+  weddingTime: string,
   location: string,
   email: string,
   groomFather: string,

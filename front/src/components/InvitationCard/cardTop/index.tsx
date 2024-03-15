@@ -1,8 +1,12 @@
+import * as styles from './index.css';
+
 const cardTop = () => {
   return (
     <div>
-      <div>weddingDate</div>
-      <div>weddingTime</div>
+      <div className={styles.cardTopText}>
+        <div>weddingDate</div>
+        <div>weddingTime</div>
+      </div>
       <div>imgUrl[0]</div>
     </div>
   )
