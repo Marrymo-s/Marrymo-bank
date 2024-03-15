@@ -10,10 +10,9 @@ COPY package.json ./
 # 앱 소스 추가
 COPY . .
 
-npm ci
-
 # 의존성 설치
-RUN npm install
+RUN npm ci
+
 
 RUN chmod +x node_modules/.bin/*
 
