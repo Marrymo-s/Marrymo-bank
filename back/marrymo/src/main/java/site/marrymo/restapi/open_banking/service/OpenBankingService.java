@@ -1,9 +1,13 @@
 package site.marrymo.restapi.open_banking.service;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import site.marrymo.restapi.open_banking.dto.request.CodeRequest;
@@ -14,7 +18,9 @@ import org.springframework.http.HttpHeaders;
 
 @Slf4j
 @Service
+@Transactional
 public class OpenBankingService {
+
     @Value("${open-banking.client_id}")
     private String clientId;
     @Value("${open-banking.client_secret}")
