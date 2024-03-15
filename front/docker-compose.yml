@@ -1,0 +1,15 @@
+version: '3'
+services:
+  next-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: next-app
+    expose:
+      - 3000
+    networks:
+      - marrymo_net
+
+networks:
+  marrymo_net:
+    external: true
