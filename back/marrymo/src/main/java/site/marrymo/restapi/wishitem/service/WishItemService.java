@@ -1,5 +1,6 @@
 package site.marrymo.restapi.wishitem.service;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class WishItemService {
     private final UserRepository userRepository;
     private final WishItemRepository wishItemRepository;
