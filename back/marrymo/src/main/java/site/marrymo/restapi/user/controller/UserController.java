@@ -12,6 +12,7 @@ import site.marrymo.restapi.user.dto.request.UserRegistRequest;
 import site.marrymo.restapi.user.dto.request.WhoRegistRequest;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
+import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
 import site.marrymo.restapi.user.service.UserService;
 
 @Slf4j
@@ -50,5 +51,11 @@ public class UserController {
     @PatchMapping("/account")
     public void registWho(@Valid @RequestBody WhoRegistRequest whoRegistRequest){
         userService.registWho(1L, whoRegistRequest);
+    }
+
+    @GetMapping("/account")
+    public ResponseEntity<VerifyAccountResponse> verifyAccount(Long userSequence){
+        VerifyAccountResponse verifyAccountResponse = userService.verifyAccount(1L);
+        return ResponseEntity.ok(verifyAccountResponse);
     }
 }
