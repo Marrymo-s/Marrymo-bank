@@ -4,6 +4,19 @@ const path = require("path");
 const withVanillaExtract = createVanillaExtractPlugin();
 
 const nextConfig = {
+    // reactStrictMode: true,
+    // swcMinify: true,
+    // async rewrites() {
+    //     return [
+    //         {
+    //             source: "/api/:path*",
+    //             destination: "https://marrymo.site/api/:path*",
+    //         },
+    //     ];
+    // },
+    images: {
+        domains: ['marrymo-bucket.s3.amazonaws.com'], // 여기에 도메인 추가
+    },
     webpack: (config, {isServer}) => {
         config.resolve.alias['@'] = path.join(__dirname, 'src');
         config.resolve.alias['#'] = path.join(__dirname, 'public');

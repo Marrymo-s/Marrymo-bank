@@ -4,6 +4,9 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import * as styles from './index.css';
 
+const redirectUrl = 'dd';
+
+
 const KakaoLoginButton = () => {
   return (
     <Image

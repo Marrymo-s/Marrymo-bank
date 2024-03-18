@@ -9,9 +9,10 @@ export interface signupRequest {
   weddingTime: string,
   location: string,
   email: string,
-  groomFather: string,
-  groomMother: string,
-  brideFather: string,
-  brideMother: string,
+  greeting: string,
+  groomFather?: string,
+  groomMother?: string,
+  brideFather?: string,
+  brideMother?: string,
   imgUrl: List<object>
 }
