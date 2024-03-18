@@ -58,8 +58,7 @@ public class Card extends BaseTimeEntity {
     @Column(name = "wedding_time", nullable = false)
     private LocalTime weddingTime;
 
-    @NotNull
-    @Column(name = "invitation_url", nullable = false)
+    @Column(name = "invitation_url")
     private String invitationUrl;
 
     @NotNull
@@ -173,4 +172,6 @@ public class Card extends BaseTimeEntity {
     }
 
     public void modifyIsIssued(Boolean isIssued) {this.isIssued = isIssued;}
+
+    public void modifyInvitationUrl(String invitationUrl){this.invitationUrl = invitationUrl;}
 }
