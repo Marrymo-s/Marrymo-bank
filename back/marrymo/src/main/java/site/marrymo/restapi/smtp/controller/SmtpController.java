@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.marrymo.restapi.smtp.dto.request.SmtpRegistRequest;
+import site.marrymo.restapi.smtp.dto.request.SmtpVerifyRequest;
 import site.marrymo.restapi.smtp.service.SmtpService;
 
 @Slf4j
@@ -19,9 +20,12 @@ public class SmtpController {
     private final SmtpService smtpService;
 
     @PostMapping("/send-email")
-    public ResponseEntity registMail(@Valid @RequestBody SmtpRegistRequest smtpRegistRequest) {
+    public void registMail(@Valid @RequestBody SmtpRegistRequest smtpRegistRequest) {
+        smtpService.registMail(smtpRegistRequest.getEmail(), "Marrymo 이메일 인증", "이메일 인증 번호 : ");
     }
 
     @PostMapping("/verify-email")
-    public ResponseEntity verifyMail(@Valid @RequestBody )
+    public ResponseEntity verifyMail(@Valid @RequestBody SmtpVerifyRequest smtpVerifyRequest) {
+
+    }
 }
