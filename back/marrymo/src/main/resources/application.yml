@@ -1,0 +1,48 @@
+
+# database 세팅
+spring :
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/marrymo?useSSL=false&serverTimezone=UTC
+    username: root
+    password: hat1da2chi3go4
+
+  # aws application-aws.yml 사용
+  profiles:
+    active: aws
+
+  h2:
+     console:
+       enabled: true
+
+
+  # spring data jpa 세팅
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  # redis 세팅
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+# log 설정
+logging:
+  level:
+    root: info
+    site.marrymo.restapi: debug
+
+  # encoding utf-8
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
