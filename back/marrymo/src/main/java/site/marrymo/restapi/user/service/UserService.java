@@ -234,16 +234,17 @@ public class UserService {
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         if(user.getWho() == Who.GROOM){
-            if(user.getGroomFintechUseNum() != null)
+            if(user.getGroomFintechUseNum() != null && !user.getGroomFintechUseNum().equals(""))
                 isVerify = true;
         }
         else if(user.getWho() == Who.BRIDE){
-            if(user.getBrideFintechUseNum() != null)
+            if(user.getBrideFintechUseNum() != null && !user.getBrideFintechUseNum().equals(""))
                 isVerify = true;
 
         }
         else if(user.getWho() == Who.BOTH){
-            if(user.getGroomFintechUseNum() != null && user.getBrideFintechUseNum() != null){
+            if(user.getGroomFintechUseNum() != null && !user.getGroomFintechUseNum().equals("") &&
+                    user.getBrideFintechUseNum() != null && !user.getBrideFintechUseNum().equals("")){
                 isVerify = true;
             }
         }
