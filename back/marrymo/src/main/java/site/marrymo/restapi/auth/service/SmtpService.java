@@ -28,11 +28,11 @@ public class SmtpService {
     }
 
     // 발신할 이메일 데이터 세팅
-    private SimpleMailMessage createEmailForm(String toEmail,
+    private SimpleMailMessage createEmailForm(String mail,
                                               String title,
                                               String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(toEmail);
+        message.setTo(mail);
         message.setSubject(title);
         message.setText(text);
 
