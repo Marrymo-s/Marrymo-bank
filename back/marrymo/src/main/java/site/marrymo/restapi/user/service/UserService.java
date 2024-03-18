@@ -87,6 +87,7 @@ public class UserService {
                 .brideFather(userRegistRequest.getBrideFather())
                 .brideMother(userRegistRequest.getBrideMother())
                 .greeting(userRegistRequest.getGreeting())
+                .isIssued(false)
                 .build());
 
         //웨딩 이미지에 이미지 정보 저장
