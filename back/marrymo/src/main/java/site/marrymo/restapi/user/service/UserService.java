@@ -189,6 +189,10 @@ public class UserService {
         if(user.getDeletedAt() != null)
            throw new UserException(UserErrorCode.USER_ALREADY_DELETE);
 
+        Card card = user.getCard();
+        card.modifyInvitationUrl(null);
+        cardRepository.save(card);
+
         userRepository.delete(user);
     }
 
