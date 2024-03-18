@@ -21,6 +21,7 @@ public class UserGetResponse {
     private LocalTime weddingTime;
     private String location;
     private String email;
+    private String greeting;
     private String groomFather;
     private String groomMother;
     private String brideFather;
@@ -38,6 +39,7 @@ public class UserGetResponse {
                 .weddingTime(card.getWeddingTime())
                 .location(card.getLocation())
                 .email(user.getEmail())
+                .greeting(card.getGreeting())
                 .groomFather(card.getGroomFather())
                 .groomMother(card.getGroomMother())
                 .brideFather(card.getBrideFather())
