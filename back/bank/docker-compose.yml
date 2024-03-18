@@ -13,8 +13,6 @@ services:
       TZ: 'Asia/Seoul'
     ports:   # 테스트 환경을 위해 열어놔야함
       - 3306:3306
-    env_file:
-      - /home/ubuntu/config/.env
     volumes:
       - ${MYSQL_PATH}:/var/lib/mysql # 앞: 로컬 / 뒤: mysql 이미지 공식 문서
     networks:
@@ -28,8 +26,6 @@ services:
     volumes:
       - ${REDIS_DATA_PATH}:/data # 앞: 로컬 / 뒤 : redis 이미지 공식 문서
       - ${REDIS_DATA_CONF_PATH}:/etc/redis/redis.conf # 앞: 로컬 / 뒤 : 컨테이너 내부 경로
-    env_file:
-      - /home/ubuntu/config/.env
     networks:
       - bank_net
 
