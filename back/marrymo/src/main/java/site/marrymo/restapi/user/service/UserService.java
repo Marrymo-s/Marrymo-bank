@@ -19,6 +19,7 @@ import site.marrymo.restapi.user.dto.request.UserRegistRequest;
 import site.marrymo.restapi.user.dto.request.WhoRegistRequest;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
+import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -224,5 +225,29 @@ public class UserService {
 
         user.modifyUserWho(who);
         userRepository.save(user);
+    }
+
+    public VerifyAccountResponse verifyAccount(Long userSequence){
+        Boolean isVerify = false;
+
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        if(user.getWho() == Who.GROOM){
+            if(user.getGroomFintechUseNum() != null)
+                isVerify = true;
+        }
+        else if(user.getWho() == Who.BRIDE){
+            if(user.getBrideFintechUseNum() != null)
+                isVerify = true;
+
+        }
+        else if(user.getWho() == Who.BOTH){
+            if(user.getGroomFintechUseNum() != null && user.getBrideFintechUseNum() != null){
+                isVerify = true;
+            }
+        }
+
+        return VerifyAccountResponse.builder().isVerify(isVerify).build();
     }
 }
