@@ -18,7 +18,7 @@ public class SmtpService {
 
     private final JavaMailSender javaMailSender;
 
-    public void sendMail(String mail, String title, String text) {
+    public void registMail(String mail, String title, String text) {
 
         SimpleMailMessage emailForm = createEmailForm(mail, title, text);
         try {
