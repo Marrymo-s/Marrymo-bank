@@ -45,7 +45,3 @@ tasks.named('test') {
 bootJar{
     archiveFileName='app.jar'
 }
-
-clean {
-    delete file('src/main/generated')
-}
