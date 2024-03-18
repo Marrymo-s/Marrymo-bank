@@ -102,4 +102,5 @@ public class User extends BaseTimeEntity {
     public void modifyUserEmail(String email){
         this.email = email;
     }
+    public void modifyUserWho(Who who){ this.who = who; }
 }

@@ -12,11 +12,14 @@ import site.marrymo.restapi.card.repository.CardRepository;
 import site.marrymo.restapi.global.config.AwsS3Config;
 import site.marrymo.restapi.global.service.awsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
+import site.marrymo.restapi.user.dto.Who;
 import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
 import site.marrymo.restapi.user.dto.request.UserModifyRequest;
 import site.marrymo.restapi.user.dto.request.UserRegistRequest;
+import site.marrymo.restapi.user.dto.request.WhoRegistRequest;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
+import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -84,6 +87,7 @@ public class UserService {
                 .brideFather(userRegistRequest.getBrideFather())
                 .brideMother(userRegistRequest.getBrideMother())
                 .greeting(userRegistRequest.getGreeting())
+                .isIssued(false)
                 .build());
 
         //웨딩 이미지에 이미지 정보 저장
@@ -186,6 +190,10 @@ public class UserService {
         if(user.getDeletedAt() != null)
            throw new UserException(UserErrorCode.USER_ALREADY_DELETE);
 
+        Card card = user.getCard();
+        card.modifyInvitationUrl(null);
+        cardRepository.save(card);
+
         userRepository.delete(user);
     }
 
@@ -202,5 +210,50 @@ public class UserService {
         cardRepository.save(card);
 
         return InvitationIssueResponse.toDto(card.getInvitationUrl(), invitationIssueRequest.getIsIssued());
+    }
+
+    public void registWho(Long userSequence, WhoRegistRequest whoRegistRequest){
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        Who who = null;
+
+        if(whoRegistRequest.getWho().equals("GROOM")){
+            who = Who.GROOM;
+        }
+        else if(whoRegistRequest.getWho().equals("BRIDE")){
+            who = Who.BRIDE;
+        }
+        else if(whoRegistRequest.getWho().equals("BOTH")){
+            who = Who.BOTH;
+        }
+
+        user.modifyUserWho(who);
+        userRepository.save(user);
+    }
+
+    public VerifyAccountResponse verifyAccount(Long userSequence){
+        Boolean isVerify = false;
+
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        if(user.getWho() == Who.GROOM){
+            if(user.getGroomFintechUseNum() != null && !user.getGroomFintechUseNum().equals(""))
+                isVerify = true;
+        }
+        else if(user.getWho() == Who.BRIDE){
+            if(user.getBrideFintechUseNum() != null && !user.getBrideFintechUseNum().equals(""))
+                isVerify = true;
+
+        }
+        else if(user.getWho() == Who.BOTH){
+            if(user.getGroomFintechUseNum() != null && !user.getGroomFintechUseNum().equals("") &&
+                    user.getBrideFintechUseNum() != null && !user.getBrideFintechUseNum().equals("")){
+                isVerify = true;
+            }
+        }
+
+        return VerifyAccountResponse.builder().isVerify(isVerify).build();
     }
 }
