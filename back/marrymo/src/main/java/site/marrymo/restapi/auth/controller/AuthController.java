@@ -1,4 +1,4 @@
-package site.marrymo.restapi.smtp.controller;
+package site.marrymo.restapi.auth.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import site.marrymo.restapi.smtp.dto.request.SmtpRegistRequest;
-import site.marrymo.restapi.smtp.dto.request.SmtpVerifyRequest;
-import site.marrymo.restapi.smtp.service.SmtpService;
+import site.marrymo.restapi.auth.dto.request.SmtpRegistRequest;
+import site.marrymo.restapi.auth.dto.request.SmtpVerifyRequest;
+import site.marrymo.restapi.auth.service.SmtpService;
 
 @Slf4j
 @RestController
-@RequestMapping("/smtp")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
-public class SmtpController {
+public class AuthController {
     private final SmtpService smtpService;
 
     @PostMapping("/send-email")
@@ -26,6 +26,6 @@ public class SmtpController {
 
     @PostMapping("/verify-email")
     public ResponseEntity verifyMail(@Valid @RequestBody SmtpVerifyRequest smtpVerifyRequest) {
-
+        return true;
     }
 }
