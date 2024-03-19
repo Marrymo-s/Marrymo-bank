@@ -29,40 +29,40 @@ public class Card extends BaseTimeEntity {
     @Column(name = "card_sequence")
     private Long cardSequence;
 
+    @NotNull
     @OneToOne
-    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence")
+    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence", nullable = false)
     private User user;
 
     @NotNull
-    @Column(name = "groom_name")
+    @Column(name = "groom_name", nullable = false)
     private String groomName;
 
     @NotNull
-    @Column(name = "bride_name")
+    @Column(name = "bride_name", nullable = false)
     private String brideName;
 
     @NotNull
-    @Column(name = "groom_contact")
+    @Column(name = "groom_contact", nullable = false)
     private String groomContact;
 
     @NotNull
-    @Column(name = "bride_contact")
+    @Column(name = "bride_contact", nullable = false)
     private String brideContact;
 
     @NotNull
-    @Column(name = "wedding_date")
+    @Column(name = "wedding_date", nullable = false)
     private LocalDate weddingDate;
 
     @NotNull
-    @Column(name = "wedding_time")
+    @Column(name = "wedding_time", nullable = false)
     private LocalTime weddingTime;
 
-    @NotNull
     @Column(name = "invitation_url")
     private String invitationUrl;
 
     @NotNull
-    @Column(name = "location")
+    @Column(name = "location", nullable = false)
     private String location;
 
     @Column(name = "groom_father")
@@ -78,10 +78,11 @@ public class Card extends BaseTimeEntity {
     private String brideMother;
 
     @NotNull
-    @Column(name = "is_issued")
-    private boolean isIssued;
+    @Column(name = "is_issued", nullable = false)
+    private Boolean isIssued;
 
     @NotNull
+    @Column(nullable = false)
     private String greeting;
 
     @OneToMany(mappedBy = "card")
@@ -102,7 +103,7 @@ public class Card extends BaseTimeEntity {
                 String groomMother,
                 String brideFather,
                 String brideMother,
-                boolean isIssued,
+                Boolean isIssued,
                 String greeting
                 ){
         this.user = user;
@@ -169,4 +170,8 @@ public class Card extends BaseTimeEntity {
     public void modifyBrideMother(String brideMother){
         this.brideMother = brideMother;
     }
+
+    public void modifyIsIssued(Boolean isIssued) {this.isIssued = isIssued;}
+
+    public void modifyInvitationUrl(String invitationUrl){this.invitationUrl = invitationUrl;}
 }

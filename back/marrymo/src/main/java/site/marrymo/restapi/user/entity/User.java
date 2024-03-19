@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+import site.marrymo.restapi.user.dto.Who;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +39,9 @@ public class User extends BaseTimeEntity {
 
     @Column(name="refresh_token")
     private String refreshToken;
+
+    @Column
+    private Who who;
 
     @Column(name="bride_account")
     private String brideAccount;
@@ -98,4 +102,5 @@ public class User extends BaseTimeEntity {
     public void modifyUserEmail(String email){
         this.email = email;
     }
+    public void modifyUserWho(Who who){ this.who = who; }
 }

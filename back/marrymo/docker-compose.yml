@@ -22,7 +22,6 @@ services:
     image: redis:latest
     hostname: redis
     container_name: redis
-    command: redis-server /usr/local/redis/redis.conf
     restart: always
     volumes:
       - ${REDIS_DATA_PATH}:/data # 앞: 로컬 / 뒤 : redis 이미지 공식 문서
@@ -33,15 +32,15 @@ services:
 
   marrymo-app:
     container_name: marrymo-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jaeyun1650/marrymo_be
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
+    ports:
+      - 8080:8080
     depends_on:
       - mysql
       - redis
