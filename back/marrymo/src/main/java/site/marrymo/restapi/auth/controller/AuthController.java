@@ -23,9 +23,9 @@ public class AuthController {
     public void registMail(@Valid @RequestBody SmtpRegistRequest smtpRegistRequest) {
         smtpService.registMail(smtpRegistRequest.getEmail(), "Marrymo 이메일 인증", "이메일 인증 번호 : ");
     }
-
-    @PostMapping("/verify-email")
-    public ResponseEntity verifyMail(@Valid @RequestBody SmtpVerifyRequest smtpVerifyRequest) {
-        return true;
-    }
+//
+//    @PostMapping("/verify-email")
+//    public ResponseEntity verifyMail(@Valid @RequestBody SmtpVerifyRequest smtpVerifyRequest) {
+//        return true;
+//    }
 }

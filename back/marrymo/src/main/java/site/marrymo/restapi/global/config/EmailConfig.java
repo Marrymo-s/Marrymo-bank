@@ -1,4 +1,4 @@
-package site.marrymo.restapi.auth.config;
+package site.marrymo.restapi.global.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,7 @@ import java.util.Properties;
 
 @Configuration
 public class EmailConfig {
+
     @Value("${spring.mail.host}")
     private String host;
 

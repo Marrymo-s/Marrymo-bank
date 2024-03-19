@@ -23,7 +23,7 @@ public class SmtpService {
         } catch (RuntimeException e) {
             log.debug("MailService.sendEmail exception occur toEmail: {}, " +
                     "title: {}, text: {}", mail, title, text);
-            throw new Error("올바르지 않은 메일");
+            throw new IllegalArgumentException("틀림요");
         }
     }
 
