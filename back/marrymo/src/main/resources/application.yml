@@ -14,7 +14,25 @@ spring :
   h2:
      console:
        enabled: true
-
+  # Mail Settings
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: ${USER_GMAIL}
+    password: ${MAILAPP_PW}
+    properties:
+      mail:
+        debug: true
+        smtp:
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    auth-code-expiration-mills: 300000
 
   # spring data jpa 세팅
   jpa:
@@ -32,6 +50,7 @@ spring :
     redis:
       port: 6379
       host: localhost
+#      password: ${SPRING_REDIS_PASSWORD}
 
 # log 설정
 logging:
@@ -46,6 +65,7 @@ server:
       force: true
       charset: UTF-8
       enabled: true
+
 
   #open-banking
 open-banking:
