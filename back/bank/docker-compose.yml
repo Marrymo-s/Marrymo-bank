@@ -43,7 +43,7 @@ services:
     env_file:
       - /home/ubuntu/config/.env
     ports:
-      - 8000:8000
+      - 80:80
     depends_on:
       - mysql
       - redis
