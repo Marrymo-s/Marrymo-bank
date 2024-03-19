@@ -1,7 +1,23 @@
-const registration = () => {
-  return (
-    <div>내가등록한윌시리스트</div>
-  )
+import React from 'react';
+import { searchResponse } from '@/types/search';
+
+interface RegistrationProps {
+  wishLists: searchResponse[];
 }
 
-export default registration;
+const Registration = ({ wishLists }: RegistrationProps) => {
+  return (
+    <div>
+      {wishLists.map((wishlist, index) => (
+        <img
+          key={index}
+          style={{ width: '200px', height: '200px' }}
+          src={wishlist.image}
+          alt="위시리스트 아이템 이미지"
+        />
+      ))}
+    </div>
+  );
+};
+
+export default Registration;
