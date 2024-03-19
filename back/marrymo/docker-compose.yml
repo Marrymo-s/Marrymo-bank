@@ -41,6 +41,8 @@ services:
       SPRING_REDIS_PORT: 6379
     ports:
       - 8080:8080
+    env_file:
+      - /home/ubuntu/config/.env
     depends_on:
       - mysql
       - redis
