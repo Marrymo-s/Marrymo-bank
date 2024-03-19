@@ -1,7 +1,7 @@
-import {defaultWrapper, flex} from '@/styles/common.css';
+import { defaultWrapper, flex } from '@/styles/common.css';
 import { contentWrapper } from '@/styles/wrapper.css';
 import { vars } from '@/styles/vars.css';
-import {style} from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 
 export const sentenceWrapper = style([
   defaultWrapper({ height: 'auto', width: 'max' }),
