@@ -1,5 +1,6 @@
 import InvitationCard from "@/components/InvitationCard";
 import Header from "@/components/Header";
+import Button from '@/components/Button';
 
 import * as styles from './index.css';
 
@@ -10,6 +11,7 @@ const Preview = () => {
       <main className={styles.invitationContainer}>
         <InvitationCard />
       </main>
+
     </>
   )
 }
