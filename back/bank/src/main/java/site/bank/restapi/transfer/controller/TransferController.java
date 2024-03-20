@@ -6,6 +6,7 @@ import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.bank.restapi.transfer.dto.request.AccountCheckRequest;
 import site.bank.restapi.transfer.dto.request.AccountRequest;
 import site.bank.restapi.transfer.dto.request.TransferMoneyRequest;
 import site.bank.restapi.transfer.dto.response.AccountResponse;
@@ -27,15 +28,18 @@ public class TransferController {
     @PostMapping
     public ResponseEntity<?> registerAccount(@RequestBody AccountRequest accountRequest){
         long accountSeq= transferService.insertAccount(accountRequest);
-        System.out.println(accountSeq);
         AccountResponse accountResponse=transferService.findAccountByAccountSeq(accountSeq);
         return ResponseEntity.ok(accountResponse);
     }
 
     @GetMapping
-    public ResponseEntity<?> checkAccount(@RequestBody AccountRequest accountRequest){
-        AccountResponse accountResponse=transferService.findAccountByAccountNum(accountRequest.getAccountNum());
-        return ResponseEntity.ok(accountResponse);
+    public ResponseEntity<?> checkAccount(@RequestBody AccountCheckRequest accountCheckRequest){
+        int accountCnt=transferService.findByBankCodeAndAccountNum(accountCheckRequest);
+        log.info("accountCnt "+accountCnt);
+        if (accountCnt==1){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/transfer")
