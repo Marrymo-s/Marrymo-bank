@@ -6,8 +6,8 @@ import { flex } from '@/styles/common.css';
 import { contentWrapper } from '@/styles/wrapper.css';
 import { vars } from '@/styles/vars.css';
 
-export const invitationContainer = style({
-  background: vars.colors.lightYellow,
+export const wishitemContainer = style({
+  background: vars.colors.lightYellow, // 구역확인용 임시 색
   width: 'auto',
   maxWidth: 480,
   minHeight: '75svh',
