@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import site.bank.restapi.auth.dto.common.ClientDto;
+import site.bank.restapi.auth.dto.common.Role;
 import site.bank.restapi.auth.exception.AuthErrorCode;
 import site.bank.restapi.auth.exception.AuthException;
 
@@ -24,7 +25,7 @@ public class AuthMapper {
 			return ClientDto.builder()
 				.clientId(env.getProperty("institution.client_id"))
 				.clientSecret(env.getProperty("institution.client_secret"))
-				.clientRole(env.getProperty("institution.client_role"))
+				.clientRole(Role.valueOf(env.getProperty("institution.client_role")))
 				.build();
 		throw new AuthException(AuthErrorCode.INSTITUTION_NOT_FOUND);
 	}
