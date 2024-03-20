@@ -46,7 +46,6 @@ const InvitationCard = () => {
   }, []);
 
 
-
   return (
     <main>
       <CardTop
@@ -54,12 +53,33 @@ const InvitationCard = () => {
         weddingTime={invitationData.weddingTime}
         imgUrl={invitationData.imgUrl[0]}
       />
-      <CardUnderTop />
-      <CardMid />
+      <CardUnderTop
+        groomName={invitationData.groomName}
+        brideName={invitationData.brideName}
+        weddingDate={invitationData.weddingDate}
+        weddingTime={invitationData.weddingTime}
+        location={invitationData.location}
+      />
+      <CardMid
+        groomFather={invitationData.groomFather}
+        groomMother={invitationData.groomMother}
+        groomName={invitationData.groomName}
+        brideFather={invitationData.brideFather}
+        brideMother={invitationData.brideMother}
+        brideName={invitationData.brideName}
+        groomContact={invitationData.groomContact}
+        brideContact={invitationData.brideContact}
+      />
       <hr />
-      <Sentence />
+      <Sentence
+        greeting={invitationData.greeting}
+      />
       <hr />
-      <Location />
+      <Location
+        weddingDate={invitationData.weddingDate}
+        weddingTime={invitationData.weddingTime}
+        location={invitationData.location}
+      />
       <hr />
       <Album />
       <hr />
