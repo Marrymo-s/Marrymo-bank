@@ -14,5 +14,5 @@ public class ClientDto {
 
 	private String clientSecret;
 
-	private String clientRole;
+	private Role clientRole;
 }
