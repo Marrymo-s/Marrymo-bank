@@ -18,13 +18,22 @@ const filledStyles = colors.flatMap((colorItem: 'roseGold' | 'alertRed' | 'light
     variants: {colorStyle: colorItem, filled: false},
     style: {
       borderColor: vars.colors[colorItem],
-      borderWidth: 2,
+      borderWidth: vars.space["0.5x"],
       borderStyle: 'solid',
-      background: vars.colors.white,
+      background: vars.colors.black,
       color: vars.colors[colorItem],
     },
   },
 ]);
+
+const disabledStyle = style({
+  // TODO: 이 스타일이 적용이 안 되는 문제를 추후에 해결하기(cursor: 'not-allowed'랑 boxShadow가 안 먹히는 문제
+  backgroundColor: vars.colors.lightGray,
+  color: vars.colors.white,
+  cursor: 'not-allowed',
+  boxShadow: 'none',
+});
+
 const commonButtonBase = style({
   boxSizing: 'border-box',
   borderRadius: vars.borderRadius.full,
@@ -63,11 +72,33 @@ const commonButtonVariants = {
     true: {},
     false: {},
   },
+  disabled: {
+    true: disabledStyle,
+    false: {},
+  },
 };
 export const commonButton = recipe({
   base: commonButtonBase,
   variants: commonButtonVariants,
-  compoundVariants: filledStyles,
+  compoundVariants: [
+    ...filledStyles,
+    {
+      variants: {disabled: true, colorStyle: 'lightGray', filled: true},
+      style: disabledStyle,
+    },
+    {
+      variants: {disabled: false, colorStyle: 'roseGold', filled: true},
+      style: {
+        backgroundColor: vars.colors.roseGold,
+      },
+    },
+  ],
+  defaultVariants: {
+    size: 'large',
+    colorStyle: 'roseGold',
+    filled: true,
+    disabled: false,
+  }
 });
 
 export const ButtonWrapper = {
@@ -97,3 +128,4 @@ export interface CommonButtonVariantProps {
   colorStyle: keyof typeof commonButtonVariants.colorStyle;
   filled: boolean;
 }
+
