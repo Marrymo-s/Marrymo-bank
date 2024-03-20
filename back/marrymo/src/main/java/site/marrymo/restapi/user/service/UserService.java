@@ -13,10 +13,7 @@ import site.marrymo.restapi.global.config.AwsS3Config;
 import site.marrymo.restapi.global.service.awsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.dto.Who;
-import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
-import site.marrymo.restapi.user.dto.request.UserModifyRequest;
-import site.marrymo.restapi.user.dto.request.UserRegistRequest;
-import site.marrymo.restapi.user.dto.request.WhoRegistRequest;
+import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
@@ -255,5 +252,13 @@ public class UserService {
         }
 
         return VerifyAccountResponse.builder().isVerify(isVerify).build();
+    }
+
+    public void patchAgreement(Long userSequence, PrivacyRegistRequest privacyRegistRequest) {
+
+    }
+
+    public void patchRequired(Long userSequence, RequiredModifyRequest requiredModifyRequest) {
+
     }
 }

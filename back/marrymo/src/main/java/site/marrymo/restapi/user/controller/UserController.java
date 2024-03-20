@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.marrymo.restapi.user.dto.Who;
-import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
-import site.marrymo.restapi.user.dto.request.UserModifyRequest;
-import site.marrymo.restapi.user.dto.request.UserRegistRequest;
-import site.marrymo.restapi.user.dto.request.WhoRegistRequest;
+import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
@@ -57,5 +54,15 @@ public class UserController {
     public ResponseEntity<VerifyAccountResponse> verifyAccount(Long userSequence){
         VerifyAccountResponse verifyAccountResponse = userService.verifyAccount(1L);
         return ResponseEntity.ok(verifyAccountResponse);
+    }
+
+    @PatchMapping("/privacy")
+    public void patchAgreement(@Valid @RequestBody PrivacyRegistRequest privacyRegistRequest) {
+        userService.patchAgreement(1L, privacyRegistRequest);
+    }
+
+    @PatchMapping("/required")
+    public void patchRequired(@Valid @RequestBody RequiredModifyRequest requiredModifyRequest) {
+        userService.patchRequired(1L, requiredModifyRequest);
     }
 }
