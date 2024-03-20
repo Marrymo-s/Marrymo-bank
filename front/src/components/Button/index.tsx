@@ -2,7 +2,7 @@ import {ReactNode} from 'react';
 import Link from 'next/link';
 
 import {
-  CommonButtonVariantProps,
+  // CommonButtonVariantProps,
   ButtonWrapper,
   commonButton,
 } from './index.css';
