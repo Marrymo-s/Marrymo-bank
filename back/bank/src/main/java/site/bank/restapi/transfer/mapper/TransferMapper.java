@@ -1,6 +1,7 @@
 package site.bank.restapi.transfer.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import site.bank.restapi.transfer.dto.request.AccountCheckRequest;
 import site.bank.restapi.transfer.dto.request.AccountRequest;
 import site.bank.restapi.transfer.dto.request.BalanceUpdateRequest;
 import site.bank.restapi.transfer.dto.request.TransferMoneyRequest;
@@ -20,4 +21,5 @@ public interface TransferMapper {
     long findAccountByAccountNum(String accountNum);
     long updateBalancee(BalanceUpdateRequest balanceUpdateRequest);
     int countAccountNum(String accoutNum);
+    int findByBankCodeAndAccountNum(AccountCheckRequest accountCheckRequest);
 }

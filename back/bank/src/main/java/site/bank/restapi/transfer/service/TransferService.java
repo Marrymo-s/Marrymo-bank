@@ -11,6 +11,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import site.bank.restapi.transfer.dto.request.AccountCheckRequest;
 import site.bank.restapi.transfer.dto.request.AccountRequest;
 import site.bank.restapi.transfer.dto.request.BalanceUpdateRequest;
 import site.bank.restapi.transfer.dto.request.TransferMoneyRequest;
@@ -100,5 +101,9 @@ public class TransferService {
 
         // 거래 내역을 반환한다.
         return transferMapper.findTransferHistoryByTranSequence(transferMoneyRequest.getTranSequence());
+    }
+
+    public int findByBankCodeAndAccountNum(AccountCheckRequest accountCheckRequest){
+        return transferMapper.findByBankCodeAndAccountNum(accountCheckRequest);
     }
 }
