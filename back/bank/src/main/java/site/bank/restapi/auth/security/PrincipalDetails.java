@@ -6,19 +6,19 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import site.bank.restapi.auth.dto.common.ClientDto;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class PrincipalDetails implements UserDetails {
 
 	private ClientDto clientDto;
-
-	PrincipalDetails(ClientDto clientDto) {
-		this.clientDto = clientDto;
-	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
