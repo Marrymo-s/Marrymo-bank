@@ -93,3 +93,11 @@ open-banking:
 mo-bank:
   client_id: ${MOBANK_CLIENT_ID}
   client_secret: ${MOBANK_CLEINT_SECRET}
+
+  #jwt
+jwt:
+  salt: ${JWT_SALT}
+  access-token:
+    expiretime: ${JWT_ACCESS_TOKEN_EXPIRETIME}
+  refresh-token:
+    expiretime: ${JWT_REFRESH_TOKEN_EXPIRETIME}
