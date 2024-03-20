@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.bank.restapi.transfer.dto.request.AccountRequest;
+import site.bank.restapi.transfer.dto.request.TransferMoneyRequest;
 import site.bank.restapi.transfer.dto.response.AccountResponse;
 import site.bank.restapi.transfer.dto.response.BankCodeReseponse;
+import site.bank.restapi.transfer.dto.response.TransferMoneyResponse;
 import site.bank.restapi.transfer.service.TransferService;
 
 import java.util.HashMap;
@@ -31,13 +33,15 @@ public class TransferController {
     }
 
     @GetMapping
-    public void checkAccount(){
-
+    public ResponseEntity<?> checkAccount(@RequestBody AccountRequest accountRequest){
+        AccountResponse accountResponse=transferService.findAccountByAccountNum(accountRequest.getAccountNum());
+        return ResponseEntity.ok(accountResponse);
     }
 
     @PostMapping("/transfer")
-    public void transferMoney(){
-
+    public ResponseEntity<?> transferMoney(@RequestBody TransferMoneyRequest transferMoneyRequest){
+        TransferMoneyResponse transferMoneyResponse=transferService.insertTransferHistory(transferMoneyRequest);
+        return ResponseEntity.ok(transferMoneyResponse);
     }
 
     @GetMapping("/bank")

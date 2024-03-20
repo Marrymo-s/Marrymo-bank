@@ -1,6 +1,7 @@
 package site.bank.restapi.transfer.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransferMoneyRequest {
+    long tranSequence;
+
+    long accountSequence;
 
     @NotEmpty(message = "핀테크 번호를 입력해야 합니다.")
     String fintechUseNum;
@@ -27,4 +31,7 @@ public class TransferMoneyRequest {
 
     @NotEmpty(message = "수취 계좌번호를 입력해야 합니다.")
     String receiverAccountNum;
+
+    @NotNull(message = "거래 내용은 null이 되면 안됩니다.")
+    String tranMsg;
 }
