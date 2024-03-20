@@ -70,6 +70,9 @@ public class User extends BaseTimeEntity {
     @OneToOne(mappedBy = "user")
     private Card card;
 
+    @Column(name = "is_agreement")
+    private Boolean isAgreement;
+
     @Builder
     public User(String kakaoId,
                 String bankCode,
@@ -83,7 +86,10 @@ public class User extends BaseTimeEntity {
                 Boolean isBrideOnce,
                 Boolean isGroomOnce,
                 Boolean isWithdraw,
-                LocalDateTime withdrawAt){
+                LocalDateTime withdrawAt,
+                Boolean isAgreement
+                ){
+
         this.kakaoId = kakaoId;
         this.bankCode = bankCode;
         this.userCode = userCode;
@@ -97,6 +103,7 @@ public class User extends BaseTimeEntity {
         this.isGroomOnce = isGroomOnce;
         this.isWithdraw = isWithdraw;
         this.withdrawAt = withdrawAt;
+        this.isAgreement = isAgreement;
     }
 
     public void modifyUserEmail(String email){
