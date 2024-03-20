@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import Button from '@/components/Button'
 import {agreementContainer} from "@/containers/agreement/index.css";
+import Checkbox from "@/components/Checkbox";
 
 const Agreement = () => {
   return (
@@ -296,6 +297,7 @@ const Agreement = () => {
         >
           버튼
         </Button>
+        <Checkbox>위 이용 약관에 동의합니다.</Checkbox>
       </div>
 
     </div>
