@@ -3,7 +3,7 @@
 spring :
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/marrymo?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://mysql:3306/marrymo?useSSL=false&serverTimezone=UTC
     username: root
     password: hat1da2chi3go4
   security:
@@ -67,8 +67,8 @@ spring :
   data:
     redis:
       port: 6379
-      host: localhost
-#      password: ${SPRING_REDIS_PASSWORD}
+      host: redis
+      password: ${SPRING_REDIS_PASSWORD}
 
 # log 설정
 logging:
@@ -89,3 +89,7 @@ server:
 open-banking:
   client_id: ${CLIENT_ID}
   client_secret: ${CLIENT_SECRET}
+
+mo-bank:
+  client_id: ${MOBANK_CLIENT_ID}
+  client_secret: ${MOBANK_CLEINT_SECRET}
