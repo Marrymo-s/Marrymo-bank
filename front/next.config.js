@@ -4,18 +4,26 @@ const path = require("path");
 const withVanillaExtract = createVanillaExtractPlugin();
 
 const nextConfig = {
-    // reactStrictMode: true,
-    // swcMinify: true,
-    // async rewrites() {
-    //     return [
-    //         {
-    //             source: "/api/:path*",
-    //             destination: "https://marrymo.site/api/:path*",
-    //         },
-    //     ];
-    // },
+    reactStrictMode: true,
+    swcMinify: true,
+    async rewrites() {
+        return [
+            {
+                source: "/api/:path*",
+                destination: "https://marrymo.site/api/:path*",
+            },
+            {
+                source: "/:path*",
+                destination: "https://openapi.naver.com/:path*",
+            }
+        ];
+    },
     images: {
-        domains: ['marrymo-bucket.s3.amazonaws.com'], // 여기에 도메인 추가
+        domains: [
+          'marrymo-bucket.s3.amazonaws.com',
+          'shopping-phinf.pstatic.net' // 여기에 추가
+        ], // 여기에 도메인 추가
+
     },
     webpack: (config, {isServer}) => {
         config.resolve.alias['@'] = path.join(__dirname, 'src');
