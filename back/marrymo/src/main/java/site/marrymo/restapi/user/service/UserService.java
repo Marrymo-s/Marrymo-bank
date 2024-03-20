@@ -255,10 +255,23 @@ public class UserService {
     }
 
     public void patchAgreement(Long userSequence, PrivacyRegistRequest privacyRegistRequest) {
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
+        user.setIsAgreement(privacyRegistRequest.getIsAgreement());
+        userRepository.save(user);
     }
 
     public void patchRequired(Long userSequence, RequiredModifyRequest requiredModifyRequest) {
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
+        Card card = user.getCard();
+        if(card == null) {
+            throw new RuntimeException("Card not found for user" + userSequence);
+        }
+
+        card.setIsRequired(requiredModifyRequest.getIsRequired());
+        cardRepository.save(card);
     }
 }

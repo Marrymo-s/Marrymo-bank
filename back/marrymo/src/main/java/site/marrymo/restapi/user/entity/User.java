@@ -111,4 +111,7 @@ public class User extends BaseTimeEntity {
         this.email = email;
     }
     public void modifyUserWho(Who who){ this.who = who; }
+    public void setIsAgreement(Boolean isAgreement){
+        this.isAgreement = isAgreement;
+    }
 }

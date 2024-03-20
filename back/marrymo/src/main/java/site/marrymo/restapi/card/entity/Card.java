@@ -179,4 +179,6 @@ public class Card extends BaseTimeEntity {
     public void modifyIsIssued(Boolean isIssued) {this.isIssued = isIssued;}
 
     public void modifyInvitationUrl(String invitationUrl){this.invitationUrl = invitationUrl;}
+
+    public void setIsRequired(Boolean isRequired) {this.isRequired = isRequired;}
 }
