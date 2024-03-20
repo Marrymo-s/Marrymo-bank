@@ -70,7 +70,8 @@ public class User extends BaseTimeEntity {
     @OneToOne(mappedBy = "user")
     private Card card;
 
-    @Column(name = "is_agreement")
+    @NotNull
+    @Column(name = "is_agreement", nullable = false)
     private Boolean isAgreement;
 
     @Builder
