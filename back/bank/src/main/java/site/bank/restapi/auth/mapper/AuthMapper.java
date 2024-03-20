@@ -1,15 +1,19 @@
 package site.bank.restapi.auth.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
+import lombok.AllArgsConstructor;
 import site.bank.restapi.auth.dto.common.ClientDto;
 import site.bank.restapi.auth.exception.AuthErrorCode;
 import site.bank.restapi.auth.exception.AuthException;
 
 @Repository
+@AllArgsConstructor
 public class AuthMapper {
-	Environment environment;
+
+	private final Environment environment;
 
 	public ClientDto findByClientId(String clientId) {
 		if (clientId.equals(environment.getProperty("institution.client_id")))
