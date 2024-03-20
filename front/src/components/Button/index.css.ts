@@ -11,7 +11,7 @@ const filledStyles = colors.flatMap((colorItem: 'roseGold' | 'alertRed' | 'light
     style: {
       backgroundColor: vars.colors[colorItem],
       border: 'none',
-      color: vars.colors.white,
+      color: vars.colors.black,
     },
   },
   {
