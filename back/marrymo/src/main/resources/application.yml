@@ -89,3 +89,7 @@ server:
 open-banking:
   client_id: ${CLIENT_ID}
   client_secret: ${CLIENT_SECRET}
+
+mo-bank:
+  client_id: ${MOBANK_CLIENT_ID}
+  client_secret: ${MOBANK_CLIENT_SECRET}
