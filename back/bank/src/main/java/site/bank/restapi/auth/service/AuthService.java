@@ -29,7 +29,11 @@ public class AuthService {
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	public TokenDto authenticateClient(ClientRequest client) {
+		log.debug("c.id = {} ",client.getClientId());
+		log.debug("c.pw = {} ",client.getClientSecret());
 		ClientDto principal = authMapper.findByClientId(client.getClientId());
+		log.debug("p.id = {} ",principal.getClientId());
+		log.debug("p.pw = {} ",principal.getClientSecret());
 		if (!principal.getClientSecret().equals(client.getClientSecret()))
 			throw new AuthException(AuthErrorCode.INCORRECT_CLIENT_SECRET);
 		log.debug("step1");
