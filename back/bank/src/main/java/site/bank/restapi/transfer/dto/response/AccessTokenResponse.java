@@ -1,2 +1,4 @@
-package site.bank.restapi.transfer.dto.response;public class AccessTokenResponse {
+package site.bank.restapi.transfer.dto.response;
+
+public class AccessTokenResponse {
 }

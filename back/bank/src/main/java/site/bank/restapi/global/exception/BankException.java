@@ -13,4 +13,5 @@ public class BankException extends RuntimeException{
         this.errorCode = errorCode.getErrorCode();
         this.message = errorCode.getMessage();
     }
+
 }
