@@ -13,4 +13,5 @@ public class AccountResponse {
     String accountNum;
     String fintechUseNum;
     String username;
+    Long balance;
 }
