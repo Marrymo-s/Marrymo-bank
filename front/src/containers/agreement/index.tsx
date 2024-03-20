@@ -1,14 +1,27 @@
+'use client';
+
 import Header from '@/components/Header'
 import Button from '@/components/Button'
-import {agreementContainer} from "@/containers/agreement/index.css";
+import * as styles from "@/containers/agreement/index.css";
 import Checkbox from "@/components/Checkbox";
+import {useRouter} from 'next/navigation'
 
 const Agreement = () => {
+  const router = useRouter()
+  const routeToSignup = async () => {
+    if (checkCount < 2) {
+      // openModal();
+    } else {
+      router.push(`/signup`);
+    }
+  };
+  let checkCount = 0;
+
   return (
     <div>
       <Header title='개인 정보 수집 동의' hasPrevious/>
       {/*약관 p 태그 안의 내용을 다른 곳으로 옮길 수 있으면 옮기기*/}
-      <p className={agreementContainer}>
+      <div className={styles.agreementContainer}>
         <br/>
         [제1조] (총칙)
         <br/>
@@ -291,13 +304,14 @@ const Agreement = () => {
         <br/>
         - 개인정보처리방침 시행일자 : 2024년 3월 25일
         <br/>
-      </p>
-      <div>
-        <Button type='button' link={'https://www.google.com'} colorStyle={'roseGold'} filled={true} size='large'
+      </div>
+      <div className={styles.tempWrapper}>
+        <Checkbox>위 이용 약관 내용에 동의합니다.</Checkbox>
+        <Checkbox>개인 정보 취급 방침에 동의합니다.</Checkbox>
+        <Button type='button' onClick={routeToSignup} colorStyle={'roseGold'} filled={true} size='large'
         >
-          버튼
+          다음
         </Button>
-        <Checkbox>위 이용 약관에 동의합니다.</Checkbox>
       </div>
 
     </div>
