@@ -33,4 +33,10 @@ public class OpenBankingController {
         log.debug("accessToken = {} ",moBankTokenApiResponse.getAccess_token());
         return ResponseEntity.ok(accountInquiryResponse);
     }
+
+    @PostMapping("/test")
+    public ResponseEntity<?> test(){
+        MoBankTokenApiResponse moBankTokenApiResponse = moBankService.callMoBankTokenApi();
+        return ResponseEntity.ok(moBankTokenApiResponse);
+    }
 }
