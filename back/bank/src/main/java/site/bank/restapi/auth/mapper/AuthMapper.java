@@ -3,26 +3,29 @@ package site.bank.restapi.auth.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import lombok.AllArgsConstructor;
 import site.bank.restapi.auth.dto.common.ClientDto;
 import site.bank.restapi.auth.exception.AuthErrorCode;
 import site.bank.restapi.auth.exception.AuthException;
 
 @Repository
-@AllArgsConstructor
 @PropertySource("classpath:application.yml")
 public class AuthMapper {
 
-	private Environment environment;
+	private Environment env;
+	@Autowired
+	public AuthMapper(Environment env){
+		this.env=env;
+	}
 
 	public ClientDto findByClientId(String clientId) {
-		if (clientId.equals(environment.getProperty("institution.client_id")))
+		if (clientId.equals(env.getProperty("institution.client_id")))
 			return ClientDto.builder()
-				.clientId(environment.getProperty("institution.client_id"))
-				.clientSecret(environment.getProperty("institution.client_secret"))
-				.clientRole(environment.getProperty("institution.client_role"))
+				.clientId(env.getProperty("institution.client_id"))
+				.clientSecret(env.getProperty("institution.client_secret"))
+				.clientRole(env.getProperty("institution.client_role"))
 				.build();
 		throw new AuthException(AuthErrorCode.INSTITUTION_NOT_FOUND);
 	}
