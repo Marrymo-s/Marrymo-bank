@@ -5,6 +5,7 @@ server:
       force: true
       charset: UTF-8
       enabled: true
+  port: 80
 
 # database 세팅
 spring:
