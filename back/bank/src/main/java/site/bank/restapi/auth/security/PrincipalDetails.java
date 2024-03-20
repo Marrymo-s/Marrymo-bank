@@ -23,7 +23,7 @@ public class PrincipalDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collect = new ArrayList<>();
-		collect.add(() -> "ROLE_" + clientDto.getClientRole());
+		collect.add(() -> String.valueOf(clientDto.getClientRole()));
 		return collect;
 	}
 

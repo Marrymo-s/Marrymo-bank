@@ -28,7 +28,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 		return User.builder()
 			.username(clientDto.getClientId())
 			.password(clientDto.getClientSecret())
-			.roles(clientDto.getClientRole().toString())
+			.roles(String.valueOf(clientDto.getClientRole()))
 			.build();
 	}
 }
