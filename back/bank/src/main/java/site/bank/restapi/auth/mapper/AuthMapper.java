@@ -1,6 +1,7 @@
 package site.bank.restapi.auth.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +12,10 @@ import site.bank.restapi.auth.exception.AuthException;
 
 @Repository
 @AllArgsConstructor
+@PropertySource("classpath:application.yml")
 public class AuthMapper {
 
-	private final Environment environment;
+	private Environment environment;
 
 	public ClientDto findByClientId(String clientId) {
 		if (clientId.equals(environment.getProperty("institution.client_id")))
