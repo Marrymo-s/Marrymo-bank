@@ -25,7 +25,7 @@ public class MoBankService {
 
 	@Value("${mo-bank.client_secret}")
 	private String clientSecret;
-	private final WebClient moBankWebClient = WebClient.builder().baseUrl("http://3.37.251.197/api/").build();
+	private final WebClient moBankWebClient = WebClient.builder().baseUrl("http://3.37.251.197/").build();
 
 	public MoBankTokenApiResponse callMoBankTokenApi() {
 
