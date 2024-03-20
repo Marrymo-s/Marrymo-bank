@@ -1,4 +1,5 @@
 import React from 'react';
+import * as styles from './index.css';
 
 interface SearchProps {
   query: string;
@@ -8,7 +9,7 @@ interface SearchProps {
 
 const Search = ({ query, setQuery, search }:SearchProps) => {
   return (
-    <>
+    <div>
       <input
         type="text"
         value={query}
@@ -16,7 +17,7 @@ const Search = ({ query, setQuery, search }:SearchProps) => {
         placeholder="검색..."
       />
       <button onClick={search}>검색</button>
-    </>
+    </div>
   );
 };
 
