@@ -13,12 +13,13 @@ spring:
     username: root
     password: hat1da2chi3go4bank5
     driver-class-name: com.mysql.cj.jdbc.Driver
-    
-# redis 세팅
+
+  # redis 세팅
   data:
     redis:
       port: 6379
       host: localhost
+      password: ${SPRING_REDIS_PASSWORD}
 
 # mybatis 세팅
 mybatis:
@@ -30,4 +31,12 @@ logging:
   level:
     root: info
     site.bank.restapi: debug
+
+institution:
+  client_id: ${CLIENT_ID}
+  client_secret: ${CLIENT_SECRET}
+  client_role: ${CLIENT_ROLE}
+
+jwt:
+  key: ${SECRET_KEY}
 

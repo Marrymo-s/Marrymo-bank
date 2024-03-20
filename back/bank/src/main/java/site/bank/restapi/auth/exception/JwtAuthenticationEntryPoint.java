@@ -1,4 +1,4 @@
-package site.bank.restapi.auth.jwt;
+package site.bank.restapi.auth.exception;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
