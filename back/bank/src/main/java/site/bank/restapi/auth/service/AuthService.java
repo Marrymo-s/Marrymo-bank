@@ -31,12 +31,12 @@ public class AuthService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public TokenDto authenticateClient(ClientRequest client) {
-		log.debug("c.id = {} ",client.getClientId());
-		log.debug("c.pw = {} ",client.getClientSecret());
+		log.debug("c.id = {} ", client.getClientId());
+		log.debug("c.pw = {} ", client.getClientSecret());
 		ClientDto principal = authMapper.findByClientId(client.getClientId());
-		log.debug("p.id = {} ",principal.getClientId());
-		log.debug("p.pw = {} ",principal.getClientSecret());
-		if (!principal.getClientSecret().equals(client.getClientSecret()))
+		log.debug("p.id = {} ", principal.getClientId());
+		log.debug("p.pw = {} ", principal.getClientSecret());
+		if (!bCryptPasswordEncoder.matches(client.getClientSecret(), principal.getClientSecret()))
 			throw new AuthException(AuthErrorCode.INCORRECT_CLIENT_SECRET);
 		log.debug("step1");
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
