@@ -24,6 +24,9 @@ services:
     container_name: redis
     restart: always
     command: redis-server /etc/redis/redis.conf
+    labels:
+      - "name=redis"
+      - "mode=standalone"
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
