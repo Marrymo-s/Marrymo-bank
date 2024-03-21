@@ -27,18 +27,29 @@ public class TransferController {
     private final TransferService transferService;
     @PostMapping
     public ResponseEntity<?> registerAccount(@RequestBody AccountRequest accountRequest){
+        AccountCheckRequest accountCheckRequest=new AccountCheckRequest(accountRequest.getBankCode(), accountRequest.getAccountNum());
+        int accountCnt=transferService.findByBankCodeAndAccountNum(accountCheckRequest);
+        
+        // 메리모 은행에 이미 등록되어 있는 계좌번호인 경우, 계좌를 등록할 수 없음
+        if (accountCnt==1){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        // 매리모 은행에 등록되지 않은 계좌번호인 경우 은행 DB에 저장
         long accountSeq= transferService.insertAccount(accountRequest);
         AccountResponse accountResponse=transferService.findAccountByAccountSeq(accountSeq);
         return ResponseEntity.ok(accountResponse);
     }
 
+    // 유효한 계좌인지 확인하는 api
     @GetMapping
-    public ResponseEntity<?> checkAccount(@RequestBody AccountCheckRequest accountCheckRequest){
+    public ResponseEntity<?> checkValidAccount(@RequestBody AccountCheckRequest accountCheckRequest){
         int accountCnt=transferService.findByBankCodeAndAccountNum(accountCheckRequest);
         log.info("accountCnt "+accountCnt);
-        if (accountCnt==1){
+        // 계좌가 없는 경우
+        if (accountCnt==0){
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
+        // 계좌가 있는 경우
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
