@@ -21,13 +21,13 @@ import site.bank.restapi.auth.service.AuthService;
 public class AuthController {
 
 	private final AuthService authService;
+
 	@PostMapping("/token")
-	public ResponseEntity<?> authenticateClient(@RequestBody ClientRequest client, HttpServletRequest request){
+	public ResponseEntity<?> authenticateClient(@RequestBody ClientRequest client, HttpServletRequest request) {
 		log.debug("Authenticate Start...");
-		log.debug("request ip = {} ",request.getRemoteAddr());
-		TokenDto token= authService.authenticateClient(client);
+		log.debug("request ip = {} ", request.getRemoteAddr());
+		TokenDto token = authService.authenticateClient(client);
 		log.debug("Client is authenticated...");
-		log.debug("access-token : {}",token.getAccessToken());
-		return ResponseEntity.ok(token);
+		return ResponseEntity.ok(token.tokenResponse());
 	}
 }
