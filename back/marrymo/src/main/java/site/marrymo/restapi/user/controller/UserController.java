@@ -61,8 +61,4 @@ public class UserController {
         userService.patchAgreement(1L, privacyRegistRequest);
     }
 
-    @PatchMapping("/required")
-    public void patchRequired(@Valid @RequestBody RequiredModifyRequest requiredModifyRequest) {
-        userService.patchRequired(1L, requiredModifyRequest);
-    }
 }
