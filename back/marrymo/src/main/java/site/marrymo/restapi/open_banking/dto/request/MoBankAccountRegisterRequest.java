@@ -7,7 +7,8 @@ import site.marrymo.restapi.user.dto.Who;
 @Data
 @Builder
 public class MoBankAccountRegisterRequest {
-    Who who;
+    String bankCode;
     String accountNum;
-
+    String fintechUseNum;
+    String username;
 }
