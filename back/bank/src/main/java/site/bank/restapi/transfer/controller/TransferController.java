@@ -26,22 +26,14 @@ public class TransferController {
 
     private final TransferService transferService;
     @PostMapping
-    public ResponseEntity<?> registerAccount(@RequestBody AccountRequest accountRequest){
-        AccountCheckRequest accountCheckRequest=new AccountCheckRequest(accountRequest.getBankCode(), accountRequest.getAccountNum());
-        int accountCnt=transferService.findByBankCodeAndAccountNum(accountCheckRequest);
+    public ResponseEntity<?> registerAccount(@RequestBody List<AccountRequest> accountRequestList){
 
-        AccountResponse accountResponse;
-        // 메리모 은행에 이미 등록되어 있는 계좌번호인 경우, 계좌를 등록할 수 없음
-        // 기존에 저장된 계좌 정보를 반환
-        if (accountCnt==1){
-            accountResponse=transferService.findAccountByAccountNum(accountRequest.getAccountNum());
-        }
-        // 매리모 은행에 등록되지 않은 계좌번호인 경우 은행 DB에 저장 후 반환
-        else{
-            long accountSeq= transferService.insertAccount(accountRequest);
-            accountResponse=transferService.findAccountByAccountSeq(accountSeq);
-        }
-        return ResponseEntity.ok(accountResponse);
+        HashMap<String, List<AccountResponse>> resultMap = new HashMap<>();
+
+        List<AccountResponse> registeredAccountList=transferService.registerAccount(accountRequestList);
+        resultMap.put("data",registeredAccountList);
+
+        return ResponseEntity.ok(resultMap);
     }
 
     // 유효한 계좌인지 확인하는 api
