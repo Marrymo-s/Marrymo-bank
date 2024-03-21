@@ -21,7 +21,6 @@ public class PrincipalDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String clientId) throws UsernameNotFoundException {
 		ClientDto clientDto = authService.findByClientId(clientId);
-		log.debug("client role = {}", clientDto.getClientRole());
 		return createUserDetails(clientDto);
 	}
 
