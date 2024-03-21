@@ -68,7 +68,6 @@ public class SecurityConfig {
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/error").permitAll()
 				.requestMatchers(IP_CHECK_PATH_PATTERN).access(this::hasIpAddress)
-				.requestMatchers("/api/auth/**").permitAll()
 				.requestMatchers("/api/account/**").hasRole("USER")
 				.anyRequest().authenticated());
 
