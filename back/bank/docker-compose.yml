@@ -30,7 +30,6 @@ services:
     networks:
       - bank_net
 
-
   bank-app:
     container_name: bank-app
     image: jaeyun1650/marrymo_bank
