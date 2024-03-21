@@ -12,6 +12,8 @@ import net.minidev.json.JSONObject;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.marrymo.restapi.moneygift_history.dto.request.MoneygiftTransferRequest;
+import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftTransferResponse;
 import site.marrymo.restapi.open_banking.dto.request.MoBankAccountRegisterRequest;
 import site.marrymo.restapi.open_banking.dto.request.MoBankTokenApiRequest;
 import site.marrymo.restapi.open_banking.dto.response.*;
@@ -67,7 +69,7 @@ public class MoBankService {
 		return moBankWebClient
 				.post()
 				.uri("/api/account")
-				.header("Authorization", "Bearer " + moBankToken)
+				.header("Authorization", moBankToken.getTokenType()+ " " + moBankToken.getAccess_token())
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(moBankAccountRegisterRequestList)
 				.retrieve()
