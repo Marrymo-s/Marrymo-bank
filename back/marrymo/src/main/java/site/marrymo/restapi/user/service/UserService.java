@@ -65,6 +65,7 @@ public class UserService {
         User user = userRepository.findByUserSequence(userSequence)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
+        user.setIsRequired(true);
 
         user.modifyUserEmail(userRegistRequest.getEmail());
         userRepository.save(user);
@@ -78,6 +79,7 @@ public class UserService {
                 .brideContact(userRegistRequest.getBrideContact())
                 .weddingDate(LocalDate.parse(userRegistRequest.getWeddingDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .weddingTime(LocalTime.parse(userRegistRequest.getWeddingTime(), DateTimeFormatter.ofPattern("HH:mm:ss")))
+                .weddingDay(userRegistRequest.getWeddingDay())
                 .invitationUrl("https://marrymo.site/"+user.getUserCode())
                 .location(userRegistRequest.getLocation())
                 .groomFather(userRegistRequest.getGroomFather())
@@ -129,6 +131,7 @@ public class UserService {
         card.modifyBrideContact(userModifyRequest.getBrideContact());
         card.modifyWeddingDate(LocalDate.parse(userModifyRequest.getWeddingDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         card.modifyWeddingTime(LocalTime.parse(userModifyRequest.getWeddingTime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
+        card.modifyWeddingDay(userModifyRequest.getWeddingDay());
         card.modifyLocation(userModifyRequest.getLocation());
         card.modifyGreeting(userModifyRequest.getGreeting());
         card.modifyGroomFather(userModifyRequest.getGroomFather());
@@ -267,8 +270,8 @@ public class UserService {
         User user = userRepository.findByUserSequence(userSequence)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
-        Boolean isAgreement = user.getIsAgreement();
-        Boolean isRequired = user.getIsRequired();
+        Boolean isAgreement = user.isAgreement();
+        Boolean isRequired = user.isRequired();
 
         return PermissionResponse.builder()
                 .isAgreement(isAgreement)
