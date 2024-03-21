@@ -76,7 +76,7 @@ public class User extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "is_required", nullable = false)
-    private boolean isRequired;
+    private Boolean isRequired;
 
     @Builder
     public User(String kakaoId,

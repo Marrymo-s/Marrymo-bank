@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/check")
-    public ResponseEntity<PermissionResponse> getUserPermission(@Valid @ResponseBody PermissionResponse permissionResponse) {
+    public ResponseEntity<PermissionResponse> getUserPermission(Long userSequence) {
         PermissionResponse permissionResponse = userService.getUserPermission(1L);
         return ResponseEntity.ok(permissionResponse);
     }
