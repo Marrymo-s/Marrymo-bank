@@ -23,10 +23,10 @@ services:
     hostname: redis
     container_name: redis
     restart: always
-    command: redis-server /etc/redis/redis.conf --requirepass leon0115
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - ${REDIS_DATA_PATH}:/data # 앞: 로컬 / 뒤 : redis 이미지 공식 문서
-      - ${REDIS_DATA_CONF_PATH}:/etc/redis/redis.conf # 앞: 로컬 / 뒤 : 컨테이너 내부 경로
+      - ${REDIS_DATA_CONF_PATH}:/usr/local/etc/redis/redis.conf # 앞: 로컬 / 뒤 : 컨테이너 내부 경로
     networks:
       - bank_net
 
