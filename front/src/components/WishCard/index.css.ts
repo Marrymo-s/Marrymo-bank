@@ -55,3 +55,8 @@ export const WishCardCategoryText = style({
   width: '100%', // 부모 요소에 맞춰 너비를 설정
   maxWidth: '100%', // 최대 너비를 부모 요소에 맞춰 설정
 })
+
+export const WishCardButton = style({
+  fontSize: vars.fontSize['1x'],
+  width: '10px'
+})

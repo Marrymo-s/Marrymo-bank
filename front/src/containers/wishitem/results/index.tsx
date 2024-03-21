@@ -13,9 +13,9 @@ const Results = ({ results, addToWishlist }: ResultsProps) => {
     <>
       <h3>추천리스트</h3>
       <div className={styles.resultsContainer}>
-        {results.map((item, index) => (
+        {results.map((item, productId) => (
           <WishCard
-            key={index}
+            key={productId}
             title={item.title}
             image={item.image}
             lprice={item.lprice}
