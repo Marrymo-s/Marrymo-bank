@@ -11,8 +11,9 @@ export const invitationContainer = style({
   width: 'auto',
   maxWidth: 480,
   minHeight: '75svh',
+  maxHeight: '75svh',
   top: 80,
   position: 'relative',
   boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
-
+  overflow: 'auto',
 });
