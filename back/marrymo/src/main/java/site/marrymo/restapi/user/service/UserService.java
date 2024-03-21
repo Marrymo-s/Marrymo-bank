@@ -15,6 +15,7 @@ import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.dto.Who;
 import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
+import site.marrymo.restapi.user.dto.response.PermissionResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
 import site.marrymo.restapi.user.entity.User;
@@ -262,4 +263,16 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public PermissionResponse getUserPermission(Long userSequence) {
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        Boolean isAgreement = user.getIsAgreement();
+        Boolean isRequired = user.getIsRequired();
+
+        return PermissionResponse.builder()
+                .isAgreement(isAgreement)
+                .isRequired(isRequired)
+                .build();
+    }
 }

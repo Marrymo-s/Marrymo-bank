@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import site.marrymo.restapi.user.dto.Who;
 import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
+import site.marrymo.restapi.user.dto.response.PermissionResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
 import site.marrymo.restapi.user.service.UserService;
@@ -61,4 +62,9 @@ public class UserController {
         userService.patchAgreement(1L, privacyRegistRequest);
     }
 
+    @GetMapping("/check")
+    public ResponseEntity<PermissionResponse> getUserPermission(@Valid @ResponseBody PermissionResponse permissionResponse) {
+        PermissionResponse permissionResponse = userService.getUserPermission(1L);
+        return ResponseEntity.ok(permissionResponse);
+    }
 }
