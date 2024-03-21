@@ -42,7 +42,6 @@ public class SecurityConfig {
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> web.ignoring()
-			.requestMatchers("/api/auth/**")
 			.requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // 정적 리소스들
 	}
 
