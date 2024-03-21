@@ -19,7 +19,7 @@ spring:
   data:
     redis:
       port: 6379
-      host: redis
+      host: localhost
       password: ${SPRING_REDIS_PASSWORD}
 
 # mybatis 세팅
