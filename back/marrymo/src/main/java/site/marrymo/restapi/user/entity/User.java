@@ -74,6 +74,10 @@ public class User extends BaseTimeEntity {
     @Column(name = "is_agreement", nullable = false)
     private Boolean isAgreement;
 
+    @NotNull
+    @Column(name = "is_required", nullable = false)
+    private boolean isRequired;
+
     @Builder
     public User(String kakaoId,
                 String bankCode,
@@ -88,7 +92,8 @@ public class User extends BaseTimeEntity {
                 Boolean isGroomOnce,
                 Boolean isWithdraw,
                 LocalDateTime withdrawAt,
-                Boolean isAgreement
+                Boolean isAgreement,
+                Boolean isRequired
                 ){
 
         this.kakaoId = kakaoId;
@@ -105,6 +110,7 @@ public class User extends BaseTimeEntity {
         this.isWithdraw = isWithdraw;
         this.withdrawAt = withdrawAt;
         this.isAgreement = isAgreement;
+        this.isRequired = isRequired;
     }
 
     public void modifyUserEmail(String email){

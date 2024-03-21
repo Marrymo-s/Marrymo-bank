@@ -92,9 +92,6 @@ public class Card extends BaseTimeEntity {
     @OneToMany(mappedBy = "card")
     private List<WeddingImg> weddingImgs=new ArrayList<>();
 
-    @Column(name = "is_required")
-    private Boolean isRequired;
-
     @Builder
     public Card(
                 User user,
@@ -112,8 +109,7 @@ public class Card extends BaseTimeEntity {
                 String brideFather,
                 String brideMother,
                 Boolean isIssued,
-                String greeting,
-                Boolean isRequired
+                String greeting
                 ){
         this.user = user;
         this.groomName = groomName;
@@ -131,7 +127,6 @@ public class Card extends BaseTimeEntity {
         this.brideMother = brideMother;
         this.isIssued = isIssued;
         this.greeting = greeting;
-        this.isRequired = isRequired;
     }
 
     public void modifyGroomName(String groomName){
@@ -187,6 +182,4 @@ public class Card extends BaseTimeEntity {
     public void modifyIsIssued(Boolean isIssued) {this.isIssued = isIssued;}
 
     public void modifyInvitationUrl(String invitationUrl){this.invitationUrl = invitationUrl;}
-
-    public void setIsRequired(Boolean isRequired) {this.isRequired = isRequired;}
 }
