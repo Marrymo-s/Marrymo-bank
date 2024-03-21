@@ -30,6 +30,10 @@ public class OpenBankingController {
         AccountInquiryResponse accountInquiryResponse = openBankingService.callAccountListApi(tokenApiResponse.getAccess_token(), tokenApiResponse.getUser_seq_no());
 
         MoBankTokenApiResponse moBankTokenApiResponse = moBankService.callMoBankTokenApi();
+
+        // 메리모 은행에 계좌 등록
+        // moBankService.registerMoBankAccount(accountInquiryResponse);
+
         log.debug("accessToken = {} ",moBankTokenApiResponse.getAccess_token());
         return ResponseEntity.ok(accountInquiryResponse);
     }

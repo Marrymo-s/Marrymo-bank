@@ -13,8 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.marrymo.restapi.open_banking.dto.request.MoBankTokenApiRequest;
 import site.marrymo.restapi.open_banking.dto.response.AccountInquiryResponse;
+import site.marrymo.restapi.open_banking.dto.response.MoBankAccountResponse;
 import site.marrymo.restapi.open_banking.dto.response.MoBankTokenApiResponse;
 import site.marrymo.restapi.open_banking.dto.response.TokenApiResponse;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -43,6 +46,18 @@ public class MoBankService {
 			.bodyToMono(MoBankTokenApiResponse.class)
 			.block();
 	}
+
+//	public List<MoBankAccountResponse> registerMoBankAccount(AccountInquiryResponse accountInquiryResponse){
+//		MoBankTokenApiResponse moBankToken = callMoBankTokenApi();
+//
+//		return moBankWebClient
+//				.post()
+//				.uri("/api")
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.block();
+//
+//
+//	}
 
 
 }
