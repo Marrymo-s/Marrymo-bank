@@ -13,7 +13,7 @@ export const invitationContainer = style({
   minHeight: '75svh',
   maxHeight: '75svh',
   position: 'relative',
-  marginBottom: '32px',
+  marginBottom: vars.space['4x'],
   boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
   overflow: 'auto',
 });
