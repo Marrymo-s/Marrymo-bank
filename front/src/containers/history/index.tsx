@@ -6,7 +6,9 @@ const History = () => {
     <>
       <Header title='축의금 내역' hasPrevious/>
       <main className={styles.historyWrapper}>
-        <div>축의금 내역을 여기에 만들어줘 지원아~</div>
+        <div>
+
+        </div>
       </main>
     </>
   )
