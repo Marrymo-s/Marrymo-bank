@@ -20,7 +20,8 @@ public class OpenBankingController {
     private final OpenBankingService openBankingService;
     private final MoBankService moBankService;
     @PostMapping
-    public ResponseEntity<AccountInquiryResponse> getUserAccountInfo(@Valid @RequestBody CodeRequest codeRequest){
+    public ResponseEntity<AccountInquiryResponse> getUserAccountInfo(@RequestHeader(value = "Authorization") String token,
+                                                                     @Valid @RequestBody CodeRequest codeRequest){
         log.debug("code : " + codeRequest.getCode());
 
         //토큰 발급 api 호출
@@ -30,7 +31,15 @@ public class OpenBankingController {
         AccountInquiryResponse accountInquiryResponse = openBankingService.callAccountListApi(tokenApiResponse.getAccess_token(), tokenApiResponse.getUser_seq_no());
 
         MoBankTokenApiResponse moBankTokenApiResponse = moBankService.callMoBankTokenApi();
+
+        // 메리모 은행에 계좌 등록
+        moBankService.registerMoBankAccount(accountInquiryResponse);
+
+        // 계좌 등록에 성공하면 회원 정보에 등록
+        // JWT 토큰으로부터 사용자 정보를 가져온다.
+
         log.debug("accessToken = {} ",moBankTokenApiResponse.getAccess_token());
+
         return ResponseEntity.ok(accountInquiryResponse);
     }
 
