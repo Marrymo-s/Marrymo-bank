@@ -1,13 +1,18 @@
 import Header from '@/components/Header'
+import * as styles from './index.css'
 // import useInput from '@/hooks/useInput'  // 훅 제작하기
 import {useState} from 'react'
 
 const Signup = () => {
   return (
-    <div>
+    <>
       <Header title={'개인 정보 입력'} hasPrevious/>
-      회원가입 페이지
-    </div>
+      <main className={styles.signupWrapper}>
+        <>
+          회원가입 페이지
+        </>
+      </main>
+    </>
 //   const userid = useInput('')
 //   const username = useInput('')
 //   const password = useInput('')
