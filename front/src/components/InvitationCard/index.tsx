@@ -3,7 +3,6 @@
 //리액트 라이브러리
 import React, { use, useState, useEffect } from 'react';
 
-
 // 구성 컴포넌트
 import CardTop from '@/components/InvitationCard/cardTop';
 import Sentence from '@/components/InvitationCard/sentence';
@@ -12,10 +11,15 @@ import Location from '@/components/InvitationCard/location';
 import Album from '@/components/InvitationCard/album';
 import Wishlist from '@/components/InvitationCard/wishlist';
 import CardUnderTop from "@/components/InvitationCard/cardUnderTop";
+import SecondImage from '@/components/InvitationCard/secondImage';
 
 // 기타
 import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
+
+// 폰트
+import * as style from '@/styles/font.css';
+import {rightsText} from '@/components/InvitationCard/index.css';
 
 
 const InvitationCard = () => {
@@ -48,20 +52,24 @@ const InvitationCard = () => {
         groomContact={invitationData.data.groomContact}
         brideContact={invitationData.data.brideContact}
       />
-      <hr />
       <Sentence
         greeting={invitationData.data.greeting}
       />
-      <hr />
+      <SecondImage
+        imgUrl={invitationData.data.imgUrl[1]}
+      />
       <Location
         weddingDate={invitationData.data.weddingDate}
         weddingTime={invitationData.data.weddingTime}
         location={invitationData.data.location}
       />
-      <hr />
-      <Album />
-      <hr />
+      <Album
+        imgUrl={invitationData.data.imgUrl}
+      />
       <Wishlist />
+      <div className={rightsText}>
+        @Marrymo All rights reserved
+      </div>
     </main>
   )
 }

@@ -3,6 +3,8 @@ import React from 'react';
 import * as styles from './index.css';
 import Image from 'next/image';
 import { formatPrice } from '@/utils/format';
+import Button from '@/components/Button';
+import {commonButton} from '@/components/Button/index.css';
 
 
 interface WishCardProps {
@@ -35,6 +37,15 @@ const WishCard = ({ image, title, lprice, brand, category2, category4, onClick }
         </div>
         <div className={styles.WishCardCategoryText}>{category2}-{category4}</div>
       </div>
+      {/*<Button*/}
+      {/*  type='button'*/}
+      {/*  colorStyle={'roseGold'}*/}
+      {/*  className={styles.WishCardButton}*/}
+
+      {/*>*/}
+      {/*  담기*/}
+      {/*</Button>*/}
+      {/*모양이 안변함*/}
     </div>
   )
 }

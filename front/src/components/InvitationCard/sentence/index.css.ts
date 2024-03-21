@@ -8,6 +8,6 @@ export const sentenceWrapper = style([
   {
     textAlign: 'center',
     justifyContent: 'center',
-    paddingBottom: '20px',
+    paddingTop: '80px',
   }
 ]);
