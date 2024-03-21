@@ -22,6 +22,7 @@ import site.bank.restapi.transfer.exception.TransferErrorCode;
 import site.bank.restapi.transfer.exception.TransferException;
 import site.bank.restapi.transfer.mapper.TransferMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 @Service
@@ -31,10 +32,32 @@ public class TransferService {
     @Autowired
     private final TransferMapper transferMapper;
 
-    private final PlatformTransactionManager transactionManager;
 
     public List<BankCodeReseponse> findAllBankList(){
         return transferMapper.findAllBankList();
+    }
+
+    public List<AccountResponse> registerAccount(List<AccountRequest> accountRequestList){
+
+        List<AccountResponse> registeredAccountList = new ArrayList<>();
+        for (AccountRequest accountRequest:accountRequestList){
+            AccountCheckRequest accountCheckRequest = new AccountCheckRequest(accountRequest.getBankCode(), accountRequest.getAccountNum());
+            int accountCnt = transferMapper.findByBankCodeAndAccountNum(accountCheckRequest);
+            AccountResponse accountResponse;
+            // 메리모 은행에 이미 등록되어 있는 계좌번호인 경우, 계좌를 등록할 수 없음
+            // 기존에 저장된 계좌 정보를 반환
+            if (accountCnt==1){
+                long accountSeq = transferMapper.findAccountByAccountNum(accountRequest.getAccountNum());
+                accountResponse = transferMapper.findAccountByAccountSeq(accountSeq);
+            }
+            // 매리모 은행에 등록되지 않은 계좌번호인 경우 은행 DB에 저장 후 반환
+            else{
+                long accountSeq= transferMapper.insertAccount(accountRequest);
+                accountResponse=transferMapper.findAccountByAccountSeq(accountSeq);
+            }
+            registeredAccountList.add(accountResponse);
+        }
+        return registeredAccountList;
     }
 
     public long insertAccount(AccountRequest accountRequest){
