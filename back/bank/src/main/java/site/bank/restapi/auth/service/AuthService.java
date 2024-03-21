@@ -31,34 +31,23 @@ public class AuthService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public TokenDto authenticateClient(ClientRequest client) {
-		log.debug("c.id = {} ", client.getClientId());
-		log.debug("c.pw = {} ", client.getClientSecret());
 		ClientDto principal = authMapper.findByClientId(client.getClientId());
-		log.debug("p.id = {} ", principal.getClientId());
-		log.debug("p.pw = {} ", principal.getClientSecret());
 		if (!bCryptPasswordEncoder.matches(client.getClientSecret(), principal.getClientSecret()))
 			throw new AuthException(AuthErrorCode.INCORRECT_CLIENT_SECRET);
-		log.debug("step1");
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
 			= new UsernamePasswordAuthenticationToken(client.getClientId(), client.getClientSecret());
-		log.debug("step2");
 
 		Authentication authentication
 			= authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken);
-		log.debug("step3");
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		log.debug("step4");
 
 		TokenDto token = jwtTokenProvider.generateToken(authentication);
-		log.debug("step5");
 
 		if (redisService.hasAccessToken(principal.getClientId())) {
 			redisService.deleteAccessToken(principal.getClientId());
 		}
-		log.debug("step6");
 		redisService.saveAccessToken(principal.getClientId(), token.getAccessToken());
-		log.debug("step7");
 
 		return token;
 	}

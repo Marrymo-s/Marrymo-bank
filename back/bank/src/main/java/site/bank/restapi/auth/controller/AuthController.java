@@ -27,6 +27,7 @@ public class AuthController {
 		log.debug("request ip = {} ",request.getRemoteAddr());
 		TokenDto token= authService.authenticateClient(client);
 		log.debug("Client is authenticated...");
+		log.debug("access-token : {}",token.getAccessToken());
 		return ResponseEntity.ok(token);
 	}
 }
