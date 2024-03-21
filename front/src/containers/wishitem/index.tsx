@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Header from "@/components/Header";
 import Button from '@/components/Button';
 import Search from '@/containers/wishitem/search';
 import Registration from '@/containers/wishitem/registration';
 import Results from '@/containers/wishitem/results';
 
-import { searchResponse } from '@/types/search';
+import {searchResponse} from '@/types/search';
 
 import * as styles from './index.css';
 import axios from 'axios';
@@ -24,7 +24,7 @@ const WishItem = () => {
     // 네이버 검색 api 사용
     try {
       const response = await axios.get(`${apiUrl}`, {
-        params: { query },
+        params: {query},
         headers: {
           "X-Requested-With": "XMLHttpRequest",
           "X-Naver-Client-Id": clientId,
@@ -47,11 +47,13 @@ const WishItem = () => {
   return (
     <>
       <Header title="위시리스트" hasPrevious/>
-      <div className={styles.wishitemContainer}>
-        <Search query={query} setQuery={setQuery} search={search} />
-        <Registration wishLists={wishLists} />
-        <Results results={results} addToWishlist={addToWishlist} />
-      </div>
+      <main className={styles.wishitemWrapper}>
+        <div className={styles.wishitemContainer}>
+          <Search query={query} setQuery={setQuery} search={search}/>
+          <Registration wishLists={wishLists}/>
+          <Results results={results} addToWishlist={addToWishlist}/>
+        </div>
+      </main>
     </>
   )
 }
