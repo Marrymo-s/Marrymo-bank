@@ -98,7 +98,7 @@ open-banking:
 
 mo-bank:
   client_id: ${MOBANK_CLIENT_ID}
-  client_secret: ${MOBANK_CLEINT_SECRET}
+  client_secret: ${MOBANK_CLIENT_SECRET}
   client_name: ${MOBANK_CLIENT_NAME}
   client_account: ${MOBANK_CLIENT_ACCOUNT}
 
