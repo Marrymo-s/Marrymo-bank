@@ -55,6 +55,10 @@ public class Card extends BaseTimeEntity {
     private LocalDate weddingDate;
 
     @NotNull
+    @Column(name = "wedding_day", nullable = false)
+    private String weddingDay;
+
+    @NotNull
     @Column(name = "wedding_time", nullable = false)
     private LocalTime weddingTime;
 
@@ -96,6 +100,7 @@ public class Card extends BaseTimeEntity {
                 String groomContact,
                 String brideContact,
                 LocalDate weddingDate,
+                String weddingDay,
                 LocalTime weddingTime,
                 String invitationUrl,
                 String location,
@@ -112,6 +117,7 @@ public class Card extends BaseTimeEntity {
         this.groomContact = groomContact;
         this.brideContact = brideContact;
         this.weddingDate = weddingDate;
+        this.weddingDay = weddingDay;
         this.weddingTime = weddingTime;
         this.invitationUrl = invitationUrl;
         this.location = location;
@@ -142,6 +148,8 @@ public class Card extends BaseTimeEntity {
     public void modifyWeddingDate(LocalDate weddingDate){
         this.weddingDate = weddingDate;
     }
+
+    public void modifyWeddingDay(String weddingDay) { this.weddingDay = weddingDay; }
 
     public void modifyWeddingTime(LocalTime weddingTime){
         this.weddingTime = weddingTime;
