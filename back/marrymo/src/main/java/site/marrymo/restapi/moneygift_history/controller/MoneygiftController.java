@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.marrymo.restapi.moneygift_history.dto.request.MoneygiftTransferRequest;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftGetResponse;
+import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftTransferResponse;
 import site.marrymo.restapi.moneygift_history.service.MoneygiftService;
 
 @Slf4j
@@ -20,5 +21,9 @@ public class MoneygiftController {
         MoneygiftGetResponse moneygiftGetResponse = moneygiftService.getMoneygiftInfo(1L);
         return ResponseEntity.ok(moneygiftGetResponse);
     }
-
+    @PostMapping
+    public ResponseEntity<MoneygiftTransferResponse> sendMoneygift(@RequestBody MoneygiftTransferRequest moneygiftTransferRequest){
+        MoneygiftTransferResponse moneygiftTransferResponse = moneygiftService.sendMoneygift(moneygiftTransferRequest);
+        return ResponseEntity.ok(moneygiftTransferResponse);
+    }
 }

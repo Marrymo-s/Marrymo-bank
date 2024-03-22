@@ -142,12 +142,14 @@ public class MoneygiftService {
 
         // 신랑 이름과 신부 이름을 구한다.
         UserInfoResponse userInfoResponse = UserInfoResponse.toDto(user, card);
-
+        
+        // 송금하는 사람은 메리모 정보로 통일
         MoBankTransferRequest moBankTransferRequest=MoBankTransferRequest
                 .builder()
                 .senderName(clientName)
                 .senderAccountNum(clientAccount)
                 .tranAmt(moneygiftTransferRequest.getAmount())
+                .tranMsg("[메리모] 축의금 정산")
                 .build();
 
         // 송금을 각자 받을 경우
@@ -165,23 +167,28 @@ public class MoneygiftService {
                         .build();
             }
         }
-        // 신랑 계좌로 돈을 받을 경우
+        // 신랑 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsGroomOnce()){
-
+            moBankTransferRequest.toBuilder()
+                    .receiverName(userInfoResponse.getGroomName())
+                    .receiverAccountNum(userInfoResponse.getGroomAccount())
+                    .build();
         }
-        // 신부 계좌로 돈을 받을 경우
+        // 신부 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsBrideOnce()){
-
+            moBankTransferRequest.toBuilder()
+                    .receiverName(userInfoResponse.getBrideName())
+                    .receiverAccountNum(userInfoResponse.getBrideAccount())
+                    .build();
         }
 
-        moBankWebClient.post()
+        return moBankWebClient.post()
                 .uri("/account/transfer")
                 .header("Authorization", moBankToken.getTokenType() + " " + moBankToken.getAccess_token())
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue()
+                .bodyValue(moneygiftTransferRequest)
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<HashMap<String, List<MoBankAccountResponse>>>() {
-                })
+                .bodyToMono(MoneygiftTransferResponse.class)
                 .block();
     }
 }

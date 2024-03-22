@@ -9,10 +9,11 @@ import java.time.LocalDateTime;
 @Builder
 public class MoneygiftTransferResponse {
 
+    int tranAmt;
     String senderName;
     String receiverName;
+    String senderAccountNum;
     String receiverAccountNum;
-    int tranAmt;
     LocalDateTime tranDate;
 
 }
