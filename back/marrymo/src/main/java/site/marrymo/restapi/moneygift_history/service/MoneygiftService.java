@@ -149,7 +149,7 @@ public class MoneygiftService {
                 .senderName(clientName)
                 .senderAccountNum(clientAccount)
                 .tranAmt(moneygiftTransferRequest.getAmount())
-                .tranMsg("[메리모] 축의금 정산")
+                .tranMsg("[메리모] "+moneygiftTransferRequest.getSender() + "송금")
                 .build();
 
         // 송금을 각자 받을 경우
