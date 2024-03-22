@@ -3,8 +3,9 @@
 import React, { useState } from 'react'
 import {historyListContainer} from "@/containers/history/index.css";
 import axios from "axios";
-import {historyResponse} from "@/types/history";
-import {moneygifts} from "@/types/history";
+
+//type
+import {moneygifts, MoneygiftType} from "@/types/history";
 
 const HistoryList = () => {
     const [historyData, setHistoryData] = useState<moneygifts[]>([
@@ -91,7 +92,7 @@ const HistoryList = () => {
                         <tr key={index}>
                             <td>{history.sender}</td>
                             <td>{history.amount}</td>
-                            <td>{history.type}</td>
+                            <td>{MoneygiftType[history.type as keyof typeof MoneygiftType]}</td>
                             <td>{history.guestType}</td>
                             <td>{history.relationship}</td>
                         </tr>
