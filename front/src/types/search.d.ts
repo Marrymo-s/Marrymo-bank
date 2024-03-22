@@ -5,5 +5,5 @@ export interface searchResponse {
   brand: string,
   category2: string,
   category4: string,
-  productId?: string,
+  productId: string,
 }
