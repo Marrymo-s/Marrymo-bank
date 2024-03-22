@@ -13,7 +13,6 @@ import site.marrymo.restapi.redis.service.RedisService;
 @RestController
 public class RedisController {
     private final RedisService redisService;
-
     @GetMapping("/{key}")
     public ResponseEntity<Object> getRedisKey(@PathVariable String key) {
         String value = redisService.getValue(key);
