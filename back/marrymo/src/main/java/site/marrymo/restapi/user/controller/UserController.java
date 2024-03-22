@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.marrymo.restapi.global.auth.entity.LoginUser;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.dto.Who;
 import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
@@ -20,51 +22,51 @@ import site.marrymo.restapi.user.service.UserService;
 public class UserController {
     private final UserService userService;
     @PostMapping
-    public void registUserInfo(@Valid UserRegistRequest userRegistRequest){
-        userService.registUserInfo(1L, userRegistRequest);
+    public void registUserInfo(@LoginUser UserDTO userDTO, @Valid UserRegistRequest userRegistRequest){
+        userService.registUserInfo(userDTO, userRegistRequest);
     }
 
     @PutMapping
-    public void modifyUserInfo(@Valid UserModifyRequest userModifyRequest){
-        userService.modifyUserInfo(1L, userModifyRequest);
+    public void modifyUserInfo(@LoginUser UserDTO userDTO, @Valid UserModifyRequest userModifyRequest){
+        userService.modifyUserInfo(userDTO, userModifyRequest);
     }
 
     @GetMapping
-    public ResponseEntity<UserGetResponse> getUserInfo(){
-        UserGetResponse userGetResponse = userService.getUserInfo(1L);
+    public ResponseEntity<UserGetResponse> getUserInfo(@LoginUser UserDTO userDTO){
+        UserGetResponse userGetResponse = userService.getUserInfo(userDTO);
         return ResponseEntity.ok(userGetResponse);
     }
 
     @DeleteMapping
-    public void deleteUser(){
-        userService.deleteUser(1L);
+    public void deleteUser(@LoginUser UserDTO userDTO){
+        userService.deleteUser(userDTO);
     }
 
     @PatchMapping("/invitation")
-    public ResponseEntity<InvitationIssueResponse> invitationIssued(@Valid @RequestBody InvitationIssueRequest invitationIssueRequest){
-        InvitationIssueResponse invitationIssueResponse = userService.invitationIssued(1L, invitationIssueRequest);
+    public ResponseEntity<InvitationIssueResponse> invitationIssued(@LoginUser UserDTO userDTO, @Valid @RequestBody InvitationIssueRequest invitationIssueRequest){
+        InvitationIssueResponse invitationIssueResponse = userService.invitationIssued(userDTO, invitationIssueRequest);
         return ResponseEntity.ok(invitationIssueResponse);
     }
 
     @PatchMapping("/account")
-    public void registWho(@Valid @RequestBody WhoRegistRequest whoRegistRequest){
-        userService.registWho(1L, whoRegistRequest);
+    public void registWho(@LoginUser UserDTO userDTO, @Valid @RequestBody WhoRegistRequest whoRegistRequest){
+        userService.registWho(userDTO, whoRegistRequest);
     }
 
     @GetMapping("/account")
-    public ResponseEntity<VerifyAccountResponse> verifyAccount(Long userSequence){
-        VerifyAccountResponse verifyAccountResponse = userService.verifyAccount(1L);
+    public ResponseEntity<VerifyAccountResponse> verifyAccount(@LoginUser UserDTO userDTO){
+        VerifyAccountResponse verifyAccountResponse = userService.verifyAccount(userDTO);
         return ResponseEntity.ok(verifyAccountResponse);
     }
 
     @PatchMapping("/privacy")
-    public void patchAgreement(@Valid @RequestBody PrivacyRegistRequest privacyRegistRequest) {
-        userService.patchAgreement(1L, privacyRegistRequest);
+    public void patchAgreement(@LoginUser UserDTO userDTO, @Valid @RequestBody PrivacyRegistRequest privacyRegistRequest) {
+        userService.patchAgreement(userDTO, privacyRegistRequest);
     }
 
     @GetMapping("/check")
-    public ResponseEntity<PermissionResponse> getUserPermission(Long userSequence) {
-        PermissionResponse permissionResponse = userService.getUserPermission(1L);
+    public ResponseEntity<PermissionResponse> getUserPermission(@LoginUser UserDTO userDTO) {
+        PermissionResponse permissionResponse = userService.getUserPermission(userDTO);
         return ResponseEntity.ok(permissionResponse);
     }
 }
