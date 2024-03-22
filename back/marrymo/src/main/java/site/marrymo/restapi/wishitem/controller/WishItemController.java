@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.marrymo.restapi.global.auth.entity.LoginUser;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.wishitem.dto.request.WishItemDeleteRequest;
 import site.marrymo.restapi.wishitem.dto.request.WishItemRegistRequest;
 import site.marrymo.restapi.wishitem.dto.response.WishItemDetailResponse;
@@ -19,8 +21,8 @@ public class WishItemController {
     private final WishItemService wishItemService;
 
     @PostMapping
-    public void registWishItem(@Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
-        wishItemService.registWishItem(1L, wishItemRegistRequest);
+    public void registWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
+        wishItemService.registWishItem(userDTO, wishItemRegistRequest);
     }
 
     @GetMapping("/{userCode}")
@@ -36,7 +38,7 @@ public class WishItemController {
     }
 
     @DeleteMapping
-    public void deleteWishItem(@Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
-        wishItemService.deleteWishItem(1L, wishItemDeleteRequest);
+    public void deleteWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
+        wishItemService.deleteWishItem(userDTO, wishItemDeleteRequest);
     }
 }

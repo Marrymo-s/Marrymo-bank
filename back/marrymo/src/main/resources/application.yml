@@ -3,8 +3,8 @@
 spring :
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/marrymo?useSSL=false&serverTimezone=UTC
 #    url: jdbc:mysql://mysql:3306/marrymo?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/marrymo?useSSL=false&serverTimezone=UTC
     username: root
     password: hat1da2chi3go4
   security:
@@ -65,11 +65,16 @@ spring :
         format_sql: true
 
   # redis 세팅
+#  data:
+#    redis:
+#      port: 6379
+#      host: redis
+#      password: ${SPRING_REDIS_PASSWORD}
+
   data:
     redis:
       port: 6379
-      host: redis
-      password: ${SPRING_REDIS_PASSWORD}
+      host: localhost
 
 # log 설정
 logging:
@@ -93,6 +98,14 @@ open-banking:
 
 mo-bank:
   client_id: ${MOBANK_CLIENT_ID}
-  client_secret: ${MOBANK_CLEINT_SECRET}
+  client_secret: ${MOBANK_CLIENT_SECRET}
   client_name: ${MOBANK_CLIENT_NAME}
   client_account: ${MOBANK_CLIENT_ACCOUNT}
+
+  #jwt
+jwt:
+  salt: ${JWT_SALT}
+  access-token:
+    expiretime: ${JWT_ACCESS_TOKEN_EXPIRETIME}
+  refresh-token:
+    expiretime: ${JWT_REFRESH_TOKEN_EXPIRETIME}

@@ -120,6 +120,10 @@ public class User extends BaseTimeEntity {
     public void setIsAgreement(boolean isAgreement){
         this.isAgreement = isAgreement;
     }
-
     public void setIsRequired(boolean isRequired) { this.isRequired = isRequired; }
+    public void setbrideAccount(String brideAccount) { this.brideAccount = brideAccount; }
+    public void setBrideFintechUseNum(String brideFintechUseNum) { this.brideFintechUseNum = brideFintechUseNum; }
+    public void setGroomAccount(String groomAccount) { this.groomAccount = groomAccount; }
+    public void setGroomFintechUseNum(String fintechUseNum) { this.groomFintechUseNum = groomFintechUseNum; }
+
 }

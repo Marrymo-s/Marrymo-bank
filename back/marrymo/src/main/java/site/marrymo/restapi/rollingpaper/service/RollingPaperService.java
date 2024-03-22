@@ -9,6 +9,7 @@ import site.marrymo.restapi.rollingpaper.dto.response.RollingPaperEach;
 import site.marrymo.restapi.rollingpaper.dto.response.RollingPaperGetResponse;
 import site.marrymo.restapi.rollingpaper.entity.RollingPaper;
 import site.marrymo.restapi.rollingpaper.repository.RollingPaperRepository;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -39,9 +40,9 @@ public class RollingPaperService {
         rollingPaperRepository.save(rollingPaper);
     }
 
-    public RollingPaperGetResponse getRollingPaper(Long userSequence) {
+    public RollingPaperGetResponse getRollingPaper(UserDTO userDTO) {
         //사용자 조회
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         List<RollingPaper> letterList = rollingPaperRepository.findByUser(user)
