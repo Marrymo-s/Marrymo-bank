@@ -31,6 +31,7 @@ public class MoBankService {
 
 	@Value("${mo-bank.client_secret}")
 	private String clientSecret;
+
 	private final WebClient moBankWebClient = WebClient.builder().baseUrl("http://3.37.251.197/api/").build();
 
 	public MoBankTokenApiResponse callMoBankTokenApi() {
@@ -68,7 +69,7 @@ public class MoBankService {
 
 		return moBankWebClient
 				.post()
-				.uri("/api/account")
+				.uri("/account")
 				.header("Authorization", moBankToken.getTokenType()+ " " + moBankToken.getAccess_token())
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(moBankAccountRegisterRequestList)
@@ -77,5 +78,16 @@ public class MoBankService {
 				.block();
 	}
 
+	public MoneygiftTransferResponse sendMoney(MoneygiftTransferRequest moneygiftTransferRequest){
+		MoBankTokenApiResponse moBankToken = callMoBankTokenApi();
+		return moBankWebClient.post()
+				.uri("/account/transfer")
+				.header("Authorization", moBankToken.getTokenType() + " " + moBankToken.getAccess_token())
+				.contentType(MediaType.APPLICATION_JSON)
+				.bodyValue(moneygiftTransferRequest)
+				.retrieve()
+				.bodyToMono(MoneygiftTransferResponse.class)
+				.block();
+	}
 
 }

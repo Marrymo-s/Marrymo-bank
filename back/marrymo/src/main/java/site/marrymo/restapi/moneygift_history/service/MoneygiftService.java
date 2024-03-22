@@ -45,10 +45,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MoneygiftService {
 
-    @Value("${mobank.client_name}")
+    @Value("${mo-bank.client_name}")
     String clientName;
 
-    @Value("${mobank.client_account}")
+    @Value("${mo-bank.client_account}")
     String clientAccount;
 
     private final MoBankService moBankService;
@@ -181,14 +181,6 @@ public class MoneygiftService {
                     .receiverAccountNum(userInfoResponse.getBrideAccount())
                     .build();
         }
-
-        return moBankWebClient.post()
-                .uri("/account/transfer")
-                .header("Authorization", moBankToken.getTokenType() + " " + moBankToken.getAccess_token())
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(moneygiftTransferRequest)
-                .retrieve()
-                .bodyToMono(MoneygiftTransferResponse.class)
-                .block();
+        return moBankService.sendMoney(moneygiftTransferRequest);
     }
 }
