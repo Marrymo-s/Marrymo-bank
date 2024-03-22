@@ -3,7 +3,8 @@
 spring :
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/marrymo?useSSL=false&serverTimezone=UTC
+#    url: jdbc:mysql://mysql:3306/marrymo?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/marrymo?useSSL=false&serverTimezone=UTC
     username: root
     password: hat1da2chi3go4
   security:
@@ -64,11 +65,16 @@ spring :
         format_sql: true
 
   # redis 세팅
+#  data:
+#    redis:
+#      port: 6379
+#      host: redis
+#      password: ${SPRING_REDIS_PASSWORD}
+
   data:
     redis:
       port: 6379
-      host: redis
-      password: ${SPRING_REDIS_PASSWORD}
+      host: localhost
 
 # log 설정
 logging:
