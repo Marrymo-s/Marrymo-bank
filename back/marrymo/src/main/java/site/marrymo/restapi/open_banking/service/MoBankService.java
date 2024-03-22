@@ -1,8 +1,12 @@
 package site.marrymo.restapi.open_banking.service;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -12,19 +16,31 @@ import net.minidev.json.JSONObject;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+import site.marrymo.restapi.global.exception.ErrorCode;
+import site.marrymo.restapi.moneygift_history.dto.request.MoBankTransferRequest;
 import site.marrymo.restapi.moneygift_history.dto.request.MoneygiftTransferRequest;
+import site.marrymo.restapi.moneygift_history.dto.response.MoBankTransferResponse;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftTransferResponse;
 import site.marrymo.restapi.open_banking.dto.request.MoBankAccountRegisterRequest;
 import site.marrymo.restapi.open_banking.dto.request.MoBankTokenApiRequest;
 import site.marrymo.restapi.open_banking.dto.response.*;
+import site.marrymo.restapi.user.dto.Who;
+import site.marrymo.restapi.user.entity.User;
+import site.marrymo.restapi.user.exception.UserErrorCode;
+import site.marrymo.restapi.user.exception.UserException;
+import site.marrymo.restapi.user.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 public class MoBankService {
+
+	private final UserRepository userRepository;
 
 	@Value("${mo-bank.client_id}")
 	private String clientId;
@@ -33,7 +49,12 @@ public class MoBankService {
 	private String clientSecret;
 	private final WebClient moBankWebClient = WebClient.builder().baseUrl("http://3.37.251.197/").build();
 
-	public MoBankTokenApiResponse callMoBankTokenApi() {
+    public MoBankService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+
+    public MoBankTokenApiResponse callMoBankTokenApi() {
 
 		MoBankTokenApiRequest tokenApiRequest = MoBankTokenApiRequest.builder()
 			.clientId(clientId)
@@ -50,7 +71,7 @@ public class MoBankService {
 			.block();
 	}
 
-	public HashMap<String,List<MoBankAccountResponse>> registerMoBankAccount(AccountInquiryResponse accountInquiryResponse){
+	public HashMap<String,List<MoBankAccountResponse>> registerMoBankAccount(String userCode, Who who, AccountInquiryResponse accountInquiryResponse){
 		MoBankTokenApiResponse moBankToken = callMoBankTokenApi();
 
 		// accountInqueryResponse -> MoBankAccountRegisterRequest로 변환
@@ -72,20 +93,38 @@ public class MoBankService {
 				.header("Authorization", moBankToken.getTokenType()+ " " + moBankToken.getAccess_token())
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(moBankAccountRegisterRequestList)
-				.retrieve()
-				.bodyToMono(new ParameterizedTypeReference<HashMap<String, List<MoBankAccountResponse>>>() {})
+				.exchangeToMono(response -> {
+					if (response.statusCode().is2xxSuccessful()) {
+						User user=userRepository.findByUserCode(userCode)
+								.orElseThrow(()-> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+						if (who==Who.BRIDE){
+							user.setbrideAccount(moBankAccountRegisterRequestList.get(0).getAccountNum());
+							user.setBrideFintechUseNum(moBankAccountRegisterRequestList.get(0).getFintechUseNum());
+						}
+						else if (who==Who.GROOM){
+							user.setGroomAccount(moBankAccountRegisterRequestList.get(0).getAccountNum());
+							user.setGroomFintechUseNum(moBankAccountRegisterRequestList.get(0).getFintechUseNum());
+						}
+						userRepository.save(user);
+						return response.bodyToMono(new ParameterizedTypeReference<HashMap<String, List<MoBankAccountResponse>>>() {});
+					} else {
+						// 에러 처리 로직
+						return response.createException().flatMap(Mono::error);
+					}
+				})
 				.block();
 	}
 
-	public MoneygiftTransferResponse sendMoney(MoneygiftTransferRequest moneygiftTransferRequest){
+	public MoBankTransferResponse sendMoney(MoBankTransferRequest moBankTransferRequest){
 		MoBankTokenApiResponse moBankToken = callMoBankTokenApi();
 		return moBankWebClient.post()
 				.uri("/account/transfer")
 				.header("Authorization", moBankToken.getTokenType() + " " + moBankToken.getAccess_token())
 				.contentType(MediaType.APPLICATION_JSON)
-				.bodyValue(moneygiftTransferRequest)
+				.bodyValue(moBankTransferRequest)
 				.retrieve()
-				.bodyToMono(MoneygiftTransferResponse.class)
+				.bodyToMono(MoBankTransferResponse.class)
 				.block();
 	}
 
