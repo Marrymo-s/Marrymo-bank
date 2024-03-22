@@ -64,9 +64,9 @@ const commonButtonVariants = {
     },
   },
   colorStyle: {
-    roseGold: {},
-    alertRed: {},
-    lightGray: {},
+    roseGold: vars.colors.roseGold,
+    alertRed: vars.colors.alertRed,
+    lightGray: vars.colors.lightGray,
   },
   filled: {
     true: {},
