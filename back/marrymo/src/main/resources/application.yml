@@ -94,3 +94,5 @@ open-banking:
 mo-bank:
   client_id: ${MOBANK_CLIENT_ID}
   client_secret: ${MOBANK_CLEINT_SECRET}
+  client_name: "메리모"
+  client_account: "3510318212455"
