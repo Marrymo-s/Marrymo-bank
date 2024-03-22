@@ -6,12 +6,18 @@ export interface historyResponse {
 }
 
 export interface moneygifts {
-    moneySequence: number,
+    moneygiftSequence: number,
     userSequence: number,
+    wishItemSequence?: number | null,
     type: string,
     sender: string,
     amount: number,
-    relationship: string,
-    name: string,
+    relationship?: string | null,
+    wishItemName?: string | null,
     guestType: string
+}
+
+export enum MoneygiftType {
+    CASH = '축의금',
+    ITEM = '펀딩',
 }
