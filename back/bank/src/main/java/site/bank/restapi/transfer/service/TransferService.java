@@ -11,6 +11,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.web.bind.annotation.RequestBody;
 import site.bank.restapi.transfer.dto.request.AccountCheckRequest;
 import site.bank.restapi.transfer.dto.request.AccountRequest;
 import site.bank.restapi.transfer.dto.request.BalanceUpdateRequest;
@@ -37,7 +38,7 @@ public class TransferService {
         return transferMapper.findAllBankList();
     }
 
-    public List<AccountResponse> registerAccount(List<AccountRequest> accountRequestList){
+    public List<AccountResponse> registerAccount(@RequestBody List<AccountRequest> accountRequestList){
 
         List<AccountResponse> registeredAccountList = new ArrayList<>();
         for (AccountRequest accountRequest:accountRequestList){
