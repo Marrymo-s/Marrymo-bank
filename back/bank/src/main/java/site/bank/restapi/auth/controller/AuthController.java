@@ -24,10 +24,7 @@ public class AuthController {
 
 	@PostMapping("/token")
 	public ResponseEntity<?> authenticateClient(@RequestBody ClientRequest client, HttpServletRequest request) {
-		log.debug("Authenticate Start...");
-		log.debug("request ip = {} ", request.getRemoteAddr());
 		TokenDto token = authService.authenticateClient(client);
-		log.debug("Client is authenticated...");
 		return ResponseEntity.ok(token.toResponse());
 	}
 }
