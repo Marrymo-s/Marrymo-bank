@@ -54,9 +54,9 @@ public class TransferService {
             }
             // 매리모 은행에 등록되지 않은 계좌번호인 경우 은행 DB에 저장 후 반환
             else{
-                long accountSeq= transferMapper.insertAccount(accountRequest);
+                transferMapper.insertAccount(accountRequest);
                 log.info("accountSeq : {} ", registeredAccountList.size());
-                accountResponse=transferMapper.findAccountByAccountSeq(accountSeq);
+                accountResponse=transferMapper.findAccountByAccountSeq(accountRequest.getAccountSequence());
             }
             registeredAccountList.add(accountResponse);
         }
