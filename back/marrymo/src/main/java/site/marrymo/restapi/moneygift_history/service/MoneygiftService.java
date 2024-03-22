@@ -25,6 +25,7 @@ import site.marrymo.restapi.moneygift_history.repository.MoneygiftRepository;
 import site.marrymo.restapi.open_banking.dto.response.MoBankAccountResponse;
 import site.marrymo.restapi.open_banking.dto.response.MoBankTokenApiResponse;
 import site.marrymo.restapi.open_banking.service.MoBankService;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.dto.Who;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.dto.response.UserInfoResponse;
@@ -57,7 +58,9 @@ public class MoneygiftService {
     private final CardRepository cardRepository;
     private final WebClient moBankWebClient = WebClient.builder().baseUrl("http://3.37.251.197/api/").build();
 
-    public MoneygiftGetResponse getMoneygiftInfo(Long userSequence) {
+    public MoneygiftGetResponse getMoneygiftInfo(UserDTO userDTO) {
+        Long userSequence = userDTO.getUserSequence();
+
         User user = userRepository.findByUserSequence(userSequence)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 

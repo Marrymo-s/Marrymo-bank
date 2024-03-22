@@ -12,6 +12,7 @@ import site.marrymo.restapi.card.repository.CardRepository;
 import site.marrymo.restapi.global.config.AwsS3Config;
 import site.marrymo.restapi.global.service.awsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.dto.Who;
 import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
@@ -60,9 +61,9 @@ public class UserService {
         return uniqueUserCode;
     }
 
-    public void registUserInfo(Long userSequence, UserRegistRequest userRegistRequest) {
+    public void registUserInfo(UserDTO userDTO, UserRegistRequest userRegistRequest) {
         //user table에 email 정보 저장
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         user.setIsRequired(true);
@@ -112,9 +113,9 @@ public class UserService {
         }
     }
 
-    public void modifyUserInfo(Long userSequence, UserModifyRequest userModifyRequest){
+    public void modifyUserInfo(UserDTO userDTO, UserModifyRequest userModifyRequest){
         //user table에 email 정보 저장
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
 
@@ -163,8 +164,8 @@ public class UserService {
         }
     }
 
-    public UserGetResponse getUserInfo(Long userSequence){
-        User user = userRepository.findByUserSequence(userSequence)
+    public UserGetResponse getUserInfo(UserDTO userDTO){
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Card card = cardRepository.findByUser(user)
@@ -184,8 +185,8 @@ public class UserService {
         return UserGetResponse.toDto(user, card, imgUrlList);
     }
 
-    public void deleteUser(Long userSequence){
-        User user = userRepository.findByUserSequence(userSequence)
+    public void deleteUser(UserDTO userDTO){
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         if(user.getDeletedAt() != null)
@@ -198,8 +199,8 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public InvitationIssueResponse invitationIssued(Long userSequence, InvitationIssueRequest invitationIssueRequest){
-        User user = userRepository.findByUserSequence(userSequence)
+    public InvitationIssueResponse invitationIssued(UserDTO userDTO, InvitationIssueRequest invitationIssueRequest){
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Card card = user.getCard();
@@ -213,8 +214,8 @@ public class UserService {
         return InvitationIssueResponse.toDto(card.getInvitationUrl(), invitationIssueRequest.getIsIssued());
     }
 
-    public void registWho(Long userSequence, WhoRegistRequest whoRegistRequest){
-        User user = userRepository.findByUserSequence(userSequence)
+    public void registWho(UserDTO userDTO, WhoRegistRequest whoRegistRequest){
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Who who = null;
@@ -233,10 +234,10 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public VerifyAccountResponse verifyAccount(Long userSequence){
+    public VerifyAccountResponse verifyAccount(UserDTO userDTO){
         Boolean isVerify = false;
 
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         if(user.getWho() == Who.GROOM){
@@ -258,16 +259,16 @@ public class UserService {
         return VerifyAccountResponse.builder().isVerify(isVerify).build();
     }
 
-    public void patchAgreement(Long userSequence, PrivacyRegistRequest privacyRegistRequest) {
-        User user = userRepository.findByUserSequence(userSequence)
+    public void patchAgreement(UserDTO userDTO, PrivacyRegistRequest privacyRegistRequest) {
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         user.setIsAgreement(privacyRegistRequest.getIsAgreement());
         userRepository.save(user);
     }
 
-    public PermissionResponse getUserPermission(Long userSequence) {
-        User user = userRepository.findByUserSequence(userSequence)
+    public PermissionResponse getUserPermission(UserDTO userDTO) {
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Boolean isAgreement = user.isAgreement();
