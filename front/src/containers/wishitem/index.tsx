@@ -43,7 +43,7 @@ const WishItem = () => {
     console.log(item.productId)
   }
 
-  //TODO 위에 네이버 검색하는거 Search로 옮기는 걸로 코드 수정하기
+  // TODO 위에 네이버 검색하는거 Search로 옮기는 걸로 코드 수정하기
   return (
     <>
       <Header title="위시리스트" hasPrevious/>
