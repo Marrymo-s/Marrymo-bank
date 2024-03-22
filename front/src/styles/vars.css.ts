@@ -1,7 +1,9 @@
-import { createGlobalTheme } from '@vanilla-extract/css';
+import {createGlobalTheme} from '@vanilla-extract/css';
+
 export const vars = createGlobalTheme(':root', {
   space: {
     none: '0',
+    '0.5x': '4px',
     '1x': '8px',
     '1.5x': '12px',
     '2x': '16px',
@@ -40,6 +42,7 @@ export const vars = createGlobalTheme(':root', {
     '1x': '8px',
     '1.5x': '12px', // extra small
     '2x': '16px', // small
+    '2.5x': '20px',
     '3x': '24px', // medium
     '4x': '32px',
     '5x': '40px',
