@@ -118,6 +118,7 @@ public class MoneygiftService {
                                 .sender(moneygift.getSender())
                                 .amount(amount)
                                 .relationship(moneygift.getRelationship())
+                                .wishItemName(moneygift.getWishItem().getName())
                                 .guestType(guestTypeToStr)
                                 .build()
                 );
