@@ -20,9 +20,11 @@ public class JWTProvider {
     @Value("${jwt.salt}")
     private String salt;
 
+    //access token 만료 기한 1 hour
     @Value("${jwt.access-token.expiretime}")
     private long accessTokenExpireTime;
 
+    //refresh token 만료 기한 30 days
     @Value("${jwt.refresh-token.expiretime}")
     private long refreshTokenExpireTime;
 
