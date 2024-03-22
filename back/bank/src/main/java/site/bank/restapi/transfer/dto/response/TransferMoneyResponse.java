@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransferMoneyResponse {
-    String fintechUseNum;
     int tranAmt;
     String senderName;
     String receiverName;
