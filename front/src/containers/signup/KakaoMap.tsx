@@ -12,12 +12,12 @@ const KakaoMap = ({searchKeyword}: keywordProps) => {
 
     console.log(searchKeyword);
     useEffect(() => {
-        console.log('안녕')
+        // console.log('안녕')
         // console.log(window.kakao)
         if (window.kakao) {
-            console.log('안녕2')
+            // console.log('안녕2')
             window.kakao.maps.load(() => {
-                console.log('kakaomaps 로드')
+                // console.log('kakaomaps 로드')
                 // id가 'map'인 요소에 지도를 생성
                 const mapContainer = document.getElementById("map"),
                     mapOption = {

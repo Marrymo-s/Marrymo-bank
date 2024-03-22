@@ -6,6 +6,8 @@ import axios from "axios";
 
 
 const HistoryList = () => {
+    // const [historyData, sethistoryData] = useState<HistoryData[]
+
     const getHistory = async () => {
         try {
             const response = await axios.get('/moneygift')
@@ -19,6 +21,7 @@ const HistoryList = () => {
         <>
             <div className={historyListContainer}>
                 아리소
+
             </div>
         </>
     )
