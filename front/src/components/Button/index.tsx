@@ -13,8 +13,8 @@ interface ButtonProps {
   disabled?: boolean;
   onClick?: () => void;
   type: 'submit' | 'reset' | 'button';
-  size?: string;
-  colorStyle?: string;
+  size?: 'small' | 'large';
+  colorStyle?: 'roseGold' | 'lightGray' | 'alertRed';
   filled?: boolean;
 }
 
@@ -24,7 +24,7 @@ const Button = ({
                   disabled,
                   onClick,
                   type,
-                  size,
+                  size = 'large',
                   colorStyle,
                   filled,
                 }: ButtonProps) => {

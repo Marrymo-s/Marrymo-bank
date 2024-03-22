@@ -1,13 +1,13 @@
 'use client';
 
-import Checkbox from '@/components/Checkbox';
 
 const Pangpang = () => {
   return (
-    <div>
-      <Checkbox checked={false}>위 약관에 동의~</Checkbox>
-
-    </div>
+    <>
+      <main>
+        <div>모달 창 띄워보자</div>
+      </main>
+    </>
   )
 }
 
