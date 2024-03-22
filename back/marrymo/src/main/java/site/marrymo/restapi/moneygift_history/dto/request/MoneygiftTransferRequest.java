@@ -9,7 +9,7 @@ import site.marrymo.restapi.user.dto.Who;
 @Data
 @Builder
 public class MoneygiftTransferRequest {
-
+    Long userSequence;
     String userCode;
     Long wishItemSequence;          // 위시리스트 고유번호
     GuestType guestType;            // 누구에게 송금할건지
