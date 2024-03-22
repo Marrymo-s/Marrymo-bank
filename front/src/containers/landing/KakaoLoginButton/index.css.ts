@@ -1,6 +1,6 @@
-import { style } from '@vanilla-extract/css';
+import {style} from '@vanilla-extract/css';
 
-import { vars } from '@/styles/vars.css';
+import {vars} from '@/styles/vars.css';
 
 export const kakaoLoginImage = style({
   position: 'sticky',
@@ -8,7 +8,7 @@ export const kakaoLoginImage = style({
   maxWidth: 400,
   height: 'auto',
   top: '90svh',
-  marginTop: '10vh',
-  marginBottom: '5vh',
+  marginTop: vars.space['5x'],
+  marginBottom: vars.space['5x'],
   cursor: 'pointer',
 });

@@ -28,12 +28,14 @@ const Button = ({
                   colorStyle,
                   filled,
                 }: ButtonProps) => {
+  const actualColorStyle = disabled ? 'lightGray' : colorStyle || 'roseGold';
   if (link) {
     return (
       <div>
         <Link
           href={link}
-          className={commonButton({size, colorStyle, filled})}
+          className={commonButton({size, colorStyle: actualColorStyle, filled, disabled})}
+          onClick={onClick}
         >
           {children}
         </Link>
@@ -45,7 +47,7 @@ const Button = ({
     <div className={ButtonWrapper[size]}>
       <button type={type}
               disabled={disabled}
-              className={commonButton({size, colorStyle, filled})}
+              className={commonButton({size, colorStyle: actualColorStyle, filled, disabled})}
               onClick={onClick}>
         {children}
       </button>

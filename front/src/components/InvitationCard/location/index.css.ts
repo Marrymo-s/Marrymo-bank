@@ -8,6 +8,19 @@ export const locationWrapper = style([
   {
     textAlign: 'center',
     justifyContent: 'center',
-    paddingBottom: '20px',
+    paddingTop: '80px',
   }
 ]);
+
+export const locationFirstText = style({
+  fontSize: vars.fontSize['2x'],
+  paddingBottom: '10px',
+
+})
+
+export const locationRawText = style({
+  fontSize: vars.fontSize['2.5x'],
+  fontWeight: vars.fontWeight.accent,
+  paddingBottom: '10px',
+
+})
