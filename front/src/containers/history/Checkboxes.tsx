@@ -9,11 +9,12 @@ const Checkboxes = () => {
 
     const handleChange = (value: string) => {
         setSelected(value);
+        console.log(value);
     }
 
     return (
         <>
-            <div>
+            <div className={styles.checkboxesContainer}>
                 <Checkbox checked={selected === 'all'} onChange={() => handleChange('all')}>전체</Checkbox>
                 <Checkbox checked={selected === 'wish'} onChange={() => handleChange('wish')}>위시리스트 펀딩</Checkbox>
                 <Checkbox checked={selected === 'moneygift'} onChange={() => handleChange('moneygift')}>축의금</Checkbox>

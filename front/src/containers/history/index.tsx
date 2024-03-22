@@ -8,7 +8,7 @@ const History = () => {
       <Header title='축의금 내역' hasPrevious/>
       <main className={styles.historyWrapper}>
         <div>
-            <Checkboxes
+            <Checkboxes />
         </div>
       </main>
     </>

@@ -2,6 +2,13 @@ import {style} from "@vanilla-extract/css";
 import {contentWrapper} from "@/styles/wrapper.css";
 import {flex} from "@/styles/common.css";
 
+export const checkboxesContainer = style([
+    flex({
+      justify: 'center',
+      align: 'center',
+  })
+])
+
 export const historyWrapper = style([
   contentWrapper({contentArea: 'header'}),
   flex({
