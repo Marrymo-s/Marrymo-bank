@@ -18,6 +18,7 @@ public class UserGetResponse {
     private String groomContact;
     private String brideContact;
     private LocalDate weddingDate;
+    private String weddingDay;
     private LocalTime weddingTime;
     private String location;
     private String email;
@@ -36,6 +37,7 @@ public class UserGetResponse {
                 .groomContact(card.getGroomContact())
                 .brideContact(card.getBrideContact())
                 .weddingDate(card.getWeddingDate())
+                .weddingDay(card.getWeddingDay())
                 .weddingTime(card.getWeddingTime())
                 .location(card.getLocation())
                 .email(user.getEmail())
