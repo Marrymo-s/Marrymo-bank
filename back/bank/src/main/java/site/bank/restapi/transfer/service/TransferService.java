@@ -110,14 +110,11 @@ public class TransferService {
 
         try{
             // 돈을 송금한다.
-            BalanceUpdateRequest senderRequest=new BalanceUpdateRequest(transferMoneyRequest.getSenderAccountNum(),transferMoneyRequest.getTranAmt()*(-1));
             BalanceUpdateRequest receiverRequest=new BalanceUpdateRequest(transferMoneyRequest.getReceiverAccountNum(), transferMoneyRequest.getTranAmt());
-            transferMapper.updateBalancee(senderRequest);
             transferMapper.updateBalancee(receiverRequest);
         }catch(Exception e){
             throw new TransferException(TransferErrorCode.TRANSFER_SEND_FAILED);
         }
-
         try{
             // 거래 내역을 저장한다.
             transferMapper.insertTransferHistory(transferMoneyRequest);
