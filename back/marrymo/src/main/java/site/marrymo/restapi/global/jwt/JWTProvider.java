@@ -4,18 +4,25 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
+import site.marrymo.restapi.user.entity.User;
+import site.marrymo.restapi.user.exception.UserErrorCode;
+import site.marrymo.restapi.user.exception.UserException;
+import site.marrymo.restapi.user.repository.UserRepository;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JWTProvider {
     @Value("${jwt.salt}")
     private String salt;
@@ -30,6 +37,8 @@ public class JWTProvider {
 
     private long accessTokenExpiresIn;
     private long refreshTokenExpiresIn;
+
+    private final UserRepository userRepository;
 
     public TokenDTO createAccessToken(String userCode){
         String token = create(userCode, "access-token", accessTokenExpireTime);
@@ -122,6 +131,84 @@ public class JWTProvider {
 
 
         return (String)value.get("userCode");
+    }
+
+    //토큰 유효성 검증
+    //1. 두 개의 토큰이 모두 만료 되면 -> 재 로그인 에러 메시지를 띄우고, refresh와 access 모두 새로 발급
+    //2. access 토큰이 만료되고, refresh 토큰은 유효 하면 -> refresh 토큰 검증하고 aceess 토큰 발급
+    //3. access 토큰은 유효하고, refresh 토큰은 만료된 경우 -> access 토큰 검증하고 refresh 토큰 발급
+
+    //토큰 만료 시간 조회
+    public Date getExpirationDateFromToken(String token){
+        Date expiration = null;
+        Claims claims = null;
+
+        try{
+            claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(token).getBody();
+            expiration = claims.getExpiration();
+        } catch(Exception e){
+            log.error("Unhandled exception occurred while invoke getExpirationDateFromToken()");
+        }
+
+        return expiration;
+    }
+
+    //토큰 만료 여부 검증
+    public Boolean isTokenExpired(String token){
+        Date expiration = getExpirationDateFromToken(token);
+        return expiration.before(new Date());
+    }
+
+    //토큰으로 부터 받아온 userCode가 marrymo db에 존재하는가?
+    public boolean isExistUserCodeInMarrymo(String token){
+        String userCode = getUserCode(token);
+
+        if(userRepository.findByUserCode(userCode).isPresent())
+            return true;
+        else
+            return false;
+    }
+
+    //토큰이 유효한가
+    public boolean isValidateToken(String token){
+        //토큰이 유효기간이 남아 있고
+        //메리모 user table 안에 해당하는 usercode가 있는지 확인
+        if(isTokenExpired(token) && isExistUserCodeInMarrymo(token)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    //
+    public Map<String, Object> reIssueToken(String accessToken, String refreshToken, String userCode){
+        Map<String, Object> tokens = new HashMap<>();
+
+        // 두 개 토큰이 모두 유효하지 않은 경우
+        if(!isValidateToken(accessToken) && !isValidateToken(refreshToken)){
+            TokenDTO accessTokenDTO = createAccessToken(userCode);
+            TokenDTO refreshTokenDTO = createRefreshToken(userCode);
+
+            tokens.put("accessToken", accessTokenDTO);
+            tokens.put("refreshToken", refreshTokenDTO);
+        }
+        // refresh 토큰만 만료 된 경우
+        // access 토큰만 새로 발급
+        else if(isValidateToken(accessToken) && !isValidateToken(refreshToken)){
+            TokenDTO accessTokenDTO = createAccessToken(userCode);
+
+            tokens.put("accessToken", accessTokenDTO);
+        }
+        // access 토큰만 만료 된 경우
+        // refresh 토큰만 새로 발급
+        else if(!isValidateToken(accessToken) && isValidateToken(refreshToken)){
+            TokenDTO refreshTokenDTO = createRefreshToken(userCode);
+
+            tokens.put("refreshToken", refreshTokenDTO);
+        }
+
+        return tokens;
     }
 }
 
