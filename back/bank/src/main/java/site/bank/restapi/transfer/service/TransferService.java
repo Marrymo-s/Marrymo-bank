@@ -49,11 +49,13 @@ public class TransferService {
             // 기존에 저장된 계좌 정보를 반환
             if (accountCnt==1){
                 long accountSeq = transferMapper.findAccountByAccountNum(accountRequest.getAccountNum());
+                log.info("accountSeq : {} ", registeredAccountList.size());
                 accountResponse = transferMapper.findAccountByAccountSeq(accountSeq);
             }
             // 매리모 은행에 등록되지 않은 계좌번호인 경우 은행 DB에 저장 후 반환
             else{
                 long accountSeq= transferMapper.insertAccount(accountRequest);
+                log.info("accountSeq : {} ", registeredAccountList.size());
                 accountResponse=transferMapper.findAccountByAccountSeq(accountSeq);
             }
             registeredAccountList.add(accountResponse);
