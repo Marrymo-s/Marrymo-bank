@@ -3,7 +3,7 @@
 spring :
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/marrymo?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://marrymo.site:3306/marrymo?useSSL=false&serverTimezone=UTC
     username: root
     password: hat1da2chi3go4
   security:
@@ -93,5 +93,5 @@ open-banking:
 mo-bank:
   client_id: ${MOBANK_CLIENT_ID}
   client_secret: ${MOBANK_CLEINT_SECRET}
-  client_name: "메리모"
-  client_account: "3510318212455"
+  client_name: ${MOBANK_CLIENT_NAME}
+  client_account: ${MOBANK_CLIENT_ACCOUNT}
