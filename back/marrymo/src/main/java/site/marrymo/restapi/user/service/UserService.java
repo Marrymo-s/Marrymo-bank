@@ -13,11 +13,9 @@ import site.marrymo.restapi.global.config.AwsS3Config;
 import site.marrymo.restapi.global.service.awsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.dto.Who;
-import site.marrymo.restapi.user.dto.request.InvitationIssueRequest;
-import site.marrymo.restapi.user.dto.request.UserModifyRequest;
-import site.marrymo.restapi.user.dto.request.UserRegistRequest;
-import site.marrymo.restapi.user.dto.request.WhoRegistRequest;
+import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
+import site.marrymo.restapi.user.dto.response.PermissionResponse;
 import site.marrymo.restapi.user.dto.response.UserGetResponse;
 import site.marrymo.restapi.user.dto.response.VerifyAccountResponse;
 import site.marrymo.restapi.user.entity.User;
@@ -67,6 +65,7 @@ public class UserService {
         User user = userRepository.findByUserSequence(userSequence)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
+        user.setIsRequired(true);
 
         user.modifyUserEmail(userRegistRequest.getEmail());
         userRepository.save(user);
@@ -80,6 +79,7 @@ public class UserService {
                 .brideContact(userRegistRequest.getBrideContact())
                 .weddingDate(LocalDate.parse(userRegistRequest.getWeddingDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .weddingTime(LocalTime.parse(userRegistRequest.getWeddingTime(), DateTimeFormatter.ofPattern("HH:mm:ss")))
+                .weddingDay(userRegistRequest.getWeddingDay())
                 .invitationUrl("https://marrymo.site/"+user.getUserCode())
                 .location(userRegistRequest.getLocation())
                 .groomFather(userRegistRequest.getGroomFather())
@@ -131,6 +131,7 @@ public class UserService {
         card.modifyBrideContact(userModifyRequest.getBrideContact());
         card.modifyWeddingDate(LocalDate.parse(userModifyRequest.getWeddingDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         card.modifyWeddingTime(LocalTime.parse(userModifyRequest.getWeddingTime(), DateTimeFormatter.ofPattern("HH:mm:ss")));
+        card.modifyWeddingDay(userModifyRequest.getWeddingDay());
         card.modifyLocation(userModifyRequest.getLocation());
         card.modifyGreeting(userModifyRequest.getGreeting());
         card.modifyGroomFather(userModifyRequest.getGroomFather());
@@ -255,5 +256,26 @@ public class UserService {
         }
 
         return VerifyAccountResponse.builder().isVerify(isVerify).build();
+    }
+
+    public void patchAgreement(Long userSequence, PrivacyRegistRequest privacyRegistRequest) {
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        user.setIsAgreement(privacyRegistRequest.getIsAgreement());
+        userRepository.save(user);
+    }
+
+    public PermissionResponse getUserPermission(Long userSequence) {
+        User user = userRepository.findByUserSequence(userSequence)
+                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        Boolean isAgreement = user.isAgreement();
+        Boolean isRequired = user.isRequired();
+
+        return PermissionResponse.builder()
+                .isAgreement(isAgreement)
+                .isRequired(isRequired)
+                .build();
     }
 }
