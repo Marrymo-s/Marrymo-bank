@@ -14,9 +14,6 @@ public class TransferMoneyRequest {
 
     long accountSequence;
 
-    @NotEmpty(message = "핀테크 번호를 입력해야 합니다.")
-    String fintechUseNum;
-
     @NotEmpty(message = "거래 금액을 입력해야 합니다.")
     int tranAmt;
 
