@@ -31,7 +31,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private final JWTProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
-    private final String CALLBACK_URL = "http://localhost:8080/auth/callback";
+    private final String CALLBACK_URL = "https://marrymo.site/auth/callback";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

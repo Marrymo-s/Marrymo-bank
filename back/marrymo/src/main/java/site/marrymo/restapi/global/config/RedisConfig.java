@@ -18,8 +18,8 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int port;
 
-//    @Value("${spring.data.redis.password}")
-//    private String password;
+    @Value("${spring.data.redis.password}")
+    private String password;
 
     //TCP 통신
     @Bean
@@ -27,7 +27,7 @@ public class RedisConfig {
         RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration();
         redisConfiguration.setHostName(host);
         redisConfiguration.setPort(port);
-//        redisConfiguration.setPassword(password);
+        redisConfiguration.setPassword(password);
         return new LettuceConnectionFactory(redisConfiguration);
     }
 
