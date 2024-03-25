@@ -18,13 +18,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Slf4j
 public class RedisConfig {
 
-	@Value("${spring.data.redis.host}")
+	@Value("redis")
 	private String host;
 
-	@Value("${spring.data.redis.port}")
+	@Value("6379")
 	private int port;
 
-	@Value("${spring.data.redis.password}")
+	@Value("leon0115")
 	private String password;
 
 	//TCP 통신
