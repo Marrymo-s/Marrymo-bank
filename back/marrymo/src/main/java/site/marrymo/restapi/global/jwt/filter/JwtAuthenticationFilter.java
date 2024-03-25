@@ -67,6 +67,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             }
         }
 
+        // 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
+        // exception 터뜨림
+        jwtProvider.validateLogoutToken(refreshToken);
+
         Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
 
         //만료된 토큰이 존재한다면
