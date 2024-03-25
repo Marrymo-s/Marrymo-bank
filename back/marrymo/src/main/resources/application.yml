@@ -111,9 +111,9 @@ jwt:
     expiretime: ${JWT_REFRESH_TOKEN_EXPIRETIME}
 
 # Swagger
-#springdoc:
-#  swagger-ui:
-#    path: /api/swagger-ui
-#    use-root-path: true
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui
+    use-root-path: true
 
 
