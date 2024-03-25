@@ -1,6 +1,8 @@
 package site.marrymo.restapi.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import site.marrymo.restapi.user.entity.User;
 
 import java.util.Optional;
