@@ -23,12 +23,17 @@ import site.marrymo.restapi.global.auth.security.service.CustomOAuth2UserService
 public class SecurityConfig {
 	private final CustomOAuth2UserService customOAuth2UserService;
 	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+	private static final String[] swaggerURL = {
+		"/api/**", "/graphiql", "/graphql",
+		"/swagger-ui/**", "/api-docs", "/swagger-ui.html",
+		"/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html"
+	};
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> web.ignoring()
 			.requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // 정적 리소스들
-			.requestMatchers("/swagger-ui/**", "/v3/api-docs/**");
+			.requestMatchers(swaggerURL);
 	}
 
 	@Bean
