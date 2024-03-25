@@ -5,9 +5,12 @@ import {historyListContainer} from "@/containers/history/index.css";
 import axios from "axios";
 
 //type
-import {moneygifts, MoneygiftType} from "@/types/history";
+import {moneygifts} from "@/types/history";
+import {HistoryListProps} from "@/containers/history/index";
 
-const HistoryList = () => {
+type SelectedProp = Pick<HistoryListProps, 'selected'>
+
+const HistoryList = ({selected} : SelectedProp) => {
     const [historyData, setHistoryData] = useState<moneygifts[]>([
                 {
                     "moneygiftSequence": 3,
@@ -74,6 +77,14 @@ const HistoryList = () => {
     //     }
     // }
 
+    // 선택된 타입에 따라 데이터를 필터링하는 로직 추가
+    const filteredData = historyData.filter(history => {
+        if (selected === 'all') return true; // 모든 데이터 표시
+        if (selected === 'wish' && history.type === 'ITEM') return true; // 위시리스트 펀딩만 표시
+        if (selected === 'moneygift' && history.type === 'CASH') return true; // 축의금만 표시
+        return false; // 그 외의 경우 데이터를 표시하지 않음
+    })
+
     return (
         <>
             <div className={historyListContainer}>
@@ -88,11 +99,11 @@ const HistoryList = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {historyData?.map((history,  index) => (
+                    {filteredData?.map((history,  index) => (
                         <tr key={index}>
                             <td>{history.sender}</td>
                             <td>{history.amount}</td>
-                            <td>{MoneygiftType[history.type as keyof typeof MoneygiftType]}</td>
+                            <td>{history.type}</td>
                             <td>{history.guestType}</td>
                             <td>{history.relationship}</td>
                         </tr>

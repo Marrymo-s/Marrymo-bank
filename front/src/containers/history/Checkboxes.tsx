@@ -3,11 +3,10 @@
 import React, { useState } from 'react'
 import * as styles from './index.css'
 import Checkbox from '@/components/Checkbox'
+import {HistoryListProps} from "@/containers/history/index";
 
-const Checkboxes = () => {
-    const [selected, setSelected] = useState<string>('all')
-
-    const handleChange = (value: string) => {
+const Checkboxes = ({selected, setSelected}: HistoryListProps) => {
+    const handleChange = (value: 'all' | 'wish' | 'moneygift') => {
         setSelected(value);
         console.log(value);
     }
