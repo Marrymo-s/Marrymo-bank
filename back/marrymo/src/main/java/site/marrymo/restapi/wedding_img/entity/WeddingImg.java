@@ -22,8 +22,9 @@ public class WeddingImg extends BaseTimeEntity {
     @Column(name = "img_sequence")
     private Long imgSequence;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name="card_sequence")
+    @JoinColumn(name="card_sequence", nullable = false)
     private Card card;
 
     @NotNull
