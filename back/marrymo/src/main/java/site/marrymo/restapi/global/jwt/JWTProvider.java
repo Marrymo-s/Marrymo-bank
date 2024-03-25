@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
 import site.marrymo.restapi.global.jwt.repository.BlackListRepository;
+import site.marrymo.restapi.global.jwt.repository.RefreshTokenRepository;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -38,6 +39,7 @@ public class JWTProvider {
 
     private final UserRepository userRepository;
     private final BlackListRepository blackListRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public TokenDTO createAccessToken(String userCode){
         String token = create(userCode, "access-token", accessTokenExpireTime);
@@ -167,10 +169,21 @@ public class JWTProvider {
             return false;
     }
 
+    //refresh token이 redis에 존재하는가?
+    public boolean isExistRefreshTokenInRedis(String refreshToken){
+        if(refreshTokenRepository.findByRefreshToken(refreshToken).isPresent()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
     // 이미 로그아웃 돼서 없어진 refresh token을 가지고 접근 할 경우에 대비하여
     // black_list 테이블에서 해당 refresh token이 있는지 확인
     public void validateLogoutToken(String refreshToken) {
-        if (blackListRepository.findByBlacklistSequence(refreshToken).isPresent()) {
+        if (blackListRepository.findByInvalidRefreshToken(refreshToken).isPresent()) {
             throw new UnAuthorizedException("이미 로그아웃 된 사용자입니다.");
         }
     }
@@ -200,18 +213,26 @@ public class JWTProvider {
             tokens.put("refreshToken", refreshTokenDTO);
         }
         // refresh 토큰만 만료 된 경우
-        // access 토큰만 새로 발급
+        // refresh 토큰만 새로 발급
         else if(isValidateToken(accessToken) && !isValidateToken(refreshToken)){
             TokenDTO refreshTokenDTO = createRefreshToken(userCode);
 
             tokens.put("refreshToken", refreshTokenDTO);
         }
         // access 토큰만 만료 된 경우
-        // refresh 토큰만 새로 발급
+        // acess 토큰을 발급하고
+        // refresh 토큰이 redis에 있는지 확인
+        // 없다면 refresh token도 같이 발급
         else if(!isValidateToken(accessToken) && isValidateToken(refreshToken)){
             TokenDTO accessTokenDTO = createAccessToken(userCode);
 
             tokens.put("accessToken", accessTokenDTO);
+
+            if(!isExistRefreshTokenInRedis(refreshToken)){
+                TokenDTO refreshTokenDTO = createRefreshToken(userCode);
+
+                tokens.put("refreshToken", refreshTokenDTO);
+            }
         }
 
         return tokens;

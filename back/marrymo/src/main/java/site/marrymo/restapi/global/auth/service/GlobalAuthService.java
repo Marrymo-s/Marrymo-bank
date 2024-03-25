@@ -12,7 +12,7 @@ import site.marrymo.restapi.global.jwt.repository.BlackListRepository;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class GlobalAuthService {
     private final BlackListRepository blackListRepository;
 
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){

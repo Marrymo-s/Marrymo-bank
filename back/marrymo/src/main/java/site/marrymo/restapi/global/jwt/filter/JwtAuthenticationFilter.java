@@ -9,15 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
-import site.marrymo.restapi.global.jwt.dto.VerifyToken;
+import site.marrymo.restapi.global.jwt.entity.RefreshToken;
+import site.marrymo.restapi.global.jwt.repository.RefreshTokenRepository;
+
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 @Slf4j
@@ -25,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
     private final JWTProvider jwtProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * [요청 시 거치는 필터 로직]
@@ -119,10 +120,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             // refreshToken만 재발급
             else if(accessTokenCookie == null && refreshTokenCookie != null){
                 httpServletResponse.addCookie(refreshTokenCookie);
+                refreshTokenRepository.save(RefreshToken.builder().refreshToken(refreshTokenCookie.getValue()).build());
             }
             //accessToken, refreshToken 모두 만료 되었을 시에
             //재로그인 하라는 에러메시지를 보낸다
-            else{
+            else if(accessTokenCookie != null && refreshTokenCookie != null){
                 throw new UnAuthorizedException();
             }
         }
