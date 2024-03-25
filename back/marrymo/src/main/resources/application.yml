@@ -69,7 +69,7 @@ spring:
   # redis settings
   data:
     redis:
-      port: ${SPRING_REDIS_PORT}
+      port: 6379
       host: ${SPRING_REDIS_HOST}
       password: ${SPRING_REDIS_PASSWORD}
 
