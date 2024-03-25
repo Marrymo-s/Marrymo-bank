@@ -9,14 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
+import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
-import site.marrymo.restapi.global.jwt.dto.VerifyToken;
+import site.marrymo.restapi.global.jwt.entity.RefreshToken;
+import site.marrymo.restapi.global.jwt.repository.RefreshTokenRepository;
+
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 @Slf4j
@@ -24,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
     private final JWTProvider jwtProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * [요청 시 거치는 필터 로직]
@@ -66,16 +68,17 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             }
         }
 
+        // 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
+        // exception 터뜨림
+        jwtProvider.validateLogoutToken(refreshToken);
+
         Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
-        Iterator<String> it = tokens.keySet().iterator();
-        while(it.hasNext()){
-            String key = it.next();
-            String value = ((TokenDTO)tokens.get(key)).getToken();
-            System.out.println("key:"+key+" ,value:"+value);
-        }
 
         //만료된 토큰이 존재한다면
         if(tokens != null){
+            Cookie accessTokenCookie = null;
+            Cookie refreshTokenCookie = null;
+
             //access token을 보내줬다면
             //access token이 만료 되었다는 의미
             if(tokens.get("accessToken") != null){
@@ -85,14 +88,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 //발급된 accessToken을 가져온다
                 TokenDTO accessTokenDTO = (TokenDTO) tokens.get("accessToken");
 
-                Cookie accessTokenCookie = new Cookie("accessToken", accessTokenDTO.getToken());
+                accessTokenCookie = new Cookie("accessToken", accessTokenDTO.getToken());
 
                 accessTokenCookie.setMaxAge(60 * 60 * 2);
                 accessTokenCookie.setPath("/");
                 accessTokenCookie.setHttpOnly(true);
                 accessTokenCookie.setSecure(false);
-
-                httpServletResponse.addCookie(accessTokenCookie);
             }
             //refresh token을 보내줬다면
             //refresh token이 만료 되었다는 의미
@@ -102,14 +103,29 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
                 TokenDTO refreshTokenDTO = (TokenDTO) tokens.get("refreshToken");
 
-                Cookie refreshTokenCookie = new Cookie("refreshToken", refreshTokenDTO.getToken());
+                refreshTokenCookie = new Cookie("refreshToken", refreshTokenDTO.getToken());
 
                 refreshTokenCookie.setMaxAge(60 * 24 * 24 * 31);
                 refreshTokenCookie.setPath("/");
                 refreshTokenCookie.setHttpOnly(true);
                 refreshTokenCookie.setSecure(false);
+            }
 
+            // accessToken만 만료 되어서
+            // accessToken만 재발급
+            if(accessTokenCookie != null && refreshTokenCookie == null){
+                httpServletResponse.addCookie(accessTokenCookie);
+            }
+            // refreshToken만 만료 되어서
+            // refreshToken만 재발급
+            else if(accessTokenCookie == null && refreshTokenCookie != null){
                 httpServletResponse.addCookie(refreshTokenCookie);
+                refreshTokenRepository.save(RefreshToken.builder().refreshToken(refreshTokenCookie.getValue()).build());
+            }
+            //accessToken, refreshToken 모두 만료 되었을 시에
+            //재로그인 하라는 에러메시지를 보낸다
+            else if(accessTokenCookie != null && refreshTokenCookie != null){
+                throw new UnAuthorizedException();
             }
         }
 
