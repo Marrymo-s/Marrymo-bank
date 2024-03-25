@@ -2,7 +2,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL}
+    url: jdbc:mysql://localhost:3306/marrymo?useSSL=false&serverTimezone=UTC
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
 
@@ -14,7 +14,7 @@ spring:
           kakao:
             client-id: ${KAKAO_CLIENT_ID}
             client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: ${KAKAO_REDIRECT_URI}
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope: account_email
@@ -70,8 +70,7 @@ spring:
   data:
     redis:
       port: ${SPRING_REDIS_PORT}
-      host: ${SPRING_REDIS_HOST}
-      password: ${SPRING_REDIS_PASSWORD}
+      host: localhost
 
 # log settings
 logging:
