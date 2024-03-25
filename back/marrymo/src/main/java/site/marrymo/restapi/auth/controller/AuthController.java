@@ -38,6 +38,6 @@ public class AuthController {
 
 	@GetMapping("/excel")
 	public void excel(HttpServletResponse response) throws IOException {
-		excelService.getMoneygiftExcel(response);
+		excelService.getMoneygiftExcel("aaaa1111", response);
 	}
 }

@@ -1,6 +1,11 @@
 package site.marrymo.restapi.global.service;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,12 +22,23 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.marrymo.restapi.moneygift_history.dto.GuestType;
+import site.marrymo.restapi.moneygift_history.dto.Type;
+import site.marrymo.restapi.moneygift_history.dto.response.MoneyInfo;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftGetResponse;
 import site.marrymo.restapi.moneygift_history.service.MoneygiftService;
 import site.marrymo.restapi.user.entity.User;
+import site.marrymo.restapi.user.exception.UserErrorCode;
+import site.marrymo.restapi.user.exception.UserException;
+import site.marrymo.restapi.user.repository.UserRepository;
 import site.marrymo.restapi.user.service.UserService;
+import site.marrymo.restapi.wishitem.dto.response.WishItemDetailResponse;
+import site.marrymo.restapi.wishitem.service.WishItemService;
 
 @Slf4j
 @Service
@@ -31,27 +47,21 @@ import site.marrymo.restapi.user.service.UserService;
 public class ExcelService {
 
 	private final MoneygiftService moneygiftService;
+	private final WishItemService wishItemService;
+	private final UserRepository userRepository;
 
 	//	public void getMoneygiftExcel(User user, HttpServletResponse res) throws IOException {
-	public void getMoneygiftExcel(HttpServletResponse res) throws IOException {
+	public void getMoneygiftExcel(String userCode, HttpServletResponse res) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 
-		User user = User.builder()
-			.isBrideOnce(true)
-			.isGroomOnce(true)
-			.build();
-		// 시트를 생성할지 여부를 결정하기 위한 User 객체의 bride와 groom 값 검사
-		if (user.getIsBrideOnce()) {
-			// 신부를 위한 시트 생성
-			createSheetForUser(workbook, "신부 축의금 내역", user);
-		}
+		//	createSheetForUser(workbook, "신부 축의금 내역", user);
+		createSheetForUser(workbook, "신부 축의금 내역", userCode);
+		createSheetForUser(workbook, "신랑 축의금 내역", userCode);
+		//	createSheetForUser(workbook, "신랑 축의금 내역", user);
 
-		if (user.getIsGroomOnce()) {
-			// 신랑을 위한 시트 생성
-			createSheetForUser(workbook, "신랑 축의금 내역", user);
-		}
 		// 파일 다운로드 로직
-		String fileName = "moneygift_sheet_" + user.getUserCode() + "_by_marrymo";
+		//		String fileName = "moneygift_sheet_" + user.getUserCode() + "_by_marrymo";
+		String fileName = "moneygift_sheet_" + userCode + "_by_marrymo";
 		res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		res.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + ".xlsx\"");
 		try (ServletOutputStream servletOutputStream = res.getOutputStream()) {
@@ -61,14 +71,17 @@ public class ExcelService {
 		}
 	}
 
-	private void createSheetForUser(Workbook workbook, String sheetName, User user) {
+	//	private void createSheetForUser(Workbook workbook, String sheetName, User user) {
+	private void createSheetForUser(Workbook workbook, String sheetName, String userCode) {
+		User user = userRepository.findByUserCode(userCode)
+			.orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+
 		Sheet sheet = workbook.createSheet(sheetName);
-		sheet.setDefaultColumnWidth(8);
+		sheet.setDefaultColumnWidth(9);
 		/**
 		 * header font style
 		 */
 		XSSFFont headerXSSFFont = (XSSFFont)workbook.createFont();
-		headerXSSFFont.setColor(new XSSFColor(new byte[] {(byte)255, (byte)255, (byte)255}));
 
 		/**
 		 * header cell style
@@ -82,10 +95,9 @@ public class ExcelService {
 		headerXssfCellStyle.setBorderBottom(BorderStyle.THIN);
 
 		// 배경 설정
-		headerXssfCellStyle.setFillForegroundColor(new XSSFColor(new byte[] {(byte)34, (byte)37, (byte)41}));
-		headerXssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 		headerXssfCellStyle.setFont(headerXSSFFont);
-
+		headerXssfCellStyle.setFillForegroundColor(new XSSFColor(new byte[] {(byte)255, (byte)255, (byte)0}));
+		headerXssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 		/**
 		 * body cell style
 		 */
@@ -97,6 +109,13 @@ public class ExcelService {
 		bodyXssfCellStyle.setBorderTop(BorderStyle.THIN);
 		bodyXssfCellStyle.setBorderBottom(BorderStyle.THIN);
 
+		// 글꼴 설정
+		XSSFFont titleFont = (XSSFFont)workbook.createFont();
+		titleFont.setFontHeightInPoints((short)20); // 글꼴 크기를 20으로 설정
+
+		// 셀 스타일 설정
+		XSSFCellStyle titleStyle = (XSSFCellStyle)workbook.createCellStyle();
+		titleStyle.setFont(titleFont);
 		/**
 		 * header data
 		 */
@@ -104,12 +123,15 @@ public class ExcelService {
 		Row row = sheet.createRow(3);
 		Cell title = row.createCell(6);
 		title.setCellValue(sheetName);
+		title.setCellStyle(titleStyle);
 
-		row = sheet.createRow(5);
+		row = sheet.createRow(6);
 		Cell money = row.createCell(2);
 		money.setCellValue("축의금");
-		Cell wishitem = row.createCell(8);
-		wishitem.setCellValue("위시리스트");
+		money.setCellStyle(headerXssfCellStyle);
+		Cell wishList = row.createCell(8);
+		wishList.setCellValue("위시리스트");
+		wishList.setCellStyle(headerXssfCellStyle);
 
 		Row headerRow = null;
 		Cell headerCell = null;
@@ -132,24 +154,191 @@ public class ExcelService {
 		 * body data
 		 */
 		MoneygiftGetResponse response = moneygiftService.getMoneygiftInfo(user.getUserSequence());
-		// String bodyDatass[][] = new String[][] {
-		// 	{"첫번째 행 첫번째 데이터", "첫번째 행 두번째 데이터", "첫번째 행 세번째 데이터"},
-		// 	{"두번째 행 첫번째 데이터", "두번째 행 두번째 데이터", "두번째 행 세번째 데이터"},
-		// 	{"세번째 행 첫번째 데이터", "세번째 행 두번째 데이터", "세번째 행 세번째 데이터"},
-		// 	{"네번째 행 첫번째 데이터", "네번째 행 두번째 데이터", "네번째 행 세번째 데이터"}
-		// };
-		//
-		// Row bodyRow = null;
-		// Cell bodyCell = null;
-		//
-		// for (String[] bodyDatas : bodyDatass) {
-		// 	bodyRow = sheet.createRow(rowCount++);
-		//
-		// 	for (int i = 0; i < bodyDatas.length; i++) {
-		// 		bodyCell = bodyRow.createCell(i);
-		// 		bodyCell.setCellValue(bodyDatas[i]); // 데이터 추가
-		// 		bodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
-		// 	}
-		// }
+		NumberFormat formatter = NumberFormat.getNumberInstance();
+		String totalSum = formatter.format(response.getTotalSum());
+		String withListItemSum = formatter.format(response.getWishItemListSum());
+		String moneygiftSum = formatter.format(response.getMoneygiftListSum());
+
+		List<MoneyInfo> moneyList = response.getMoneyList();
+		List<MoneygiftData> moneygiftList = moneyList.stream()
+			.filter(moneygift -> moneygift.getGuestType().equals(sheetName.substring(0, 2)))
+			.filter(moneygift -> moneygift.getType() == Type.CASH)
+			.map(moneygift -> MoneygiftData.builder()
+				.relationship(moneygift.getRelationship())
+				.sender(moneygift.getSender())
+				.amount(moneygift.getAmount())
+				.build()
+			)
+			.toList();
+
+		int moneygiftIndex = 8;
+		Long moneygiftAmount = 0L;
+		Row moneygiftRow = null;
+		Cell moneygiftCell = null;
+
+		for (MoneygiftData data : moneygiftList) {
+			moneygiftRow = sheet.createRow(moneygiftIndex++);
+
+			moneygiftCell = moneygiftRow.createCell(2);
+			moneygiftCell.setCellValue(moneygiftIndex - 8);
+			moneygiftCell.setCellStyle(bodyXssfCellStyle);
+
+			moneygiftCell = moneygiftRow.createCell(3);
+			moneygiftCell.setCellValue(data.getRelationship());
+			moneygiftCell.setCellStyle(bodyXssfCellStyle);
+
+			moneygiftCell = moneygiftRow.createCell(4);
+			moneygiftCell.setCellValue(data.getSender());
+			moneygiftCell.setCellStyle(bodyXssfCellStyle);
+
+			moneygiftCell = moneygiftRow.createCell(5);
+			moneygiftCell.setCellValue(formatter.format(data.getAmount()));
+			moneygiftAmount += data.getAmount();
+			moneygiftCell.setCellStyle(bodyXssfCellStyle);
+
+		}
+
+		String[] moneygiftTotal = {"", "", "합계", formatter.format(moneygiftAmount)};
+		moneygiftRow = sheet.createRow(moneygiftIndex);
+		for (int i = 0; i < moneygiftTotal.length; i++) {
+			moneygiftCell = moneygiftRow.createCell(2 + i);
+			moneygiftCell.setCellValue(moneygiftTotal[i]);
+			moneygiftCell.setCellStyle(headerXssfCellStyle);
+		}
+
+		Map<Long, List<WishItemData>> wishitemList = moneyList.stream()
+			.filter(wishitem -> wishitem.getGuestType().equals(sheetName.substring(0, 2)))
+			.filter(wishitem -> wishitem.getType() == Type.ITEM)
+			.sorted(Comparator.comparing(MoneyInfo::getWishItemSequence))
+			.map(wishitem -> WishItemData.builder()
+				.wishItemSequence(wishitem.getWishItemSequence())
+				.relationship(wishitem.getRelationship())
+				.sender(wishitem.getSender())
+				.amount(wishitem.getAmount())
+				.build()
+			)
+			.collect(Collectors.groupingBy(WishItemData::getWishItemSequence));
+
+		int wishitemIndex = 8;
+		Long wishListAmount = 0L;
+		Row wishitemRow = null;
+		Cell wishitemCell = null;
+
+		for (Map.Entry<Long, List<WishItemData>> wishlist : wishitemList.entrySet()) {
+			WishItemDetailResponse wishItemDetail = wishItemService.getWishItemDetail(user.getUserCode(),
+				wishlist.getKey());
+			String wishItemName = wishItemDetail.getName();
+			String wishItemPrice = formatter.format(wishItemDetail.getPrice());
+			List<WishItemData> list = wishlist.getValue();
+			wishitemRow = sheet.getRow(wishitemIndex);
+			if (wishitemRow == null) {
+				wishitemRow = sheet.createRow(wishitemIndex);
+			}
+			wishitemCell = wishitemRow.createCell(8);
+			wishitemCell.setCellValue(wishItemName);
+			wishitemCell.setCellStyle(bodyXssfCellStyle);
+			wishitemCell = wishitemRow.createCell(12);
+			wishitemCell.setCellValue(wishItemPrice);
+			wishitemCell.setCellStyle(bodyXssfCellStyle);
+			wishitemIndex++;
+			Long wishitemAmount = 0L;
+			Long sequence = 1L;
+			for (WishItemData data : list) {
+				wishitemRow = sheet.getRow(wishitemIndex);
+				if (wishitemRow == null)
+					wishitemRow = sheet.createRow(wishitemIndex);
+
+				wishitemCell = wishitemRow.createCell(9);
+				wishitemCell.setCellValue(sequence++);
+				wishitemCell.setCellStyle(bodyXssfCellStyle);
+
+				wishitemCell = wishitemRow.createCell(10);
+				wishitemCell.setCellValue(data.getRelationship());
+				wishitemCell.setCellStyle(bodyXssfCellStyle);
+
+				wishitemCell = wishitemRow.createCell(11);
+				wishitemCell.setCellValue(data.getSender());
+				wishitemCell.setCellStyle(bodyXssfCellStyle);
+
+				wishitemCell = wishitemRow.createCell(12);
+				wishitemCell.setCellValue(formatter.format(data.getAmount()));
+				wishitemCell.setCellStyle(bodyXssfCellStyle);
+
+				wishitemAmount += data.getAmount();
+				wishitemIndex++;
+			}
+
+			wishListAmount += wishitemAmount;
+			String[] wishitemTotal = {"", "", "누계", formatter.format(wishitemAmount)};
+			wishitemRow = sheet.getRow(wishitemIndex);
+			if (wishitemRow == null)
+				wishitemRow = sheet.createRow(wishitemIndex);
+			for (int i = 0; i < moneygiftTotal.length; i++) {
+				wishitemCell = wishitemRow.createCell(9 + i);
+				wishitemCell.setCellValue(wishitemTotal[i]);
+				wishitemCell.setCellStyle(headerXssfCellStyle);
+			}
+			wishitemIndex++;
+		}
+
+		String[] wishitemTotal = {"", "", "합계", formatter.format(wishListAmount)};
+		wishitemRow = sheet.getRow(wishitemIndex);
+		if (wishitemRow == null)
+			wishitemRow = sheet.createRow(wishitemIndex);
+		for (int i = 0; i < moneygiftTotal.length; i++) {
+			wishitemCell = wishitemRow.createCell(9 + i);
+			wishitemCell.setCellValue(wishitemTotal[i]);
+			wishitemCell.setCellStyle(bodyXssfCellStyle);
+		}
+
+		String[] statistics = new String[] {"구분", "총액"};
+		String[] categories = new String[] {"축의금", "위시리스트", "합계"};
+		String[] totalAmounts = new String[] {moneygiftSum, withListItemSum, totalSum};
+
+		Row totalRow = null;
+		Cell totalCell = null;
+
+		totalRow = sheet.getRow(7);
+		for (int i = 0; i < statistics.length; i++) {
+			totalCell = totalRow.createCell(i + 15);
+			totalCell.setCellValue(statistics[i]);
+			totalCell.setCellStyle(headerXssfCellStyle);
+		}
+
+		for (int i = 0; i < categories.length; i++) {
+			totalRow = sheet.getRow(8 + i);
+			if (totalRow == null)
+				totalRow = sheet.createRow(8 + i);
+			totalCell = totalRow.createCell(15);
+			totalCell.setCellValue(categories[i]);
+			totalCell.setCellStyle(bodyXssfCellStyle);
+			totalCell = totalRow.createCell(16);
+			totalCell.setCellValue(totalAmounts[i]);
+			totalCell.setCellStyle(bodyXssfCellStyle);
+		}
+		totalRow = sheet.getRow(11);
+		if (totalRow == null)
+			totalRow = sheet.createRow(11);
+		totalCell = totalRow.createCell(16);
+		totalCell.setCellValue("(부부 합계)");
+	}
+
+	@Builder
+	@Getter
+	@AllArgsConstructor
+	public static class MoneygiftData {
+		private String relationship;
+		private String sender;
+		private Integer amount;
+	}
+
+	@Builder
+	@Getter
+	@AllArgsConstructor
+	public static class WishItemData {
+		private Long wishItemSequence;
+		private String relationship;
+		private String sender;
+		private Integer amount;
 	}
 }
