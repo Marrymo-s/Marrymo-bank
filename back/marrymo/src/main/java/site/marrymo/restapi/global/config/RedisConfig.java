@@ -1,6 +1,5 @@
 package site.marrymo.restapi.global.config;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +17,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Slf4j
 public class RedisConfig {
 
-	@Value("${spring..redis.host}")
+	@Value("${spring.redis.host}")
 	private String host;
 
 	@Value("${spring.data.redis.port}")
