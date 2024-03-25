@@ -34,12 +34,14 @@ const Agreement = () => {
       <main className={styles.agreementWrapper}>
         <TermsOfUse/>
         {/*TODO: Checkbox 두 개 모두 체크 되었을 때 상태를 store에서 관리하기 (signup, preview 페이지로 접근하려고 할 때 해당 값을 체크 후 안내)*/}
-        <Checkbox checked={agreementChecked} onChange={() => {
-          setAgreementChecked(!agreementChecked)
-        }}>위 이용 약관 내용에 동의합니다.</Checkbox>
-        <Checkbox checked={privacyChecked} onChange={() => {
-          setPrivacyChecked(!privacyChecked)
-        }}>개인 정보 취급 방침에 동의합니다.</Checkbox>
+        <div className={styles.checkboxWrapper}>
+          <Checkbox checked={agreementChecked} onChange={() => {
+            setAgreementChecked(!agreementChecked)
+          }}>위 이용 약관 내용에 동의합니다.</Checkbox>
+          <Checkbox checked={privacyChecked} onChange={() => {
+            setPrivacyChecked(!privacyChecked)
+          }}>개인 정보 취급 방침에 동의합니다.</Checkbox>
+        </div>
         <Button
           type='button'
           onClick={routeToSignup}

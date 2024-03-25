@@ -18,7 +18,7 @@ const filledStyles = colors.flatMap((colorItem: 'roseGold' | 'alertRed' | 'light
     variants: {colorStyle: colorItem, filled: false},
     style: {
       borderColor: vars.colors[colorItem],
-      borderWidth: vars.space["0.5x"],
+      borderWidth: vars.space['0.5x'],
       borderStyle: 'solid',
       background: vars.colors.black,
       color: vars.colors[colorItem],
@@ -46,15 +46,18 @@ const commonButtonBase = style({
   paddingBottom: vars.space['0.5x'],
   textDecorationLine: 'none',
   cursor: 'pointer',
-  boxShadow: '0px 10px 25px 0px rgba(0, 0, 0, 0.25)',
+  boxShadow: `0px ${vars.space['1x']} ${vars.space['2x']} 0px rgba(0, 0, 0, 0.16)`,
 });
 
 const commonButtonVariants = {
   size: {
     small: {
       width: 'auto',
-      paddingLeft: vars.space['2x'],
-      paddingRight: vars.space['2x'],
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: vars.fontSize['2x'],
+      borderRadius: vars.borderRadius['1x']
     },
     large: {
       width: '100%',
@@ -111,14 +114,14 @@ export const ButtonWrapper = {
         },
       },
       width: '100svw',
-      paddingLeft: vars.space['4x'],
-      paddingRight: vars.space['4x'],
+      // paddingLeft: vars.space['4x'],
+      // paddingRight: vars.space['4x'],
     },
   ]),
   small: style([
     {
       boxSizing: 'border-box',
-      width: 'auto',
+      width: '64px',
     },
   ]),
 };
