@@ -2,7 +2,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/marrymo?useSSL=false&serverTimezone=UTC
+    url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
 
@@ -107,7 +107,6 @@ jwt:
     expiretime: ${JWT_ACCESS_TOKEN_EXPIRETIME}
   refresh-token:
     expiretime: ${JWT_REFRESH_TOKEN_EXPIRETIME}
-
 # Swagger
 springdoc:
   swagger-ui:
