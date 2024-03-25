@@ -1,5 +1,7 @@
 package site.marrymo.restapi.global.config;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @EnableRedisRepositories
+@Slf4j
 public class RedisConfig {
 
 	@Value("${spring.data.redis.host}")
@@ -34,7 +37,6 @@ public class RedisConfig {
 		LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration);
 		return lettuceConnectionFactory;
 	}
-
 	@Bean
 	@Primary
 	public RedisTemplate<String, String> redisTemplate() {
