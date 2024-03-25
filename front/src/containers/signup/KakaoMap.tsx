@@ -9,13 +9,9 @@ interface keywordProps {
 }
 
 const KakaoMap = ({searchKeyword}: keywordProps) => {
-
-  console.log(searchKeyword);
   useEffect(() => {
-    console.log(window.kakao)
     if (window.kakao) {
       window.kakao.maps.load(() => {
-        console.log('kakaomaps 로드')
         // id가 'map'인 요소에 지도를 생성
         const mapContainer = document.getElementById("map"),
           mapOption = {
@@ -25,7 +21,6 @@ const KakaoMap = ({searchKeyword}: keywordProps) => {
             level: 3,
           };
         const map = new window.kakao.maps.Map(mapContainer, mapOption);
-        console.log('지도 출력됨')
       });
     }
   }, [searchKeyword]);
