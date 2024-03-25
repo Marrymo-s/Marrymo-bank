@@ -29,29 +29,21 @@ public class SecurityConfig {
 		"/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html"
 	};
 
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring()
-			.requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // 정적 리소스들
-			.requestMatchers(swaggerURL);
-	}
-
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(AbstractHttpConfigurer::disable)
-			.sessionManagement((sessionManagement) ->
-				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.authorizeRequests()
-			.requestMatchers("/error").permitAll()
-			.requestMatchers("/api/", "/graphiql", "/graphql",
-				"/swagger-ui/", "/api-docs", "/swagger-ui.html",
-				"/v3/api-docs/", "/api-docs/", "/swagger-ui.html").permitAll()
-			.anyRequest().permitAll()
-			.and()
-			.oauth2Login((oauth2) -> oauth2
-				.successHandler(oAuth2LoginSuccessHandler)
-				.userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-					.userService(customOAuth2UserService)));
-		return http.build();
-	}
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        http.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement((sessionManagement) ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeRequests()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers("/h2-console/**","/favicon.ico", "/graphiql", "/graphql",
+                        "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                .anyRequest().permitAll()
+                .and()
+                .oauth2Login((oauth2) -> oauth2
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(customOAuth2UserService)));
+        return http.build();
+    }
 }
