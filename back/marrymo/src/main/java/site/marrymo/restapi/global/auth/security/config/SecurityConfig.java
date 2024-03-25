@@ -25,7 +25,10 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeRequests().anyRequest().permitAll()
+                .authorizeRequests()
+                .requestMatchers("/error").permitAll()
+                .requestMatchers("/v3/**", "/swagger-ui/**", "/api-docs/**").permitAll()
+                .anyRequest().permitAll()
                 .and()
                 .oauth2Login((oauth2) -> oauth2
                         .successHandler(oAuth2LoginSuccessHandler)
