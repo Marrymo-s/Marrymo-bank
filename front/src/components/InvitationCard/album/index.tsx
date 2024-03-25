@@ -6,8 +6,6 @@ import { signupRequest } from '@/types/auth';
 import Image from 'next/image';
 
 
-
-
 type albumProps = Pick<signupRequest, 'imgUrl' >
 
 const album = ({ imgUrl }:albumProps ) => {

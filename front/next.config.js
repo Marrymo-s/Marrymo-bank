@@ -13,9 +13,10 @@ const nextConfig = {
                 destination: "https://marrymo.site/api/:path*",
             },
             {
-                source: "/:path*",
-                destination: "https://openapi.naver.com/:path*",
-            }
+                // 네이버 검색 API에 대한 요청 처리
+                source: "/v1/search/shop.json",
+                destination: "https://openapi.naver.com/v1/search/shop.json",
+            },
         ];
     },
     images: {
