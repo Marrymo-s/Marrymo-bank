@@ -109,13 +109,6 @@ jwt:
     expiretime: ${JWT_REFRESH_TOKEN_EXPIRETIME}
 
 # Swagger
-springfox:
-  documentation:
-    swagger-ui:
-      base-url: /api
-    swagger:
-      v2:
-        path: /api
-    open-api:
-      v3:
-        path: /api
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui.html
