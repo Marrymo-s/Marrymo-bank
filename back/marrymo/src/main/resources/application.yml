@@ -88,6 +88,7 @@ server:
       enabled: true
 
 
+
 #open-banking
 open-banking:
   client_id: ${OPENBANK_CLIENT_ID}
@@ -111,5 +112,7 @@ jwt:
 # Swagger
 springdoc:
   swagger-ui:
-    path: /api/swagger-ui.html
+    path: /api/swagger-ui
+    use-root-path: true
+
 
