@@ -46,7 +46,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         VerifyToken verifyToken = generateVerifyToken(userCode);
 
         Cookie accessTokenCookie = new Cookie("accessToken", verifyToken.getAccessToken());
-        accessTokenCookie.setMaxAge(60 * 60);
+        accessTokenCookie.setMaxAge(60 * 60 * 2);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(false);
@@ -54,7 +54,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         response.addCookie(accessTokenCookie);
 
         Cookie refreshTokenCookie = new Cookie("refreshToken", verifyToken.getRefreshToken());
-        refreshTokenCookie.setMaxAge(60 * 24 * 24 * 30);
+        refreshTokenCookie.setMaxAge(60 * 24 * 24 * 31);
         refreshTokenCookie.setPath("/");
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(false);
