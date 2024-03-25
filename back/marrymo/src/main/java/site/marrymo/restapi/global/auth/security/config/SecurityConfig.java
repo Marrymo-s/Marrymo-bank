@@ -25,16 +25,10 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-<<<<<<< HEAD
-                .authorizeRequests().anyRequest().permitAll()
-                .requestMatchers("/error").permitAll()
-                .requestMatchers("/v3/**", "/swagger-ui/**", "/api-docs/**").permitAll()
-=======
                 .authorizeRequests()
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/v3/**", "/swagger-ui/**", "/api-docs/**").permitAll()
                 .anyRequest().permitAll()
->>>>>>> 8eb52c8940c88154d29d7b46a8f56958c869c932
                 .and()
                 .oauth2Login((oauth2) -> oauth2
                         .successHandler(oAuth2LoginSuccessHandler)
