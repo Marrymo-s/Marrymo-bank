@@ -15,7 +15,6 @@ import site.marrymo.restapi.global.jwt.dto.VerifyToken;
 import site.marrymo.restapi.global.jwt.entity.RefreshToken;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
-import site.marrymo.restapi.global.jwt.repository.RefreshTokenRepository;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.repository.UserRepository;
@@ -29,7 +28,7 @@ import java.util.Map;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
-    private final RefreshTokenRepository refreshTokenRepository;
+ //   private final RefreshTokenRepository refreshTokenRepository;
     private final UserCodeGenerator userCodeGenerator;
     private final JWTProvider jwtProvider;
 

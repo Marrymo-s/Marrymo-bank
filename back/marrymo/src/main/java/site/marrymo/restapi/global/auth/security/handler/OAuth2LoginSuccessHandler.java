@@ -6,8 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -16,7 +14,6 @@ import site.marrymo.restapi.global.jwt.dto.VerifyToken;
 import site.marrymo.restapi.global.jwt.entity.RefreshToken;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
-import site.marrymo.restapi.global.jwt.repository.RefreshTokenRepository;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -29,7 +26,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JWTProvider jwtProvider;
-//    private final RefreshTokenRepository refreshTokenRepository;
+ //   private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
     private final String CALLBACK_URL = "https://marrymo.site/auth/callback";
 
@@ -71,7 +68,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         //redis에 refresh 토큰 저장
         RefreshToken redis = new RefreshToken(refreshToken.getToken(), userCode);
-//        refreshTokenRepository.save(redis);
+     //   refreshTokenRepository.save(redis);
 
         return VerifyToken.builder()
                 .accessToken(accessToken.getToken())
