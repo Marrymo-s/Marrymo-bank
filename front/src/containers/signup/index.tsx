@@ -3,7 +3,7 @@
 import Header from '@/components/Header'
 import * as styles from './index.css'
 import dynamic from "next/dynamic";
-// import WeddingDatepicker from "@/containers/signup/WeddingDatepicker";
+import WeddingDatepicker from "@/containers/signup/WeddingDatepicker";
 import InputBox from "@/components/InputBox";
 import InvitationMessage from "@/containers/signup/InvitationMessage";
 
@@ -65,24 +65,42 @@ const Signup = () => {
         <div>
           <InvitationMessage/>
         </div>
-        <div><InputBox
-          inputBoxHeader='이메일 주소'
-          placeholder='이메일 주소를 입력하세요.'
-          asterisk={true}
-          // 버튼은 아래와 같이 'text', 'onClick', 'type'이 있어야 에러가 나지 않아요
-          button={{
-            text: '인증',
-            // 추후에 인증 메일 보내는 함수 작성
-            onClick: () => {
-            },
-            type: 'button',
-            size: 'small'
-          }}
-        /></div>
-        결혼식 일자 선택
-        {/*<WeddingDatepicker/>*/}
-        {/*TODO: 카카오 맵이 안 뜨는 이슈 해결*/}
-        <KakaoNoSSR searchKeyword={searchKeyword}/>
+        <div>
+          <InputBox
+            inputBoxHeader='이메일 주소'
+            placeholder='이메일 주소를 입력하세요.'
+            asterisk={true}
+            // 버튼은 아래와 같이 'text', 'onClick', 'type'이 있어야 에러가 나지 않아요
+            button={{
+              text: '인증',
+              // 추후에 인증 메일 보내는 함수 작성
+              onClick: () => {
+              },
+              type: 'button',
+              size: 'small'
+            }}
+          />
+        </div>
+        <div>
+          {/*TODO: 인증번호가 일치하면 safeGreen 색깔로 안내 문구 뜨게 만들기*/}
+          <InputBox
+            inputBoxHeader='인증 번호 입력'
+            placeholder='인증 번호를 입력해주세요.'
+            asterisk={true}
+          />
+        </div>
+        <div className={styles.weddingDatePickerContainer}>
+          <div>
+            결혼식 일자 선택
+            <span className={styles.asteriskStyle}>*</span>
+          </div>
+          <div>
+            <WeddingDatepicker/>
+          </div>
+        </div>
+        <div>
+          {/*<KakaoNoSSR searchKeyword={searchKeyword}/>*/}
+        </div>
       </main>
     </>
   )

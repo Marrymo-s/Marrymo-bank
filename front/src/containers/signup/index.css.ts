@@ -51,3 +51,43 @@ export const alertMessage = style({
   fontSize: vars.fontSize['1.5x'],
   fontWeight: vars.fontWeight.accent
 });
+
+export const weddingDatePickerContainer = style([
+  // TODO: '결혼식 일자 선택' 텍스트가 왼쪽에 오도록 정렬하기
+  flex({
+    align: 'flexStart',
+    justify: 'flexStart',
+    direction: 'column',
+  }),
+  {
+    fontSize: vars.fontSize['2x']
+  }]);
+
+export const asteriskStyle = style({
+  marginLeft: vars.space['0.5x'],
+  fontSize: vars.fontSize['2x'],
+  color: vars.colors.alertRed,
+  fontWeight: vars.fontWeight.accent,
+})
+
+export const selectedDate = style({
+  fontSize: vars.fontSize['2x'],
+  textAlign: 'center',
+  // Add other styles such as margins, padding, etc.
+});
+
+export const datePicker = style({
+  // Styles for the input field of the date picker
+  borderRadius: '9999px', // Full pill shape
+  borderColor: vars.colors.roseGold,
+  // Add other styles such as padding, fontSize, etc.
+});
+
+export const calendar = style({
+  // Styles for the calendar pop-up
+  // Customize the look of the selected date, etc.
+});
+
+export const calendarWrapper = style({
+  // Any additional wrapper styles you need
+});
