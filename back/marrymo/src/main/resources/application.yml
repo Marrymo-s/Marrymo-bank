@@ -94,3 +94,4 @@ open-banking:
 mo-bank:
   client_id: ${MOBANK_CLIENT_ID}
   client_secret: ${MOBANK_CLEINT_SECRET}
+
