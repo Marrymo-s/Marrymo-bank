@@ -1,9 +1,6 @@
 package site.marrymo.restapi.global.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,35 +97,26 @@ public class JWTProvider {
         return key;
     }
 
-    //전달 받은 토큰이 유효한 토큰인지 확인하고 문제가 있다면 UnauthorizedException 발생
-    public boolean checkToken(String token){
-        try{
-            //setSigningKey : JWS 서명 검증을 위한 secret key 세팅
-            //parseClaimsJws : 파싱하여 원본 jws 만들기
-            Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(token);
-            //Claims는 Map의 구현체 형태
-            log.debug("claims: {}", claims);
-
-            return true;
-        } catch(Exception e){
-            log.error(e.getMessage());
-            return false;
-        }
-    }
-
     public String getUserCode(String token){
         Jws<Claims> claims = null;
 
         try{
             claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(token);
+        } catch(ExpiredJwtException e){
+            //토큰이 만료된 경우
+            log.error("Token is expired: {}", e.getMessage());
+
+            Claims expiredClaims = e.getClaims();
+            String userCode = (String)expiredClaims.get("userCode");
+
+            return userCode;
         } catch(Exception e){
+            //기타 예외 처리
             log.error(e.getMessage());
-            throw new UnAuthorizedException();
         }
 
         Map<String, Object> value = claims.getBody();
         log.info("value : {}", value);
-
 
         return (String)value.get("userCode");
     }
@@ -146,6 +134,14 @@ public class JWTProvider {
         try{
             claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(token).getBody();
             expiration = claims.getExpiration();
+        } catch(ExpiredJwtException e){
+            //토큰이 만료된 경우
+            log.error("Token is expired: {}", e.getMessage());
+
+            Claims expiredClaims = e.getClaims();
+            expiration = expiredClaims.getExpiration();
+
+            return expiration;
         } catch(Exception e){
             log.error("Unhandled exception occurred while invoke getExpirationDateFromToken()");
         }
@@ -173,7 +169,7 @@ public class JWTProvider {
     public boolean isValidateToken(String token){
         //토큰이 유효기간이 남아 있고
         //메리모 user table 안에 해당하는 usercode가 있는지 확인
-        if(isTokenExpired(token) && isExistUserCodeInMarrymo(token)){
+        if(!isTokenExpired(token) && isExistUserCodeInMarrymo(token)){
             return true;
         }
         else{
@@ -196,16 +192,16 @@ public class JWTProvider {
         // refresh 토큰만 만료 된 경우
         // access 토큰만 새로 발급
         else if(isValidateToken(accessToken) && !isValidateToken(refreshToken)){
-            TokenDTO accessTokenDTO = createAccessToken(userCode);
+            TokenDTO refreshTokenDTO = createRefreshToken(userCode);
 
-            tokens.put("accessToken", accessTokenDTO);
+            tokens.put("refreshToken", refreshTokenDTO);
         }
         // access 토큰만 만료 된 경우
         // refresh 토큰만 새로 발급
         else if(!isValidateToken(accessToken) && isValidateToken(refreshToken)){
-            TokenDTO refreshTokenDTO = createRefreshToken(userCode);
+            TokenDTO accessTokenDTO = createAccessToken(userCode);
 
-            tokens.put("refreshToken", refreshTokenDTO);
+            tokens.put("accessToken", accessTokenDTO);
         }
 
         return tokens;
