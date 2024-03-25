@@ -27,9 +27,8 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests()
                 .requestMatchers("/error").permitAll()
-                .requestMatchers("/api/swagger-ui/**", "/graphiql", "/graphql",
-                         "/api-docs", "/swagger-ui.html",
-                        "/v3/api-docs/**", "/api-docs/", "/swagger-ui/**").permitAll()
+                .requestMatchers("/h2-console/**","/favicon.ico", "/graphiql", "/graphql",
+                        "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login((oauth2) -> oauth2
