@@ -69,7 +69,7 @@ spring:
   # redis settings
   data:
     redis:
-      port: 6379
+      port: ${SPRING_REDIS_PORT}
       host: ${SPRING_REDIS_HOST}
       password: ${SPRING_REDIS_PASSWORD}
 
@@ -107,6 +107,7 @@ jwt:
     expiretime: ${JWT_ACCESS_TOKEN_EXPIRETIME}
   refresh-token:
     expiretime: ${JWT_REFRESH_TOKEN_EXPIRETIME}
+
 # Swagger
 springdoc:
   swagger-ui:
