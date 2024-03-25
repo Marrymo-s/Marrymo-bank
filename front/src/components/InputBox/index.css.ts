@@ -3,16 +3,19 @@ import {style} from '@vanilla-extract/css';
 import {vars} from '@/styles/vars.css';
 
 export const inputBoxContainer = style({
-  padding: `0 ${vars.space['4x']}`,
+  margin: `0 ${vars.space['4x']}`,
   width: `calc(100% - 2 * ${vars.space['4x']})`,
   maxWidth: '100%',
   boxSizing: 'border-box',
+  marginBottom: vars.space['2x']
 });
 
 export const inputBoxHeader = style({
   display: 'flex',
+  width: '100%',
   alignItems: 'center',
-  fontSize: vars.fontSize['2x'], // Assuming you have fontSize defined in your vars
+  fontSize: vars.fontSize['2x'],
+  marginBottom: vars.space['0.5x']
 });
 
 export const asterisk = style({
@@ -22,27 +25,25 @@ export const asterisk = style({
   fontWeight: vars.fontWeight.accent
 });
 
-export const input = style({
-  // ... add your input box styling here
-});
-
 export const errorMessage = style({
-  fontSize: vars.fontSize['1.5x'],
+  marginTop: vars.space['0.5x'],
+  fontSize: vars.fontSize['1x'],
   color: vars.colors.alertRed,
 });
 
 export const inputBoxText = style({
+  // TODO: width 반응형 적용 및 우측 끝으로 가게 하는 설정 필요
+  flexGrow: 1,
   borderWidth: '0.5px',
-  borderColor: vars.colors.lightGray, // Assuming you have a color defined for borders
+  borderColor: vars.colors.lightGray,
   borderStyle: 'solid',
-  borderRadius: vars.borderRadius["1x"],
+  borderRadius: vars.borderRadius['1x'],
   cursor: 'pointer',
   height: '48px',
-  padding: '12px 16px', // 12px vertical padding, 16px horizontal padding
+  padding: '12px 16px',
   boxSizing: 'border-box',
   fontSize: vars.fontSize['2x'],
   color: vars.colors.black,
-  // placeholder 텍스트 색깔은 lightGray
   '::placeholder': {
     color: vars.colors.lightGray,
   },
@@ -53,4 +54,9 @@ export const inputBoxTextButtonGroup = style({
   width: '100%',
   alignItems: 'center',
   gap: vars.space['2x'],
+});
+
+export const inputBoxButtonStyle = style({
+  width: '64px',
+  flexShrink: 0,
 });

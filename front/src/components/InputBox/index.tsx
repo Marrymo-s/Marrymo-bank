@@ -16,10 +16,12 @@ interface ButtonProps {
 
 interface inputBoxProps {
   inputBoxHeader: string;
+  placeholder: string;
+  asterisk?: boolean;
   button?: ButtonProps;
 }
 
-const InputBox = ({inputBoxHeader}: inputBoxProps) => {
+const InputBox = ({inputBoxHeader, placeholder, asterisk, button}: inputBoxProps) => {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
 
@@ -42,27 +44,29 @@ const InputBox = ({inputBoxHeader}: inputBoxProps) => {
     <div className={styles.inputBoxContainer}>
       <div className={styles.inputBoxHeader}>
         {inputBoxHeader}
-        <span className={styles.asterisk}>*</span>
+        {asterisk && <span className={styles.asterisk}>*</span>}
       </div>
       <div className={styles.inputBoxTextButtonGroup}>
         <input
           type="text"
-          placeholder="place holder"
+          placeholder={placeholder}
           value={name}
           onChange={(e) => setName(e.target.value)}
           onBlur={nameValidationError}
           className={styles.inputBoxText}
         />
-        {Button && (
-          <Button
-            type={Button.type}
-            size={Button.size}
-            colorStyle={Button.colorStyle}
-            filled={Button.filled}
-            onClick={Button.onClick}
-          >
-            {Button.text}
-          </Button>
+        {button && (
+          <div className={styles.inputBoxButtonStyle}>
+            <Button
+              type={button.type}
+              size={button.size}
+              colorStyle={button.colorStyle}
+              filled={button.filled}
+              onClick={button.onClick}
+            >
+              {button.text}
+            </Button>
+          </div>
         )}
       </div>
       {error && <div className={styles.errorMessage}>{error}</div>}
