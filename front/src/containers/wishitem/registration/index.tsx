@@ -1,6 +1,6 @@
 import React from 'react';
-import {searchResponse} from '@/types/search';
-import {useRouter} from 'next/navigation';
+import { searchResponse } from '@/types/search';
+import { useRouter } from 'next/navigation';
 import * as styles from './index.css';
 import Image from 'next/image';
 import {registrationContainer} from './index.css';
@@ -9,7 +9,7 @@ interface RegistrationProps {
   wishLists: searchResponse[];
 }
 
-const Registration = ({wishLists}: RegistrationProps) => {
+const Registration = ({ wishLists }: RegistrationProps) => {
   const router = useRouter();
   const goToDetail = (productId: string) => {
     router.push(`/wishitem/${productId}`);
@@ -20,7 +20,8 @@ const Registration = ({wishLists}: RegistrationProps) => {
       <h3>나의 WISHLIST</h3>
       <div className={styles.registrationOuterWrapper}>
         <div className={styles.registrationInnerWrapper}>
-          {wishLists.map((wishlist, index: number) => (
+          {wishLists.map((wishlist, index) => (
+
             <div key={wishlist.productId} className={styles.wishlistImageWrapper}>
               <Image
                 src={wishlist.image}

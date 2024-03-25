@@ -1,10 +1,20 @@
 import React from 'react';
 
-const wishitemdetail = () => {
+import { useRouter } from 'next/router';
+
+import Header from "@/components/Header";
+
+const WishItemDetail = () => {
+  const router = useRouter();
+  const { userCode, productId } = router.query; // URL에서 userCode와 productId 추출
 
   return (
-    <div>상세페이지</div>
+    <>
+      <Header title="위시리스트 상세" />
+      <div>User Code: {userCode}</div>
+      <div>Product ID: {productId}</div>
+    </>
   )
 }
 
-export default wishitemdetail;
+export default WishItemDetail;
