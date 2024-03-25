@@ -1,21 +1,30 @@
-'use client';
+import React, {useState} from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // Import default styles
+import * as styles from './index.css';
+import {format} from 'date-fns';
+import ko from 'date-fns/locale/ko'; // Korean locale
 
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+const WeddingDatePicker = () => {
+  const [startDate, setStartDate] = useState(new Date());
 
-import "react-datepicker/dist/react-datepicker.css";
-
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-
-const WeddingDatepicker = () => {
-  const [weddingDate, setWeddingDate] = useState(new Date());
   return (
-    <DatePicker
-      selected={weddingDate}
-      onChange={date => setWeddingDate(date)
-    } />
+    <div>
+      <div className={styles.selectedDate}>
+        {format(startDate, 'M월 d일 (EEE)', {locale: ko})}
+      </div>
+      <DatePicker
+        selected={startDate}
+        onChange={(date: Date) => setStartDate(date)}
+        locale={ko}
+        dateFormat="yyyy년 MM월 d일"
+        dropdownMode="select"
+        className={styles.datePicker}
+        calendarClassName={styles.calendar}
+        wrapperClassName={styles.calendarWrapper}
+      />
+    </div>
   );
 };
 
-export default WeddingDatepicker;
+export default WeddingDatePicker;

@@ -4,7 +4,8 @@ import {vars} from '@/styles/vars.css';
 
 export const inputBoxContainer = style({
   margin: `0 ${vars.space['4x']}`,
-  width: `calc(100% - 2 * ${vars.space['4x']})`,
+  // width: `calc(100% - 2 * ${vars.space['4x']})`,
+  alignItems: 'flex-start',
   maxWidth: '100%',
   boxSizing: 'border-box',
   marginBottom: vars.space['2x']
