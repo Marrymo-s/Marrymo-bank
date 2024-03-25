@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
+import site.marrymo.restapi.global.jwt.repository.BlackListRepository;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -36,6 +37,7 @@ public class JWTProvider {
     private long refreshTokenExpiresIn;
 
     private final UserRepository userRepository;
+    private final BlackListRepository blackListRepository;
 
     public TokenDTO createAccessToken(String userCode){
         String token = create(userCode, "access-token", accessTokenExpireTime);
@@ -163,6 +165,14 @@ public class JWTProvider {
             return true;
         else
             return false;
+    }
+
+    // 이미 로그아웃 돼서 없어진 refresh token을 가지고 접근 할 경우에 대비하여
+    // black_list 테이블에서 해당 refresh token이 있는지 확인
+    public void validateLogoutToken(String refreshToken) {
+        if (blackListRepository.findByBlacklistSequence(refreshToken).isPresent()) {
+            throw new UnAuthorizedException("이미 로그아웃 된 사용자입니다.");
+        }
     }
 
     //토큰이 유효한가
