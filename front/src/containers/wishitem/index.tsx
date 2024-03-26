@@ -40,10 +40,10 @@ const WishItem = () => {
   // 선택하면 wishlist에 추가하는 함수
   const addToWishlist = (item: searchResponse) => {
     setWishLists([...wishLists, item])
-    console.log(item.productId)
+
   }
 
-  //TODO 위에 네이버 검색하는거 Search로 옮기는 걸로 코드 수정하기
+  // TODO 위에 네이버 검색하는거 Search로 옮기는 걸로 코드 수정하기
   return (
     <>
       <Header title="위시리스트" hasPrevious/>

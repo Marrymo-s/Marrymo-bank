@@ -1,4 +1,4 @@
-import * as styles from "@/containers/agreement/index.css";
+import * as styles from "./index.css";
 
 const TermsOfUse = () => {
   return (
