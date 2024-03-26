@@ -9,8 +9,7 @@ import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.card.exception.CardErrorCode;
 import site.marrymo.restapi.card.exception.CardException;
 import site.marrymo.restapi.card.repository.CardRepository;
-import site.marrymo.restapi.global.config.AwsS3Config;
-import site.marrymo.restapi.global.service.awsS3Service;
+import site.marrymo.restapi.global.service.AwsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.dto.Who;
@@ -27,7 +26,6 @@ import site.marrymo.restapi.wedding_img.entity.WeddingImg;
 import site.marrymo.restapi.wedding_img.repository.WeddingImgRepository;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -42,7 +40,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
     private final WeddingImgRepository weddingImgRepository;
-    private final awsS3Service awsS3Service;
+    private final AwsS3Service awsS3Service;
 
     public String makeUniqueUserCode(){
         UserCodeGenerator userCodeGenerator = new UserCodeGenerator();
