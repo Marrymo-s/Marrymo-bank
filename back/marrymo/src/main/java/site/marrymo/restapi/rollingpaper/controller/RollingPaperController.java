@@ -4,14 +4,17 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import site.marrymo.restapi.global.auth.entity.LoginUser;
+
+import lombok.extern.slf4j.Slf4j;
+import site.marrymo.restapi.global.annotation.LoginUser;
 import site.marrymo.restapi.rollingpaper.dto.request.RollingPaperRegistRequest;
 import site.marrymo.restapi.rollingpaper.dto.response.RollingPaperGetResponse;
 import site.marrymo.restapi.rollingpaper.service.RollingPaperService;
 import site.marrymo.restapi.user.dto.UserDTO;
 
+@Slf4j
 @RestController
-@RequestMapping("/letter")
+@RequestMapping("/api/letter")
 @RequiredArgsConstructor
 public class RollingPaperController {
     private final RollingPaperService rollingPaperService;

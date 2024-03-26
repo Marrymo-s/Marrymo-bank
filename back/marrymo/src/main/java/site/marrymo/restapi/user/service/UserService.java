@@ -9,7 +9,7 @@ import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.card.exception.CardErrorCode;
 import site.marrymo.restapi.card.exception.CardException;
 import site.marrymo.restapi.card.repository.CardRepository;
-import site.marrymo.restapi.global.service.AwsS3Service;
+import site.marrymo.restapi.global.s3.service.AwsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.dto.Who;

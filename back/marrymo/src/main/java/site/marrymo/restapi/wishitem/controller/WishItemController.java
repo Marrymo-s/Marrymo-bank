@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import site.marrymo.restapi.global.auth.entity.LoginUser;
+
+import lombok.extern.slf4j.Slf4j;
+import site.marrymo.restapi.global.annotation.LoginUser;
 import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.wishitem.dto.request.WishItemDeleteRequest;
 import site.marrymo.restapi.wishitem.dto.request.WishItemRegistRequest;
@@ -12,10 +14,9 @@ import site.marrymo.restapi.wishitem.dto.response.WishItemDetailResponse;
 import site.marrymo.restapi.wishitem.dto.response.WishItemGetResponse;
 import site.marrymo.restapi.wishitem.service.WishItemService;
 
-import java.util.List;
-
+@Slf4j
 @RestController
-@RequestMapping("/wish-item")
+@RequestMapping("/api/wish-item")
 @RequiredArgsConstructor
 public class WishItemController {
     private final WishItemService wishItemService;

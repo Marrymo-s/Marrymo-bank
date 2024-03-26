@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
-import site.marrymo.restapi.global.jwt.repository.BlackListRepository;
-import site.marrymo.restapi.global.jwt.repository.RefreshTokenRepository;
-import site.marrymo.restapi.user.entity.User;
-import site.marrymo.restapi.user.exception.UserErrorCode;
-import site.marrymo.restapi.user.exception.UserException;
+import site.marrymo.restapi.auth.repository.BlackListRepository;
+import site.marrymo.restapi.auth.repository.RefreshTokenRepository;
 import site.marrymo.restapi.user.repository.UserRepository;
 
 import java.io.UnsupportedEncodingException;
