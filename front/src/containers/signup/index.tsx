@@ -8,6 +8,7 @@ import InputBox from "@/components/InputBox";
 import InvitationMessage from "@/containers/signup/InvitationMessage";
 import Button from '@/components/Button/index'
 import {useRouter} from 'next/navigation';
+import WeddingGallery from "@/containers/signup/WeddingGallery";
 
 const KakaoNoSSR = dynamic(() => import('./KakaoMap'), {
   ssr: false,
@@ -104,6 +105,9 @@ const Signup = () => {
         </div>
         <div>
           {/*<KakaoNoSSR searchKeyword={searchKeyword}/>*/}
+        </div>
+        <div>
+          <WeddingGallery/>
         </div>
         <div>
           {/*TODO: */}

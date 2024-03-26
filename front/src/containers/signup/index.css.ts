@@ -91,3 +91,81 @@ export const calendar = style({
 export const calendarWrapper = style({
   // Any additional wrapper styles you need
 });
+
+export const timePickerContainer = style([
+  // TODO: '결혼식 시간 선택' 텍스트가 왼쪽에 오도록 정렬하기
+  flex({
+    align: 'flexStart',
+    justify: 'flexStart',
+    direction: 'row', // direction을 row로 바꿔서 옆으로 나란히 두기
+  }),
+  {
+    fontSize: vars.fontSize['2x'],
+    marginBottom: vars.space['2x'], // 아래 여백 추가
+  }
+]);
+
+export const dropdown = style({
+  // 네이티브 select 드롭다운 스타일
+  appearance: 'none', // 네이티브 스타일 제거
+  padding: vars.space['1x'],
+  margin: vars.space['1x'],
+  backgroundColor: vars.colors.white,
+  borderColor: vars.colors.lightGray,
+  borderRadius: vars.borderRadius['1x'],
+  fontSize: vars.fontSize['2x'],
+  cursor: 'pointer',
+
+  // 선택됐을 때 테두리 색상 변경을 위한 가상 클래스
+  selectors: {
+    '&:focus': {
+      borderColor: vars.colors.roseGold,
+      outline: 'none'
+    }
+  },
+  // 추후 CSS 작업 시 여기에 추가
+});
+
+export const galleryContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: vars.space['2x'],
+});
+
+export const galleryHeader = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  width: '100%',
+  padding: vars.space['2x'],
+  // 추가적인 스타일 ...
+});
+
+export const uploadButton = style({
+  padding: vars.space['1x'],
+  backgroundColor: vars.colors.lightGray, // 버튼 배경색
+  border: 'none',
+  borderRadius: vars.borderRadius['1x'],
+  cursor: 'pointer',
+  // 추가적인 스타일 ...
+});
+
+export const imagesContainer = style({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: vars.space['2x'],
+  // 컨테이너 크기가 이미지에 따라 조절되도록 설정
+});
+
+export const imageWrapper = style({
+  width: '100%',
+  // 이미지 래퍼 스타일 ...
+});
+
+export const image = style({
+  width: '100%',
+  height: 'auto',
+  // 이미지 스타일 ...
+});
