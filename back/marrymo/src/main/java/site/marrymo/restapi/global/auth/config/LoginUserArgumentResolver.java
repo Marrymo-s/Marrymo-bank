@@ -40,18 +40,19 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         HttpServletRequest httpServletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
         if(httpServletRequest != null){
             Cookie[] cookies = httpServletRequest.getCookies();
-            for(Cookie cookie : cookies){
-                String tokenName = cookie.getName();
-                String tokenValue = cookie.getValue();
+            if(cookies != null){
+                for(Cookie cookie : cookies){
+                    String tokenName = cookie.getName();
+                    String tokenValue = cookie.getValue();
 
-                if(tokenName.equals("accessToken")){
-                    if(tokenValue != null && !tokenValue.trim().equals("")){
-                        String userCode = jwtProvider.getUserCode(tokenValue);
-                        log.debug("usercode:"+userCode);
-                        User user = userRepository.findByUserCode(userCode)
-                                .orElseThrow(() -> new JWTException(JWTErrorCode.INVALID_TOKEN));
+                    if(tokenName.equals("accessToken")){
+                        if(tokenValue != null && !tokenValue.trim().equals("")){
+                            String userCode = jwtProvider.getUserCode(tokenValue);
+                            User user = userRepository.findByUserCode(userCode)
+                                    .orElseThrow(() -> new JWTException(JWTErrorCode.INVALID_TOKEN));
 
-                        return UserDTO.toDTO(user);
+                            return UserDTO.toDTO(user);
+                        }
                     }
                 }
             }

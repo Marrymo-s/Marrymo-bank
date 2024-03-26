@@ -15,7 +15,7 @@ import site.marrymo.restapi.wishitem.service.WishItemService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/wish-item")
+@RequestMapping("/wish-item")
 @RequiredArgsConstructor
 public class WishItemController {
     private final WishItemService wishItemService;

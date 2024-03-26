@@ -18,7 +18,7 @@ import site.marrymo.restapi.user.dto.UserDTO;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/open-banking")
+@RequestMapping("/open-banking")
 public class OpenBankingController {
     private final OpenBankingService openBankingService;
     private final MoBankService moBankService;

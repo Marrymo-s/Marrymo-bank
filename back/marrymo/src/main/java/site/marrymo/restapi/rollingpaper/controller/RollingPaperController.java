@@ -11,7 +11,7 @@ import site.marrymo.restapi.rollingpaper.service.RollingPaperService;
 import site.marrymo.restapi.user.dto.UserDTO;
 
 @RestController
-@RequestMapping("/api/letter")
+@RequestMapping("/letter")
 @RequiredArgsConstructor
 public class RollingPaperController {
     private final RollingPaperService rollingPaperService;
