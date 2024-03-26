@@ -47,12 +47,21 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        // Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
-        Cookie[] cookies = httpServletRequest.getCookies();
-
         String accessToken = "";
         String refreshToken = "";
         String userCode = "";
+
+        // Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
+        Cookie[] cookies = httpServletRequest.getCookies();
+
+        //쿠키가 모두 만료되어 없거나
+        //하나의 토큰만 하나의 쿠키에 담겨오는 경우
+        //exception을 터뜨려 재로그인 하도록 해준다.
+        if(cookies == null || cookies.length == 1) {
+            removeAllCookies(httpServletResponse, cookies);
+
+            throw new UnAuthorizedException();
+        }
 
         for(Cookie cookie : cookies){
             String tokenName = cookie.getName();
@@ -134,8 +143,20 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     //기존에 쿠키를 제거하는 로직
     public void removeCookie(HttpServletResponse httpServletResponse, Cookie[] cookies, String key){
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals(key)){
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals(key)){
+                    cookie.setMaxAge(0);
+                    httpServletResponse.addCookie(cookie);
+                }
+            }
+        }
+    }
+
+    //모든 쿠키를 제거하는 로직
+    public void removeAllCookies(HttpServletResponse httpServletResponse, Cookie[] cookies){
+        if(cookies != null){
+            for(Cookie cookie : cookies){
                 cookie.setMaxAge(0);
                 httpServletResponse.addCookie(cookie);
             }
