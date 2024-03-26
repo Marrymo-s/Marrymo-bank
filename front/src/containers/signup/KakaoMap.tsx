@@ -2,8 +2,6 @@
 
 import React, {useEffect} from "react";
 
-import * as styles from './index.css'
-
 interface keywordProps {
   searchKeyword: string;
 }

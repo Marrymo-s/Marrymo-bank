@@ -6,13 +6,17 @@ import dynamic from "next/dynamic";
 import WeddingDatepicker from "@/containers/signup/WeddingDatepicker";
 import InputBox from "@/components/InputBox";
 import InvitationMessage from "@/containers/signup/InvitationMessage";
+import Button from '@/components/Button/index'
+import {useRouter} from 'next/navigation';
 
 const KakaoNoSSR = dynamic(() => import('./KakaoMap'), {
   ssr: false,
 })
 
 const Signup = () => {
-  const searchKeyword: string = '바나프레소 테헤란로점'
+  const searchKeyword: string = '바나프레소 테헤란로점'  // 임시 데이터
+  const router = useRouter()
+
   return (
     <>
       <Header title={'개인 정보 입력'} hasPrevious/>
@@ -100,6 +104,15 @@ const Signup = () => {
         </div>
         <div>
           {/*<KakaoNoSSR searchKeyword={searchKeyword}/>*/}
+        </div>
+        <div>
+          {/*TODO: */}
+          <Button
+            onClick={() => {
+              router.push('/preview')
+            }}
+            type='button'
+          >다음</Button>
         </div>
       </main>
     </>

@@ -46,6 +46,7 @@ const commonButtonBase = style({
   paddingBottom: vars.space['0.5x'],
   textDecorationLine: 'none',
   cursor: 'pointer',
+  // TODO: 버튼 그림자는 다른 부분과 다름(디자인 잡을 때 수정하기)
   boxShadow: `0px ${vars.space['1x']} ${vars.space['2x']} 0px rgba(0, 0, 0, 0.16)`,
 });
 
