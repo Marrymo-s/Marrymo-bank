@@ -12,9 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import site.marrymo.restapi.global.auth.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.auth.security.service.CustomOAuth2UserService;
+import site.marrymo.restapi.global.jwt.JWTProvider;
+import site.marrymo.restapi.global.jwt.filter.JwtAuthenticationFilter;
+import site.marrymo.restapi.global.jwt.repository.RefreshTokenRepository;
 
 @Slf4j
 @Configuration
@@ -23,6 +27,8 @@ import site.marrymo.restapi.global.auth.security.service.CustomOAuth2UserService
 public class SecurityConfig {
 	private final CustomOAuth2UserService customOAuth2UserService;
 	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+	private final JWTProvider jwtProvider;
+	private final RefreshTokenRepository refreshTokenRepository;
 	private static final String[] swaggerURL = {
 		"/api/**", "/graphiql", "/graphql",
 		"/swagger-ui/**", "/api-docs", "/swagger-ui.html",
@@ -39,13 +45,19 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
+			.formLogin(AbstractHttpConfigurer::disable)
+			.httpBasic(AbstractHttpConfigurer::disable)
 			.csrf(AbstractHttpConfigurer::disable)
 			.sessionManagement((sessionManagement) ->
 				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http
+			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenRepository),
+				UsernamePasswordAuthenticationFilter.class);
+
+		http
 			.authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/h2-console/**", "/favicon.ico","/error").permitAll()
+				.requestMatchers("/h2-console/**", "/favicon.ico", "/error").permitAll()
 				.requestMatchers(swaggerURL).permitAll()
 				.anyRequest().permitAll());
 		http
