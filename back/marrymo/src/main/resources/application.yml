@@ -86,7 +86,6 @@ server:
       force: true
       charset: UTF-8
       enabled: true
-    context-path: /api
   forward-headers-strategy: framework   # 추가
 
 
@@ -114,9 +113,9 @@ jwt:
 # Swagger
 springdoc:
   swagger-ui:
-    path: /swagger-ui
+    path: /api/swagger-ui
     use-root-path: true
   api-docs:
-    path: /v3/api-docs
+    path: /api/v3/api-docs
 
 

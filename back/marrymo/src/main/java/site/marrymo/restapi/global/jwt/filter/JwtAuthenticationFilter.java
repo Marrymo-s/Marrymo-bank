@@ -49,8 +49,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
 		HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
 
-		String requestURL = httpServletRequest.getServletPath();
-
 		String accessToken = "";
 		String refreshToken = "";
 		String userCode = "";
