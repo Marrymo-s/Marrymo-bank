@@ -35,7 +35,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	private final RedisService redisService;
 //	private final RefreshTokenRepository refreshTokenRepository;
 	private final UserRepository userRepository;
-	private final String CALLBACK_URL = "https://marrymo.site/auth/callback";
+	private final String HOME_CALLBACK_URL = "https://marrymo.site";
+	private final String SIGNUP_CALLBACK_URL = "https://marrymo.site/signup";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -47,6 +48,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			.orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
 		String userCode = user.getUserCode();
+
 		VerifyToken verifyToken = generateVerifyToken(userCode);
 
 		Cookie accessTokenCookie = new Cookie("accessToken", verifyToken.getAccessToken());
@@ -65,8 +67,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 		response.addCookie(refreshTokenCookie);
 
-		String targetUrl = UriComponentsBuilder.fromUriString(CALLBACK_URL).build().toUriString();
-		getRedirectStrategy().sendRedirect(request, response, targetUrl);
+		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL).build().toUriString();
+		String signupTargetUrl = UriComponentsBuilder.fromUriString(SIGNUP_CALLBACK_URL).build().toUriString();
+
+		if(user.getCard() != null)
+			getRedirectStrategy().sendRedirect(request, response, homeTargetUrl);
+		else
+			getRedirectStrategy().sendRedirect(request, response, signupTargetUrl);
 	}
 
 	public VerifyToken generateVerifyToken(String userCode) {
