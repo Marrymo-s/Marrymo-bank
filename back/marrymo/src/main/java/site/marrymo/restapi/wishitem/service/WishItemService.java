@@ -114,4 +114,5 @@ public class WishItemService {
 
         wishItemRepository.delete(wishItem);
     }
+
 }
