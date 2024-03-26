@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 @Service
@@ -55,6 +56,22 @@ public class AwsS3Service {
                 new PutObjectRequest(bucket,fileName,file.getInputStream(),metadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
         );
+        return fileUrl;
+    }
+
+    public String uploadExcelFile(String dir, InputStream inputStream, String fileName, ObjectMetadata metadata) {
+        String fileUrl = "https://" + bucket + ".s3.amazonaws.com/" + fileName;
+
+        // 파일이 이미 존재하는 경우 삭제하는 로직은 선택 사항입니다.
+        boolean isFileExist = amazonS3Client.doesObjectExist(bucket, fileName);
+        if (isFileExist) {
+            amazonS3Client.deleteObject(bucket, fileName);
+        }
+
+        amazonS3Client.putObject(
+                new PutObjectRequest(bucket, fileName, inputStream, metadata)
+                         .withCannedAcl(CannedAccessControlList.PublicRead));
+
         return fileUrl;
     }
 

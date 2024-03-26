@@ -36,8 +36,8 @@ public class AuthController {
 	//        return true;
 	//    }
 
-	@GetMapping("/excel")
-	public void excel(HttpServletResponse response) throws IOException {
-		excelService.getMoneygiftExcel("aaaa1111", response);
-	}
+	// @GetMapping("/excel")
+	// public void excel(HttpServletResponse response) throws IOException {
+	// 	excelService.getMoneygiftExcel("aaaa1111", response);
+	// }
 }

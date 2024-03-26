@@ -1,5 +1,7 @@
 package site.marrymo.restapi.global.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Comparator;
@@ -18,6 +20,8 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+
+import com.amazonaws.services.s3.model.ObjectMetadata;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,9 +53,11 @@ public class ExcelService {
 	private final MoneygiftService moneygiftService;
 	private final WishItemService wishItemService;
 	private final UserRepository userRepository;
+	private final AwsS3Service awsS3Service;
 
-	//	public void getMoneygiftExcel(User user, HttpServletResponse res) throws IOException {
-	public void getMoneygiftExcel(String userCode, HttpServletResponse res) throws IOException {
+
+	//	public void getMoneygiftExcel(User user) throws IOException {
+	public String moneygiftExcelURL(String userCode) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 
 		//	createSheetForUser(workbook, "신부 축의금 내역", user);
@@ -59,16 +65,32 @@ public class ExcelService {
 		createSheetForUser(workbook, "신랑 축의금 내역", userCode);
 		//	createSheetForUser(workbook, "신랑 축의금 내역", user);
 
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		workbook.write(outputStream);
+
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+		ObjectMetadata metadata = new ObjectMetadata();
+		metadata.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		metadata.setContentLength(outputStream.size());
+		String fileName = "marrymo_" + userCode;
+
+		String fileUrl = awsS3Service.uploadExcelFile("excel", inputStream, fileName, metadata);
+
+		outputStream.close();
+		workbook.close();
+
+		return fileUrl;
 		// 파일 다운로드 로직
 		//		String fileName = "moneygift_sheet_" + user.getUserCode() + "_by_marrymo";
-		String fileName = "moneygift_sheet_" + userCode + "_by_marrymo";
-		res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		res.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + ".xlsx\"");
-		try (ServletOutputStream servletOutputStream = res.getOutputStream()) {
-			workbook.write(servletOutputStream);
-		} finally {
-			workbook.close();
-		}
+		// String fileName = "moneygift_sheet_" + userCode + "_by_marrymo";
+		// res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		// res.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + ".xlsx\"");
+		// try (ServletOutputStream servletOutputStream = res.getOutputStream()) {
+		// 	workbook.write(servletOutputStream);
+		// } finally {
+		// 	workbook.close();
+		// }
 	}
 
 	//	private void createSheetForUser(Workbook workbook, String sheetName, User user) {
