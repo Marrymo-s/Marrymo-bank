@@ -5,14 +5,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import * as styles from './index.css';
 
-import {format} from 'date-fns';
+import {format, addDays} from 'date-fns';
 import ko from 'date-fns/locale/ko';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 registerLocale('ko', ko as any);  // ko 로케일 등록(ESLint 오류 ignore)
 
 const WeddingDatePicker = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(addDays(new Date(), 1));
+  // 오늘 이후 날짜부터 선택할 수 있도록 제한하는 변수 tomorrow
+  const tomorrow = addDays(new Date(), 1);
 
   return (
     <div>
@@ -23,6 +25,7 @@ const WeddingDatePicker = () => {
       <DatePicker
         selected={startDate}
         onChange={(date: Date) => setStartDate(date)}
+        minDate={tomorrow}
         locale='ko'
         dateFormat="yyyy년 M월 d일"
         dropdownMode="select"
