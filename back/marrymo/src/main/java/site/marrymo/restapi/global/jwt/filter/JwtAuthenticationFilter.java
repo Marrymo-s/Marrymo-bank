@@ -51,100 +51,100 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
 		HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
 
-		String requestURL = httpServletRequest.getServletPath();
-		if (requestURL.contains("swagger"))
-			filterChain.doFilter(httpServletRequest, httpServletResponse);
-		log.debug("----------------------------------------------------");
-		String accessToken = "";
-		String refreshToken = "";
-		String userCode = "";
-
-		// Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
-		Cookie[] cookies = httpServletRequest.getCookies();
-
-		//쿠키가 모두 만료되어 없거나
-		//하나의 토큰만 하나의 쿠키에 담겨오는 경우
-		//exception을 터뜨려 재로그인 하도록 해준다.
-		if (cookies == null || cookies.length == 1) {
-			removeAllCookies(httpServletResponse, cookies);
-
-			throw new UnAuthorizedException();
-		}
-
-		for (Cookie cookie : cookies) {
-			String tokenName = cookie.getName();
-			String tokenValue = cookie.getValue();
-
-			if (tokenName.equals("accessToken")) {
-				accessToken = tokenValue;
-
-				//accessToken을 통해서 userCode를 가져온다
-				userCode = jwtProvider.getUserCode(accessToken);
-			} else if (tokenName.equals("refreshToken")) {
-				refreshToken = tokenValue;
-			}
-		}
-
-		// 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
-		// exception 터뜨림
-		jwtProvider.validateLogoutToken(refreshToken);
-
-		Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
-
-		//만료된 토큰이 존재한다면
-		if (tokens != null) {
-			Cookie accessTokenCookie = null;
-			Cookie refreshTokenCookie = null;
-
-			//access token을 보내줬다면
-			//access token이 만료 되었다는 의미
-			if (tokens.get("accessToken") != null) {
-				//기존 accessToken을 담고 있던 쿠키 제거
-				removeCookie(httpServletResponse, cookies, "accessToken");
-
-				//발급된 accessToken을 가져온다
-				TokenDTO accessTokenDTO = (TokenDTO)tokens.get("accessToken");
-
-				accessTokenCookie = new Cookie("accessToken", accessTokenDTO.getToken());
-
-				accessTokenCookie.setMaxAge(60 * 60 * 2);
-				accessTokenCookie.setPath("/");
-				accessTokenCookie.setHttpOnly(true);
-				accessTokenCookie.setSecure(false);
-			}
-			//refresh token을 보내줬다면
-			//refresh token이 만료 되었다는 의미
-			if (tokens.get("refreshToken") != null) {
-				//기존 refreshToken을 담고 있던 쿠키 제거
-				removeCookie(httpServletResponse, cookies, "refreshToken");
-
-				TokenDTO refreshTokenDTO = (TokenDTO)tokens.get("refreshToken");
-
-				refreshTokenCookie = new Cookie("refreshToken", refreshTokenDTO.getToken());
-
-				refreshTokenCookie.setMaxAge(60 * 24 * 24 * 31);
-				refreshTokenCookie.setPath("/");
-				refreshTokenCookie.setHttpOnly(true);
-				refreshTokenCookie.setSecure(false);
-			}
-
-			// accessToken만 만료 되어서
-			// accessToken만 재발급
-			if (accessTokenCookie != null && refreshTokenCookie == null) {
-				httpServletResponse.addCookie(accessTokenCookie);
-			}
-			// refreshToken만 만료 되어서
-			// refreshToken만 재발급
-			else if (accessTokenCookie == null && refreshTokenCookie != null) {
-				httpServletResponse.addCookie(refreshTokenCookie);
-				refreshTokenRepository.save(RefreshToken.builder().refreshToken(refreshTokenCookie.getValue()).build());
-			}
-			//accessToken, refreshToken 모두 만료 되었을 시에
-			//재로그인 하라는 에러메시지를 보낸다
-			else if (accessTokenCookie != null && refreshTokenCookie != null) {
-				throw new UnAuthorizedException();
-			}
-		}
+		// String requestURL = httpServletRequest.getServletPath();
+		// if (requestURL.contains("swagger"))
+		// 	filterChain.doFilter(httpServletRequest, httpServletResponse);
+		// log.debug("----------------------------------------------------");
+		// String accessToken = "";
+		// String refreshToken = "";
+		// String userCode = "";
+		//
+		// // Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
+		// Cookie[] cookies = httpServletRequest.getCookies();
+		//
+		// //쿠키가 모두 만료되어 없거나
+		// //하나의 토큰만 하나의 쿠키에 담겨오는 경우
+		// //exception을 터뜨려 재로그인 하도록 해준다.
+		// if (cookies == null || cookies.length == 1) {
+		// 	removeAllCookies(httpServletResponse, cookies);
+		//
+		// 	throw new UnAuthorizedException();
+		// }
+		//
+		// for (Cookie cookie : cookies) {
+		// 	String tokenName = cookie.getName();
+		// 	String tokenValue = cookie.getValue();
+		//
+		// 	if (tokenName.equals("accessToken")) {
+		// 		accessToken = tokenValue;
+		//
+		// 		//accessToken을 통해서 userCode를 가져온다
+		// 		userCode = jwtProvider.getUserCode(accessToken);
+		// 	} else if (tokenName.equals("refreshToken")) {
+		// 		refreshToken = tokenValue;
+		// 	}
+		// }
+		//
+		// // 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
+		// // exception 터뜨림
+		// jwtProvider.validateLogoutToken(refreshToken);
+		//
+		// Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
+		//
+		// //만료된 토큰이 존재한다면
+		// if (tokens != null) {
+		// 	Cookie accessTokenCookie = null;
+		// 	Cookie refreshTokenCookie = null;
+		//
+		// 	//access token을 보내줬다면
+		// 	//access token이 만료 되었다는 의미
+		// 	if (tokens.get("accessToken") != null) {
+		// 		//기존 accessToken을 담고 있던 쿠키 제거
+		// 		removeCookie(httpServletResponse, cookies, "accessToken");
+		//
+		// 		//발급된 accessToken을 가져온다
+		// 		TokenDTO accessTokenDTO = (TokenDTO)tokens.get("accessToken");
+		//
+		// 		accessTokenCookie = new Cookie("accessToken", accessTokenDTO.getToken());
+		//
+		// 		accessTokenCookie.setMaxAge(60 * 60 * 2);
+		// 		accessTokenCookie.setPath("/");
+		// 		accessTokenCookie.setHttpOnly(true);
+		// 		accessTokenCookie.setSecure(false);
+		// 	}
+		// 	//refresh token을 보내줬다면
+		// 	//refresh token이 만료 되었다는 의미
+		// 	if (tokens.get("refreshToken") != null) {
+		// 		//기존 refreshToken을 담고 있던 쿠키 제거
+		// 		removeCookie(httpServletResponse, cookies, "refreshToken");
+		//
+		// 		TokenDTO refreshTokenDTO = (TokenDTO)tokens.get("refreshToken");
+		//
+		// 		refreshTokenCookie = new Cookie("refreshToken", refreshTokenDTO.getToken());
+		//
+		// 		refreshTokenCookie.setMaxAge(60 * 24 * 24 * 31);
+		// 		refreshTokenCookie.setPath("/");
+		// 		refreshTokenCookie.setHttpOnly(true);
+		// 		refreshTokenCookie.setSecure(false);
+		// 	}
+		//
+		// 	// accessToken만 만료 되어서
+		// 	// accessToken만 재발급
+		// 	if (accessTokenCookie != null && refreshTokenCookie == null) {
+		// 		httpServletResponse.addCookie(accessTokenCookie);
+		// 	}
+		// 	// refreshToken만 만료 되어서
+		// 	// refreshToken만 재발급
+		// 	else if (accessTokenCookie == null && refreshTokenCookie != null) {
+		// 		httpServletResponse.addCookie(refreshTokenCookie);
+		// 		refreshTokenRepository.save(RefreshToken.builder().refreshToken(refreshTokenCookie.getValue()).build());
+		// 	}
+		// 	//accessToken, refreshToken 모두 만료 되었을 시에
+		// 	//재로그인 하라는 에러메시지를 보낸다
+		// 	else if (accessTokenCookie != null && refreshTokenCookie != null) {
+		// 		throw new UnAuthorizedException();
+		// 	}
+		// }
 
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}
