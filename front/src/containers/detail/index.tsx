@@ -1,12 +1,18 @@
+'use client'
+
 import Header from "@/components/Header";
 import Button from '@/components/Button'
 import * as styles from './index.css';
 import Image from 'next/image';
 import React from 'react';
+import { useParams } from 'next/navigation';
 
 const Detail = () => {
+  const { userCode, productId } = useParams()
+
   return (
     <>
+      <div>유저{userCode} 제품{productId}</div>
       <Header title="위시리스트 상세" hasPrevious/>
       <main className={styles.detailWrapper}>
         <div className={styles.detailContainer}>
