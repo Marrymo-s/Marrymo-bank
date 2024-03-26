@@ -114,7 +114,7 @@ jwt:
 # Swagger
 springdoc:
   swagger-ui:
-    path: /swagger-ui
+    path: /api/swagger-ui
     use-root-path: true
   api-docs:
     path: /v3/api-docs
