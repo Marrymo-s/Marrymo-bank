@@ -18,7 +18,7 @@ import site.marrymo.restapi.user.service.UserService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
     @PostMapping

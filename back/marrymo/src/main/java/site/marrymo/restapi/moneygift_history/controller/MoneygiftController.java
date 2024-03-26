@@ -14,7 +14,7 @@ import site.marrymo.restapi.user.dto.UserDTO;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/moneygift")
+@RequestMapping("/moneygift")
 public class MoneygiftController {
     private final MoneygiftService moneygiftService;
 
