@@ -17,11 +17,11 @@ public class SwaggerConfig {
 			.title("marrymo API")
 			.version("1.0")
 			.description("marrymo APIs");
-		// Server server = new Server();
-		// server.setUrl("https://marrymo.site/api");
+		Server server = new Server();
+		server.setUrl("https://marrymo.site");
 		return new OpenAPI()
-			.info(info);
-		//	.addServersItem(server);
+			.info(info)
+			.addServersItem(server);
 	}
 }
 
