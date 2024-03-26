@@ -23,24 +23,18 @@ import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.marrymo.restapi.moneygift_history.dto.GuestType;
 import site.marrymo.restapi.moneygift_history.dto.Type;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneyInfo;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftGetResponse;
 import site.marrymo.restapi.moneygift_history.service.MoneygiftService;
-import site.marrymo.restapi.user.entity.User;
-import site.marrymo.restapi.user.exception.UserErrorCode;
-import site.marrymo.restapi.user.exception.UserException;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.repository.UserRepository;
-import site.marrymo.restapi.user.service.UserService;
 import site.marrymo.restapi.wishitem.dto.response.WishItemDetailResponse;
 import site.marrymo.restapi.wishitem.service.WishItemService;
 
@@ -55,15 +49,11 @@ public class ExcelService {
 	private final UserRepository userRepository;
 	private final AwsS3Service awsS3Service;
 
-
-	//	public void getMoneygiftExcel(User user) throws IOException {
-	public String moneygiftExcelURL(String userCode) throws IOException {
+	public String moneygiftExcelURL(UserDTO user) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 
-		//	createSheetForUser(workbook, "신부 축의금 내역", user);
-		createSheetForUser(workbook, "신부 축의금 내역", userCode);
-		createSheetForUser(workbook, "신랑 축의금 내역", userCode);
-		//	createSheetForUser(workbook, "신랑 축의금 내역", user);
+		createSheetForUser(workbook, "신부 축의금 내역", user);
+		createSheetForUser(workbook, "신랑 축의금 내역", user);
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		workbook.write(outputStream);
@@ -73,7 +63,7 @@ public class ExcelService {
 		ObjectMetadata metadata = new ObjectMetadata();
 		metadata.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		metadata.setContentLength(outputStream.size());
-		String fileName = "marrymo_" + userCode;
+		String fileName = "marrymo_" + user.getUserCode();
 
 		String fileUrl = awsS3Service.uploadExcelFile("excel", inputStream, fileName, metadata);
 
@@ -81,23 +71,9 @@ public class ExcelService {
 		workbook.close();
 
 		return fileUrl;
-		// 파일 다운로드 로직
-		//		String fileName = "moneygift_sheet_" + user.getUserCode() + "_by_marrymo";
-		// String fileName = "moneygift_sheet_" + userCode + "_by_marrymo";
-		// res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		// res.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + ".xlsx\"");
-		// try (ServletOutputStream servletOutputStream = res.getOutputStream()) {
-		// 	workbook.write(servletOutputStream);
-		// } finally {
-		// 	workbook.close();
-		// }
 	}
 
-	//	private void createSheetForUser(Workbook workbook, String sheetName, User user) {
-	private void createSheetForUser(Workbook workbook, String sheetName, String userCode) {
-		User user = userRepository.findByUserCode(userCode)
-			.orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
-
+	private void createSheetForUser(Workbook workbook, String sheetName, UserDTO user) {
 		Sheet sheet = workbook.createSheet(sheetName);
 		sheet.setDefaultColumnWidth(9);
 		/**
@@ -175,7 +151,7 @@ public class ExcelService {
 		/**
 		 * body data
 		 */
-		MoneygiftGetResponse response = moneygiftService.getMoneygiftInfo(user.getUserSequence());
+		MoneygiftGetResponse response = moneygiftService.getMoneygiftInfo(user);
 		NumberFormat formatter = NumberFormat.getNumberInstance();
 		String totalSum = formatter.format(response.getTotalSum());
 		String withListItemSum = formatter.format(response.getWishItemListSum());

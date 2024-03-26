@@ -28,7 +28,6 @@ public class CardService {
 	private final CardRepository cardRepository;
 
 	public List<User> findUserSequenceByWeddingDateAndIsIssued() {
-
 		return cardRepository.findUserByWeddingDateAndIsIssued(
 			LocalDate.now(ZoneId.of("Asia/Seoul"))).orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 	}

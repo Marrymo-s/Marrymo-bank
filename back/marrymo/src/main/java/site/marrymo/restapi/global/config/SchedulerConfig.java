@@ -2,6 +2,7 @@ package site.marrymo.restapi.global.config;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import site.marrymo.restapi.auth.service.SmtpService;
 import site.marrymo.restapi.card.service.CardService;
 import site.marrymo.restapi.global.service.ExcelService;
+import site.marrymo.restapi.user.dto.MarriedCoupleDTO;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.entity.User;
 
 @Slf4j
@@ -24,13 +27,18 @@ public class SchedulerConfig {
 	private final ExcelService excelService;
 	private final SmtpService smtpService;
 
-	@Scheduled(cron = "0 0 3 * * *", zone = "Asia/Seoul")
+	@Scheduled(cron = "00 00 03 * * *", zone = "Asia/Seoul")
 	public void makeExcel() throws IOException, MessagingException {
 		List<User> users = cardService.findUserSequenceByWeddingDateAndIsIssued();
 		for (User user : users) {
-			String excelURL = excelService.moneygiftExcelURL(user.getUserCode());
-			smtpService.sendEmail(user.getEmail(), excelURL, user.getCard().getBrideName(),
-				user.getCard().getGroomName());
+			UserDTO userDTO = UserDTO.toDTO(user);
+			MarriedCoupleDTO marriedCoupleDTO = MarriedCoupleDTO.builder()
+				.brideName(user.getCard().getBrideName())
+				.groomName(user.getCard().getGroomName())
+				.build();
+			String excelURL = excelService.moneygiftExcelURL(userDTO);
+			smtpService.sendEmail(userDTO.getEmail(), excelURL, marriedCoupleDTO.getBrideName(),
+				marriedCoupleDTO.getGroomName());
 		}
 	}
 }
