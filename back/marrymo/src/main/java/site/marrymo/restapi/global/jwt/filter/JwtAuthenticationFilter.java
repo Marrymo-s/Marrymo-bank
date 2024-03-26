@@ -50,8 +50,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
 
 		String requestURL = httpServletRequest.getServletPath();
-		if (requestURL.contains("swagger"))
+		if (requestURL.contains("swagger")) {
+			log.debug("swagger");
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
+			log.debug("alive");
+		}
 		else {
 			String accessToken = "";
 			String refreshToken = "";
