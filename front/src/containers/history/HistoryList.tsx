@@ -61,7 +61,7 @@ const HistoryList = ({selected} : SelectedProp) => {
     ])
     const [totalSum, setTotalSum] = useState<number>()
     const [moneygiftSum, setMoneygiftSum] = useState<number>()
-    const[wishSum, setWishSum] = useState<number>()
+    const [wishSum, setWishSum] = useState<number>()
 
     // const getHistory = async () => {
     //     try {
