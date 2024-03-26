@@ -116,6 +116,6 @@ springdoc:
     path: /api/swagger-ui
     use-root-path: true
   api-docs:
-    path: /v3/api-docs
+    path: /api/v3/api-docs
 
 
