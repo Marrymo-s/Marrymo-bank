@@ -1,4 +1,4 @@
-package site.marrymo.restapi.global.auth.config;
+package site.marrymo.restapi.global.auth.security.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,21 +29,30 @@ public class SecurityConfig {
 		"/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html"
 	};
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement((sessionManagement) ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeRequests()
-                .requestMatchers("/error").permitAll()
-                .requestMatchers("/h2-console/**","/favicon.ico", "/graphiql", "/graphql",
-                        "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                .anyRequest().permitAll()
-                .and()
-                .oauth2Login((oauth2) -> oauth2
-                        .successHandler(oAuth2LoginSuccessHandler)
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                                .userService(customOAuth2UserService)));
-        return http.build();
-    }
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return web -> web.ignoring()
+			.requestMatchers(swaggerURL)
+			.requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // 정적 리소스들
+	}
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+			.csrf(AbstractHttpConfigurer::disable)
+			.sessionManagement((sessionManagement) ->
+				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+		http
+			.authorizeHttpRequests(authorize -> authorize
+				.requestMatchers("/h2-console/**", "/favicon.ico","/error").permitAll()
+				.requestMatchers(swaggerURL).permitAll()
+				.anyRequest().permitAll());
+		http
+			.oauth2Login((oauth2) -> oauth2
+				.successHandler(oAuth2LoginSuccessHandler)
+				.userInfoEndpoint(userInfoEndpoint ->
+					userInfoEndpoint.userService(customOAuth2UserService)));
+		return http.build();
+	}
 }
