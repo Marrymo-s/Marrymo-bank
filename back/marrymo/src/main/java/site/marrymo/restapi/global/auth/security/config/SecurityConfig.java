@@ -51,9 +51,9 @@ public class SecurityConfig {
 			.sessionManagement((sessionManagement) ->
 				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		http
-			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenRepository),
-				UsernamePasswordAuthenticationFilter.class);
+		// http
+		// 	.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenRepository),
+		// 		UsernamePasswordAuthenticationFilter.class);
 
 		http
 			.authorizeHttpRequests(authorize -> authorize
