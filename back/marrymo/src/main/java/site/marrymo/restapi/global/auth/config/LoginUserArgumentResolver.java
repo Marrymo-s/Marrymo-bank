@@ -47,6 +47,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
                 if(tokenName.equals("accessToken")){
                     if(tokenValue != null && !tokenValue.trim().equals("")){
                         String userCode = jwtProvider.getUserCode(tokenValue);
+                        log.debug("usercode:"+userCode);
                         User user = userRepository.findByUserCode(userCode)
                                 .orElseThrow(() -> new JWTException(JWTErrorCode.INVALID_TOKEN));
 

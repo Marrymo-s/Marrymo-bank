@@ -140,13 +140,14 @@ public class MoneygiftService {
         // userCode로 송금 보낼 사람을 찾는다.
         User user = userRepository.findByUserCode(moneygiftTransferRequest.getUserCode())
                 .orElseThrow(()-> new UserException(UserErrorCode.USER_NOT_FOUND));
+        log.info("usercode: "+user.getUserCode());
 
         Card card = cardRepository.findByUser(user)
                 .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND));
-
+        log.info("usercode: "+user.getUserCode());
         // 신랑 이름과 신부 이름을 구한다.
         UserInfoResponse userInfoResponse = UserInfoResponse.toDto(user, card);
-        
+        log.info("user info response");
         // 송금하는 사람은 메리모 정보로 통일
         MoBankTransferRequest moBankTransferRequest=MoBankTransferRequest
                 .builder()
@@ -155,7 +156,7 @@ public class MoneygiftService {
                 .tranAmt(moneygiftTransferRequest.getAmount())
                 .tranMsg("[메리모] "+moneygiftTransferRequest.getSender() + "송금")
                 .build();
-
+        log.info("success mobanktransferrequest");
         // 송금을 각자 받을 경우
         if (userInfoResponse.getIsGroomOnce() && userInfoResponse.getIsBrideOnce()){
             if (moneygiftTransferRequest.getGuestType()==GuestType.GROOM){

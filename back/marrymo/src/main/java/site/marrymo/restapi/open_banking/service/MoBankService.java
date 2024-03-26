@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -71,6 +72,7 @@ public class MoBankService {
 			.block();
 	}
 
+	@Transactional
 	public HashMap<String,List<MoBankAccountResponse>> registerMoBankAccount(String userCode, Who who, AccountInquiryResponse accountInquiryResponse){
 		MoBankTokenApiResponse moBankToken = callMoBankTokenApi();
 
