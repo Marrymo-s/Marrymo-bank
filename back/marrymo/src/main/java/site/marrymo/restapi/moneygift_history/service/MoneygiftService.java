@@ -194,8 +194,13 @@ public class MoneygiftService {
         // 메리모 moneygift history 데이터베이스에 저장할 entity를 만든다.
         User receiver = userRepository.findByUserCode(userInfoResponse.getUserCode())
                 .orElseThrow(()->new UserException(UserErrorCode.USER_NOT_FOUND));
-        WishItem wishItem =wishItemRepository.findByWishItemSequenceAndUser(moneygiftTransferRequest.getWishItemSequence(), user)
-                .orElseThrow(()->new NoSuchElementException());
+
+        WishItem wishItem=null;
+        if (moneygiftTransferRequest.getType()==Type.ITEM){
+            wishItem =wishItemRepository.findByWishItemSequenceAndUser(moneygiftTransferRequest.getWishItemSequence(), user)
+                    .orElseThrow(()->new NoSuchElementException());
+        }
+
 
         Moneygift moneygift = new Moneygift(receiver,
                 wishItem,
