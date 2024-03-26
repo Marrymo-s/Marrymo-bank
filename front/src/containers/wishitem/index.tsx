@@ -51,7 +51,7 @@ const WishItem = () => {
         <div className={styles.wishitemContainer}>
           <Search query={query} setQuery={setQuery} search={search}/>
           <Registration wishLists={wishLists}/>
-          <Results results={results} addToWishlist={addToWishlist}/>
+          <Results results={results}/>
         </div>
       </main>
     </>
