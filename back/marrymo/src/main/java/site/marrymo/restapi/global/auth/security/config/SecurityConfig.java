@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -51,9 +52,9 @@ public class SecurityConfig {
 			.sessionManagement((sessionManagement) ->
 				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		// http
-		// 	.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenRepository),
-		// 		UsernamePasswordAuthenticationFilter.class);
+		http
+			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenRepository),
+				OAuth2LoginAuthenticationFilter.class);
 
 		http
 			.authorizeHttpRequests(authorize -> authorize
