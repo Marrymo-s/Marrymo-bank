@@ -34,17 +34,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 
         String kakaoId = (String) kakaoAccount.get("email");
-        String userCode = userCodeGenerator.makeUserCode();
 
         log.debug("kakaoId:"+kakaoId);
-        log.debug("userCode:"+userCode);
 
-        //메리모에 회원가입이 되어 있지 않다면
-        //메리모에 회원가입 진행
-        User user = User.builder().kakaoId(kakaoId).userCode(userCode).build();
-
-        if(userRepository.findByKakaoId(kakaoId).isEmpty())
-            userRepository.save(user);
+        User user = userRepository.findByKakaoId(kakaoId).orElseThrow();
+        if(user == null){
+            String userCode = userCodeGenerator.makeUserCode();
+            userRepository.save(User.builder().userCode(userCode).kakaoId(kakaoId).build());
+        }
 
         return new MarrymoUserDetails(user, oAuth2User.getAttributes());
     }
