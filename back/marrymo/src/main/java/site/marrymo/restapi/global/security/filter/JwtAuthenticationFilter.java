@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		 if (cookies == null || cookies.length == 1) {
 		 	removeAllCookies(httpServletResponse, cookies);
 
-		 	throw new UnAuthorizedException();
+		 	httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		 }
 
 		 for (Cookie cookie : cookies) {
@@ -81,7 +81,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
 		 // 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
 		 // exception 터뜨림
-		 jwtProvider.validateLogoutToken(refreshToken);
+		 if(jwtProvider.validateLogoutToken(refreshToken)){
+			 removeAllCookies(httpServletResponse, cookies);
+			 httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+		 }
 
 		 Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
 
@@ -139,7 +142,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		 	//accessToken, refreshToken 모두 만료 되었을 시에
 		 	//재로그인 하라는 에러메시지를 보낸다
 		 	else if (accessTokenCookie != null && refreshTokenCookie != null) {
-		 		throw new UnAuthorizedException();
+		 		httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		 	}
 		 }
 
