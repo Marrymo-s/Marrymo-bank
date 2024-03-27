@@ -21,16 +21,16 @@ import site.marrymo.restapi.user.service.UserService;
 public class UserController {
     private final UserService userService;
 
-//    @PostMapping
-//    public void registUserInfo(@LoginUser UserDTO userDTO, @Valid UserRegistRequest userRegistRequest){
-//        userService.registUserInfo(userDTO, userRegistRequest);
-//    }
+    @PostMapping
+    public void registUserInfo(@LoginUser UserDTO userDTO, @Valid UserRegistRequest userRegistRequest){
+        userService.registUserInfo(userDTO, userRegistRequest);
+    }
 
     // access token 제외 test
-    @PostMapping
-    public void registUserInfo(@RequestBody UserRegistTestRequest userRegistTestRequest){
-        userService.registUserInfo(userRegistTestRequest.getUserDTO(),userRegistTestRequest.getUserRegistRequest());
-    }
+//    @PostMapping
+//    public void registUserInfo(@RequestBody UserRegistTestRequest userRegistTestRequest){
+//        userService.registUserInfo(userRegistTestRequest.getUserDTO(),userRegistTestRequest.getUserRegistRequest());
+//    }
 
     @PutMapping
     public void modifyUserInfo(@LoginUser UserDTO userDTO, @Valid UserModifyRequest userModifyRequest){
