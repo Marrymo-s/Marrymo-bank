@@ -54,7 +54,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		accessTokenCookie.setMaxAge(60 * 24 * 24 * 31);
 		accessTokenCookie.setPath("/");
 		accessTokenCookie.setHttpOnly(true);
-		accessTokenCookie.setSecure(false);
+		accessTokenCookie.setSecure(true);
+		accessTokenCookie.setDomain("marrymo.site");
 
 		response.addCookie(accessTokenCookie);
 
@@ -62,7 +63,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		refreshTokenCookie.setMaxAge(60 * 24 * 24 * 31);
 		refreshTokenCookie.setPath("/");
 		refreshTokenCookie.setHttpOnly(true);
-		refreshTokenCookie.setSecure(false);
+		refreshTokenCookie.setSecure(true);
+		refreshTokenCookie.setDomain("marrymo.site");
 
 		response.addCookie(refreshTokenCookie);
 

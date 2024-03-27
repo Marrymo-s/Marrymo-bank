@@ -104,7 +104,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		 		accessTokenCookie.setMaxAge(60 * 24 * 24 * 31);
 		 		accessTokenCookie.setPath("/");
 		 		accessTokenCookie.setHttpOnly(true);
-		 		accessTokenCookie.setSecure(false);
+		 		accessTokenCookie.setSecure(true);
+				 accessTokenCookie.setDomain("marrymo.site");
 		 	}
 		 	//refresh token을 보내줬다면
 		 	//refresh token이 만료 되었다는 의미
@@ -119,7 +120,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		 		refreshTokenCookie.setMaxAge(60 * 24 * 24 * 31);
 		 		refreshTokenCookie.setPath("/");
 		 		refreshTokenCookie.setHttpOnly(true);
-		 		refreshTokenCookie.setSecure(false);
+		 		refreshTokenCookie.setSecure(true);
+				 refreshTokenCookie.setDomain("marrymo.site");
 		 	}
 
 		 	// accessToken만 만료 되어서
