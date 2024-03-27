@@ -37,6 +37,7 @@ public class UserController {
     }
 
     @GetMapping
+    @Operation(summary = "사용자 정보 조회 (테스트 완료)", description = "사용자 정보를 조회합니다.")
     public ResponseEntity<UserGetResponse> getUserInfo(@LoginUser UserDTO userDTO){
         UserGetResponse userGetResponse = userService.getUserInfo(userDTO);
         return ResponseEntity.ok(userGetResponse);
@@ -54,11 +55,13 @@ public class UserController {
     }
 
     @PatchMapping("/account")
+    @Operation(summary = "계좌 등록 대상 정보 등록 (테스트 완료)", description = "계좌 등록 대상 정보를 등록합니다.")
     public void registWho(@LoginUser UserDTO userDTO, @Valid @RequestBody WhoRegistRequest whoRegistRequest){
         userService.registWho(userDTO, whoRegistRequest);
     }
 
     @GetMapping("/account")
+    @Operation(summary = "계좌 등록 여부 확인 (테스트 완료)", description = "계좌가 모두 등록되었는지 확인합니다.")
     public ResponseEntity<VerifyAccountResponse> verifyAccount(@LoginUser UserDTO userDTO){
         VerifyAccountResponse verifyAccountResponse = userService.verifyAccount(userDTO);
         return ResponseEntity.ok(verifyAccountResponse);
