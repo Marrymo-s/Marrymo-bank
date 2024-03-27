@@ -179,9 +179,12 @@ public class JWTProvider {
 
     // 이미 로그아웃 돼서 없어진 refresh token을 가지고 접근 할 경우에 대비하여
     // black_list 테이블에서 해당 refresh token이 있는지 확인
-    public void validateLogoutToken(String refreshToken) {
+    public boolean validateLogoutToken(String refreshToken) {
         if (blackListRepository.findByInvalidRefreshToken(refreshToken).isPresent()) {
-            throw new UnAuthorizedException("이미 로그아웃 된 사용자입니다.");
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
