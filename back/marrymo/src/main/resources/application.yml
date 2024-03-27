@@ -12,9 +12,9 @@ spring:
       client:
         registration:
           kakao:
-            client-id: ${KAKAO_CLIENT_ID}
-            client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: ${KAKAO_REDIRECT_URI}
+            client-id: a70e3ece3a2703baece0174c3c829d72
+            client-secret: LkvCjXSYnPZJRxaXvXWAUmMqWlDoRJV6
+            redirect-uri: https://marrymo.site/api/login/oauth2/code/kakao
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope: account_email
