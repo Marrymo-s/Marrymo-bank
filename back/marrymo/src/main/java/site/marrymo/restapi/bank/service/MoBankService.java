@@ -52,7 +52,7 @@ public class MoBankService {
 
 		return moBankWebClient
 			.post()
-			.uri("/auth/token")
+			.uri("/api/auth/token")
 			.contentType(MediaType.APPLICATION_JSON)
 			.body(BodyInserters.fromValue(tokenApiRequest))
 			.retrieve()
