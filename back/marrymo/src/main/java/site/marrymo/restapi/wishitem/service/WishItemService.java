@@ -93,11 +93,15 @@ public class WishItemService {
                 .mapToInt(Moneygift::getAmount)
                 .sum();
 
+        long person=moneygiftList.stream()
+                .count();
+
         //5. 반환
         return WishItemDetailResponse.builder()
                 .wishItemSequence(wishItem.getWishItemSequence())
                 .name(wishItem.getName())
                 .fund(fund)
+                .person(person)
                 .price(wishItem.getPrice())
                 .img(wishItem.getImg())
                 .build();
