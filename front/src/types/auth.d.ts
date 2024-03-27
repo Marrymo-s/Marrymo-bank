@@ -6,6 +6,7 @@ export interface signupRequest {
   groomContact: string,
   brideContact: string,
   weddingDate: string,
+  weddingDay: string,
   weddingTime: string,
   location: string,
   email: string,

@@ -14,6 +14,7 @@ interface wishItemDetailProps {
   wishItemSequence: number;
   name: string;
   fund: number;
+  person: number;
   price: number;
   img: string
 }
@@ -23,7 +24,8 @@ const Detail = () => {
   const { userCode, wishItemSequence } = useParams()
 
   const getWishItemDetail = axiosInstance.get<wishItemDetailProps>(`/wish-item/${userCode}/${wishItemSequence}`)
-  const wishItemDetailData = use(getWishItemDetail)
+  const wishItemDetailData = use(getWishItemDetail).data
+  console.log(wishItemDetailData)
 
   return (
     <>
@@ -41,7 +43,7 @@ const Detail = () => {
         </div>
         <hr />
         <div className={styles.detailNameText}>
-          {wishItemDetailData.data.name}
+          {wishItemDetailData.name}
         </div>
         <div>
           프로그레스 바.
@@ -49,10 +51,10 @@ const Detail = () => {
         <hr/>
         <div>
           <div>
-            현재 <span>{wishItemDetailData.data.price}</span> 중 <br />
-            <span>{wishItemDetailData.data.fund}</span>원이  모였어요
+            현재 <span>{wishItemDetailData.price}</span> 중 <br />
+            <span>{wishItemDetailData.fund}</span>원이  모였어요
             모금 마감까지  <span>n</span>일이 남았어요! <br />
-            지금까지 <span>n</span>명이 모금에 참여했어요
+            지금까지 <span>{wishItemDetailData.person}</span>명이 모금에 참여했어요
           </div>
         </div>
         <Button

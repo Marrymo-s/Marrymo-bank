@@ -1,7 +1,6 @@
 'use client';
-
 //리액트 라이브러리
-import React, { use, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // 구성 컴포넌트
@@ -22,29 +21,37 @@ import { signupRequest } from '@/types/auth';
 import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
-const invitationData = {
-  groomName: '홍길동',
-  brideName: '김영희',
-  groomContact: '010-1234-5678',
-  brideContact: '010-8765-4321',
-  weddingDate: '2024-12-24',
-  weddingTime: '오후 2시',
-  location: '서울 소공동 롯데호텔',
-  email: 'wedding@example.com',
-  greeting: '초대합니다',
-  groomFather: '홍판서',
-  groomMother: '춘향이',
-  brideFather: '김두한',
-  brideMother: '심청이',
-  imgUrl: [
-    '/images/landing/example1.png',
-  ]
-};
 
 const InvitationCard = () => {
-  //TODO 토큰로직 짜면 쓰기
-  // const getSignUpRequest = axiosInstance.get<signupRequest>('/users')
-  // const invitationData = use(getSignUpRequest)
+  const [invitationData, setInvitationData] = useState<signupRequest>({
+    groomName: '',
+    brideName: '',
+    groomContact: '',
+    brideContact: '',
+    weddingDate: '',
+    weddingDay: '',
+    weddingTime: '',
+    location: '',
+    email: '',
+    greeting: '',
+    groomFather: '',
+    groomMother: '',
+    brideFather: '',
+    brideMother: '',
+    imgUrl: [],
+  })
+
+  useEffect(() => {
+    axiosInstance.get<signupRequest>('/users')
+      .then(response => {
+  setInvitationData(response.data);
+
+      })
+      .catch(error => {
+        console.error("Failed to fetch invitation data:", error);
+
+      });
+  }, []);
 
   console.log(invitationData)
 
