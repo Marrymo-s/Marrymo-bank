@@ -101,7 +101,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
 		 		accessTokenCookie = new Cookie("accessToken", accessTokenDTO.getToken());
 
-		 		accessTokenCookie.setMaxAge(60 * 60 * 2);
+		 		accessTokenCookie.setMaxAge(60 * 24 * 24 * 31);
 		 		accessTokenCookie.setPath("/");
 		 		accessTokenCookie.setHttpOnly(true);
 		 		accessTokenCookie.setSecure(false);
