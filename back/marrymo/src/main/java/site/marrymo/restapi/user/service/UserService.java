@@ -169,7 +169,7 @@ public class UserService {
         Card card = cardRepository.findByUser(user)
                 .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND));
 
-        List<WeddingImg> weddingImgList = weddingImgRepository.findAll();
+        List<WeddingImg> weddingImgList = weddingImgRepository.findByCard(card);
         List<String> imgUrlList = new ArrayList<>();
 
         for(WeddingImg weddingImg : weddingImgList){
