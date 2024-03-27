@@ -33,14 +33,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain chain) throws ServletException, IOException {
-		log.debug("uri = {}", request.getRequestURI());
-		request.getRemoteAddr();
+		String requestURI = request.getRequestURI();
+		if (requestURI.startsWith("/api/auth")) {
+			chain.doFilter(request, response);
+			return;
+		}
+
 		String token = resolveToken(request);
-		log.debug("access token in jwtFilter = {}", token);
 		if (jwtTokenProvider.validateToken(token) && token != null) {
 			Authentication authentication = jwtTokenProvider.getAuthentication(token);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+			chain.doFilter(request, response);
+		} else {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		}
-		chain.doFilter(request, response);
 	}
 }
