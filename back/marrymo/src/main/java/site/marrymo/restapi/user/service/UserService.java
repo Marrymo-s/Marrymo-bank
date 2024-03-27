@@ -1,14 +1,20 @@
 package site.marrymo.restapi.user.service;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import site.marrymo.restapi.auth.repository.BlackListRepository;
 import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.card.exception.CardErrorCode;
 import site.marrymo.restapi.card.exception.CardException;
 import site.marrymo.restapi.card.repository.CardRepository;
+import site.marrymo.restapi.global.jwt.entity.BlackList;
 import site.marrymo.restapi.global.s3.service.AwsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
 import site.marrymo.restapi.user.dto.UserDTO;
@@ -41,7 +47,7 @@ public class UserService {
     private final CardRepository cardRepository;
     private final WeddingImgRepository weddingImgRepository;
     private final AwsS3Service awsS3Service;
-
+    private final BlackListRepository blackListRepository;
     public String makeUniqueUserCode(){
         UserCodeGenerator userCodeGenerator = new UserCodeGenerator();
 
@@ -276,5 +282,21 @@ public class UserService {
                 .isAgreement(isAgreement)
                 .isRequired(isRequired)
                 .build();
+    }
+
+    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        String refreshToken = "";
+        //access token, refresh token 정보를 담고 있는 cookie 모두 제거
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals("refreshToken")){
+                refreshToken = cookie.getValue();
+            }
+            cookie.setMaxAge(0);
+            httpServletResponse.addCookie(cookie);
+        }
+
+        //black_list 테이블에 만료된 refresh token 정보를 저장
+        blackListRepository.save(BlackList.builder().invalidRefreshToken(refreshToken).build());
     }
 }

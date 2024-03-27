@@ -1,6 +1,8 @@
 package site.marrymo.restapi.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +29,6 @@ public class UserController {
     public void registUserInfo(@LoginUser UserDTO userDTO, @Valid UserRegistRequest userRegistRequest){
         userService.registUserInfo(userDTO, userRegistRequest);
     }
-
-    // access token 제외 test
-//    @PostMapping
-//    public void registUserInfo(@RequestBody UserRegistTestRequest userRegistTestRequest){
-//        userService.registUserInfo(userRegistTestRequest.getUserDTO(),userRegistTestRequest.getUserRegistRequest());
-//    }
 
     @PutMapping
     @Operation(summary = "사용자 정보 수정 (테스트 완료)", description = "사용자 정보를 수정합니다.")
@@ -78,4 +74,10 @@ public class UserController {
         PermissionResponse permissionResponse = userService.getUserPermission(userDTO);
         return ResponseEntity.ok(permissionResponse);
     }
+
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        userService.logout(httpServletRequest, httpServletResponse);
+    }
+
 }

@@ -32,14 +32,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 	private final JWTProvider jwtProvider;
 	private final RedisService redisService;
-//	private final RefreshTokenRepository refreshTokenRepository;
 	private final UserRepository userRepository;
-	private final String HOME_CALLBACK_URL = "https://marrymo.site";
+	private final String HOME_CALLBACK_URL = "https://marrymo.site/";
 	private final String SIGNUP_CALLBACK_URL = "https://marrymo.site/signup";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-		Authentication authentication) throws IOException, ServletException {
+		Authentication authentication) throws IOException {
 		String kakaoId = authentication.getName();
 
 		//받아온 kakaoId를 통해서 user 정보를 찾는다
@@ -68,10 +67,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 		response.addCookie(refreshTokenCookie);
 
-		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL).build().toUriString();
+		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
 		String signupTargetUrl = UriComponentsBuilder.fromUriString(SIGNUP_CALLBACK_URL).build().toUriString();
 
-		if(user.getCard() != null)
+		if (user.getCard() != null)
 			getRedirectStrategy().sendRedirect(request, response, homeTargetUrl);
 		else
 			getRedirectStrategy().sendRedirect(request, response, signupTargetUrl);
@@ -84,7 +83,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		//redis에 refresh 토큰 저장
 		RefreshToken redis = new RefreshToken(refreshToken.getToken(), userCode);
 		redisService.setValue(redis.getRefreshToken(), userCode);
-	//	refreshTokenRepository.save(redis);
 
 		return VerifyToken.builder()
 			.accessToken(accessToken.getToken())
