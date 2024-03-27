@@ -1,13 +1,17 @@
 'use client';
 
+import {useState} from 'react';
+import dynamic from "next/dynamic";
+import {useRouter} from 'next/navigation';
+
 import Header from '@/components/Header'
 import * as styles from './index.css'
-import dynamic from "next/dynamic";
+
 import WeddingDatepicker from "@/containers/signup/WeddingDatepicker";
 import InputBox from "@/components/InputBox";
 import InvitationMessage from "@/containers/signup/InvitationMessage";
 import Button from '@/components/Button/index'
-import {useRouter} from 'next/navigation';
+
 import WeddingGallery from "@/containers/signup/WeddingGallery";
 
 const KakaoNoSSR = dynamic(() => import('./KakaoMap'), {
@@ -15,8 +19,17 @@ const KakaoNoSSR = dynamic(() => import('./KakaoMap'), {
 })
 
 const Signup = () => {
-  const searchKeyword: string = '바나프레소 테헤란로점'  // 임시 데이터
+  const [weddingLocation, setWeddingLocation] = useState('');
   const router = useRouter()
+
+  const handleLocationSelect = (location) => {
+    setWeddingLocation(location);
+    // Close the Kakao Map modal here if it's open
+  };
+
+  const openKakaoMapSearch = () => {
+    // Logic to display the Kakao Map modal
+  };
 
   return (
     <>
@@ -75,7 +88,6 @@ const Signup = () => {
             inputBoxHeader='이메일 주소'
             placeholder='이메일 주소를 입력하세요.'
             asterisk={true}
-            // 버튼은 아래와 같이 'text', 'onClick', 'type'이 있어야 에러가 나지 않아요
             button={{
               text: '인증',
               // 추후에 인증 메일 보내는 함수 작성
@@ -104,7 +116,20 @@ const Signup = () => {
           </div>
         </div>
         <div>
-          {/*<KakaoNoSSR searchKeyword={searchKeyword}/>*/}
+          <InputBox
+            inputBoxHeader='결혼식 장소 선택'
+            placeholder='결혼식 장소를 선택해주세요.'
+            asterisk={true}
+            button={{
+              text: '검색',
+              // 추후에 인증 메일 보내는 함수 작성
+              onClick: () => {
+                openKakaoMapSearch()
+              },
+              type: 'button',
+              size: 'small'
+            }}
+          />
         </div>
         <div>
           <WeddingGallery/>

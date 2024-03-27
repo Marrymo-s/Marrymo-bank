@@ -2,11 +2,14 @@
 
 import React, {useEffect} from "react";
 
+import * as styles from './index.css'
+
 interface keywordProps {
   searchKeyword: string;
 }
 
 const KakaoMap = ({searchKeyword}: keywordProps) => {
+  // TODO: 이 부분은 preview, home에서 띄워주는 게 맞을 듯
   useEffect(() => {
     if (window.kakao) {
       window.kakao.maps.load(() => {
@@ -24,7 +27,7 @@ const KakaoMap = ({searchKeyword}: keywordProps) => {
   }, [searchKeyword]);
   return (
     // id가 'map'인 div 출력, width와 height를 설정해줘야 정상 출력됨
-    <div id="map" style={{width: '300px', height: '300px'}}/>
+    <div id="map" className={styles.mapContainer}/>
   );
 };
 

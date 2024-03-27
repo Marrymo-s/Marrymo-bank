@@ -61,13 +61,21 @@ export const weddingDatePickerContainer = style([
   }),
   {
     fontSize: vars.fontSize['2x']
-  }]);
+  }
+]);
 
 export const asteriskStyle = style({
   marginLeft: vars.space['0.5x'],
   fontSize: vars.fontSize['2x'],
   color: vars.colors.alertRed,
   fontWeight: vars.fontWeight.accent,
+})
+
+export const mapContainer = style({
+  height: '300px',
+  width: '300px',
+  maxHeight: 'auto',
+  maxWidth: '100%'
 })
 
 export const selectedDate = style({
@@ -169,3 +177,15 @@ export const image = style({
   height: 'auto',
   // 이미지 스타일 ...
 });
+
+export const inputBoxContainer = style([
+  // TODO: '결혼식 장소 선택' 텍스트가 왼쪽에 오도록 정렬하기
+  flex({
+    align: 'flexStart',
+    justify: 'flexStart',
+    direction: 'column',
+  }),
+  {
+    fontSize: vars.fontSize['2x']
+  }
+])

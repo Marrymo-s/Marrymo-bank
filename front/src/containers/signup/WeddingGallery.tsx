@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import * as styles from './index.css';
 
 const WeddingGalleryUploader = () => {
+  // TODO: 타입 지정, 에러 잡기! 이후에 CSS 수정(화보 추가하기 버튼 등)
   const [images, setImages] = useState<[]>([]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,6 +15,7 @@ const WeddingGalleryUploader = () => {
         if (newImages.length <= 12) {
           setImages(newImages);
         } else {
+          // TODO: alert 메시지로 뜨는 거 모달로 고쳐야 함
           alert('You can upload up to 12 images.');
         }
       };
