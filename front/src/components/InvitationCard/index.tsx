@@ -46,14 +46,6 @@ const InvitationCard = () => {
   // const getSignUpRequest = axiosInstance.get<signupRequest>('/users')
   // const invitationData = use(getSignUpRequest)
 
-  const getRequest = axios.get('https://koreanjson.com/users')
-  const hi = use(getRequest) // 얘가 순서대로 되는건 좀 신기하긴 함
-  console.log(hi)
-  console.log(111111111111111)
-
-
-
-
   console.log(invitationData)
 
   return (
