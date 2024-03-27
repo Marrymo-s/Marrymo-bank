@@ -1,10 +1,16 @@
 import * as styles from './index.css'
+import InvitationCard from "@/components/InvitationCard";
+import HamburgerButton from '@/containers/home/HamburgerButton';
+
 
 const Home = () => {
   return (
     <>
       <main className={styles.homeWrapper}>
-        <div>preview 파일이랑 같은 걸 보여주되 햄버거 바 추가</div>
+        <HamburgerButton />
+        <div className={styles.invitationContainer}>
+          <InvitationCard />
+        </div>
       </main>
     </>
   )

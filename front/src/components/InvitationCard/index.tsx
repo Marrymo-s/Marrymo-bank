@@ -1,7 +1,8 @@
-
+'use client';
 
 //리액트 라이브러리
 import React, { use, useState, useEffect } from 'react';
+import axios from 'axios';
 
 // 구성 컴포넌트
 import CardTop from '@/components/InvitationCard/cardTop';
@@ -44,6 +45,14 @@ const InvitationCard = () => {
   //TODO 토큰로직 짜면 쓰기
   // const getSignUpRequest = axiosInstance.get<signupRequest>('/users')
   // const invitationData = use(getSignUpRequest)
+
+  const getRequest = axios.get('https://koreanjson.com/users')
+  const hi = use(getRequest) // 얘가 순서대로 되는건 좀 신기하긴 함
+  console.log(hi)
+  console.log(111111111111111)
+
+
+
 
   console.log(invitationData)
 
