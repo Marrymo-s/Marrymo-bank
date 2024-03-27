@@ -28,6 +28,7 @@ public class UserGetResponse {
     private String brideFather;
     private String brideMother;
     private List<String> imgUrl;
+    private String userCode;
 
     public static UserGetResponse toDto(User user, Card card, List<String> imgUrl){
         return UserGetResponse.builder()
@@ -47,6 +48,7 @@ public class UserGetResponse {
                 .brideFather(card.getBrideFather())
                 .brideMother(card.getBrideMother())
                 .imgUrl(imgUrl)
+                .userCode(user.getUserCode())
                 .build();
     }
 }
