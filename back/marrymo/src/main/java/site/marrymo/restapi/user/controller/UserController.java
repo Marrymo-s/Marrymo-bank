@@ -1,5 +1,6 @@
 package site.marrymo.restapi.user.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @Operation(summary = "사용자 정보 등록 (테스트 완료)", description = "카카오 로그인 후, 사용자 정보를 등록합니다.")
     public void registUserInfo(@LoginUser UserDTO userDTO, @Valid UserRegistRequest userRegistRequest){
         userService.registUserInfo(userDTO, userRegistRequest);
     }
@@ -33,6 +35,7 @@ public class UserController {
 //    }
 
     @PutMapping
+    @Operation(summary = "사용자 정보 수정 (테스트 완료)", description = "사용자 정보를 수정합니다.")
     public void modifyUserInfo(@LoginUser UserDTO userDTO, @Valid UserModifyRequest userModifyRequest){
         userService.modifyUserInfo(userDTO, userModifyRequest);
     }
