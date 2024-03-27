@@ -15,8 +15,8 @@ import './layout.css';
 const inter = Inter({subsets: ['latin']})
 
 export const metadata: Metadata = {
-  title: 'Marrymo',
-  description: '모바일 청첩장과 축의금 송금을 Marrymo에서!',
+  title: 'Marrymo(메리모)',
+  description: '모바일 청첩장과 축의금 송금은 Marrymo!',
 }
 
 declare global {
@@ -43,7 +43,7 @@ export default function RootLayout({
             async/>
     <Script
       type="text/javascript"
-      src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAPAPI_KEY}&autoload=false&libraries=services`}
+      src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAPAPI_KEY}&autoload=false&libraries=services,clusterer,drawing`}
     />
     </html>
   )

@@ -1,6 +1,5 @@
 'use client';
 
-import Checkbox from '@/components/Checkbox';
 import useModal from '@/hooks/useModal'
 import Button from "@/components/Button";
 import {useRouter} from 'next/navigation';
@@ -10,8 +9,6 @@ const Pangpang = () => {
   const router = useRouter();
   return (
     <div>
-      <Checkbox checked={false} onChange={() => {
-      }}>위 약관에 동의~</Checkbox>
       <Button
         type='submit'
         onClick={openModal}

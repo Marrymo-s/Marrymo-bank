@@ -6,11 +6,13 @@ import {useRouter} from 'next/navigation';
 
 import Header from '@/components/Header'
 import * as styles from './index.css'
+import KakaoMap from '@/components/KakaoMap'
 
 import WeddingDatepicker from "@/containers/signup/WeddingDatepicker";
 import InputBox from "@/components/InputBox";
 import InvitationMessage from "@/containers/signup/InvitationMessage";
 import Button from '@/components/Button/index'
+import useModal from '@/hooks/useModal'
 
 import WeddingGallery from "@/containers/signup/WeddingGallery";
 
@@ -19,16 +21,12 @@ const KakaoNoSSR = dynamic(() => import('./KakaoMap'), {
 })
 
 const Signup = () => {
-  const [weddingLocation, setWeddingLocation] = useState('');
+  const [weddingLocation, setWeddingLocation] = useState<string>('');
   const router = useRouter()
+  const {Modal, openModal, closeModal} = useModal();
 
-  const handleLocationSelect = (location) => {
-    setWeddingLocation(location);
-    // Close the Kakao Map modal here if it's open
-  };
-
-  const openKakaoMapSearch = () => {
-    // Logic to display the Kakao Map modal
+  const openKakaoMapSearch = async () => {
+    openModal()
   };
 
   return (
@@ -143,6 +141,12 @@ const Signup = () => {
             type='button'
           >다음</Button>
         </div>
+        <Modal>
+          <>
+            <KakaoMap setWeddingLocation={setWeddingLocation}/>
+            <input type="text" value={weddingLocation} readOnly/>
+          </>
+        </Modal>
       </main>
     </>
   )
