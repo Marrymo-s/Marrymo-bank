@@ -125,10 +125,10 @@ public class ExcelService {
 		title.setCellStyle(titleStyle);
 
 		row = sheet.createRow(6);
-		Cell money = row.createCell(2);
+		Cell money = row.createCell(9);
 		money.setCellValue("축의금");
 		money.setCellStyle(headerXssfCellStyle);
-		Cell wishList = row.createCell(8);
+		Cell wishList = row.createCell(2);
 		wishList.setCellValue("위시리스트");
 		wishList.setCellStyle(headerXssfCellStyle);
 
@@ -137,11 +137,11 @@ public class ExcelService {
 
 		String[] headerData = new String[] {"순번", "관계", "이름", "금액"};
 		headerRow = sheet.createRow(7);
-		headerCell = headerRow.createCell(8);
+		headerCell = headerRow.createCell(2);
 		headerCell.setCellValue("품목");
 		headerCell.setCellStyle(headerXssfCellStyle); // 스타일 추가
 		for (int i = 0; i < headerData.length; i++) {
-			headerCell = headerRow.createCell(i + 2);
+			headerCell = headerRow.createCell(i + 3);
 			headerCell.setCellValue(headerData[i]); // 데이터 추가
 			headerCell.setCellStyle(headerXssfCellStyle); // 스타일 추가
 			headerCell = headerRow.createCell(i + 9);
@@ -178,19 +178,19 @@ public class ExcelService {
 		for (MoneygiftData data : moneygiftList) {
 			moneygiftRow = sheet.createRow(moneygiftIndex++);
 
-			moneygiftCell = moneygiftRow.createCell(2);
+			moneygiftCell = moneygiftRow.createCell(9);
 			moneygiftCell.setCellValue(moneygiftIndex - 8);
 			moneygiftCell.setCellStyle(bodyXssfCellStyle);
 
-			moneygiftCell = moneygiftRow.createCell(3);
+			moneygiftCell = moneygiftRow.createCell(10);
 			moneygiftCell.setCellValue(data.getRelationship());
 			moneygiftCell.setCellStyle(bodyXssfCellStyle);
 
-			moneygiftCell = moneygiftRow.createCell(4);
+			moneygiftCell = moneygiftRow.createCell(11);
 			moneygiftCell.setCellValue(data.getSender());
 			moneygiftCell.setCellStyle(bodyXssfCellStyle);
 
-			moneygiftCell = moneygiftRow.createCell(5);
+			moneygiftCell = moneygiftRow.createCell(12);
 			moneygiftCell.setCellValue(formatter.format(data.getAmount()));
 			moneygiftAmount += data.getAmount();
 			moneygiftCell.setCellStyle(bodyXssfCellStyle);
@@ -200,7 +200,7 @@ public class ExcelService {
 		String[] moneygiftTotal = {"", "", "합계", formatter.format(moneygiftAmount)};
 		moneygiftRow = sheet.createRow(moneygiftIndex);
 		for (int i = 0; i < moneygiftTotal.length; i++) {
-			moneygiftCell = moneygiftRow.createCell(2 + i);
+			moneygiftCell = moneygiftRow.createCell(9 + i);
 			moneygiftCell.setCellValue(moneygiftTotal[i]);
 			moneygiftCell.setCellStyle(headerXssfCellStyle);
 		}
@@ -233,10 +233,10 @@ public class ExcelService {
 			if (wishitemRow == null) {
 				wishitemRow = sheet.createRow(wishitemIndex);
 			}
-			wishitemCell = wishitemRow.createCell(8);
+			wishitemCell = wishitemRow.createCell(2);
 			wishitemCell.setCellValue(wishItemName);
 			wishitemCell.setCellStyle(bodyXssfCellStyle);
-			wishitemCell = wishitemRow.createCell(12);
+			wishitemCell = wishitemRow.createCell(6);
 			wishitemCell.setCellValue(wishItemPrice);
 			wishitemCell.setCellStyle(bodyXssfCellStyle);
 			wishitemIndex++;
@@ -247,19 +247,19 @@ public class ExcelService {
 				if (wishitemRow == null)
 					wishitemRow = sheet.createRow(wishitemIndex);
 
-				wishitemCell = wishitemRow.createCell(9);
+				wishitemCell = wishitemRow.createCell(3);
 				wishitemCell.setCellValue(sequence++);
 				wishitemCell.setCellStyle(bodyXssfCellStyle);
 
-				wishitemCell = wishitemRow.createCell(10);
+				wishitemCell = wishitemRow.createCell(4);
 				wishitemCell.setCellValue(data.getRelationship());
 				wishitemCell.setCellStyle(bodyXssfCellStyle);
 
-				wishitemCell = wishitemRow.createCell(11);
+				wishitemCell = wishitemRow.createCell(5);
 				wishitemCell.setCellValue(data.getSender());
 				wishitemCell.setCellStyle(bodyXssfCellStyle);
 
-				wishitemCell = wishitemRow.createCell(12);
+				wishitemCell = wishitemRow.createCell(6);
 				wishitemCell.setCellValue(formatter.format(data.getAmount()));
 				wishitemCell.setCellStyle(bodyXssfCellStyle);
 
@@ -273,7 +273,7 @@ public class ExcelService {
 			if (wishitemRow == null)
 				wishitemRow = sheet.createRow(wishitemIndex);
 			for (int i = 0; i < moneygiftTotal.length; i++) {
-				wishitemCell = wishitemRow.createCell(9 + i);
+				wishitemCell = wishitemRow.createCell(2 + i);
 				wishitemCell.setCellValue(wishitemTotal[i]);
 				wishitemCell.setCellStyle(headerXssfCellStyle);
 			}
@@ -285,7 +285,7 @@ public class ExcelService {
 		if (wishitemRow == null)
 			wishitemRow = sheet.createRow(wishitemIndex);
 		for (int i = 0; i < moneygiftTotal.length; i++) {
-			wishitemCell = wishitemRow.createCell(9 + i);
+			wishitemCell = wishitemRow.createCell(2 + i);
 			wishitemCell.setCellValue(wishitemTotal[i]);
 			wishitemCell.setCellStyle(bodyXssfCellStyle);
 		}
