@@ -2,20 +2,16 @@ package site.marrymo.restapi.global.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.JWTProvider;
-import site.marrymo.restapi.auth.repository.RefreshTokenRepository;
+import site.marrymo.restapi.user.repository.RefreshTokenRepository;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
 import site.marrymo.restapi.global.jwt.entity.RefreshToken;
 

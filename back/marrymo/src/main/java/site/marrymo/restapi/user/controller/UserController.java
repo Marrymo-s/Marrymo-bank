@@ -80,4 +80,8 @@ public class UserController {
         userService.logout(httpServletRequest, httpServletResponse);
     }
 
+    @GetMapping("/usercode")
+    public ResponseEntity<?> getUserCode(@LoginUser UserDTO userDTO) {
+        return ResponseEntity.ok(userDTO.getUserCode());
+    }
 }

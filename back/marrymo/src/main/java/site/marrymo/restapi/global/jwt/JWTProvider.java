@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import site.marrymo.restapi.global.exception.UnAuthorizedException;
+
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
-import site.marrymo.restapi.auth.repository.BlackListRepository;
-import site.marrymo.restapi.auth.repository.RefreshTokenRepository;
+import site.marrymo.restapi.user.repository.BlackListRepository;
+import site.marrymo.restapi.user.repository.RefreshTokenRepository;
 import site.marrymo.restapi.user.repository.UserRepository;
 
 import java.io.UnsupportedEncodingException;

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import site.marrymo.restapi.auth.repository.BlackListRepository;
+import site.marrymo.restapi.user.repository.BlackListRepository;
 import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.card.exception.CardErrorCode;
 import site.marrymo.restapi.card.exception.CardException;

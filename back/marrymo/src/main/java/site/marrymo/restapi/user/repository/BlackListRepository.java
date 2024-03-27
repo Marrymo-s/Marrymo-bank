@@ -1,4 +1,4 @@
-package site.marrymo.restapi.auth.repository;
+package site.marrymo.restapi.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import site.marrymo.restapi.global.jwt.entity.BlackList;

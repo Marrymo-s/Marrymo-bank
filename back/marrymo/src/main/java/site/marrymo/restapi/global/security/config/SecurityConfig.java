@@ -18,7 +18,7 @@ import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.security.service.CustomOAuth2UserService;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.security.filter.JwtAuthenticationFilter;
-import site.marrymo.restapi.auth.repository.RefreshTokenRepository;
+import site.marrymo.restapi.user.repository.RefreshTokenRepository;
 
 @Slf4j
 @Configuration
