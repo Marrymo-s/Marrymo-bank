@@ -24,6 +24,7 @@ export const invitationContainer = style({
 
 export const hanburgerButton = style({
   position: 'fixed', // 화면에 고정
+  zIndex: 2,
 
 })
 
