@@ -10,7 +10,6 @@
     </insert>
 
     <resultMap id="tranHistoryResultMap" type="site.bank.restapi.transfer.dto.response.TransferMoneyResponse">
-        <result property="fintechUseNum" column="fintech_use_num"/>
         <result property="tranAmt" column="tran_amt"/>
         <result property="senderName" column="sender_name"/>
         <result property="receiverName" column="receiver_name"/>

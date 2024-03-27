@@ -11,6 +11,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.web.bind.annotation.RequestBody;
 import site.bank.restapi.transfer.dto.request.AccountCheckRequest;
 import site.bank.restapi.transfer.dto.request.AccountRequest;
 import site.bank.restapi.transfer.dto.request.BalanceUpdateRequest;
@@ -37,7 +38,7 @@ public class TransferService {
         return transferMapper.findAllBankList();
     }
 
-    public List<AccountResponse> registerAccount(List<AccountRequest> accountRequestList){
+    public List<AccountResponse> registerAccount(@RequestBody List<AccountRequest> accountRequestList){
 
         List<AccountResponse> registeredAccountList = new ArrayList<>();
         for (AccountRequest accountRequest:accountRequestList){
@@ -48,12 +49,14 @@ public class TransferService {
             // 기존에 저장된 계좌 정보를 반환
             if (accountCnt==1){
                 long accountSeq = transferMapper.findAccountByAccountNum(accountRequest.getAccountNum());
+                log.info("accountSeq : {} ", registeredAccountList.size());
                 accountResponse = transferMapper.findAccountByAccountSeq(accountSeq);
             }
             // 매리모 은행에 등록되지 않은 계좌번호인 경우 은행 DB에 저장 후 반환
             else{
-                long accountSeq= transferMapper.insertAccount(accountRequest);
-                accountResponse=transferMapper.findAccountByAccountSeq(accountSeq);
+                transferMapper.insertAccount(accountRequest);
+                log.info("accountSeq : {} ", registeredAccountList.size());
+                accountResponse=transferMapper.findAccountByAccountSeq(accountRequest.getAccountSequence());
             }
             registeredAccountList.add(accountResponse);
         }
@@ -107,14 +110,11 @@ public class TransferService {
 
         try{
             // 돈을 송금한다.
-            BalanceUpdateRequest senderRequest=new BalanceUpdateRequest(transferMoneyRequest.getSenderAccountNum(),transferMoneyRequest.getTranAmt()*(-1));
             BalanceUpdateRequest receiverRequest=new BalanceUpdateRequest(transferMoneyRequest.getReceiverAccountNum(), transferMoneyRequest.getTranAmt());
-            transferMapper.updateBalancee(senderRequest);
             transferMapper.updateBalancee(receiverRequest);
         }catch(Exception e){
             throw new TransferException(TransferErrorCode.TRANSFER_SEND_FAILED);
         }
-
         try{
             // 거래 내역을 저장한다.
             transferMapper.insertTransferHistory(transferMoneyRequest);
