@@ -273,7 +273,7 @@ public class ExcelService {
 			if (wishitemRow == null)
 				wishitemRow = sheet.createRow(wishitemIndex);
 			for (int i = 0; i < moneygiftTotal.length; i++) {
-				wishitemCell = wishitemRow.createCell(2 + i);
+				wishitemCell = wishitemRow.createCell(3 + i);
 				wishitemCell.setCellValue(wishitemTotal[i]);
 				wishitemCell.setCellStyle(headerXssfCellStyle);
 			}
