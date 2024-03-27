@@ -78,7 +78,7 @@ public class MoBankService {
 
 		return moBankWebClient
 				.post()
-				.uri("/account")
+				.uri("/api/account")
 				.header("Authorization", moBankToken.getTokenType()+ " " + moBankToken.getAccess_token())
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(moBankAccountRegisterRequestList)
