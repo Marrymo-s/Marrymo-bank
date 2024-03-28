@@ -1,5 +1,6 @@
 package site.marrymo.restapi.wishitem.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +23,20 @@ public class WishItemController {
     private final WishItemService wishItemService;
 
     @PostMapping
+    @Operation(summary = "위시 아이템 등록 (테스트 완료)", description = "위시 아이템 하나를 등록합니다.")
     public void registWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
         wishItemService.registWishItem(userDTO, wishItemRegistRequest);
     }
 
     @GetMapping("/{userCode}")
+    @Operation(summary = "위시 아이템 조회 (테스트 완료)", description = "유저 코드로 등록한 위시 상품들을 조회합니다.")
     public ResponseEntity<WishItemGetResponse> getWishItems(@PathVariable String userCode) {
         WishItemGetResponse items = wishItemService.getWishItems(userCode);
         return ResponseEntity.ok(items);
     }
 
     @GetMapping("/{userCode}/{wishItemSequence}")
+    @Operation(summary = "위시 아이템 상세 조회 (테스트 완료)", description = "유저코드와 위시아이템 sequence로 각 위시 아이템을 상세 조회합니다.")
     public ResponseEntity<WishItemDetailResponse> getWishItemDetail(@PathVariable String userCode, @PathVariable Long wishItemSequence) {
         WishItemDetailResponse wishItemDetailResponse = wishItemService.getWishItemDetail(userCode, wishItemSequence);
         return ResponseEntity.ok(wishItemDetailResponse);
