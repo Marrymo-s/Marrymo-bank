@@ -55,7 +55,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		accessTokenCookie.setHttpOnly(true);
 		accessTokenCookie.setSecure(true);
 		accessTokenCookie.setDomain("marrymo.site");
-
 		response.addCookie(accessTokenCookie);
 
 		Cookie refreshTokenCookie = new Cookie("refreshToken", verifyToken.getRefreshToken());
@@ -66,6 +65,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		refreshTokenCookie.setDomain("marrymo.site");
 
 		response.addCookie(refreshTokenCookie);
+		response.addHeader("Cache-Control", "no-cache");
 
 		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
 		String signupTargetUrl = UriComponentsBuilder.fromUriString(SIGNUP_CALLBACK_URL).build().toUriString();
