@@ -95,6 +95,7 @@ public class TransferService {
         }
         log.info("sender account: "+transferMoneyRequest.getSenderAccountNum());
         int receiverAccountCnt=transferMapper.countAccountNum(transferMoneyRequest.getReceiverAccountNum());
+        log.info("receiver account: "+transferMoneyRequest.getReceiverAccountNum());
         if (receiverAccountCnt==0){
             throw new TransferException(TransferErrorCode.TRANSFER_ACCOUNT_NOT_FOUND);
         }
