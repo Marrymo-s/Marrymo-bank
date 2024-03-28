@@ -24,7 +24,7 @@ public class MoneygiftController {
         MoneygiftGetResponse moneygiftGetResponse = moneygiftService.getMoneygiftInfo(userDTO);
         return ResponseEntity.ok(moneygiftGetResponse);
     }
-    @PostMapping
+    @PostMapping("/send")
     public ResponseEntity<MoneygiftTransferResponse> sendMoneygift(@RequestBody MoneygiftTransferRequest moneygiftTransferRequest){
         log.info("call sendMoneygift...");
         MoneygiftTransferResponse moneygiftTransferResponse = moneygiftService.sendMoneygift(moneygiftTransferRequest);
