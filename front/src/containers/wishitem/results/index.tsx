@@ -1,5 +1,5 @@
 import React from 'react';
-import {searchResponse} from '@/types/search';
+import { searchResponse } from '@/types/search';
 import WishCard from '@/components/WishCard';
 import * as styles from './index.css';
 
@@ -7,7 +7,7 @@ interface ResultsProps {
   results: searchResponse[];
 }
 
-const Results = ({results}: ResultsProps) => {
+const Results = ({ results }: ResultsProps) => {
   return (
     <>
       <h3>추천리스트</h3>
@@ -21,6 +21,7 @@ const Results = ({results}: ResultsProps) => {
             brand={item.brand}
             category2={item.category2}
             category4={item.category4}
+
           />
         ))}
       </div>
