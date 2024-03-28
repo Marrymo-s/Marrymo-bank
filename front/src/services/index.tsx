@@ -12,6 +12,7 @@ export const fetchInstance = async (url: string, options: RequestInit = {}) => {
   }
 
   const response = await fetch(`${baseUrl}${url}`, defaultOptions)
+  console.log(response)
 
   //응답 json으로 파싱
   return response.json()

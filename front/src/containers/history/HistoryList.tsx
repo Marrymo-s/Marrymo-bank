@@ -16,12 +16,12 @@ const HistoryList = ({selected} : SelectedProp) => {
 
     const getHistory = async () => {
         try {
-            const response = await fetch(`{process.env.NEXT_PUBLIC_BASE_URL}/moneygift`).then((res) => res.json()) as historyResponse
+            const response = await fetch('/moneygift').then((res) => res) as historyResponse
             console.log(response);
 
             setHistoryData(response.moneyList); //서버 정상화되면 연결해서 테스트해볼 예정
             setTotalSum(response.totalSum);
-            setMoneygiftSum(response.moneygiftListSum);``
+            setMoneygiftSum(response.moneygiftListSum);
             setWishSum(response.wishItemListSum);
         } catch(error) {
             console.error('moneygift history get중 오류 발생', error)
