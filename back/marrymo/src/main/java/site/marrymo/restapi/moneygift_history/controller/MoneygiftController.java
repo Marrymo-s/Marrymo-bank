@@ -1,5 +1,6 @@
 package site.marrymo.restapi.moneygift_history.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class MoneygiftController {
         return ResponseEntity.ok(moneygiftGetResponse);
     }
     @PostMapping("/send")
+    @Operation(summary = "하객이 부부에게 송금하기 (테스트 완료)", description = "축의금 or 펀딩을 위한 송금 API입니다.")
     public ResponseEntity<MoneygiftTransferResponse> sendMoneygift(@RequestBody MoneygiftTransferRequest moneygiftTransferRequest){
         log.info("call sendMoneygift...");
         MoneygiftTransferResponse moneygiftTransferResponse = moneygiftService.sendMoneygift(moneygiftTransferRequest);
