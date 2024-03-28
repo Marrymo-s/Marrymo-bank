@@ -189,3 +189,82 @@ export const inputBoxContainer = style([
     fontSize: vars.fontSize['2x']
   }
 ])
+
+export const imagePreviewContainer = style({
+  display: 'flex',
+  overflowX: 'auto', // 가로 스크롤 설정
+  gap: vars.space['2x'], // 이미지 간 간격
+  padding: vars.space['2x'], // 컨테이너 내부 여백
+  // 추가 스타일링이 필요하면 여기에 작성
+});
+
+export const imageBox = style({
+  position: 'relative',
+  // 이미지 래퍼 스타일...
+});
+
+export const imagePreview = style({
+  width: '100px', // 미리보기 이미지 너비 설정
+  height: '100px', // 미리보기 이미지 높이 설정
+  objectFit: 'cover', // 이미지 비율 유지
+  borderRadius: vars.borderRadius['1x'], // 이미지 둥근 모서리
+  // 추가 스타일링이 필요하면 여기에 작성
+});
+
+export const deleteButton = style({
+  position: 'absolute',
+  top: vars.space['0.5x'], // 상단에서 조금 떨어지게 설정
+  right: vars.space['0.5x'], // 우측에서 조금 떨어지게 설정
+  background: vars.colors.alertRed, // 버튼 배경색 설정
+  color: 'white', // 버튼 텍스트색 설정
+  border: 'none',
+  borderRadius: '50%', // 원형 버튼
+  width: '20px', // 버튼 크기
+  height: '20px', // 버튼 크기
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  // 선택됐을 때 테두리 색상 변경을 위한 가상 클래스
+  selectors: {
+    '&:hover': {
+      backgroundColor: vars.colors.alertRed, // 호버 상태일 때 배경색 변경
+    }
+  }
+});
+
+export const addButton = style({
+  backgroundColor: vars.colors.roseGold, // 버튼 배경색
+  color: 'white', // 버튼 텍스트색
+  padding: vars.space['1x'],
+  margin: vars.space['1x'],
+  border: 'none',
+  borderRadius: vars.borderRadius['1x'],
+  cursor: 'pointer',
+  fontSize: vars.fontSize['2x'],
+  // 추가 스타일링이 필요하면 여기에 작성
+});
+
+export const addFileButton = style({
+  padding: vars.space['2x'],
+  backgroundColor: vars.colors.whitesmoke,
+  color: vars.colors.white,
+  borderRadius: vars.borderRadius['1x'],
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.colors.lightGray,
+  },
+  // 이 외에도 필요한 스타일 속성들을 추가할 수 있습니다.
+});
+
+export const dropArea = style({
+  border: `2px dashed ${vars.colors.whitesmoke}`,
+  borderRadius: vars.borderRadius['1x'],
+  padding: vars.space['4x'],
+  textAlign: 'center',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.colors.lightGray,
+  },
+  // 드래그 앤 드롭 영역의 스타일을 더 추가할 수 있습니다.
+});

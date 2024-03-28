@@ -1,7 +1,6 @@
 'use client';
 
-import {useState} from 'react';
-import dynamic from "next/dynamic";
+import {MouseEventHandler, useState} from 'react';
 import {useRouter} from 'next/navigation';
 
 import Header from '@/components/Header'
@@ -14,14 +13,25 @@ import InvitationMessage from "@/containers/signup/InvitationMessage";
 import Button from '@/components/Button/index'
 import useModal from '@/hooks/useModal'
 
-import WeddingGallery from "@/containers/signup/WeddingGallery";
+import WeddingImageUpload from "@/containers/signup/WeddingImageUpload";
+import Image from "next/image";
 
-const KakaoNoSSR = dynamic(() => import('./KakaoMap'), {
-  ssr: false,
-})
+interface FileThumbnailsProps {
+  files: File[];
+  deleteFileHandler?: Function;
+  addFileHandler?: MouseEventHandler<HTMLDivElement>;
+  onDrop?: Function;
+}
 
 const Signup = () => {
   const [weddingLocation, setWeddingLocation] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLocationSelect = (location: string) => {
+    setWeddingLocation(location);
+    setIsModalOpen(false); // 장소 선택 시 모달 닫기
+  };
+
   const router = useRouter()
   const {Modal, openModal, closeModal} = useModal();
 
@@ -130,7 +140,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          <WeddingGallery/>
+          <WeddingImageUpload/>
         </div>
         <div>
           {/*TODO: */}

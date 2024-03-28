@@ -1,8 +1,7 @@
 'use client';
 
-import React, {useState, useEffect, useRef, SetStateAction} from 'react';
+import React, {useState, useEffect, useRef, SetStateAction, Dispatch} from 'react';
 import axios from 'axios';
-import dynamic from "next/dynamic";
 
 // TODO: 타입 디클레어 파일로 옮기기
 type Place = {
@@ -26,7 +25,7 @@ type KakaoMapResponse = {
 };
 
 interface Props {
-  setWeddingLocation: dispatch<SetStateAction<string>>;
+  setWeddingLocation: Dispatch<SetStateAction<string>>;
 }
 
 const KakaoMap = ({setWeddingLocation}: Props) => {
@@ -34,8 +33,10 @@ const KakaoMap = ({setWeddingLocation}: Props) => {
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const mapContainer = useRef(null);
 
-  // Kakao map instance ref
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const mapRef = useRef<any>(null);
+  // TODO: eslint/no-explicit-any 사용하지 않고 타입 지정하는 방법 찾기
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -45,7 +46,7 @@ const KakaoMap = ({setWeddingLocation}: Props) => {
         const center = new window.kakao.maps.LatLng(37.566826, 126.9786567);
         const mapOptions = {
           center,
-          level: 3,
+          level: 4,
         };
         mapRef.current = new window.kakao.maps.Map(mapContainer.current, mapOptions);
       });
@@ -127,14 +128,9 @@ const KakaoMap = ({setWeddingLocation}: Props) => {
     <div>
       <input
         type="text"
-        placeholder="결혼식 장소를 입력해주세요"
+        placeholder="결혼식 장소를 입력하세요"
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            searchPlaces();
-          }
-        }}
       />
       <button onClick={searchPlaces}>검색</button>
       <div
@@ -144,6 +140,7 @@ const KakaoMap = ({setWeddingLocation}: Props) => {
       ></div>
       {searchResults.map((place, index) => (
         <div
+          role='presentation'
           key={index}
           onClick={() => {
             setWeddingLocation(place.road_address_name || place.address_name);
