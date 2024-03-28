@@ -20,11 +20,13 @@ public class MoneygiftController {
 
     @GetMapping
     public ResponseEntity<MoneygiftGetResponse> getMoneygiftListInfo(@LoginUser UserDTO userDTO){
+        log.info("call getMoneygiftListInfo....");
         MoneygiftGetResponse moneygiftGetResponse = moneygiftService.getMoneygiftInfo(userDTO);
         return ResponseEntity.ok(moneygiftGetResponse);
     }
     @PostMapping
     public ResponseEntity<MoneygiftTransferResponse> sendMoneygift(@RequestBody MoneygiftTransferRequest moneygiftTransferRequest){
+        log.info("call sendMoneygift...");
         MoneygiftTransferResponse moneygiftTransferResponse = moneygiftService.sendMoneygift(moneygiftTransferRequest);
         return ResponseEntity.ok(moneygiftTransferResponse);
     }
