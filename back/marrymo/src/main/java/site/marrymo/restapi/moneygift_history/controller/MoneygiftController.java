@@ -20,6 +20,7 @@ public class MoneygiftController {
     private final MoneygiftService moneygiftService;
 
     @GetMapping
+    @Operation(summary = "축의금 송금 내역 조회 (테스트 완료)", description = "축의금 내역을 조회하는 API입니다.")
     public ResponseEntity<MoneygiftGetResponse> getMoneygiftListInfo(@LoginUser UserDTO userDTO){
         log.info("call getMoneygiftListInfo....");
         MoneygiftGetResponse moneygiftGetResponse = moneygiftService.getMoneygiftInfo(userDTO);

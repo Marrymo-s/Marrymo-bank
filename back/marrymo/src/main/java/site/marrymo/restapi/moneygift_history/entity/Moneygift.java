@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.moneygift_history.dto.GuestType;
 import site.marrymo.restapi.moneygift_history.dto.Type;
@@ -14,6 +15,7 @@ import site.marrymo.restapi.wishitem.entity.WishItem;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE moneygift_history SET deleted_at = NOW() WHERE moneygift_sequence = ?")
+@SQLRestriction("deleted_at IS NULL")
 @Table(name = "moneygift_history")
 public class Moneygift extends BaseTimeEntity {
     @Id
