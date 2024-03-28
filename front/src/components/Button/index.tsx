@@ -13,8 +13,8 @@ interface ButtonProps {
   disabled?: boolean;
   onClick?: () => void;
   type: 'submit' | 'reset' | 'button';
-  size?: string;
-  colorStyle?: string;
+  size?: 'small' | 'large';
+  colorStyle?: 'roseGold' | 'lightGray' | 'alertRed';
   filled?: boolean;
 }
 
@@ -24,16 +24,18 @@ const Button = ({
                   disabled,
                   onClick,
                   type,
-                  size,
+                  size = 'large',
                   colorStyle,
                   filled,
                 }: ButtonProps) => {
+  const actualColorStyle = disabled ? 'lightGray' : colorStyle || 'roseGold';
   if (link) {
     return (
       <div>
         <Link
           href={link}
-          className={commonButton({size, colorStyle, filled})}
+          className={commonButton({size, colorStyle: actualColorStyle, filled, disabled})}
+          onClick={onClick}
         >
           {children}
         </Link>
@@ -45,7 +47,7 @@ const Button = ({
     <div className={ButtonWrapper[size]}>
       <button type={type}
               disabled={disabled}
-              className={commonButton({size, colorStyle, filled})}
+              className={commonButton({size, colorStyle: actualColorStyle, filled, disabled})}
               onClick={onClick}>
         {children}
       </button>

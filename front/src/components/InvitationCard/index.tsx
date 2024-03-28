@@ -1,7 +1,9 @@
 'use client';
-// TODO: 청첩장 카드
+//리액트 라이브러리
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
+// 구성 컴포넌트
 import CardTop from '@/components/InvitationCard/cardTop';
 import Sentence from '@/components/InvitationCard/sentence';
 import CardMid from '@/components/InvitationCard/cardMid';
@@ -9,11 +11,17 @@ import Location from '@/components/InvitationCard/location';
 import Album from '@/components/InvitationCard/album';
 import Wishlist from '@/components/InvitationCard/wishlist';
 import CardUnderTop from "@/components/InvitationCard/cardUnderTop";
+import SecondImage from '@/components/InvitationCard/secondImage';
+
+// 기타
 import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
 
+// 폰트
+import * as style from '@/styles/font.css';
+import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
-// 타입지정하고 값 내려줘야할듯
+
 const InvitationCard = () => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
@@ -21,6 +29,7 @@ const InvitationCard = () => {
     groomContact: '',
     brideContact: '',
     weddingDate: '',
+    weddingDay: '',
     weddingTime: '',
     location: '',
     email: '',
@@ -33,21 +42,21 @@ const InvitationCard = () => {
   })
 
   useEffect(() => {
-    // 여기에서 '/users/1'은 예시입니다. 실제 요청할 엔드포인트를 사용하세요.
     axiosInstance.get<signupRequest>('/users')
       .then(response => {
-        // API 응답으로 받은 데이터를 상태에 저장
-        setInvitationData(response.data);
+  setInvitationData(response.data);
+
       })
       .catch(error => {
         console.error("Failed to fetch invitation data:", error);
-        // 에러 처리 로직 (예: 상태 업데이트, 사용자에게 피드백 제공 등)
+
       });
   }, []);
 
+  console.log(invitationData)
 
   return (
-    <main>
+    <main className={CardGap}>
       <CardTop
         weddingDate={invitationData.weddingDate}
         weddingTime={invitationData.weddingTime}
@@ -70,20 +79,24 @@ const InvitationCard = () => {
         groomContact={invitationData.groomContact}
         brideContact={invitationData.brideContact}
       />
-      <hr />
       <Sentence
         greeting={invitationData.greeting}
       />
-      <hr />
+      <SecondImage
+        imgUrl={invitationData.imgUrl[0]}
+      />
       <Location
         weddingDate={invitationData.weddingDate}
         weddingTime={invitationData.weddingTime}
         location={invitationData.location}
       />
-      <hr />
-      <Album />
-      <hr />
+      <Album
+        imgUrl={invitationData.imgUrl}
+      />
       <Wishlist />
+      <div className={rightsText}>
+        @Marrymo All rights reserved
+      </div>
     </main>
   )
 }

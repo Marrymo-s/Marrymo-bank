@@ -1,20 +1,20 @@
-import { style } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
+import {style} from '@vanilla-extract/css';
+import {recipe} from '@vanilla-extract/recipes';
 
-import { vars } from '@/styles/vars.css';
-import { defaultWrapper, flex } from '@/styles/common.css';
+import {vars} from '@/styles/vars.css';
+import {defaultWrapper, flex} from '@/styles/common.css';
 
 export const landingWrapper = style([
-  defaultWrapper({ height: 'auto', width: 'max' }),
-    {
-      textAlign: 'center',
-    }
+  defaultWrapper({height: 'max', width: 'max'}),
+  {
+    textAlign: 'center',
+  }
 ]);
 
 export const landingText = recipe({
   base: {
     color: vars.colors.black,
-    padding: vars.space['1x'],
+    margin: vars.space['1x'],
     marginTop: vars.space.none,
     textAlign: 'center',
   },
