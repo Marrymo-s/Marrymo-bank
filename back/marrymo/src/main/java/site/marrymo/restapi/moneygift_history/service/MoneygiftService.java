@@ -152,14 +152,14 @@ public class MoneygiftService {
         // 송금을 각자 받을 경우
         if (userInfoResponse.getIsGroomOnce() && userInfoResponse.getIsBrideOnce()){
             if (moneygiftTransferRequest.getGuestType()==GuestType.GROOM){
-                moBankTransferRequest.toBuilder()
+                moBankTransferRequest=moBankTransferRequest.toBuilder()
                         .receiverName(userInfoResponse.getGroomName())
                         .receiverAccountNum(userInfoResponse.getGroomAccount())
                         .build();
                 log.info("송금을 각자 받는 경우 groomAccount : "+userInfoResponse.getGroomAccount());
             }
             else if(moneygiftTransferRequest.getGuestType()==GuestType.BRIDE){
-                moBankTransferRequest.toBuilder()
+                moBankTransferRequest=moBankTransferRequest.toBuilder()
                         .receiverName(userInfoResponse.getBrideName())
                         .receiverAccountNum(userInfoResponse.getBrideAccount())
                         .build();
@@ -168,7 +168,7 @@ public class MoneygiftService {
         }
         // 신랑 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsGroomOnce()){
-            moBankTransferRequest.toBuilder()
+            moBankTransferRequest=moBankTransferRequest.toBuilder()
                     .receiverName(userInfoResponse.getGroomName())
                     .receiverAccountNum(userInfoResponse.getGroomAccount())
                     .build();
@@ -176,7 +176,7 @@ public class MoneygiftService {
         }
         // 신부 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsBrideOnce()){
-            moBankTransferRequest.toBuilder()
+            moBankTransferRequest=moBankTransferRequest.toBuilder()
                     .receiverName(userInfoResponse.getBrideName())
                     .receiverAccountNum(userInfoResponse.getBrideAccount())
                     .build();
