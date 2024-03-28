@@ -1,0 +1,45 @@
+# encoding utf-8
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  port: 80
+
+# database 세팅
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # redis 세팅
+  data:
+    redis:
+      port: ${REDIS_PORT}
+      host: ${REDIS_HOST}
+      password: ${SPRING_REDIS_PASSWORD}
+
+# mybatis 세팅
+mybatis:
+  type-aliases-package: site.bank.restapi.*.mapper
+  mapper-locations: static/mapper/*.xml
+
+# log 설정
+logging:
+  level:
+    root: info
+    site.bank.restapi: debug
+
+institution:
+  client_id: ${CLIENT_ID}
+  client_secret: ${CLIENT_SECRET}
+  client_role: ${CLIENT_ROLE}
+
+jwt:
+  key: ${SECRET_KEY}
+
+
+
