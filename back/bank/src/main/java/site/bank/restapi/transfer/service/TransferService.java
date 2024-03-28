@@ -93,10 +93,12 @@ public class TransferService {
         if (senderAccountCnt==0){
             throw new TransferException(TransferErrorCode.TRANSFER_ACCOUNT_NOT_FOUND);
         }
+        log.info("sender account: "+transferMoneyRequest.getSenderAccountNum());
         int receiverAccountCnt=transferMapper.countAccountNum(transferMoneyRequest.getReceiverAccountNum());
         if (receiverAccountCnt==0){
             throw new TransferException(TransferErrorCode.TRANSFER_ACCOUNT_NOT_FOUND);
         }
+        log.info("receiver account: "+transferMoneyRequest.getReceiverAccountNum());
 
         // 송금인 계좌 고유 번호를 찾는다.
         long accountSequence= transferMapper.findAccountByAccountNum(transferMoneyRequest.getSenderAccountNum());
