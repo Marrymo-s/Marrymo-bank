@@ -16,7 +16,7 @@ const Checkbox = ({
 
   return (
     <label className={styles.labelStyle}>
-      <input
+      <input 
         type="checkbox"
         checked={checked}
         onChange={onChange}
