@@ -108,7 +108,7 @@ public class MoBankService {
 	public MoBankTransferResponse sendMoney(MoBankTransferRequest moBankTransferRequest){
 		MoBankTokenApiResponse moBankToken = callMoBankTokenApi();
 		return moBankWebClient.post()
-				.uri("/account/transfer")
+				.uri("/api/account/transfer")
 				.header("Authorization", moBankToken.getTokenType() + " " + moBankToken.getAccess_token())
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(moBankTransferRequest)
