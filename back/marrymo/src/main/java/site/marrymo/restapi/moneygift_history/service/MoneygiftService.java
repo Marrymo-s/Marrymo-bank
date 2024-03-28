@@ -156,12 +156,14 @@ public class MoneygiftService {
                         .receiverName(userInfoResponse.getGroomName())
                         .receiverAccountNum(userInfoResponse.getGroomAccount())
                         .build();
+                log.info("송금을 각자 받는 경우 groomAccount : "+userInfoResponse.getGroomAccount());
             }
             else if(moneygiftTransferRequest.getGuestType()==GuestType.BRIDE){
                 moBankTransferRequest.toBuilder()
                         .receiverName(userInfoResponse.getBrideName())
                         .receiverAccountNum(userInfoResponse.getBrideAccount())
                         .build();
+                log.info("송금을 각자 받는 경우 brideAccount : "+userInfoResponse.getBrideAccount());
             }
         }
         // 신랑 계좌로만 돈을 받을 경우
@@ -170,6 +172,7 @@ public class MoneygiftService {
                     .receiverName(userInfoResponse.getGroomName())
                     .receiverAccountNum(userInfoResponse.getGroomAccount())
                     .build();
+            log.info("신랑 계좌로 돈을 받는 경우 groomAccount: "+userInfoResponse.getGroomAccount());
         }
         // 신부 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsBrideOnce()){
@@ -177,6 +180,7 @@ public class MoneygiftService {
                     .receiverName(userInfoResponse.getBrideName())
                     .receiverAccountNum(userInfoResponse.getBrideAccount())
                     .build();
+            log.info("신부 계좌로 돈을 받을 경우 brideAccount: "+userInfoResponse.getBrideAccount());
         }
         try{
             MoBankTransferResponse moBankTransferResponse=moBankService.sendMoney(moBankTransferRequest);
