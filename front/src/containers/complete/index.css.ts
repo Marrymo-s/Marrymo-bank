@@ -30,6 +30,7 @@ export const landingText = recipe({
     margin: vars.space['1x'],
     marginTop: vars.space.none,
     textAlign: 'center',
+    width: 'auto',
   },
   variants: {
     contentType: {
