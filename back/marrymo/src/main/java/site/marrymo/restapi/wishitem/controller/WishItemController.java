@@ -21,7 +21,7 @@ import site.marrymo.restapi.wishitem.service.WishItemService;
 public class WishItemController {
     private final WishItemService wishItemService;
 
-    @PostMapping
+    @PostMapping("/")
     public void registWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
         wishItemService.registWishItem(userDTO, wishItemRegistRequest);
     }
