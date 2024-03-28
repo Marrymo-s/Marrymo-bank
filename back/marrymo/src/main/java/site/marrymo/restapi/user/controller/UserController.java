@@ -44,11 +44,13 @@ public class UserController {
     }
 
     @DeleteMapping
+    @Operation(summary = "사용자 탈퇴 (테스트 완료)", description = "사용자 탈퇴를 진행합니다.")
     public void deleteUser(@LoginUser UserDTO userDTO){
         userService.deleteUser(userDTO);
     }
 
     @PatchMapping("/invitation")
+    @Operation(summary = "사용자 청첩장 발급 (테스트 완료)", description = "사용자 탈퇴를 진행합니다.")
     public ResponseEntity<InvitationIssueResponse> invitationIssued(@LoginUser UserDTO userDTO, @Valid @RequestBody InvitationIssueRequest invitationIssueRequest){
         InvitationIssueResponse invitationIssueResponse = userService.invitationIssued(userDTO, invitationIssueRequest);
         return ResponseEntity.ok(invitationIssueResponse);
@@ -79,6 +81,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
+    @Operation(summary = "사용자 로그아웃 (테스트 완료)", description = "사용자가 로그아웃을 진행합니다.")
     public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         userService.logout(httpServletRequest, httpServletResponse);
     }
