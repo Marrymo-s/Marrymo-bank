@@ -43,6 +43,7 @@ public class WishItemController {
     }
 
     @DeleteMapping
+    @Operation(summary = "위시 아이템 삭제 (테스트 완료)", description = "위시아이템 sequence로 해당 위시 아이템을 삭제합니다.")
     public void deleteWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
         wishItemService.deleteWishItem(userDTO, wishItemDeleteRequest);
     }
