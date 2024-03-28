@@ -1,5 +1,5 @@
-'use client';
 //리액트 라이브러리
+'use client'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -14,46 +14,49 @@ import CardUnderTop from "@/components/InvitationCard/cardUnderTop";
 import SecondImage from '@/components/InvitationCard/secondImage';
 
 // 기타
-import { axiosInstance } from '@/services';
+// import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
+import {fetchInstance} from "@/services";
 
 // 폰트
 import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 
-const InvitationCard = () => {
-  const [invitationData, setInvitationData] = useState<signupRequest>({
-    groomName: '',
-    brideName: '',
-    groomContact: '',
-    brideContact: '',
-    weddingDate: '',
-    weddingDay: '',
-    weddingTime: '',
-    location: '',
-    email: '',
-    greeting: '',
-    groomFather: '',
-    groomMother: '',
-    brideFather: '',
-    brideMother: '',
-    imgUrl: [],
-  })
-
-  useEffect(() => {
-    axiosInstance.get<signupRequest>('/users')
-      .then(response => {
-  setInvitationData(response.data);
-
-      })
-      .catch(error => {
-        console.error("Failed to fetch invitation data:", error);
-
-      });
-  }, []);
-
+const InvitationCard = async () => {
+  const invitationData = await fetchInstance('/users') as signupRequest
   console.log(invitationData)
+
+  // const [invitationData, setInvitationData] = useState<signupRequest>({
+  //   groomName: '',
+  //   brideName: '',
+  //   groomContact: '',
+  //   brideContact: '',
+  //   weddingDate: '',
+  //   weddingDay: '',
+  //   weddingTime: '',
+  //   location: '',
+  //   email: '',
+  //   greeting: '',
+  //   groomFather: '',
+  //   groomMother: '',
+  //   brideFather: '',
+  //   brideMother: '',
+  //   imgUrl: [],
+  // })
+
+
+  // useEffect(() => {
+  //   axiosInstance.get<signupRequest>('/users')
+  //     .then(response => {
+  // setInvitationData(response.data);
+  //
+  //     })
+  //     .catch(error => {
+  //       console.error("Failed to fetch invitation data:", error);
+  //
+  //     });
+  // }, []);
 
   return (
     <main className={CardGap}>
