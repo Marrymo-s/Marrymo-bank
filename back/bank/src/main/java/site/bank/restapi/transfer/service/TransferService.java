@@ -87,19 +87,17 @@ public class TransferService {
 
     @Transactional(isolation= Isolation.REPEATABLE_READ)
     public TransferMoneyResponse insertTransferHistory(TransferMoneyRequest transferMoneyRequest){
-
+        log.info("sender account: "+transferMoneyRequest.getSenderAccountNum());
+        log.info("receiver account: "+transferMoneyRequest.getReceiverAccountNum());
         // 존재하는 계좌인지 확인한다.
         int senderAccountCnt=transferMapper.countAccountNum(transferMoneyRequest.getSenderAccountNum());
         if (senderAccountCnt==0){
             throw new TransferException(TransferErrorCode.TRANSFER_ACCOUNT_NOT_FOUND);
         }
-        log.info("sender account: "+transferMoneyRequest.getSenderAccountNum());
         int receiverAccountCnt=transferMapper.countAccountNum(transferMoneyRequest.getReceiverAccountNum());
-        log.info("receiver account: "+transferMoneyRequest.getReceiverAccountNum());
         if (receiverAccountCnt==0){
             throw new TransferException(TransferErrorCode.TRANSFER_ACCOUNT_NOT_FOUND);
         }
-        log.info("receiver account: "+transferMoneyRequest.getReceiverAccountNum());
 
         // 송금인 계좌 고유 번호를 찾는다.
         long accountSequence= transferMapper.findAccountByAccountNum(transferMoneyRequest.getSenderAccountNum());
