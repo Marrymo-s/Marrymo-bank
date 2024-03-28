@@ -183,6 +183,8 @@ public class MoneygiftService {
             log.info("신부 계좌로 돈을 받을 경우 brideAccount: "+userInfoResponse.getBrideAccount());
         }
         try{
+            log.info("senderAccountNum: "+moBankTransferRequest.getSenderAccountNum());
+            log.info("receiverAccountNum: "+moBankTransferRequest.getReceiverAccountNum());
             MoBankTransferResponse moBankTransferResponse=moBankService.sendMoney(moBankTransferRequest);
 
         }catch (WebClientResponseException e){
