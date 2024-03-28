@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PatchMapping("/invitation")
-    @Operation(summary = "사용자 청첩장 발급 (테스트 완료)", description = "사용자 탈퇴를 진행합니다.")
+    @Operation(summary = "사용자 청첩장 발급 (테스트 완료)", description = "사용자가 청첩장을 발급합니다.")
     public ResponseEntity<InvitationIssueResponse> invitationIssued(@LoginUser UserDTO userDTO, @Valid @RequestBody InvitationIssueRequest invitationIssueRequest){
         InvitationIssueResponse invitationIssueResponse = userService.invitationIssued(userDTO, invitationIssueRequest);
         return ResponseEntity.ok(invitationIssueResponse);
@@ -70,11 +70,13 @@ public class UserController {
     }
 
     @PatchMapping("/privacy")
+    @Operation(summary = "사용자 동의여부 등록 (테스트 완료)", description = "사용자가 동의하기를 체크하면 동의여부를 등록합니다.")
     public void patchAgreement(@LoginUser UserDTO userDTO, @Valid @RequestBody PrivacyRegistRequest privacyRegistRequest) {
         userService.patchAgreement(userDTO, privacyRegistRequest);
     }
 
     @GetMapping("/check")
+    @Operation(summary = "사용자가 동의 했는지 정보 등록을 완료 했는지 체크 (테스트 완료)", description = "사용자가 동의를 완료 했는지 청첩장 정보 등록을 완료 했는지 확인합니다.")
     public ResponseEntity<PermissionResponse> getUserPermission(@LoginUser UserDTO userDTO) {
         PermissionResponse permissionResponse = userService.getUserPermission(userDTO);
         return ResponseEntity.ok(permissionResponse);
@@ -87,6 +89,7 @@ public class UserController {
     }
 
     @GetMapping("/usercode")
+    @Operation(summary = "사용자 유저코드 조회 (테스트 완료)", description = "사용자 유저코드를 조회합니다.")
     public ResponseEntity<?> getUserCode(@LoginUser UserDTO userDTO) {
         return ResponseEntity.ok(userDTO.getUserCode());
     }
