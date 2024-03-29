@@ -10,6 +10,11 @@ export const checkboxesContainer = style([
   })
 ])
 
+export const registEach = style({
+  display: 'flex',
+  alignItems: 'center',
+})
+
 export const accountContainer = style([
   flex({justify: 'center', align: 'center'}),  // center 정렬 적용이 안 됨(원인은 5주차에 잡을 예정)
   {

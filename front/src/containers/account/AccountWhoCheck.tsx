@@ -7,11 +7,11 @@ import Button from "@/components/Button";
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 
 const Checkboxes = () => {
-  const [selected, setSelected] = useState<'GROOM' | 'BRIDE' | 'BOTH'>();
+  const [selected, setSelected] = useState<string>();
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const handleChange = (value: 'GROOM' | 'BRIDE' | 'BOTH') => {
+  const handleChange = (value: string) => {
     setSelected(value);
   }
 
