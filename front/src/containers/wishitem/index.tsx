@@ -9,19 +9,23 @@ import Results from '@/containers/wishitem/results';
 
 import {searchResponse} from '@/types/search';
 
+import { fetchInstance } from "@/services";
+
 import * as styles from './index.css';
 import axios from 'axios';
 
 const WishItem = () => {
-  const [query, setQuery] = useState<string>('');
   const [results, setResults] = useState<searchResponse[]>([]);
-  const [wishLists, setWishLists] = useState<searchResponse[]>([]);
+  const [trigger, setTrigger] = useState<boolean>(false);
 
-  const search = async () => {
+  const refreshData = () => {
+    setTrigger(!trigger);
+  };
+  const search = async (query: string) => {
     const clientId = process.env.NEXT_PUBLIC_NAVERAPI_CLIENT_ID;
     const clientSecret = process.env.NEXT_PUBLIC_NAVERAPI_CLIENT_SECRET;
     const apiUrl = '/v1/search/shop.json?';
-    // 네이버 검색 api 사용
+
     try {
       const response = await axios.get(`${apiUrl}`, {
         params: {query},
@@ -31,25 +35,19 @@ const WishItem = () => {
           "X-Naver-Client-Secret": clientSecret,
         },
       });
-      setResults(response.data.items); // 검색 결과를 상태에 저장합니다.
+      setResults(response.data.items);
     } catch (error) {
       console.error('검색 중 오류 발생:', error);
     }
   };
-
-  // 선택하면 wishlist에 추가하는 함수
-  const addToWishlist = (item: searchResponse) => {
-    setWishLists([...wishLists, item])
-
-  }
 
   return (
     <>
       <Header title="위시리스트" hasPrevious/>
       <main className={styles.wishitemWrapper}>
         <div className={styles.wishitemContainer}>
-          <Search query={query} setQuery={setQuery} search={search}/>
-          <Registration wishLists={wishLists}/>
+          <Search search={search}/>
+          <Registration refresh={refreshData} trigger={trigger}/>
           <Results results={results}/>
         </div>
       </main>
