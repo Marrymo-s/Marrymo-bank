@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import * as styles from './index.css'
 import Checkbox from '@/components/Checkbox'
-import {historyResponse} from "@/types/history";
+import Button from "@/components/Button";
 
 const Checkboxes = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE' | 'BOTH'>();
@@ -37,6 +37,16 @@ const Checkboxes = () => {
         <Checkbox checked={selected === 'BRIDE'} onChange={() => handleChange('BRIDE')}>신부</Checkbox>
         <Checkbox checked={selected === 'BOTH'} onChange={() => handleChange('BOTH')}>신랑 신부 각각</Checkbox>
       </div>
+
+      <Button
+        type='button'
+        size='large'
+        colorStyle='roseGold'
+        filled={true}
+        onClick={() => postAccountWho()}
+      >
+        다음
+      </Button>
     </>
   )
 }

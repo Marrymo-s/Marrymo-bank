@@ -1,6 +1,6 @@
 import * as styles from './index.css';
 import Header from "@/components/Header";
-import AccountCheckboxes from "@/containers/account/AccountCheckboxes";
+import AccountWhoCheck from "@/containers/account/AccountWhoCheck";
 
 const Account = () => {
   return (
@@ -14,7 +14,7 @@ const Account = () => {
           <div>- 지인들이 메리모를 통해 보내주신 축의금을 결혼식 당일에 고객님의 계좌 번호로 송금해드려요.</div>
         </div>
 
-        <AccountCheckboxes />
+        <AccountWhoCheck />
       </main>
     </>
   )
