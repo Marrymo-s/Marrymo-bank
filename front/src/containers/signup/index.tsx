@@ -1,22 +1,40 @@
 'use client';
 
+import {MouseEventHandler, useState} from 'react';
+import {useRouter} from 'next/navigation';
+
 import Header from '@/components/Header'
 import * as styles from './index.css'
-import dynamic from "next/dynamic";
+import KakaoMap from '@/components/KakaoMap'
+
 import WeddingDatepicker from "@/containers/signup/WeddingDatepicker";
 import InputBox from "@/components/InputBox";
 import InvitationMessage from "@/containers/signup/InvitationMessage";
 import Button from '@/components/Button/index'
-import {useRouter} from 'next/navigation';
+import useModal from '@/hooks/useModal'
 
-const KakaoNoSSR = dynamic(() => import('./KakaoMap'), {
-  ssr: false,
-})
+import WeddingImageUpload from "@/containers/signup/WeddingImageUpload";
+import {userInfoStore} from "@/store/store";
+
 
 const Signup = () => {
-  const searchKeyword: string = '바나프레소 테헤란로점'  // 임시 데이터
-  const router = useRouter()
+  const [weddingLocation, setWeddingLocation] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const userCode = userInfoStore((state) => state.userCode);
+
+  const handleLocationSelect = (location: string) => {
+    setWeddingLocation(location);
+    setIsModalOpen(false); // 장소 선택 시 모달 닫기
+  };
+
+  const router = useRouter()
+  const {Modal, openModal, closeModal} = useModal();
+
+  const openKakaoMapSearch = async () => {
+    openModal()
+  };
+  console.log(userCode)
   return (
     <>
       <Header title={'개인 정보 입력'} hasPrevious/>
@@ -74,7 +92,6 @@ const Signup = () => {
             inputBoxHeader='이메일 주소'
             placeholder='이메일 주소를 입력하세요.'
             asterisk={true}
-            // 버튼은 아래와 같이 'text', 'onClick', 'type'이 있어야 에러가 나지 않아요
             button={{
               text: '인증',
               // 추후에 인증 메일 보내는 함수 작성
@@ -103,7 +120,23 @@ const Signup = () => {
           </div>
         </div>
         <div>
-          {/*<KakaoNoSSR searchKeyword={searchKeyword}/>*/}
+          <InputBox
+            inputBoxHeader='결혼식 장소 선택'
+            placeholder='결혼식 장소를 선택해주세요.'
+            asterisk={true}
+            button={{
+              text: '검색',
+              // 추후에 인증 메일 보내는 함수 작성
+              onClick: () => {
+                openKakaoMapSearch()
+              },
+              type: 'button',
+              size: 'small'
+            }}
+          />
+        </div>
+        <div>
+          <WeddingImageUpload/>
         </div>
         <div>
           {/*TODO: */}
@@ -114,6 +147,12 @@ const Signup = () => {
             type='button'
           >다음</Button>
         </div>
+        <Modal>
+          <>
+            <KakaoMap setWeddingLocation={setWeddingLocation}/>
+            <input type="text" value={weddingLocation} readOnly/>
+          </>
+        </Modal>
       </main>
     </>
   )
