@@ -1,6 +1,7 @@
 'use client';
 
 import React, { use, useState, useEffect } from 'react';
+import {fetchInstance} from "@/services";
 
 import Header from "@/components/Header";
 import Button from '@/components/Button'
@@ -8,7 +9,6 @@ import * as styles from './index.css';
 import Image from 'next/image';
 
 import { useParams } from 'next/navigation';
-import { axiosInstance } from '@/services';
 
 interface wishItemDetailProps {
   wishItemSequence: number;
@@ -20,11 +20,10 @@ interface wishItemDetailProps {
 }
 
 
-const Detail = () => {
+const Detail = async () => {
   const { userCode, wishItemSequence } = useParams()
 
-  const getWishItemDetail = axiosInstance.get<wishItemDetailProps>(`/wish-item/${userCode}/${wishItemSequence}`)
-  const wishItemDetailData = use(getWishItemDetail).data
+  const wishItemDetailData = await fetchInstance(`/wish-item/${userCode}/${wishItemSequence}`) as wishItemDetailProps
   console.log(wishItemDetailData)
 
   return (

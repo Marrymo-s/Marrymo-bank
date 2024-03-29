@@ -5,8 +5,9 @@ import Image from 'next/image';
 import {formatPrice} from '@/utils/format';
 import Button from '@/components/Button';
 import {commonButton} from '@/components/Button/index.css';
-import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
+import { fetchInstance } from "@/services";
+
 // 여기 페이지 타입들 수정하기
 
 interface WishCardProps {
@@ -19,25 +20,29 @@ interface WishCardProps {
 }
 
 interface myWishProps {
-  title: string;
-  image: string;
-  lprice: string;
+  name: string;
+  img: string;
+  price: string;
 }
 
 const WishCard = ({image, title, lprice, brand, category2, category4}: WishCardProps) => {
-  const formattedPrice = formatPrice(lprice);
 
+  const formattedPrice = formatPrice(lprice);
+  // const userCode = userInfoStore((state) => state.userCode);
   // 위시 아이템 카드에서 버튼 누르면 wish-item에 등록
   const handleClick = async () => {
     const myWish = {
-      title,
-      image,
-      lprice,
+      name: title,
+      img: image,
+      price: lprice,
     };
+    const options : RequestInit = {
+      method: 'POST',
+      body: JSON.stringify(myWish)
+    }
 
-    axiosInstance.post<myWishProps>('/wish-item', myWish)
-    console.log(myWish)
-  };
+    await fetchInstance('/wish-item', options)
+  }
 
   return (
     <div className={styles.WishCardWrapper}>
