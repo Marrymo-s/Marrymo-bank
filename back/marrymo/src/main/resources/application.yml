@@ -53,7 +53,7 @@ spring:
           starttls:
             enable: true
             required: true
-    auth-code-expiration-mills: 300000
+    auth-code-expiration-millis: 300000
 
   # spring data jpa settings
   jpa:
