@@ -17,6 +17,9 @@ import useModal from '@/hooks/useModal'
 import WeddingImageUpload from "@/containers/signup/WeddingImageUpload";
 import {userInfoStore} from "@/store/store";
 
+const x = new Date()
+const weekDay: string[] = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
+const day: string = weekDay[x.getDay()]
 
 const Signup = () => {
   const [groomName, setGroomName] = useState<string>('');
@@ -24,11 +27,13 @@ const Signup = () => {
   const [groomContact, setGroomContact] = useState<string>('');
   const [brideContact, setBrideContact] = useState<string>('');
   const [weddingDate, setWeddingDate] = useState<Date>(new Date());
-  const [weddingDay, setWeddingDay] = useState<string>('');
+  const [weddingDay, setWeddingDay] = useState<string>(day);
   const [weddingTime, setWeddingTime] = useState({hour: '12', minute: '00'});
   const [weddingLocation, setWeddingLocation] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [greeting, setGreeting] = useState<string>('');
+  const [greeting, setGreeting] = useState<string>(
+    '우리의 사랑이 꽃피는 순간\n\n서로의 마음을 확인하며\n\n약속의 말을 건넵니다.\n\n이 행복을 여러분과 나누고 싶어\n\n여러분을 초대합니다.'
+  );
   const [groomFather, setGroomFather] = useState<string>('');
   const [groomMother, setGroomMother] = useState<string>('');
   const [brideFather, setBrideFather] = useState<string>('');
@@ -208,7 +213,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          <InvitationMessage/>
+          <InvitationMessage onGreetingChange={handleSetGreeting}/>
         </div>
         <div>
           <InputBox
