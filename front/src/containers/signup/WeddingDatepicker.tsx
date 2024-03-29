@@ -12,9 +12,20 @@ import ko from 'date-fns/locale/ko';
 registerLocale('ko', ko as any);  // ko 로케일 등록(ESLint 오류 ignore)
 
 const WeddingDatePicker = () => {
+  // 결혼식 일자 선택
   const [startDate, setStartDate] = useState<Date>(addDays(new Date(), 1));
   // 오늘 이후 날짜부터 선택할 수 있도록 제한하는 변수 tomorrow
   const tomorrow = addDays(new Date(), 1);
+
+  // 결혼식 시간 선택
+  const [time, setTime] = useState({hour: '10', minute: '00'})
+  const handleHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTime({...time, hour: event.target.value});
+  };
+
+  const handleMinuteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTime({...time, minute: event.target.value});
+  };
 
   return (
     <div>
@@ -33,6 +44,31 @@ const WeddingDatePicker = () => {
         calendarClassName={styles.calendar}
         wrapperClassName={styles.calendarWrapper}
       />
+      <div className={styles.timePickerContainer}>
+        <div>
+          결혼식 시간
+          <span className={styles.asteriskStyle}>*</span>
+        </div>
+        <select
+          value={time.hour}
+          onChange={handleHourChange}
+          className={styles.dropdown}
+        >
+          {[...Array(24)].map((_, index) => (
+            <option key={index} value={index < 10 ? `0${index}` : index.toString()}>
+              {index < 10 ? `0${index}` : index}
+            </option>
+          ))}
+        </select>시
+        <select
+          value={time.minute}
+          onChange={handleMinuteChange}
+          className={styles.dropdown}
+        >
+          <option value="00">00</option>
+          <option value="30">30</option>
+        </select>분
+      </div>
     </div>
   );
 };

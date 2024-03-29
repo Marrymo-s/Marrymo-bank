@@ -32,19 +32,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-    <body className={inter.className}>
-    <Provider>
-      {children}
-      <div id='modal'/>
-    </Provider>
-    </body>
-    <Script src=" https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js"
-            async/>
-    <Script
-      type="text/javascript"
-      src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAPAPI_KEY}&autoload=false&libraries=services`}
-    />
-    </html>
+      <html lang="en">
+      <body className={inter.className}>
+        <Provider>
+          {children}
+          <div id='modal'/>
+        </Provider>
+      </body>
+      <Script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js"
+              async/>
+      <Script
+          type="text/javascript"
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAPAPI_KEY}&autoload=false&libraries=services`}
+      />
+      </html>
   )
 }
