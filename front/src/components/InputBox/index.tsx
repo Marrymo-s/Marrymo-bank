@@ -16,24 +16,33 @@ interface ButtonProps {
 
 interface inputBoxProps {
   inputBoxHeader: string;
-  placeholder: string;
+  value?: string;
+  placeholder?: string;
   asterisk?: boolean;
   button?: ButtonProps;
+  onValueChange?: (value: string) => void;
 }
 
-const InputBox = ({inputBoxHeader, placeholder, asterisk, button}: inputBoxProps) => {
-  const [name, setName] = useState('');
+const InputBox = ({
+                    inputBoxHeader,
+                    value,
+                    placeholder,
+                    asterisk,
+                    button,
+                    onValueChange
+                  }: inputBoxProps) => {
   const [error, setError] = useState('');
 
-  const isValidateFormat = (value: string) => {
+  const isValidateFormat = (text: string) => {
     // 유효성 검사: 한국어 2 ~ 19자, 영어 4 ~ 38자
     const koreanName = /^[\uac00-\ud7a3 ]{2,19}$/;
     const englishName = /^[A-Za-z ]{4,38}$/;
-    return koreanName.test(value) || englishName.test(value);
+    return koreanName.test(text) || englishName.test(text);
   };
 
-  const nameValidationError = () => {
-    if (!isValidateFormat(name)) {
+  const handleBlur = () => {
+    const currentValue = value || "";
+    if (!isValidateFormat(currentValue)) {
       setError('이름은 한글 2자 이상 19자 이하, 영문자 4자 이상 38자 이하만 가능해요.');
     } else {
       setError('');
@@ -50,9 +59,9 @@ const InputBox = ({inputBoxHeader, placeholder, asterisk, button}: inputBoxProps
         <input
           type="text"
           placeholder={placeholder}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onBlur={nameValidationError}
+          value={value}
+          onChange={e => onValueChange && onValueChange(e.target.value)}
+          onBlur={handleBlur}
           className={styles.inputBoxText}
         />
         {button && (
