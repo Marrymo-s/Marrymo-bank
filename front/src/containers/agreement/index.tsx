@@ -1,18 +1,35 @@
 'use client';
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useRouter} from 'next/navigation';
+
 import Header from '@/components/Header';
 import Button from '@/components/Button';
 import * as styles from "@/containers/agreement/index.css";
 import Checkbox from "@/components/Checkbox";
-import {useRouter} from 'next/navigation';
+import {userInfoStore} from "@/store/store";
+
 import TermsOfUse from './TermsOfUse'
+import {fetchInstance} from "@/services";
 
 const Agreement = () => {
   const router = useRouter()
+  const setUserCode = userInfoStore(state => state.setUserCode);
   // 체크박스 상태 관리를 위한 상태 변수 선언
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
+
+  useEffect(() => {
+    const fetchUserCode = async () => {
+      // fetchInstance 함수를 사용하여 userCode를 가져옴
+      const response = await fetchInstance('api/users/usercode');
+      if (response && response.userCode) {
+        setUserCode(response.userCode);
+      }
+    };
+
+    fetchUserCode();
+  }, [setUserCode]);
 
   // 모든 체크박스가 체크되었는지 확인
   const allChecked = agreementChecked && privacyChecked;

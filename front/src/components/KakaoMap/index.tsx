@@ -135,7 +135,7 @@ const KakaoMap = ({setWeddingLocation}: Props) => {
       <button onClick={searchPlaces}>검색</button>
       <div
         id="map"
-        style={{width: '100%', height: '500px'}}
+        style={{width: '100%', height: '300px'}}
         ref={mapContainer}
       ></div>
       {searchResults.map((place, index) => (

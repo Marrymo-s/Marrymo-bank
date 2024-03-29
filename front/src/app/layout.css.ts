@@ -1,7 +1,7 @@
-import { globalStyle } from '@vanilla-extract/css';
-import { vars } from '@/styles/vars.css';
-import { font } from '@/styles/font.css';
-import { cardFont } from '@/styles/font.css';
+import {globalStyle} from '@vanilla-extract/css';
+import {vars} from '@/styles/vars.css';
+// import { font } from '@/styles/font.css';
+import {cardFont} from '@/styles/font.css';
 
 
 globalStyle('html', {
