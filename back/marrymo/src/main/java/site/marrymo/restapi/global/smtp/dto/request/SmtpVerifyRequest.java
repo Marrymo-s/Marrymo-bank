@@ -12,5 +12,5 @@ public class SmtpVerifyRequest {
     private String email;
 
     @NotNull(message = "인증번호는 필수적입니다")
-    private Integer code;
+    private String code;
 }
