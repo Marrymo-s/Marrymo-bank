@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -35,6 +36,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	private final UserRepository userRepository;
 	private final String HOME_CALLBACK_URL = "https://marrymo.site/home/";
 	private final String SIGNUP_CALLBACK_URL = "https://marrymo.site/signup";
+
+	@Value("${JWT_REFRESH_TOKEN_EXPIRETIME}")
+	private Long refreshTokenExpireTime;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -84,7 +88,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 		//redis에 refresh 토큰 저장
 		RefreshToken redis = new RefreshToken(refreshToken.getToken(), userCode);
-		redisService.setValue(redis.getRefreshToken(), userCode);
+		redisService.setValue(redis.getRefreshToken(), userCode, refreshTokenExpireTime);
 
 		return VerifyToken.builder()
 			.accessToken(accessToken.getToken())
