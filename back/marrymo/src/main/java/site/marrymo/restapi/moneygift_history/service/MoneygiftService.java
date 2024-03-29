@@ -132,14 +132,13 @@ public class MoneygiftService {
         // userCode로 송금 보낼 사람을 찾는다.
         User user = userRepository.findByUserCode(moneygiftTransferRequest.getUserCode())
                 .orElseThrow(()-> new UserException(UserErrorCode.USER_NOT_FOUND));
-        log.info("usercode: "+user.getUserCode());
 
         Card card = cardRepository.findByUser(user)
                 .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND));
-        log.info("usercode: "+user.getUserCode());
+
         // 신랑 이름과 신부 이름을 구한다.
         UserInfoResponse userInfoResponse = UserInfoResponse.toDto(user, card);
-        log.info("user info response");
+
         // 송금하는 사람은 메리모 정보로 통일
         MoBankTransferRequest moBankTransferRequest=MoBankTransferRequest
                 .builder()
@@ -148,7 +147,6 @@ public class MoneygiftService {
                 .tranAmt(moneygiftTransferRequest.getAmount())
                 .tranMsg("[메리모] "+moneygiftTransferRequest.getSender() + "송금")
                 .build();
-        log.info("success mobanktransferrequest");
         // 송금을 각자 받을 경우
         if (userInfoResponse.getIsGroomOnce() && userInfoResponse.getIsBrideOnce()){
             if (moneygiftTransferRequest.getGuestType()==GuestType.GROOM){
@@ -156,14 +154,12 @@ public class MoneygiftService {
                         .receiverName(userInfoResponse.getGroomName())
                         .receiverAccountNum(userInfoResponse.getGroomAccount())
                         .build();
-                log.info("송금을 각자 받는 경우 groomAccount : "+userInfoResponse.getGroomAccount());
             }
             else if(moneygiftTransferRequest.getGuestType()==GuestType.BRIDE){
                 moBankTransferRequest=moBankTransferRequest.toBuilder()
                         .receiverName(userInfoResponse.getBrideName())
                         .receiverAccountNum(userInfoResponse.getBrideAccount())
                         .build();
-                log.info("송금을 각자 받는 경우 brideAccount : "+userInfoResponse.getBrideAccount());
             }
         }
         // 신랑 계좌로만 돈을 받을 경우
@@ -172,7 +168,6 @@ public class MoneygiftService {
                     .receiverName(userInfoResponse.getGroomName())
                     .receiverAccountNum(userInfoResponse.getGroomAccount())
                     .build();
-            log.info("신랑 계좌로 돈을 받는 경우 groomAccount: "+userInfoResponse.getGroomAccount());
         }
         // 신부 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsBrideOnce()){
@@ -180,11 +175,8 @@ public class MoneygiftService {
                     .receiverName(userInfoResponse.getBrideName())
                     .receiverAccountNum(userInfoResponse.getBrideAccount())
                     .build();
-            log.info("신부 계좌로 돈을 받을 경우 brideAccount: "+userInfoResponse.getBrideAccount());
         }
         try{
-            log.info("senderAccountNum: "+moBankTransferRequest.getSenderAccountNum());
-            log.info("receiverAccountNum: "+moBankTransferRequest.getReceiverAccountNum());
             MoBankTransferResponse moBankTransferResponse=moBankService.sendMoney(moBankTransferRequest);
 
         }catch (WebClientResponseException e){
@@ -197,7 +189,7 @@ public class MoneygiftService {
         WishItem wishItem=null;
         if (moneygiftTransferRequest.getType()==Type.ITEM){
             wishItem =wishItemRepository.findByWishItemSequenceAndUser(moneygiftTransferRequest.getWishItemSequence(), user)
-                    .orElseThrow(()->new NoSuchElementException());
+                    .orElseThrow(()->new NoSuchElementException("찾을 수 없는 위시아이템입니다. 위시 아이템 sequence 혹은 사용자를 확인해주세요"));
         }
 
 
