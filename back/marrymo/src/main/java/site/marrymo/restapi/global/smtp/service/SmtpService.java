@@ -21,12 +21,12 @@ public class SmtpService {
 
 	private final JavaMailSender javaMailSender;
 
-	public void sendEmail(String toEmail, String title, String text) {
+	public void sendEmail(String toEmail, String title, String text){
 
-		SimpleMailMessage emailForm = createEmailForm(toEmail, title, text);
 		try {
+			MimeMessage emailForm = createEmailForm(toEmail, title, text);
 			javaMailSender.send(emailForm);
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			log.debug("MailService.sendEmail exception occur toEmail: {}, " +
 				"title: {}, text: {}", toEmail, title, text);
 			throw new SmtpException(SmtpErrorCode.UNABLE_TO_SEND_EMAIL);
@@ -34,13 +34,15 @@ public class SmtpService {
 	}
 
 	// 발신할 이메일 데이터 세팅
-	private SimpleMailMessage createEmailForm(String mail,
+	private MimeMessage createEmailForm(String mail,
 		String title,
-		String text) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(mail);
-		message.setSubject(title);
-		message.setText(text);
+		String text) throws MessagingException{
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, false, "UTF-8");
+
+		mimeMessageHelper.setTo(mail);
+		mimeMessageHelper.setSubject(title);
+		mimeMessageHelper.setText(text, true);
 
 		return message;
 	}
