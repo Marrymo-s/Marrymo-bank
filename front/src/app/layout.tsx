@@ -15,8 +15,8 @@ import './layout.css';
 const inter = Inter({subsets: ['latin']})
 
 export const metadata: Metadata = {
-  title: 'Marrymo(메리모)',
-  description: '모바일 청첩장과 축의금 송금은 Marrymo!',
+  title: 'Marrymo',
+  description: '모바일 청첩장과 축의금 송금을 Marrymo에서!',
 }
 
 declare global {
