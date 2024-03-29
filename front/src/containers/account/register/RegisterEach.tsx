@@ -1,7 +1,6 @@
 'use client'
 
 import * as styles from '../index.css'
-import Header from '@/components/Header';
 import Button from '@/components/Button';
 import React, {useState} from 'react';
 
