@@ -26,6 +26,7 @@ const WishItem = () => {
     const clientSecret = process.env.NEXT_PUBLIC_NAVERAPI_CLIENT_SECRET;
     const apiUrl = '/v1/search/shop.json?';
 
+
     try {
       const response = await axios.get(`${apiUrl}`, {
         params: {query},
@@ -35,11 +36,14 @@ const WishItem = () => {
           "X-Naver-Client-Secret": clientSecret,
         },
       });
+      console.log(clientId)
+      console.log(clientSecret)
       setResults(response.data.items);
     } catch (error) {
       console.error('검색 중 오류 발생:', error);
     }
   };
+
 
   return (
     <>
