@@ -10,6 +10,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import site.marrymo.restapi.global.smtp.exception.SmtpErrorCode;
+import site.marrymo.restapi.global.smtp.exception.SmtpException;
 
 @Slf4j
 @Service
@@ -19,15 +21,15 @@ public class SmtpService {
 
 	private final JavaMailSender javaMailSender;
 
-	public void registMail(String mail, String title, String text) {
+	public void sendEmail(String toEmail, String title, String text) {
 
-		SimpleMailMessage emailForm = createEmailForm(mail, title, text);
+		SimpleMailMessage emailForm = createEmailForm(toEmail, title, text);
 		try {
 			javaMailSender.send(emailForm);
 		} catch (RuntimeException e) {
 			log.debug("MailService.sendEmail exception occur toEmail: {}, " +
-				"title: {}, text: {}", mail, title, text);
-			throw new IllegalArgumentException("틀림요");
+				"title: {}, text: {}", toEmail, title, text);
+			throw new SmtpException(SmtpErrorCode.UNABLE_TO_SEND_EMAIL);
 		}
 	}
 

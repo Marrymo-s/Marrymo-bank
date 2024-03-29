@@ -6,9 +6,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import site.marrymo.restapi.global.redis.service.RedisService;
+import site.marrymo.restapi.global.smtp.dto.request.SmtpVerifyRequest;
+import site.marrymo.restapi.global.smtp.service.SmtpService;
 import site.marrymo.restapi.user.repository.BlackListRepository;
 import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.card.exception.CardErrorCode;
@@ -32,22 +36,33 @@ import site.marrymo.restapi.wedding_img.entity.WeddingImg;
 import site.marrymo.restapi.wedding_img.repository.WeddingImgRepository;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
+    private static final String AUTH_CODE_PREFIX = "AuthCode ";
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
     private final WeddingImgRepository weddingImgRepository;
     private final AwsS3Service awsS3Service;
     private final BlackListRepository blackListRepository;
+    private final RedisService redisService;
+    private final SmtpService smtpService;
+
+    @Value("${spring.mail.auth-code-expiration-millis}")
+    private long authCodeExpirationMillis;
+
     public String makeUniqueUserCode(){
         UserCodeGenerator userCodeGenerator = new UserCodeGenerator();
 
@@ -298,5 +313,45 @@ public class UserService {
 
         //black_list 테이블에 만료된 refresh token 정보를 저장
         blackListRepository.save(BlackList.builder().invalidRefreshToken(refreshToken).build());
+    }
+
+    public void sendCodeToEmail(String toEmail){
+        this.checkDuplicatedEmail(toEmail);
+
+        String title = "Marrymo 이메일 인증 번호";
+        String authCode = this.createCode();
+        smtpService.sendEmail(toEmail, title, authCode);
+
+        //이메일 요청 시 인증 번호를 Redis에 저장
+        //(key = Email / value = AuthCode)
+        redisService.setValue(toEmail, authCode, authCodeExpirationMillis);
+    }
+
+    public Boolean verifiedAuthCode(SmtpVerifyRequest smtpVerifyRequest){
+        String redisAuthCode = redisService.getValue(smtpVerifyRequest.getEmail());
+
+        if(smtpVerifyRequest.getCode().equals(redisAuthCode))
+            return true;
+        else
+            return false;
+    }
+
+    private void checkDuplicatedEmail(String email){
+        Optional<User> user = userRepository.findByEmail(email);
+        //탈퇴하지 않은 회원 중 해당 email이 존재하다면
+        if(user.isPresent() && user.get().getDeletedAt() == null){
+            throw new UserException(UserErrorCode.USER_ALREADY_EXIST);
+        }
+    }
+
+    private String createCode(){
+        StringBuilder sb = new StringBuilder();
+
+        for(int len = 0; len < 6; len++){
+            int num = (int)(Math.random()*10);
+            sb.append(num);
+        }
+
+        return sb.toString();
     }
 }

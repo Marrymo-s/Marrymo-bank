@@ -1,16 +1,16 @@
 package site.marrymo.restapi.global.smtp.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.marrymo.restapi.global.smtp.dto.request.SmtpRegistRequest;
+import site.marrymo.restapi.global.smtp.dto.request.SmtpVerifyRequest;
 import site.marrymo.restapi.global.smtp.service.SmtpService;
+import site.marrymo.restapi.user.service.UserService;
 
 @Slf4j
 @RestController
@@ -18,15 +18,15 @@ import site.marrymo.restapi.global.smtp.service.SmtpService;
 @RequiredArgsConstructor
 public class SmtpController {
 
-	private final SmtpService smtpService;
-	@PostMapping("/send-email")
-	public void registMail(@Valid @RequestBody SmtpRegistRequest smtpRegistRequest) {
-		smtpService.registMail(smtpRegistRequest.getEmail(), "Marrymo 이메일 인증", "이메일 인증 번호 : ");
+	private final UserService userService;
+	@PostMapping("/send")
+	public void sendMessage(@Valid @RequestBody SmtpRegistRequest smtpRegistRequest) {
+		userService.sendCodeToEmail(smtpRegistRequest.getEmail());
 	}
 
-	//    @PostMapping("/verify-email")
-	//    public ResponseEntity verifyMail(@Valid @RequestBody SmtpVerifyRequest smtpVerifyRequest) {
-	//        return true;
-	//    }
-
+	@GetMapping("/authcode/verifications")
+	public ResponseEntity<Boolean> verifiedAuthCode(SmtpVerifyRequest smtpVerifyRequest){
+		Boolean isVerify = userService.verifiedAuthCode(smtpVerifyRequest);
+		return ResponseEntity.ok(isVerify);
+	}
 }
