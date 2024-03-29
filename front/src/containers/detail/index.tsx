@@ -1,42 +1,59 @@
-'use client'
+'use client';
+
+import React, { use, useState, useEffect } from 'react';
+import {fetchInstance} from "@/services";
 
 import Header from "@/components/Header";
 import Button from '@/components/Button'
 import * as styles from './index.css';
 import Image from 'next/image';
-import React from 'react';
+
 import { useParams } from 'next/navigation';
 
-const Detail = () => {
-  const { userCode, productId } = useParams()
+interface wishItemDetailProps {
+  wishItemSequence: number;
+  name: string;
+  fund: number;
+  person: number;
+  price: number;
+  img: string
+}
+
+
+const Detail = async () => {
+  const { userCode, wishItemSequence } = useParams()
+
+  const wishItemDetailData = await fetchInstance(`/wish-item/${userCode}/${wishItemSequence}`) as wishItemDetailProps
+  console.log(wishItemDetailData)
 
   return (
     <>
-      <div>유저{userCode} 제품{productId}</div>
+      {/*<div>유저{userCode} 제품{wishItemSequence}</div>*/}
       <Header title="위시리스트 상세" hasPrevious/>
       <main className={styles.detailWrapper}>
         <div className={styles.detailContainer}>
           <Image
             src='/images/landing/example1.png'
             alt="cardTopImage"
-            width={480}
-            height={480}
+            width={300}
+            height={300}
             sizes='100vw'
           />
         </div>
-        <div>
-          상품명
+        <hr />
+        <div className={styles.detailNameText}>
+          {wishItemDetailData.name}
         </div>
         <div>
-          프로그레스 바
+          프로그레스 바.
         </div>
         <hr/>
         <div>
           <div>
-            현재 <span>x</span> 중
-            <span>y</span>원이  모였어요
-            모금 마감까지  <span>n</span>일이 남았어요
-            지금까지 <span>n</span>명이 모금에 참여했어요
+            현재 <span>{wishItemDetailData.price}</span> 중 <br />
+            <span>{wishItemDetailData.fund}</span>원이  모였어요
+            모금 마감까지  <span>n</span>일이 남았어요! <br />
+            지금까지 <span>{wishItemDetailData.person}</span>명이 모금에 참여했어요
           </div>
         </div>
         <Button

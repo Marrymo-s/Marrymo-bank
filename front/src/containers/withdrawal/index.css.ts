@@ -17,3 +17,30 @@ export const withdrawalWrapper = style([
     },
   },
 ]);
+
+export const withdrawalTitle = style({
+    color: 'red',
+    fontSize: '25px',
+    fontWeight: 'normal',
+    paddingTop: '80px',
+    paddingBottom: '20px',
+})
+
+export const withdrawalDetail = style({
+  fontSize: '14.5px',
+  paddingBottom: '120px',
+})
+
+export const checkboxWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start', // 왼쪽 정렬
+  paddingBottom: '30px',
+});
+
+export const buttonWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start', // 왼쪽 정렬
+  paddingBottom: '30px',
+});

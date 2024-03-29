@@ -1,7 +1,6 @@
-'use client';
-
 //리액트 라이브러리
-import React, { use, useState, useEffect } from 'react';
+'use client'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // 구성 컴포넌트
@@ -15,46 +14,49 @@ import CardUnderTop from "@/components/InvitationCard/cardUnderTop";
 import SecondImage from '@/components/InvitationCard/secondImage';
 
 // 기타
-import { axiosInstance } from '@/services';
+// import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
+import {fetchInstance} from "@/services";
 
 // 폰트
 import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
-const invitationData = {
-  groomName: '홍길동',
-  brideName: '김영희',
-  groomContact: '010-1234-5678',
-  brideContact: '010-8765-4321',
-  weddingDate: '2024-12-24',
-  weddingTime: '오후 2시',
-  location: '서울 소공동 롯데호텔',
-  email: 'wedding@example.com',
-  greeting: '초대합니다',
-  groomFather: '홍판서',
-  groomMother: '춘향이',
-  brideFather: '김두한',
-  brideMother: '심청이',
-  imgUrl: [
-    '/images/landing/example1.png',
-  ]
-};
 
-const InvitationCard = () => {
-  //TODO 토큰로직 짜면 쓰기
-  // const getSignUpRequest = axiosInstance.get<signupRequest>('/users')
-  // const invitationData = use(getSignUpRequest)
-
-  const getRequest = axios.get('https://koreanjson.com/users')
-  const hi = use(getRequest) // 얘가 순서대로 되는건 좀 신기하긴 함
-  console.log(hi)
-  console.log(111111111111111)
-
-
-
-
+const InvitationCard = async () => {
+  const invitationData = await fetchInstance('/users') as signupRequest
   console.log(invitationData)
+
+  // const [invitationData, setInvitationData] = useState<signupRequest>({
+  //   groomName: '',
+  //   brideName: '',
+  //   groomContact: '',
+  //   brideContact: '',
+  //   weddingDate: '',
+  //   weddingDay: '',
+  //   weddingTime: '',
+  //   location: '',
+  //   email: '',
+  //   greeting: '',
+  //   groomFather: '',
+  //   groomMother: '',
+  //   brideFather: '',
+  //   brideMother: '',
+  //   imgUrl: [],
+  // })
+
+
+  // useEffect(() => {
+  //   axiosInstance.get<signupRequest>('/users')
+  //     .then(response => {
+  // setInvitationData(response.data);
+  //
+  //     })
+  //     .catch(error => {
+  //       console.error("Failed to fetch invitation data:", error);
+  //
+  //     });
+  // }, []);
 
   return (
     <main className={CardGap}>

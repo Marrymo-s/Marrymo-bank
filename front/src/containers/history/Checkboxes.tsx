@@ -8,7 +8,6 @@ import {HistoryListProps} from "@/containers/history/index";
 const Checkboxes = ({selected, setSelected}: HistoryListProps) => {
     const handleChange = (value: 'all' | 'wish' | 'moneygift') => {
         setSelected(value);
-        console.log(value);
     }
 
     return (

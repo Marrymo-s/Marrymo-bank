@@ -16,8 +16,8 @@ const HamburgerButton = () => {
   };
 
   return (
-    <div className={styles.hanburgerButton}>
-      <button className="hamburger-button" onClick={toggleMenu}>
+    <div>
+      <button className={styles.hanburgerButton} onClick={toggleMenu}>
         ☰
       </button>
       {isOpen && (

@@ -26,7 +26,7 @@ export const detailContainer = style({
   background: vars.colors.lightYellow,
   width: 'auto',
   maxWidth: 480,
-  height: '400px',
+  height: '300px',
   position: 'relative',
   marginBottom: vars.space['4x'],
   boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
@@ -37,6 +37,6 @@ export const detailImage = style({
 
 })
 
-export const detailTitleText = style({
+export const detailNameText = style({
 
 })
