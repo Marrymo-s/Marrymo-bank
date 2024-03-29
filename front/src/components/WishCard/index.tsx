@@ -5,7 +5,7 @@ import Image from 'next/image';
 import {formatPrice} from '@/utils/format';
 import Button from '@/components/Button';
 import {commonButton} from '@/components/Button/index.css';
-import { axiosInstance } from '@/services';
+// import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
 // 여기 페이지 타입들 수정하기
 
@@ -35,7 +35,7 @@ const WishCard = ({image, title, lprice, brand, category2, category4}: WishCardP
       lprice,
     };
 
-    axiosInstance.post<myWishProps>('/wish-item', myWish)
+    // axiosInstance.post<myWishProps>('/wish-item', myWish)
     console.log(myWish)
   };
 

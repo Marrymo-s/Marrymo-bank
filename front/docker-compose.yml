@@ -5,6 +5,9 @@ services:
     container_name: next-app
     expose:
       - 3000
+    env_file:
+     - /home/ubuntu/next/.env.local
+
     networks:
       - marrymo_net
 
