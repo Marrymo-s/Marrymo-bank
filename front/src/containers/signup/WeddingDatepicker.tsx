@@ -1,43 +1,56 @@
 import React, {useState} from 'react';
 import DatePicker, {registerLocale} from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
+import {format, addDays} from 'date-fns';
+import {ko} from 'date-fns/locale';
 
 import * as styles from './index.css';
-
-import {format, addDays} from 'date-fns';
-import ko from 'date-fns/locale/ko';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 registerLocale('ko', ko as any);  // ko 로케일 등록(ESLint 오류 ignore)
 
-const WeddingDatePicker = () => {
+interface WeddingDatePickerProps {
+  onDateChange: (date: Date) => void;
+  onTimeChange: (time: { hour: string, minute: string }) => void;
+  onDayChange: (day: string) => void;
+}
+
+const WeddingDatePicker = ({onDateChange, onTimeChange, onDayChange}: WeddingDatePickerProps) => {
   // 결혼식 일자 선택
   const [startDate, setStartDate] = useState<Date>(addDays(new Date(), 1));
   // 오늘 이후 날짜부터 선택할 수 있도록 제한하는 변수 tomorrow
   const tomorrow = addDays(new Date(), 1);
-
   // 결혼식 시간 선택
-  const [time, setTime] = useState({hour: '10', minute: '00'})
+  const [time, setTime] = useState({hour: '12', minute: '00'})
+
+  const handleDateChange = (date: Date) => {
+    setStartDate(date);
+    onDateChange(date);
+    const day = format(date, 'EEEE', {locale: ko});
+    onDayChange(day);
+  }
   const handleHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTime({...time, hour: event.target.value});
-  };
+    const updatedTime = {...time, hour: event.target.value}
+    setTime(updatedTime);
+    onTimeChange(updatedTime);
+  }
 
   const handleMinuteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTime({...time, minute: event.target.value});
+    const updatedTime = {...time, hour: event.target.value};
+    setTime(updatedTime);
+    onTimeChange(updatedTime);
   };
 
   return (
     <div>
       <div className={styles.selectedDate}>
-        {/*TODO: 요일을 한국어로 표시되게끔 하는 방법 {locale: ko}는 에러가 남, 다른 방법 찾기*/}
-        {format(startDate, 'M월 d일 (EEE)')}
+        {format(startDate, 'M월 d일 (EEE)', {locale: ko})}
       </div>
       <DatePicker
         selected={startDate}
         onChange={(date: Date) => setStartDate(date)}
         minDate={tomorrow}
-        locale='ko'
+        locale="ko"
         dateFormat="yyyy년 M월 d일"
         dropdownMode="select"
         className={styles.datePicker}

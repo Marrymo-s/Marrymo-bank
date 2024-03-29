@@ -1,4 +1,4 @@
-import { globalFontFace, style } from '@vanilla-extract/css';
+import {globalFontFace, style} from '@vanilla-extract/css';
 
 const globalPretendard = 'pretendard';
 
@@ -17,12 +17,12 @@ export const globalFont = style({
 const gowun = 'Gowun Batang';
 
 globalFontFace(gowun, {
-    src: "url('/fonts/ttf/GowunBatang-Bold.ttf') format('truetype')",
-    fontWeight: 400,
-    fontStyle: 'normal',
-    fontDisplay: 'swap'
+  src: "url('/fonts/ttf/GowunBatang-Bold.ttf') format('truetype')",
+  fontWeight: 400,
+  fontStyle: 'normal',
+  fontDisplay: 'swap'
 });
 
 export const cardFont = style({
-    fontFamily: gowun,
+  fontFamily: gowun,
 });
