@@ -13,7 +13,6 @@ import HamburgerButton from '@/containers/home/HamburgerButton';
 
 const Home = () => {
 
-
   return (
     <>
       <main className={styles.homeWrapper}>
