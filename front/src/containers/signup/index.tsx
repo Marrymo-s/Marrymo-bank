@@ -14,18 +14,14 @@ import Button from '@/components/Button/index'
 import useModal from '@/hooks/useModal'
 
 import WeddingImageUpload from "@/containers/signup/WeddingImageUpload";
-import Image from "next/image";
+import {userInfoStore} from "@/store/store";
 
-interface FileThumbnailsProps {
-  files: File[];
-  deleteFileHandler?: Function;
-  addFileHandler?: MouseEventHandler<HTMLDivElement>;
-  onDrop?: Function;
-}
 
 const Signup = () => {
   const [weddingLocation, setWeddingLocation] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const userCode = userInfoStore((state) => state.userCode);
 
   const handleLocationSelect = (location: string) => {
     setWeddingLocation(location);
@@ -38,7 +34,7 @@ const Signup = () => {
   const openKakaoMapSearch = async () => {
     openModal()
   };
-
+  console.log(userCode)
   return (
     <>
       <Header title={'개인 정보 입력'} hasPrevious/>

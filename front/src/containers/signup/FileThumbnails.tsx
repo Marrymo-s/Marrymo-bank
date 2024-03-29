@@ -30,6 +30,7 @@ const FileThumbnails = ({
             blurDataURL={URL.createObjectURL(file)}
           />
           <div
+            role='presentation'
             className={styles.deleteButton}
             onClick={() => deleteFileHandler && deleteFileHandler(file.name)}
           >
@@ -37,7 +38,11 @@ const FileThumbnails = ({
           </div>
           {/* 파일 추가 버튼 (옵셔널) */}
           {addFileHandler && (
-            <div className={styles.addFileButton} onClick={addFileHandler}>
+            <div
+              role='presentation'
+              className={styles.addFileButton}
+              onClick={addFileHandler}
+            >
               파일 추가하기
             </div>
           )}
@@ -47,7 +52,7 @@ const FileThumbnails = ({
             <div
               className={styles.dropArea}
               onDrop={onDrop}
-              onDragOver={(e) => e.preventDefault()} // 기본 이벤트를 방지합니다.
+              onDragOver={(e) => e.preventDefault()}
               onDragEnter={(e) => e.preventDefault()}
             >
               파일을 이곳에 드래그하세요

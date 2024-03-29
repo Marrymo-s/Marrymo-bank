@@ -1,4 +1,6 @@
 import React, {useRef, useState} from "react";
+import Image from 'next/Image';
+
 import * as styles from './index.css'
 import FileThumbnails from './FileThumbnails';
 
@@ -35,9 +37,9 @@ const ImageInput = ({files, setFiles}: FileInputProps) => {
       <div className={styles.imagePreviewContainer}>
         {thumbnails.map((thumbnailUrl, index) => (
           <div className={styles.imageBox} key={index}>
-            <img
+            <Image
               src={thumbnailUrl}
-              alt={`Wedding image ${index + 1}`}
+              alt={`Wedding Gallery ${index + 1}`}
               className={styles.imagePreview}
             />
             <button className={styles.deleteButton} onClick={() => deleteFile(thumbnailUrl)}>X</button>
@@ -55,7 +57,6 @@ const ImageInput = ({files, setFiles}: FileInputProps) => {
       <FileThumbnails
         files={files}
         deleteFileHandler={deleteFile}
-        // 추가 핸들러가 필요한 경우 여기에 넣을 수 있습니다.
       />
     </div>
   );
