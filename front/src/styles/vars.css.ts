@@ -32,6 +32,7 @@ export const vars = createGlobalTheme(':root', {
     '4x': '32px',
     '5x': '40px',
     top: '32px 32px 0 0',
+    all: '32px',
     full: '9999px', // 원을 만들 때 사용
   },
 
