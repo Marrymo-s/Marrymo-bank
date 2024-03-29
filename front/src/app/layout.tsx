@@ -3,6 +3,8 @@ import type {Metadata} from 'next'
 import Script from 'next/script';
 
 import {Inter} from 'next/font/google'
+
+import Provider from '@/app/Provider';
 import localFont from 'next/font/local';
 // const Pretendard = localFont({
 //   src: './fonts/PretendardVariable.woff2',
@@ -31,7 +33,12 @@ export default function RootLayout({
 }) {
   return (
       <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Provider>
+          {children}
+          <div id='modal'/>
+        </Provider>
+      </body>
       <Script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js"
               async/>
       <Script
