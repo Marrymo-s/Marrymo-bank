@@ -24,7 +24,7 @@ public class SmtpController {
 		userService.sendCodeToEmail(smtpRegistRequest.getEmail());
 	}
 
-	@GetMapping("/authcode/verifications")
+	@PostMapping("/authcode/verifications")
 	public ResponseEntity<Boolean> verifiedAuthCode(SmtpVerifyRequest smtpVerifyRequest){
 		Boolean isVerify = userService.verifiedAuthCode(smtpVerifyRequest);
 		return ResponseEntity.ok(isVerify);
