@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import DatePicker, {registerLocale} from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import {format, addDays} from 'date-fns';
@@ -11,29 +11,37 @@ registerLocale('ko', ko as any);  // ko 로케일 등록(ESLint 오류 ignore)
 
 interface WeddingDatePickerProps {
   onDateChange: (date: Date) => void;
-  onTimeChange: (time: { hour: string, minute: string }) => void;
+  onTimeChange: (time: {hour: string, minute: string}) => void;
   onDayChange: (day: string) => void;
 }
 
 const WeddingDatePicker = ({onDateChange, onTimeChange, onDayChange}: WeddingDatePickerProps) => {
   // 결혼식 일자 선택
   const [startDate, setStartDate] = useState<Date>(addDays(new Date(), 1));
+  // 초기 설정 날짜를 내일로 설정하는 useEffect
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 부모 컴포넌트에 초기 날짜와 요일을 전달
+    onDateChange(startDate);
+    const initialDay = format(startDate, 'EEEE', {locale: ko}).substring(0, 1);
+    onDayChange(initialDay);
+  }, []);
   // 오늘 이후 날짜부터 선택할 수 있도록 제한하는 변수 tomorrow
   const tomorrow = addDays(new Date(), 1);
   // 결혼식 시간 선택
-  const [time, setTime] = useState({hour: '12', minute: '00'})
+  const [time, setTime] = useState({hour: '12', minute: '00'});
 
   const handleDateChange = (date: Date) => {
     setStartDate(date);
     onDateChange(date);
-    const day = format(date, 'EEEE', {locale: ko});
-    onDayChange(day);
-  }
+    const fullDayName = format(date, 'EEEE', {locale: ko});
+    const initialDayName = fullDayName.substring(0, 1);
+    onDayChange(initialDayName);
+  };
   const handleHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const updatedTime = {...time, hour: event.target.value}
+    const updatedTime = {...time, hour: event.target.value};
     setTime(updatedTime);
     onTimeChange(updatedTime);
-  }
+  };
 
   const handleMinuteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const updatedTime = {...time, hour: event.target.value};
