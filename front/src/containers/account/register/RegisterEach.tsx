@@ -28,7 +28,7 @@ const RegisterEach = ({who}: WhoProps) => {
         filled={true}
         disabled={isDone}
         onClick={() => {
-          handleOpenBanking
+          handleOpenBanking()
         }}
       >
         인증
