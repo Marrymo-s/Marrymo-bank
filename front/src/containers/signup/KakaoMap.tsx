@@ -30,36 +30,3 @@ interface keywordProps {
 //     <div id="map" className={styles.mapContainer}/>
 //   );
 // };
-
-const KakaoMap = () => {
-  useEffect(() => {
-    const kakaoScriptLoaded = window.kakao && window.kakao.maps;
-    if (kakaoScriptLoaded) {
-      console.log(window.kakao.maps)
-      if (window.kakao.maps.services) {
-        try {
-          // 'Places' 클래스의 인스턴스를 생성합니다.
-          const places = new window.kakao.maps.services.Places();
-          // 검색 완료 시 호출될 콜백 함수
-          const callback = (result: [], status: string) => {
-            if (status === window.kakao.maps.services.Status.OK) {
-              console.log(result);
-            }
-          };
-
-          // 'Places' 객체의 'keywordSearch' 메소드를 사용하여 검색을 실행합니다.
-          places.keywordSearch('판교 치킨', callback);
-        } catch (error) {
-          console.error('Kakao Maps initialization failed:', error);
-        }
-      }
-    } else {
-      // TODO: 로딩이 되지 않았을 때 로딩 애니메이션 넣을 거면 넣기
-      console.log('카카오 맵이 아직 로딩되지 않았습니다.')
-    }
-  }, []);
-
-  return <div id="kakao-map">카카오맵 렌딩</div>
-}
-
-export default KakaoMap;
