@@ -48,7 +48,7 @@ const WeddingDatePicker = ({onDateChange, onTimeChange, onDayChange}: WeddingDat
       </div>
       <DatePicker
         selected={startDate}
-        onChange={(date: Date) => setStartDate(date)}
+        onChange={handleDateChange}
         minDate={tomorrow}
         locale="ko"
         dateFormat="yyyy년 M월 d일"
