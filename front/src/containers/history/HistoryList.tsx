@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import {historyListContainer} from "@/containers/history/index.css";
 
 //type
@@ -13,6 +13,10 @@ const HistoryList = ({selected} : SelectedProp) => {
     const [totalSum, setTotalSum] = useState<number>()
     const [moneygiftSum, setMoneygiftSum] = useState<number>()
     const [wishSum, setWishSum] = useState<number>()
+
+    useEffect(() => {
+        getHistory()
+    }, [historyData])
 
     const getHistory = async () => {
         try {
