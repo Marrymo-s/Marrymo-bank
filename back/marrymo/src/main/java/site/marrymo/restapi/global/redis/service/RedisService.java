@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -20,8 +21,7 @@ public class RedisService {
 	public void setValue(String key, String value, Long time) {
 		if(this.getValue(key)!=null)
 			this.deleteData(key);
-		Duration expireDuration = Duration.ofSeconds(time);
-		redisTemplate.opsForValue().set(key,value, expireDuration);
+		redisTemplate.opsForValue().set(key,value, time, TimeUnit.MILLISECONDS);
 	}
 
 	//key에 해당하는 값을 redis에서 검색
