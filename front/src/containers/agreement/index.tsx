@@ -22,7 +22,7 @@ const Agreement = () => {
   useEffect(() => {
     const fetchUserCode = async () => {
       // fetchInstance 함수를 사용하여 userCode를 가져옴
-      const response = await fetchInstance('users/usercode');
+      const response = await fetchInstance('/users/usercode');
       if (response && response.userCode) {
         setUserCode(response.userCode);
       }
