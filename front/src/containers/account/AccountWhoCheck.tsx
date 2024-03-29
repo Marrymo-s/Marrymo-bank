@@ -77,6 +77,7 @@ const Checkboxes = () => {
         size='large'
         colorStyle='roseGold'
         filled={true}
+        disabled={!selected}
         onClick={() => postAccountWho()}
       >
         다음
