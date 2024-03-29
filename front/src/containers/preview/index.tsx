@@ -1,3 +1,5 @@
+'use client'
+
 import InvitationCard from "@/components/InvitationCard";
 import Header from "@/components/Header";
 import Button from '@/components/Button'

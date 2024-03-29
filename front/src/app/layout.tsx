@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
       <html lang="en">
       <body className={inter.className}>{children}</body>
-      <Script src=" https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js"
+      <Script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js"
               async/>
       <Script
           type="text/javascript"

@@ -14,7 +14,7 @@ const Withdrawal = () => {
 
   const routeToHome = async () => {
     if (!agreementChecked) {
-      
+      return
     } else {
       // 탈퇴 동의를 누르면 marrymo home으로 이동합니다.
       await router.push(`/`);
