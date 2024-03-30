@@ -32,6 +32,7 @@ const Signup = () => {
   const [weddingTime, setWeddingTime] = useState({hour: '12', minute: '00'});
   const [weddingLocation, setWeddingLocation] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [emailCheck, setEmailCheck] = useState<string>('');
   const [greeting, setGreeting] = useState<string>(
     '우리의 사랑이 꽃피는 순간\n\n서로의 마음을 확인하며\n\n약속의 말을 건넵니다.\n\n이 행복을 여러분과 나누고 싶어\n\n여러분을 초대합니다.',
   );
@@ -142,7 +143,7 @@ const Signup = () => {
   };
 
   // 필수값이 입력되었는지 확인하는 부분
-  const [groomNameValid, setGroomNameValid] = useState(false);
+  const [isGroomNameValid, setIsGroomNameValid] = useState(false);
   const [brideNameValid, setBrideNameValid] = useState(false);
   const [groomContactValid, setGroomContactValid] = useState(false);
   const [brideContactValid, setBrideContactValid] = useState(false);
@@ -151,7 +152,7 @@ const Signup = () => {
   const [emailVerificationValid, setEmailVerificationValid] = useState(false);
   const [weddingLocationValid, setWeddingLocationValid] = useState(false);
 
-  const checkValidation: boolean = groomNameValid &&
+  const checkValidation: boolean = isGroomNameValid &&
     brideNameValid &&
     groomContactValid &&
     brideContactValid &&
@@ -192,6 +193,7 @@ const Signup = () => {
             asterisk={true}
             onValueChange={handleSetGroomName}
             validate={isValidateName}
+            onValidationPassed={() => setIsGroomNameValid(true)}
           />
         </div>
         <div>
@@ -286,7 +288,7 @@ const Signup = () => {
           {/*TODO: 인증번호는 추후에 입력값 받을 수 있도록 처리*/}
           <InputBox
             inputBoxHeader="인증 번호 입력"
-            value=""
+            value={emailCheck}
             placeholder="인증 번호를 입력해주세요."
             asterisk={true}
           />
