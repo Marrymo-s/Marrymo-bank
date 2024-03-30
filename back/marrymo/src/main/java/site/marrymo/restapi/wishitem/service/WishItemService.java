@@ -18,6 +18,8 @@ import site.marrymo.restapi.wishitem.dto.response.WishItemDetailResponse;
 import site.marrymo.restapi.wishitem.dto.response.WishItemEach;
 import site.marrymo.restapi.wishitem.dto.response.WishItemGetResponse;
 import site.marrymo.restapi.wishitem.entity.WishItem;
+import site.marrymo.restapi.wishitem.exception.WishItemErrorCode;
+import site.marrymo.restapi.wishitem.exception.WishItemException;
 import site.marrymo.restapi.wishitem.repository.WishItemRepository;
 
 import java.util.List;
@@ -56,8 +58,7 @@ public class WishItemService {
 
         //여기 에러 바꾸기
         //2. user로 WishItem 엔티티 목록 조회
-        List<WishItem> items = wishItemRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+        List<WishItem> items = wishItemRepository.findByUser(user);
 
         //3. WishItem 엔티티 -> WishItemEach dto로 변환
         //4. WishItem들을 리스트에 추가
@@ -82,11 +83,10 @@ public class WishItemService {
 
         //2. wishItemSequence로 wishItem 조회
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemSequence, user)
-                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+                .orElseThrow(() -> new WishItemException(WishItemErrorCode.WISH_ITEM_NOT_FOUNT_FOR_USER));
 
         //3. user와 wishItem으로 moneygift 내역 list로 가져오기
         List<Moneygift> moneygiftList = moneygiftRepository.findByUserAndWishItem(user, wishItem);
-//                .orElseThrow(() -> new RuntimeException("Wish items not found"));
 
         //4. moneygiftList에서 amount 합산하여 fund 계산
         int fund = moneygiftList.stream()
@@ -114,9 +114,8 @@ public class WishItemService {
 
         //wishItemSequence로 wishItem 조회
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemDeleteRequest.getWishItemSequence(), user)
-                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+                .orElseThrow(() -> new WishItemException(WishItemErrorCode.WISH_ITEM_NOT_FOUNT_FOR_USER));
 
         wishItemRepository.delete(wishItem);
     }
-
 }

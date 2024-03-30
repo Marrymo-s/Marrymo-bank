@@ -12,6 +12,6 @@ public interface WishItemRepository extends JpaRepository<WishItem, Long> {
     //optional은 null을 자동으로 검사해줌
     //optional은 list일때는, 빈 list 받아와줌
     //원래는 findById가 기본으로 제공, 우리는 userSequence를 써서 선언해줘야 함.
-    Optional<List<WishItem>> findByUser(User user);
+    List<WishItem> findByUser(User user);
     Optional<WishItem>  findByWishItemSequenceAndUser(Long wishItemSequence, User user);
 }
