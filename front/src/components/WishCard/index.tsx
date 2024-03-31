@@ -74,6 +74,7 @@ const WishCard = ({image, title, lprice, brand, category2, category4}: WishCardP
         colorStyle={'roseGold'}
         filled={true}
         onClick={handleClick}
+
       >
         담기
       </Button>
