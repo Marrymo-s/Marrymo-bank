@@ -1,12 +1,13 @@
-import { globalStyle } from '@vanilla-extract/css';
-import { vars } from '@/styles/vars.css';
-import { font } from '@/styles/font.css';
+import {globalStyle} from '@vanilla-extract/css';
+import {vars} from '@/styles/vars.css';
+// import { font } from '@/styles/font.css';
+import {cardFont} from '@/styles/font.css';
 
 
 globalStyle('html', {
   backgroundColor: vars.colors.white,
   scrollbarGutter: 'stable',
-  // fontFamily: 'pretendard', // 폰트 이름 직접 사용
+  fontFamily: 'pretendard', // 폰트 이름 직접 사용
 
 
 });
@@ -33,5 +34,5 @@ globalStyle('ul', {
 });
 
 globalStyle('textarea', {
-  fontFamily: font,
+  fontFamily: cardFont,
 });

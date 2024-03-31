@@ -1,26 +1,25 @@
-import {ReactNode, useState} from 'react';
+import {ReactNode} from 'react';
+
 import * as styles from './index.css';
-import {Simulate} from "react-dom/test-utils";
-import toggle = Simulate.toggle;
 
 interface CheckboxProps {
   children: ReactNode,
+  checked: boolean,
+  onChange: () => void;
 }
 
 const Checkbox = ({
                     children,
+                    checked,
+                    onChange,
                   }: CheckboxProps) => {
-  const [checked, setChecked] = useState(false);
 
-  const toggleCheckbox = () => {
-    setChecked(!checked);
-  }
   return (
     <label className={styles.labelStyle}>
-      <input
+      <input 
         type="checkbox"
         checked={checked}
-        onChange={toggleCheckbox}
+        onChange={onChange}
         className={styles.checkboxStyle}
       />
       {children}

@@ -21,6 +21,7 @@ export const vars = createGlobalTheme(':root', {
     roseGold: '#FFC2B9',
     alertRed: '#E8635C', // 경고문구
     lightYellow: '#FFFDEF', // 청첩장 배경
+    safeGreen: '#02864A'  // 유효성 검증 통과
   },
 
   borderRadius: {
@@ -31,6 +32,7 @@ export const vars = createGlobalTheme(':root', {
     '4x': '32px',
     '5x': '40px',
     top: '32px 32px 0 0',
+    all: '32px',
     full: '9999px', // 원을 만들 때 사용
   },
 
@@ -42,6 +44,7 @@ export const vars = createGlobalTheme(':root', {
     '1x': '8px',
     '1.5x': '12px', // extra small
     '2x': '16px', // small
+    '2.5x': '20px',
     '3x': '24px', // medium
     '4x': '32px',
     '5x': '40px',
