@@ -32,6 +32,7 @@ const Signup = () => {
   const [weddingTime, setWeddingTime] = useState({hour: '12', minute: '00'});
   const [weddingLocation, setWeddingLocation] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [emailVerification, setEmailVerification] = useState<string>('');
   const [greeting, setGreeting] = useState<string>(
     '우리의 사랑이 꽃피는 순간\n\n서로의 마음을 확인하며\n\n약속의 말을 건넵니다.\n\n이 행복을 여러분과 나누고 싶어\n\n여러분을 초대합니다.',
   );
@@ -72,7 +73,7 @@ const Signup = () => {
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
-        body: formData, // FormData 사용시 'Content-Type': 'multipart/form-data' 헤더는 자동으로 설정됨
+        body: formData,
       });
 
       if (!response.ok) {
@@ -113,6 +114,11 @@ const Signup = () => {
   const handleSetEmail = (mail: string) => {
     setEmail(mail);
   };
+
+  const handleSetEmailVerification = (verification: string) => {
+    setEmailVerification(verification);
+  };
+
   const handleSetGreeting = (content: string) => {
     setGreeting(content);
   };
@@ -142,29 +148,30 @@ const Signup = () => {
   };
 
   // 필수값이 입력되었는지 확인하는 부분
-  const [groomNameValid, setGroomNameValid] = useState(false);
-  const [brideNameValid, setBrideNameValid] = useState(false);
-  const [groomContactValid, setGroomContactValid] = useState(false);
-  const [brideContactValid, setBrideContactValid] = useState(false);
-  const [greetingValid, setGreetingValid] = useState(false);
-  const [emailValid, setEmailValid] = useState(false);
-  const [emailVerificationValid, setEmailVerificationValid] = useState(false);
-  const [weddingLocationValid, setWeddingLocationValid] = useState(false);
+  const [isGroomNameValid, setIsGroomNameValid] = useState(false);
+  const [isBrideNameValid, setIsBrideNameValid] = useState(false);
+  const [isGroomContactValid, setIsGroomContactValid] = useState(false);
+  const [isBrideContactValid, setIsBrideContactValid] = useState(false);
+  // 초대 문구는 기본 값이 주어지므로 true
+  const [isGreetingValid, setIsGreetingValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailVerificationValid, setIsEmailVerificationValid] = useState(false);
+  const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
 
-  const checkValidation: boolean = groomNameValid &&
-    brideNameValid &&
-    groomContactValid &&
-    brideContactValid &&
-    greetingValid &&
-    emailValid &&
-    emailVerificationValid &&
-    weddingLocationValid;
+  const checkValidation: boolean = isGroomNameValid &&
+    isBrideNameValid &&
+    isGroomContactValid &&
+    isBrideContactValid &&
+    isGreetingValid &&
+    isEmailValid &&
+    isEmailVerificationValid &&
+    isWeddingLocationValid;
 
   // 유효성 검사 코드
   const isValidateName = (value: string) => {
     // 유효성 검사: 한국어 2 ~ 19자, 영어 4 ~ 38자
     const isValid = /^[\uac00-\ud7a3 ]{2,19}$|^[A-Za-z ]{4,38}$/.test(value);
-    return isValid ? undefined : '이름은 한글 2자 이상 19자 이하, 영문자 4자 이상 38자 이하만 가능해요.';
+    return isValid ? undefined : '이름은 한글 2~19자, 영문 4~38자(공백 포함)까지 가능해요.';
   };
 
   // 이메일 유효성 검사
@@ -172,11 +179,21 @@ const Signup = () => {
     const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     return isValid ? undefined : '유효한 이메일 주소를 입력해주세요.';
   };
+  const isValidateEmailVerification = (value: string) => {
+    // 입력 값이 있으면 true 반환
+    return value.trim() !== '' ? undefined : '인증 번호를 입력해주세요.';
+  };
 
-// 연락처 유효성 검사
+  // 연락처 유효성 검사
   const isValidateContact = (value: string) => {
     const isValid = /^\d{10,11}$/.test(value);
     return isValid ? undefined : '유효한 연락처를 입력해주세요. (10-11자리 숫자)';
+  };
+
+  // 결혼식 장소가 입력되었는지 확인하는 유효성 검사 함수
+  const isValidateWeddingLocation = (value: string) => {
+    // 입력 값이 있으면 true 반환
+    return value.trim() !== '' ? undefined : '결혼식 장소를 입력해주세요.';
   };
 
   return (
@@ -192,6 +209,7 @@ const Signup = () => {
             asterisk={true}
             onValueChange={handleSetGroomName}
             validate={isValidateName}
+            onValidationPassed={() => setIsGroomNameValid(true)}
           />
         </div>
         <div>
@@ -220,6 +238,7 @@ const Signup = () => {
             asterisk={true}
             onValueChange={handleSetBrideName}
             validate={isValidateName}
+            onValidationPassed={() => setIsBrideNameValid(true)}
           />
         </div>
         <div>
@@ -248,6 +267,7 @@ const Signup = () => {
             asterisk={true}
             onValueChange={handleSetGroomContact}
             validate={isValidateContact}
+            onValidationPassed={() => setIsGroomContactValid(true)}
           />
         </div>
         <div>
@@ -258,10 +278,14 @@ const Signup = () => {
             asterisk={true}
             onValueChange={handleSetBrideContact}
             validate={isValidateContact}
+            onValidationPassed={() => setIsBrideContactValid(true)}
           />
         </div>
         <div>
-          <InvitationMessage onGreetingChange={handleSetGreeting} />
+          <InvitationMessage
+            onGreetingChange={handleSetGreeting}
+            onValidationPassed={setIsGreetingValid}
+          />
         </div>
         <div>
           <InputBox
@@ -271,6 +295,7 @@ const Signup = () => {
             asterisk={true}
             onValueChange={handleSetEmail}
             validate={isValidateEmail}
+            onValidationPassed={() => setIsEmailValid(true)}
             button={{
               text: '인증',
               // 추후에 인증 메일 보내는 함수 작성
@@ -283,12 +308,14 @@ const Signup = () => {
         </div>
         <div>
           {/*TODO: 인증번호가 일치하면 safeGreen 색깔로 안내 문구 뜨게 만들기*/}
-          {/*TODO: 인증번호는 추후에 입력값 받을 수 있도록 처리*/}
           <InputBox
             inputBoxHeader="인증 번호 입력"
-            value=""
+            value={emailVerification}
             placeholder="인증 번호를 입력해주세요."
             asterisk={true}
+            onValueChange={handleSetEmailVerification}
+            validate={isValidateEmailVerification}
+            onValidationPassed={() => setIsEmailVerificationValid(true)}
           />
         </div>
         <div className={styles.weddingDatePickerContainer}>
@@ -311,6 +338,10 @@ const Signup = () => {
             placeholder="결혼식 장소를 선택해주세요."
             asterisk={true}
             onValueChange={handleSetWeddingLocation}
+            validate={isValidateWeddingLocation}
+            onValidationPassed={() => {
+              setIsWeddingLocationValid(true);
+            }}
             button={{
               text: '검색',
               onClick: () => {
