@@ -23,6 +23,8 @@ interface inputBoxProps {
   onValueChange?: (value: string) => void;
   validate?: (value: string) => string | undefined;
   onValidationPassed?: () => void;
+  readonly?: boolean;
+  onClick?: () => void;
 }
 
 const InputBox = ({
@@ -34,9 +36,11 @@ const InputBox = ({
                     onValueChange,
                     validate,
                     onValidationPassed,
+                    readonly,
+                    onClick,
                   }: inputBoxProps) => {
   const [error, setError] = useState('');
-  
+
   const handleBlur = () => {
     const currentValue = value || '';
     if (validate) {
@@ -62,6 +66,8 @@ const InputBox = ({
           onChange={e => onValueChange && onValueChange(e.target.value)}
           onBlur={handleBlur}
           className={styles.inputBoxText}
+          readOnly={readonly}
+          onClick={onClick}
         />
         {button && (
           <div className={styles.inputBoxButtonStyle}>
