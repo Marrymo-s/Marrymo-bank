@@ -28,7 +28,7 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
 
-
+  console.log(userCode)
   // useEffect(() => {
   //   getWishData()
   // }, [wishLists])
@@ -43,14 +43,21 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
         console.error('에러 ㅋ', error);
       }
     };
-    getWishData();
-  }, [trigger, userCode]);
 
-  console.log(wishLists)
-  // const goToDetail = () => {
-  //   router.push(`/detail/${userCode}/${value}`);
-  //   console.log(userCode)
-  // }
+    getWishData()
+    // 'wishAdded' 이벤트에 대한 리스너 등록
+    window.addEventListener('wishAdded', getWishData);
+
+    return () => {
+      window.removeEventListener('wishAdded', getWishData);
+    };
+
+  }, []);
+
+  const goToDetail = (num:number) => {
+    router.push(`detail/${userCode}/${num}`)
+  }
+
 
   return (
     <div className={styles.registrationContainer}>
@@ -58,11 +65,20 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
       <div className={styles.registrationOuterWrapper}>
         <div className={styles.registrationInnerWrapper}>
           {wishLists.map((wishlist, index) => (
-            <div
-              key={wishlist.wishItemSequence}
-              className={styles.wishlistImageWrapper}>
-              {wishlist.name}
-            </div>
+            // <div
+            //   key={wishlist.wishItemSequence}
+            //   className={styles.wishlistImageWrapper}>
+            //   {wishlist.name}
+            //
+            // </div>
+            <Image
+              key={index}
+              src={wishlist.img}
+              width={200}
+              height={200}
+              alt="Picture of the author"
+              onClick={() => goToDetail(wishlist.wishItemSequence) }
+            />
           ))}
         </div>
       </div>
