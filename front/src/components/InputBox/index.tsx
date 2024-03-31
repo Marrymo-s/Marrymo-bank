@@ -4,7 +4,6 @@ import React, {useState, useEffect} from 'react';
 
 import * as styles from './index.css';
 import Button from '@/components/Button';
-import {formatAvailableValues} from 'next/dist/compiled/@next/font/dist/format-available-values';
 
 interface ButtonProps {
   text: string;
@@ -37,22 +36,18 @@ const InputBox = ({
                     onValidationPassed,
                   }: inputBoxProps) => {
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (value && validate) {
-      const validationError: string | undefined = validate(value);
+  
+  const handleBlur = () => {
+    const currentValue = value || '';
+    if (validate) {
+      const validationError: string | undefined = validate(currentValue);
       setError(validationError || '');
       if (!validationError && onValidationPassed) {
         onValidationPassed();
       }
     }
-  }, [value, validate, onValidationPassed]);
-  const handleBlur = () => {
-    const currentValue = value || '';
-    const validationError = validate ? validate(currentValue) : undefined;
-    setError(validationError || '');
   };
-  
+
   return (
     <div className={styles.inputBoxContainer}>
       <div className={styles.inputBoxHeader}>

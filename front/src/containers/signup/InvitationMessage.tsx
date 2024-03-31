@@ -5,12 +5,13 @@ import {MAX_LINES} from '@/constants';
 
 interface InviationMessageProps {
   onGreetingChange: (greeting: string) => void;
+  onValidationPassed: (isValid: boolean) => void;
 }
 
 const maxLineBreaks = MAX_LINES;
 
 
-const InvitationMessage: React.FC<InviationMessageProps> = ({onGreetingChange}) => {
+const InvitationMessage: React.FC<InviationMessageProps> = ({onGreetingChange, onValidationPassed}) => {
   const [message, setMessage] = useState(
     '우리의 사랑이 꽃피는 순간\n\n서로의 마음을 확인하며\n\n약속의 말을 건넵니다.\n\n이 행복을 여러분과 나누고 싶어\n\n여러분을 초대합니다.',
   );
@@ -20,6 +21,8 @@ const InvitationMessage: React.FC<InviationMessageProps> = ({onGreetingChange}) 
   const handleMessageChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const inputText = event.target.value;
     const lineBreaks = (inputText.match(/\n/g) || []).length;
+    const isValid = inputText.length > 0 && inputText.length <= MAX_INVITATION_MESSAGE_LENTGH && lineBreaks <= maxLineBreaks;
+    onValidationPassed(isValid);
     setMessage(inputText);
 
     if (inputText.length === 0) {
