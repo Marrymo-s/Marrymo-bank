@@ -23,6 +23,7 @@ interface wishItemDetailProps {
 const Detail = async () => {
   const { userCode, wishItemSequence } = useParams()
 
+
   const wishItemDetailData = await fetchInstance(`/wish-item/${userCode}/${wishItemSequence}`) as wishItemDetailProps
   console.log(wishItemDetailData)
 
@@ -33,7 +34,7 @@ const Detail = async () => {
       <main className={styles.detailWrapper}>
         <div className={styles.detailContainer}>
           <Image
-            src='/images/landing/example1.png'
+            src={wishItemDetailData.img}
             alt="cardTopImage"
             width={300}
             height={300}
@@ -51,7 +52,7 @@ const Detail = async () => {
         <div>
           <div>
             현재 <span>{wishItemDetailData.price}</span> 중 <br />
-            <span>{wishItemDetailData.fund}</span>원이  모였어요
+            <span>{wishItemDetailData.fund}</span>원이  모였어요 <br />
             모금 마감까지  <span>n</span>일이 남았어요! <br />
             지금까지 <span>{wishItemDetailData.person}</span>명이 모금에 참여했어요
           </div>
