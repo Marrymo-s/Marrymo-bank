@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
+import site.marrymo.restapi.global.jwt.dto.VerifyToken;
+import site.marrymo.restapi.global.jwt.entity.RefreshToken;
+import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.user.repository.BlackListRepository;
-import site.marrymo.restapi.user.repository.RefreshTokenRepository;
 import site.marrymo.restapi.user.repository.UserRepository;
 
 import java.io.UnsupportedEncodingException;
@@ -36,7 +38,7 @@ public class JWTProvider {
 
     private final UserRepository userRepository;
     private final BlackListRepository blackListRepository;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RedisService redisService;
 
     public TokenDTO createAccessToken(String userCode){
         String token = create(userCode, "access-token", accessTokenExpireTime);
@@ -56,7 +58,7 @@ public class JWTProvider {
 
     //Token 발급
     //payload
-    //"id" : 1
+    //"userCode" : "abcd1234" (앞 네자리는 소문자 랜덤, 뒤 네자리는 0-9까지 숫자 랜덤)
     private String create(String userCode, String subject, long expireTime){
         //payload 설정 : 생성일(IssuedAt), 유효기간(Expiration)
         //토큰 제목 (subject), 데이터 (claim) 정보 셋팅
@@ -81,6 +83,22 @@ public class JWTProvider {
                 .compact(); // 직렬화 처리
 
         return jwt;
+    }
+
+    public VerifyToken generateVerifyToken(String userCode) {
+        TokenDTO accessToken = this.createAccessToken(userCode);
+        TokenDTO refreshToken = this.createRefreshToken(userCode);
+
+        //redis에 refresh 토큰 저장
+        RefreshToken redis = new RefreshToken(refreshToken.getToken(), userCode);
+        redisService.setValue(redis.getRefreshToken(), userCode, refreshTokenExpireTime);
+
+        return VerifyToken.builder()
+                .accessToken(accessToken.getToken())
+                .accessTokenExpiresIn(accessToken.getExpired())
+                .refreshToken(refreshToken.getToken())
+                .refreshTokenExpiresIn(refreshToken.getExpired())
+                .build();
     }
 
     // Signature에 설정에 들어갈 key 생성
@@ -168,7 +186,7 @@ public class JWTProvider {
 
     //refresh token이 redis에 존재하는가?
     public boolean isExistRefreshTokenInRedis(String refreshToken){
-        if(refreshTokenRepository.findByRefreshToken(refreshToken).isPresent()){
+        if(redisService.getValue(refreshToken).equals(getUserCode(refreshToken))){
             return true;
         }
         else{
@@ -200,7 +218,6 @@ public class JWTProvider {
         }
     }
 
-    //
     public Map<String, Object> reIssueToken(String accessToken, String refreshToken, String userCode){
         Map<String, Object> tokens = new HashMap<>();
 

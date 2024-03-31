@@ -14,11 +14,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.security.service.CustomOAuth2UserService;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.security.filter.JwtAuthenticationFilter;
-import site.marrymo.restapi.user.repository.RefreshTokenRepository;
 
 @Slf4j
 @Configuration
@@ -28,7 +28,7 @@ public class SecurityConfig {
 	private final CustomOAuth2UserService customOAuth2UserService;
 	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 	private final JWTProvider jwtProvider;
-	private final RefreshTokenRepository refreshTokenRepository;
+	private final RedisService redisService;
 	private static final String[] swaggerURL = {
 		"/api/**", "/graphiql", "/graphql",
 		"/swagger-ui/**", "/api-docs", "/swagger-ui.html",
@@ -52,7 +52,7 @@ public class SecurityConfig {
 				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http
-			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, refreshTokenRepository),
+			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisService),
 				OAuth2LoginAuthenticationFilter.class);
 
 		http
