@@ -59,9 +59,9 @@ const Signup = () => {
     formData.append('brideName', brideName);
     formData.append('groomContact', groomContact);
     formData.append('brideContact', brideContact);
-    formData.append('WeddingDate', formattedDate);
-    formData.append('WeddingDay', weddingDay);
-    formData.append('WeddingTime', formattedTime);
+    formData.append('weddingDate', formattedDate);
+    formData.append('weddingDay', weddingDay);
+    formData.append('weddingTime', formattedTime);
     formData.append('weddingLocation', weddingLocation);
     formData.append('email', email);
     formData.append('greeting', greeting);
