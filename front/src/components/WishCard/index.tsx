@@ -42,7 +42,13 @@ const WishCard = ({image, title, lprice, brand, category2, category4}: WishCardP
       body: JSON.stringify(myWish)
     }
 
-    await fetchInstance('/wish-item', options)
+    const response = await fetchInstance('/wish-item', options)
+
+    // 요청 성공시 커스텀 이벤트 발생시키기
+    if (response.ok) {
+      const wishAddedEvent = new CustomEvent('wishAdded', { detail: myWish });
+      window.dispatchEvent(wishAddedEvent);
+    }
   }
 
   return (
