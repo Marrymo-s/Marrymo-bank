@@ -15,7 +15,7 @@ interface ButtonProps {
 }
 
 interface inputBoxProps {
-  inputBoxHeader: string;
+  inputBoxHeader?: string;
   value?: string;
   placeholder?: string;
   asterisk?: boolean;
@@ -25,6 +25,7 @@ interface inputBoxProps {
   onValidationPassed?: () => void;
   readonly?: boolean;
   onClick?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const InputBox = ({
@@ -38,6 +39,7 @@ const InputBox = ({
                     onValidationPassed,
                     readonly,
                     onClick,
+                    onKeyDown,
                   }: inputBoxProps) => {
   const [error, setError] = useState('');
 
@@ -68,6 +70,7 @@ const InputBox = ({
           className={styles.inputBoxText}
           readOnly={readonly}
           onClick={onClick}
+          onKeyDown={onKeyDown}
         />
         {button && (
           <div className={styles.inputBoxButtonStyle}>
