@@ -2,13 +2,13 @@ import {style} from '@vanilla-extract/css';
 import {recipe} from '@vanilla-extract/recipes';
 
 import {vars} from '@/styles/vars.css';
-import {defaultWrapper, flex} from '@/styles/common.css';
+import {contentWrapper} from '@/styles/wrapper.css';
 
 export const landingWrapper = style([
-  defaultWrapper({height: 'max', width: 'max'}),
+  contentWrapper({contentArea: 'noHeader'}),
   {
     textAlign: 'center',
-  }
+  },
 ]);
 
 export const landingText = recipe({
@@ -22,7 +22,7 @@ export const landingText = recipe({
     contentType: {
       title: {
         fontSize: vars.fontSize['5x'],
-        fontWeight: vars.fontWeight['accent']
+        fontWeight: vars.fontWeight['accent'],
       },
       content: {
         fontSize: vars.fontSize['3x'],
@@ -30,8 +30,8 @@ export const landingText = recipe({
         marginTop: vars.space['2x'],
         marginBottom: vars.space['2x'],
       },
-    }
-  }
+    },
+  },
 });
 
 

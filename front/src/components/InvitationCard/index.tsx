@@ -47,7 +47,7 @@ const InvitationCard = async () => {
 
 
   // useEffect(() => {
-  //   axiosInstance.get<signupRequest>('/users')
+  //   axios.get<signupRequest>('/users')
   //     .then(response => {
   // setInvitationData(response.data);
   //

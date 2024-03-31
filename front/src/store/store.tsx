@@ -10,7 +10,7 @@ export const userInfoStore = create<userInfo>()(
   devtools(
     persist(
       (set) => ({
-        userCode: '',
+        userCode: 'kcre5939',
         setUserCode: (userCode: string) => set({userCode}),
       }),
       {
