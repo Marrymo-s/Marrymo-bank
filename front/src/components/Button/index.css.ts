@@ -58,7 +58,7 @@ const commonButtonVariants = {
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: vars.fontSize['2x'],
-      borderRadius: vars.borderRadius['1x']
+      borderRadius: vars.borderRadius['1x'],
     },
     large: {
       width: '100%',
@@ -102,7 +102,7 @@ export const commonButton = recipe({
     colorStyle: 'roseGold',
     filled: true,
     disabled: false,
-  }
+  },
 });
 
 export const ButtonWrapper = {
@@ -111,10 +111,13 @@ export const ButtonWrapper = {
       boxSizing: 'border-box',
       '@media': {
         'screen and (min-width: 480px)': {
-          width: '480px',
+          width: 'calc(100% - 32px)',
         },
       },
-      width: '100svw',
+      width: 'calc(100% - 64px)',
+      maxWidth: '480px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
       // paddingLeft: vars.space['4x'],
       // paddingRight: vars.space['4x'],
     },
@@ -123,6 +126,8 @@ export const ButtonWrapper = {
     {
       boxSizing: 'border-box',
       width: '64px',
+      marginLeft: vars.space['2x'],
+      marginRight: vars.space['2x'],
     },
   ]),
 };

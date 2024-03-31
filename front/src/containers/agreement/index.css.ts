@@ -1,7 +1,7 @@
-import {style} from "@vanilla-extract/css";
-import {vars} from "@/styles/vars.css";
-import {flex} from "@/styles/common.css";
-import {contentWrapper} from "@/styles/wrapper.css";
+import {style} from '@vanilla-extract/css';
+import {vars} from '@/styles/vars.css';
+import {flex} from '@/styles/common.css';
+import {contentWrapper} from '@/styles/wrapper.css';
 
 export const agreementWrapper = style([
   contentWrapper({contentArea: 'header'}),
@@ -11,14 +11,16 @@ export const agreementWrapper = style([
     direction: 'column',
   }),
   {
-    padding: vars.space['4x']
+    padding: vars.space['4x'],
   },
   {
     '@media': {
       'screen and (min-width: 480px)': {
         width: '480px',
+        margin: '0 auto',
       },
     },
+    width: '100%',
   },
 ]);
 
@@ -27,7 +29,7 @@ export const termsOfUseContainer = style([
   {
     width: 'auto',
     maxWidth: '83%',
-    padding: vars.space["2x"],
+    padding: vars.space['2x'],
     background: vars.colors.whitesmoke,
     height: 'calc(80dvh - 80px - 120px)',
     margin: '32px 0px',
