@@ -32,13 +32,9 @@ import java.io.IOException;
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
 	private final JWTProvider jwtProvider;
-	private final RedisService redisService;
 	private final UserRepository userRepository;
 	private final String HOME_CALLBACK_URL = "https://marrymo.site/home/";
 	private final String SIGNUP_CALLBACK_URL = "https://marrymo.site/signup";
-
-	@Value("${JWT_REFRESH_TOKEN_EXPIRETIME}")
-	private Long refreshTokenExpireTime;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -51,7 +47,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 		String userCode = user.getUserCode();
 
-		VerifyToken verifyToken = generateVerifyToken(userCode);
+		VerifyToken verifyToken = jwtProvider.generateVerifyToken(userCode);
 
 		Cookie accessTokenCookie = new Cookie("accessToken", verifyToken.getAccessToken());
 		accessTokenCookie.setMaxAge(60 * 24 * 24 * 31);
@@ -80,21 +76,5 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			getRedirectStrategy().sendRedirect(request, response, homeTargetUrl);
 		else
 			getRedirectStrategy().sendRedirect(request, response, signupTargetUrl);
-	}
-
-	public VerifyToken generateVerifyToken(String userCode) {
-		TokenDTO accessToken = jwtProvider.createAccessToken(userCode);
-		TokenDTO refreshToken = jwtProvider.createRefreshToken(userCode);
-
-		//redis에 refresh 토큰 저장
-		RefreshToken redis = new RefreshToken(refreshToken.getToken(), userCode);
-		redisService.setValue(redis.getRefreshToken(), userCode, refreshTokenExpireTime);
-
-		return VerifyToken.builder()
-			.accessToken(accessToken.getToken())
-			.accessTokenExpiresIn(accessToken.getExpired())
-			.refreshToken(refreshToken.getToken())
-			.refreshTokenExpiresIn(refreshToken.getExpired())
-			.build();
 	}
 }
