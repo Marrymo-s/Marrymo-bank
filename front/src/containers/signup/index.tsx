@@ -135,15 +135,15 @@ const Signup = () => {
     setBrideMother(name);
   };
 
-  const handleLocationSelect = (location: string) => {
+  const handleSelectWeddingLocation = (location: string) => {
     setWeddingLocation(location);
-    setIsModalOpen(false); // 장소 선택 시 모달 닫기
+    closeModal();
   };
   const handleSetImages = (image: File[]) => {
     setImages(image);
   };
 
-  const openKakaoMapSearch = async () => {
+  const openKakaoMapSearch = () => {
     openModal();
   };
 
@@ -179,6 +179,8 @@ const Signup = () => {
     const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     return isValid ? undefined : '유효한 이메일 주소를 입력해주세요.';
   };
+  // 이메일 인증 유효성 검사
+  // TODO: 인증번호 일치 여부 로직 구현(월)
   const isValidateEmailVerification = (value: string) => {
     // 입력 값이 있으면 true 반환
     return value.trim() !== '' ? undefined : '인증 번호를 입력해주세요.';
@@ -337,6 +339,8 @@ const Signup = () => {
             value={weddingLocation}
             placeholder="결혼식 장소를 선택해주세요."
             asterisk={true}
+            readonly={true}
+            onClick={openKakaoMapSearch}
             onValueChange={handleSetWeddingLocation}
             validate={isValidateWeddingLocation}
             onValidationPassed={() => {
@@ -344,9 +348,7 @@ const Signup = () => {
             }}
             button={{
               text: '검색',
-              onClick: () => {
-                openKakaoMapSearch();
-              },
+              onClick: openKakaoMapSearch,
               type: 'button',
               size: 'small',
             }}
@@ -364,7 +366,7 @@ const Signup = () => {
         </div>
         <Modal>
           <>
-            <KakaoMap setWeddingLocation={setWeddingLocation} />
+            <KakaoMap setWeddingLocation={setWeddingLocation} closeModal={closeModal} />
             <input type="text" value={weddingLocation} readOnly />
           </>
         </Modal>
