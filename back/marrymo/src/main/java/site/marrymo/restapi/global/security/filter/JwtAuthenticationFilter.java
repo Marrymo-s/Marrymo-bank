@@ -8,12 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import site.marrymo.restapi.global.jwt.JWTProvider;
-import site.marrymo.restapi.user.repository.RefreshTokenRepository;
+import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
-import site.marrymo.restapi.global.jwt.entity.RefreshToken;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,16 +22,27 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final JWTProvider jwtProvider;
-	private final RefreshTokenRepository refreshTokenRepository;
+	private final RedisService redisService;
+
+	//refresh token 만료 기한 30 days
+	@Value("${jwt.refresh-token.expiretime}")
+	private long refreshTokenExpireTime;
 
 	/**
 	 * [요청 시 거치는 필터 로직]
 	 * Request는 아래와 같은 로직을 통과한다
+	 * 예외) 카카오 로그인을 할 경우나 비회원이 접근을 할 경우 쿠키에 토큰을 담아 넘겨주지 않으므로 해당 url에 대해서는 filter를 거치지 못하도록 한다.
 	 * 1. Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출한다. (token을 토대로 userCode도 가져온다)
-	 * 2. jwtProvider는 유효하지 않은 토큰이 있다면 다시 생성한 후 map에 담아서 가져온다.
+	 *
+	 * 2. 프론트에 401 에러를 보내서 로그인 창으로 리다이렉트 시키는 경우
+	 * 2-1). access token과 refresh token이 각각 쿠키에 담겨서 넘어와야 하는데(쿠키 2개가 넘어와야 한다) 하나라도 없으면  401 에러을 보낸다.
+	 * 2-2). 이미 로그아웃 돼서 만료된 refresh token을 가지고 접근 하려고 한다면 401 에러를 보낸다.
+	 * 2-3). access token과 refresh 토큰이 모두 만료 되었을 시 401 에러를 보낸다.
+	 *
+	 * 3. jwtProvider는 유효하지 않은 토큰이 있다면 다시 생성한 후 map에 담아서 가져온다.
 	 * (ex) accessToken만이 유효하지 않았다면 accessToken만 map에 담아서 가져온다.
-	 * 3. accessToken이 유효하지 않았다면 기존에 accessToken을 담고 있던 쿠키를 삭제 시키고 다시 발급한 accessToken을 쿠키에 담는다.
-	 * 4. HttpServletResponse에 cookie를 담아서 보낸다.
+	 * 4. accessToken이 유효하지 않았다면 기존에 accessToken을 담고 있던 쿠키를 삭제 시키고 다시 발급한 accessToken을 쿠키에 담는다.
+	 * 5. HttpServletResponse에 cookie를 담아서 보낸다.
 	 *
 	 * @param httpServletRequest
 	 * @param httpServletResponse
@@ -77,16 +88,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			if (tokenName.equals("accessToken")) {
 				accessToken = tokenValue;
 
-				//accessToken을 통해서 userCode를 가져온다
 				userCode = jwtProvider.getUserCode(accessToken);
 			} else if (tokenName.equals("refreshToken")) {
 				refreshToken = tokenValue;
+
+				userCode = jwtProvider.getUserCode(refreshToken);
 			}
 		}
 
 		// 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
 		// exception 터뜨림
-		if (jwtProvider.validateLogoutToken(refreshToken)) {
+		if (!refreshToken.equals("") && jwtProvider.validateLogoutToken(refreshToken)) {
 			removeAllCookies(httpServletResponse, cookies);
 			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		}
@@ -141,8 +153,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// refreshToken만 재발급
 			else if (accessTokenCookie == null && refreshTokenCookie != null) {
 				httpServletResponse.addCookie(refreshTokenCookie);
-				refreshTokenRepository.save(
-					RefreshToken.builder().refreshToken(refreshTokenCookie.getValue()).build());
+				redisService.setValue(refreshTokenCookie.getValue(),userCode, refreshTokenExpireTime);
 			}
 			//accessToken, refreshToken 모두 만료 되었을 시에
 			//재로그인 하라는 에러메시지를 보낸다
