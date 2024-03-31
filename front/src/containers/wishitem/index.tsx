@@ -44,7 +44,7 @@ const WishItem = () => {
     }
   };
 
-
+  console.log(results)
   return (
     <>
       <Header title="위시리스트" hasPrevious/>

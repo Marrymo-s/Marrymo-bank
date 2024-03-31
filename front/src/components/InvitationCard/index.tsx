@@ -57,6 +57,9 @@ const InvitationCard = async () => {
   //
   //     });
   // }, []);
+  if (!invitationData) {
+    return <div>Loading...</div>
+  }
 
   return (
     <main className={CardGap}>

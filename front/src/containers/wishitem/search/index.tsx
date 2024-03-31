@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import * as styles from './index.css';
+import InputBox from "@/components/InputBox";
 
 interface SearchProps {
   search: (query: string) => Promise<void>  // search 함수의 시그니처를 변경하여 직접 query 문자열을 받도록 합니다.
@@ -21,6 +22,7 @@ const Search = ({ search }:SearchProps) => {
         ref={queryRef} // input 요소에 ref 할당
         placeholder="검색..."
       />
+
       <button onClick={handleSearchClick}>검색</button>
     </div>
   );
