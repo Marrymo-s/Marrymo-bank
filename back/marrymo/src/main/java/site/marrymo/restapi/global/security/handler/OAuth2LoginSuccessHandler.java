@@ -1,24 +1,19 @@
 package site.marrymo.restapi.global.security.handler;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import site.marrymo.restapi.global.jwt.dto.VerifyToken;
-import site.marrymo.restapi.global.jwt.entity.RefreshToken;
 import site.marrymo.restapi.global.jwt.JWTProvider;
-import site.marrymo.restapi.global.jwt.dto.TokenDTO;
 
-import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -34,7 +29,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	private final JWTProvider jwtProvider;
 	private final UserRepository userRepository;
 	private final String HOME_CALLBACK_URL = "https://marrymo.site/home/";
-	private final String SIGNUP_CALLBACK_URL = "https://marrymo.site/signup";
+	private final String AGREEMENT_CALLBACK_URL = "https://marrymo.site/agreement";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -70,7 +65,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		response.addHeader("Expires", "0");
 
 		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
-		String signupTargetUrl = UriComponentsBuilder.fromUriString(SIGNUP_CALLBACK_URL).build().toUriString();
+		String signupTargetUrl = UriComponentsBuilder.fromUriString(AGREEMENT_CALLBACK_URL).build().toUriString();
 
 		if (user.getCard() != null)
 			getRedirectStrategy().sendRedirect(request, response, homeTargetUrl);
