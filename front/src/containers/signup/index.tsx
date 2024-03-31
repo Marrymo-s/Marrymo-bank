@@ -44,7 +44,6 @@ const Signup = () => {
 
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const {Modal, openModal, closeModal} = useModal();
 
   // POST 요청 함수
@@ -59,9 +58,9 @@ const Signup = () => {
     formData.append('brideName', brideName);
     formData.append('groomContact', groomContact);
     formData.append('brideContact', brideContact);
-    formData.append('WeddingDate', formattedDate);
-    formData.append('WeddingDay', weddingDay);
-    formData.append('WeddingTime', formattedTime);
+    formData.append('weddingDate', formattedDate);
+    formData.append('weddingDay', weddingDay);
+    formData.append('weddingTime', formattedTime);
     formData.append('weddingLocation', weddingLocation);
     formData.append('email', email);
     formData.append('greeting', greeting);
@@ -367,7 +366,6 @@ const Signup = () => {
         <Modal>
           <>
             <KakaoMap setWeddingLocation={setWeddingLocation} closeModal={closeModal} />
-            <input type="text" value={weddingLocation} readOnly />
           </>
         </Modal>
       </main>
