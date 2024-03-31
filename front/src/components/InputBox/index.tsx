@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import * as styles from './index.css';
 import Button from '@/components/Button';
@@ -22,6 +22,9 @@ interface inputBoxProps {
   button?: ButtonProps;
   onValueChange?: (value: string) => void;
   validate?: (value: string) => string | undefined;
+  onValidationPassed?: () => void;
+  readonly?: boolean;
+  onClick?: () => void;
 }
 
 const InputBox = ({
@@ -32,13 +35,21 @@ const InputBox = ({
                     button,
                     onValueChange,
                     validate,
+                    onValidationPassed,
+                    readonly,
+                    onClick,
                   }: inputBoxProps) => {
   const [error, setError] = useState('');
 
   const handleBlur = () => {
     const currentValue = value || '';
-    const validationError = validate ? validate(currentValue) : undefined;
-    setError(validationError || '');
+    if (validate) {
+      const validationError: string | undefined = validate(currentValue);
+      setError(validationError || '');
+      if (!validationError && onValidationPassed) {
+        onValidationPassed();
+      }
+    }
   };
 
   return (
@@ -55,6 +66,8 @@ const InputBox = ({
           onChange={e => onValueChange && onValueChange(e.target.value)}
           onBlur={handleBlur}
           className={styles.inputBoxText}
+          readOnly={readonly}
+          onClick={onClick}
         />
         {button && (
           <div className={styles.inputBoxButtonStyle}>

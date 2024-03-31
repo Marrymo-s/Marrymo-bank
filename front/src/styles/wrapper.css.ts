@@ -10,13 +10,14 @@ const contentWrapperBase = style([
   }),
   flex({
     align: 'center',
+    direction: 'column',
   }),
   {
     position: 'relative',
     boxSizing: 'border-box',
     border: 'none',
   },
-])
+]);
 
 export const contentWrapper = recipe({
   base: contentWrapperBase,
@@ -24,7 +25,10 @@ export const contentWrapper = recipe({
   variants: {
     contentArea: {
       header: {
-        paddingTop: '80px',
+        paddingTop: '120px',
+      },
+      noHeader: {
+        paddingTop: '40px',
       },
     },
     heightStyle: {
@@ -32,5 +36,5 @@ export const contentWrapper = recipe({
         height: '100svh',
       },
     },
-  }
-})
+  },
+});
