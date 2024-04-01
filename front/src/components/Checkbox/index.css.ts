@@ -9,7 +9,8 @@ export const checkboxStyle = style({
   height: '24px',
   border: '1px solid gray',
   borderRadius: '8px',
-  marginRight: '8px'
+  marginRight: '8px',
+  fontFamily: 'BMJua',
 });
 
 export const labelStyle = style({
