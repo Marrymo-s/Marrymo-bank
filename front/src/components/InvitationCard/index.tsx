@@ -17,10 +17,12 @@ import SecondImage from '@/components/InvitationCard/secondImage';
 // import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
 import {fetchInstance} from "@/services";
+import { userInfoStore } from '@/store/useUserInfo';
 
 // 폰트
 import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
+
 
 
 const InvitationCard = () => {
@@ -41,21 +43,25 @@ const InvitationCard = () => {
     brideMother: '',
     imgUrl: [],
   })
-
+  const userCode = userInfoStore((state) => state.userCode);
   useEffect(() => {
     getUserInfo()
   }, [])
 
   const getUserInfo = async () => {
     try {
-      const response = await fetch('/api/users').then((res) => res) as signupRequest
-      console.log(response)
-      setInvitationData(response)
-    } catch(error) {
-      console.log('유저정보 조회실패')
+      const response = await fetch(`/api/users/${userCode}`);
+      if (!response.ok) {
+        // 응답 상태가 OK가 아닌 경우, 오류를 던집니다.
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json(); // 응답 본문을 JSON으로 파싱합니다.
+      setInvitationData(data); // 파싱된 데이터를 상태에 저장합니다.
+    } catch (error) {
+      console.error('유저 정보 조회 실패', error);
     }
-  }
-
+  };
+  console.log(invitationData)
   if (!invitationData) {
     return <div>Loading...</div>
   }
