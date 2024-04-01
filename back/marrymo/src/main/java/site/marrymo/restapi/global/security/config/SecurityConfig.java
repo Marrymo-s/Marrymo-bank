@@ -31,7 +31,7 @@ public class SecurityConfig {
 	private final JWTProvider jwtProvider;
 	private final RedisService redisService;
 	private static final String[] swaggerURL = {
-		"/graphiql", "/graphql",
+		"/api/**", "/graphiql", "/graphql",
 		"/swagger-ui/**", "/api-docs", "/swagger-ui.html",
 		"/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html"
 	};
