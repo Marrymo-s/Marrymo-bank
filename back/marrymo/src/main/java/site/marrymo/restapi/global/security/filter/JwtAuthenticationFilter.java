@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 
 		String requestURI = httpServletRequest.getRequestURI();
-		String contextPath = httpServletRequest.getContextPath();
+		String contextPath = httpServletRequest.getRequestURI();
 		log.debug("contextPath="+contextPath);
 
 		if (requestURI.startsWith("/login") ||
