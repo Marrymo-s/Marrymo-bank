@@ -41,6 +41,7 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
         const response = await fetchInstance(`/wish-item/${userCode}`);
         console.log(response);
         setWishLists(response.items)
+        wishLists.reverse()
       } catch(error) {
         console.error('에러 ㅋ', error);
       }
@@ -54,7 +55,7 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
       window.removeEventListener('wishAdded', getWishData);
     };
 
-  }, []);
+  }, [wishLists]);
 
   const goToDetail = (num:number) => {
     router.push(`detail/${userCode}/${num}`)
