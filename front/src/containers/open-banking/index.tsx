@@ -6,6 +6,7 @@ const OpenBanking = () => {
   const searchParams = useSearchParams()
   const search  = searchParams.get('code')
 
+
   return (
     <>
     </>
