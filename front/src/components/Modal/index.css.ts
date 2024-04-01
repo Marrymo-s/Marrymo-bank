@@ -68,6 +68,7 @@ export const modalTitle = style({
   width: '80%',
   fontSize: vars.fontSize['3x'],
   fontWeight: vars.fontWeight.accent,
+  fontFamily: 'BMJua',
   marginBottom: vars.space['3x'],
   wordBreak: 'keep-all',
 });

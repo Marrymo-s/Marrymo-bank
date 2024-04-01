@@ -5,6 +5,7 @@ export const rightsText = style({
   textAlign: 'center',
   justifyContent: 'center',
   fontSize: vars.fontSize['2x'],
+  fontFamily:'BMJua',
   color: vars.colors.lightGray,
   paddingTop: '40px',
 })

@@ -26,6 +26,7 @@ export const WishCardTextWrapper = style({
 
 export const WishCardTitleText = style({
   fontSize: vars.fontSize['1.5x'],
+  fontFamily:'BMJua',
   overflow: 'hidden', // 내용이 넘칠 때 숨김
   textOverflow: 'ellipsis', // 넘친 텍스트를 말줄임표로 표시
   whiteSpace: 'nowrap', // 텍스트가 줄바꿈 없이 한 줄로 표시
@@ -35,6 +36,7 @@ export const WishCardTitleText = style({
 
 export const WishCardBrandText = style({
   fontSize: vars.fontSize['1.5x'],
+  fontFamily: 'BMJua',
   color: vars.colors.alertRed,
   textOverflow: 'ellipsis', // 넘친 텍스트를 말줄임표로 표시
   whiteSpace: 'nowrap', // 텍스트가 줄바꿈 없이 한 줄로 표시
