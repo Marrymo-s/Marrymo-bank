@@ -24,52 +24,38 @@ import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 
 const InvitationCard = () => {
-  const [invitationData, setInvitationData] = useState<signupRequest | null>(null);
+  const [invitationData, setInvitationData] = useState<signupRequest>({
+    groomName: '',
+    brideName: '',
+    groomContact: '',
+    brideContact: '',
+    weddingDate: '',
+    weddingDay: '',
+    weddingTime: '',
+    location: '',
+    email: '',
+    greeting: '',
+    groomFather: '',
+    groomMother: '',
+    brideFather: '',
+    brideMother: '',
+    imgUrl: [],
+  })
+
   useEffect(() => {
-    // fetchData 함수는 비동기로 API를 호출하고 결과를 상태에 설정합니다.
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<signupRequest>('/users'); // 여기에 실제 API 엔드포인트 주소를 사용하세요.
-        setInvitationData(response.data);
-      } catch (error) {
-        console.error("Failed to fetch invitation data:", error);
-      }
-    };
+    getUserInfo()
+  }, [])
 
-    fetchData();
-  }, []);
-  console.log(invitationData)
+  const getUserInfo = async () => {
+    try {
+      const response = await fetch('/api/users').then((res) => res) as signupRequest
+      console.log(response)
+      setInvitationData(response)
+    } catch(error) {
+      console.log('유저정보 조회실패')
+    }
+  }
 
-  // const [invitationData, setInvitationData] = useState<signupRequest>({
-  //   groomName: '',
-  //   brideName: '',
-  //   groomContact: '',
-  //   brideContact: '',
-  //   weddingDate: '',
-  //   weddingDay: '',
-  //   weddingTime: '',
-  //   location: '',
-  //   email: '',
-  //   greeting: '',
-  //   groomFather: '',
-  //   groomMother: '',
-  //   brideFather: '',
-  //   brideMother: '',
-  //   imgUrl: [],
-  // })
-
-
-  // useEffect(() => {
-  //   axios.get<signupRequest>('/users')
-  //     .then(response => {
-  // setInvitationData(response.data);
-  //
-  //     })
-  //     .catch(error => {
-  //       console.error("Failed to fetch invitation data:", error);
-  //
-  //     });
-  // }, []);
   if (!invitationData) {
     return <div>Loading...</div>
   }
@@ -79,7 +65,7 @@ const InvitationCard = () => {
       <CardTop
         weddingDate={invitationData.weddingDate}
         weddingTime={invitationData.weddingTime}
-        imgUrl={invitationData.imgUrl[0]}
+        imgUrl={invitationData.imgUrl && invitationData.imgUrl[0]}
       />
       <CardUnderTop
         groomName={invitationData.groomName}
@@ -102,7 +88,7 @@ const InvitationCard = () => {
         greeting={invitationData.greeting}
       />
       <SecondImage
-        imgUrl={invitationData.imgUrl[0]}
+        imgUrl={invitationData.imgUrl && invitationData.imgUrl[0]}
       />
       <Location
         weddingDate={invitationData.weddingDate}
