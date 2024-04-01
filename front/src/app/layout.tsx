@@ -11,8 +11,7 @@ import localFont from 'next/font/local';
 // });
 
 import './layout.css';
-
-const inter = Inter({subsets: ['latin']})
+import { font } from './layout.css';
 
 export const metadata: Metadata = {
   title: 'Marrymo',
@@ -32,8 +31,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-      <html lang="en">
-      <body className={inter.className}>
+      <html lang="en" className={font}>
+      <body>
         <Provider>
           {children}
           <div id='modal'/>

@@ -22,11 +22,13 @@ const Agreement = () => {
   useEffect(() => {
     const fetchUserCode = async () => {
       // fetchInstance 함수를 사용하여 userCode를 가져옴
-      const response = await fetchInstance('/users/usercode');
-      if (response && response.userCode) {
-        setUserCode(response.userCode);
-        console.log(response.userCode);
+      const response = await fetch('/users/usercode');
+      if (!response.ok) {
+        throw new Error('떼잉 ');
       }
+      const userCodeText = await response.text();
+      console.log(userCodeText)
+      setUserCode(userCodeText);
     };
     fetchUserCode();
   }, [setUserCode]);

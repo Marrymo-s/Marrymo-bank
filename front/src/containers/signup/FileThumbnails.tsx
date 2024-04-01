@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Close from "../../../public/svgs/close.svg";
-import {MouseEventHandler} from "react";
-import * as styles from './index.css'
+import Image from 'next/image';
+import Close from '../../../public/svgs/close.svg';
+import {MouseEventHandler} from 'react';
+import * as styles from './index.css';
 
 interface FileThumbnailsProps {
   files: File[];
@@ -14,7 +14,7 @@ const FileThumbnails = ({
                           files,
                           deleteFileHandler,
                           addFileHandler,
-                          onDrop
+                          onDrop,
                         }: FileThumbnailsProps) => {
   return (
     <div>
@@ -22,24 +22,23 @@ const FileThumbnails = ({
         <div className={styles.imageBox} key={file.name}>
           <Image
             src={URL.createObjectURL(file)}
-            width={80}
-            height={80}
-            sizes='80px'
+            layout="fill"
+            objectFit="cover"
             alt={file.name}
-            placeholder='blur'
+            placeholder="blur"
             blurDataURL={URL.createObjectURL(file)}
           />
           <div
-            role='presentation'
+            role="presentation"
             className={styles.deleteButton}
             onClick={() => deleteFileHandler && deleteFileHandler(file.name)}
           >
-            <Close size='0.8rem'/>
+            <Close size="0.8rem" />
           </div>
           {/* 파일 추가 버튼 (옵셔널) */}
           {addFileHandler && (
             <div
-              role='presentation'
+              role="presentation"
               className={styles.addFileButton}
               onClick={addFileHandler}
             >
@@ -62,6 +61,6 @@ const FileThumbnails = ({
       ))}
     </div>
   );
-}
+};
 
 export default FileThumbnails;

@@ -32,6 +32,9 @@ dependencies:
   next:
     specifier: 13.5.6
     version: 13.5.6(@babel/core@7.24.0)(react-dom@18.2.0)(react@18.2.0)
+  pnpm:
+    specifier: ^8.15.5
+    version: 8.15.5
   react:
     specifier: ^18
     version: 18.2.0
@@ -4668,6 +4671,12 @@ packages:
       mlly: 1.6.1
       pathe: 1.1.2
     dev: true
+
+  /pnpm@8.15.5:
+    resolution: {integrity: sha512-sFGjLH5pWDO4SSbTspuMylclS1ifBknYmcbp0O22cLkex+KkNFm65zdZu1zmGcMmbxFr+THOItHvF1mn5Fqpbw==}
+    engines: {node: '>=16.14'}
+    hasBin: true
+    dev: false
 
   /possible-typed-array-names@1.0.0:
     resolution: {integrity: sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==}
