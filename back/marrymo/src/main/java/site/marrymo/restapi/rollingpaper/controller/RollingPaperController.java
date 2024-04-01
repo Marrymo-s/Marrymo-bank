@@ -14,6 +14,7 @@ import site.marrymo.restapi.user.dto.UserDTO;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
 @RequestMapping("/api/letter")
 @RequiredArgsConstructor
 public class RollingPaperController {

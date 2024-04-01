@@ -16,6 +16,7 @@ import site.marrymo.restapi.user.dto.UserDTO;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/moneygift")
+@CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
 public class MoneygiftController {
     private final MoneygiftService moneygiftService;
 
