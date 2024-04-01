@@ -1,7 +1,7 @@
-import {style} from "@vanilla-extract/css";
-import {contentWrapper} from "@/styles/wrapper.css";
-import {flex} from "@/styles/common.css";
-import {vars} from "@/styles/vars.css"
+import {style} from '@vanilla-extract/css';
+import {contentWrapper} from '@/styles/wrapper.css';
+import {flex} from '@/styles/common.css';
+import {vars} from '@/styles/vars.css';
 
 export const signupWrapper = style([
   contentWrapper({contentArea: 'header'}),
@@ -49,7 +49,7 @@ export const alertMessage = style({
   marginTop: vars.space['0.5x'],
   color: vars.colors.alertRed,
   fontSize: vars.fontSize['1.5x'],
-  fontWeight: vars.fontWeight.accent
+  fontWeight: vars.fontWeight.accent,
 });
 
 export const weddingDatePickerContainer = style([
@@ -60,8 +60,8 @@ export const weddingDatePickerContainer = style([
     direction: 'column',
   }),
   {
-    fontSize: vars.fontSize['2x']
-  }
+    fontSize: vars.fontSize['2x'],
+  },
 ]);
 
 export const asteriskStyle = style({
@@ -69,14 +69,14 @@ export const asteriskStyle = style({
   fontSize: vars.fontSize['2x'],
   color: vars.colors.alertRed,
   fontWeight: vars.fontWeight.accent,
-})
+});
 
 export const mapContainer = style({
   height: '300px',
   width: '300px',
   maxHeight: 'auto',
-  maxWidth: '100%'
-})
+  maxWidth: '100%',
+});
 
 export const selectedDate = style({
   fontSize: vars.fontSize['2x'],
@@ -110,7 +110,7 @@ export const timePickerContainer = style([
   {
     fontSize: vars.fontSize['2x'],
     marginBottom: vars.space['2x'], // 아래 여백 추가
-  }
+  },
 ]);
 
 export const dropdown = style({
@@ -128,8 +128,8 @@ export const dropdown = style({
   selectors: {
     '&:focus': {
       borderColor: vars.colors.roseGold,
-      outline: 'none'
-    }
+      outline: 'none',
+    },
   },
   // 추후 CSS 작업 시 여기에 추가
 });
@@ -137,7 +137,7 @@ export const dropdown = style({
 export const galleryContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   justifyContent: 'center',
   gap: vars.space['2x'],
 });
@@ -186,9 +186,9 @@ export const inputBoxContainer = style([
     direction: 'column',
   }),
   {
-    fontSize: vars.fontSize['2x']
-  }
-])
+    fontSize: vars.fontSize['2x'],
+  },
+]);
 
 export const imagePreviewContainer = style({
   display: 'flex',
@@ -229,8 +229,8 @@ export const deleteButton = style({
   selectors: {
     '&:hover': {
       backgroundColor: vars.colors.alertRed, // 호버 상태일 때 배경색 변경
-    }
-  }
+    },
+  },
 });
 
 export const addButton = style({
@@ -267,4 +267,10 @@ export const dropArea = style({
     backgroundColor: vars.colors.lightGray,
   },
   // 드래그 앤 드롭 영역의 스타일을 더 추가할 수 있습니다.
+});
+
+export const imageContainer = style({
+  position: 'relative',
+  width: '80px',
+  height: '80px',
 });
