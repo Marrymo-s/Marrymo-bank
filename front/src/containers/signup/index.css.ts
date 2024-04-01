@@ -137,10 +137,9 @@ export const dropdown = style({
 export const galleryContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   justifyContent: 'center',
   gap: vars.space['2x'],
-  width: '416px',
 });
 
 export const galleryHeader = style({
@@ -201,15 +200,15 @@ export const imagePreviewContainer = style({
 
 export const imageBox = style({
   position: 'relative',
-  width: '100px',
-  height: '100px',
-  marginRight: '10px',
-  overflow: 'hidden',
-  borderRadius: vars.space['1x'],
+  // 이미지 래퍼 스타일...
 });
 
 export const imagePreview = style({
-  objectFit: 'cover',
+  width: '100px', // 미리보기 이미지 너비 설정
+  height: '100px', // 미리보기 이미지 높이 설정
+  objectFit: 'cover', // 이미지 비율 유지
+  borderRadius: vars.borderRadius['1x'], // 이미지 둥근 모서리
+  // 추가 스타일링이 필요하면 여기에 작성
 });
 
 export const deleteButton = style({
@@ -248,18 +247,14 @@ export const addButton = style({
 
 export const addFileButton = style({
   padding: vars.space['2x'],
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100px',
-  height: '100px',
   backgroundColor: vars.colors.whitesmoke,
-  border: vars.colors.lightGray,
   color: vars.colors.white,
   borderRadius: vars.borderRadius['1x'],
   cursor: 'pointer',
   ':hover': {
     backgroundColor: vars.colors.lightGray,
   },
+  // 이 외에도 필요한 스타일 속성들을 추가할 수 있습니다.
 });
 
 export const dropArea = style({
@@ -275,9 +270,7 @@ export const dropArea = style({
 });
 
 export const imageContainer = style({
-  display: 'flex',
-  overflowX: 'auto',
   position: 'relative',
-  width: 'calc(100% - 110px)',
+  width: '80px',
   height: '80px',
 });

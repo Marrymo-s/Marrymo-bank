@@ -1,6 +1,6 @@
 'use client';
 
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
 import {addDays, format} from 'date-fns';
 
@@ -70,7 +70,7 @@ const Signup = () => {
     formData.append('brideMother', brideMother);
 
     try {
-      const response = await fetch(`/api/users/${userCode}`, {
+      const response = await fetch('/api/users', {
         method: 'POST',
         body: formData,
       });
@@ -152,15 +152,7 @@ const Signup = () => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailVerificationValid, setIsEmailVerificationValid] = useState(false);
   const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
-
-  const checkValidation: boolean = isGroomNameValid &&
-    isBrideNameValid &&
-    isGroomContactValid &&
-    isBrideContactValid &&
-    isGreetingValid &&
-    isEmailValid &&
-    isEmailVerificationValid &&
-    isWeddingLocationValid;
+  const [checkValidation, setCheckValidation] = useState<boolean>(false);
 
   // 유효성 검사 코드
   const isValidateName = (value: string) => {
@@ -190,8 +182,32 @@ const Signup = () => {
   // 결혼식 장소가 입력되었는지 확인하는 유효성 검사 함수
   const isValidateWeddingLocation = (value: string) => {
     // 입력 값이 있으면 true 반환
-    return value.trim() !== '' ? undefined : '결혼식 장소를 입력해주세요.';
+    return value.trim() !== '' ? undefined : ' ';
   };
+
+  useEffect(() => {
+    // 유효성 검사 함수 호출
+    const groomNameValid = isValidateName(groomName) === undefined;
+    const brideNameValid = isValidateName(brideName) === undefined;
+    const groomContactValid = isValidateContact(groomContact) === undefined;
+    const brideContactValid = isValidateContact(brideContact) === undefined;
+    const emailValid = isValidateEmail(email) === undefined;
+    const emailVerificationValid = isValidateEmailVerification(emailVerification) === undefined;
+    const weddingLocationValid = isValidateWeddingLocation(weddingLocation) === undefined;
+
+    // 모든 입력 필드의 유효성 검사 결과 업데이트
+    setIsGroomNameValid(groomNameValid);
+    setIsBrideNameValid(brideNameValid);
+    setIsGroomContactValid(groomContactValid);
+    setIsBrideContactValid(brideContactValid);
+    setIsEmailValid(emailValid);
+    setIsEmailVerificationValid(emailVerificationValid);
+    setIsWeddingLocationValid(weddingLocationValid);
+
+    // 모든 검사를 통과했는지 종합하여 checkValidation 상태 업데이트
+    const allValid = groomNameValid && brideNameValid && groomContactValid && brideContactValid && emailValid && emailVerificationValid && weddingLocationValid;
+    setCheckValidation(allValid);
+  }, [groomName, brideName, groomContact, brideContact, email, emailVerification, weddingLocation]);
 
   return (
     <>
