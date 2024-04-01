@@ -4,6 +4,7 @@ import {useSearchParams} from 'next/navigation';
 import {useAccountWhoStore} from '@/store/useAccountWho';
 import {useEffect} from 'react';
 import {router} from 'next/client';
+import {fetchInstance} from '@/services';
 
 const OpenBanking = () => {
   const searchParams = useSearchParams()
@@ -23,7 +24,7 @@ const OpenBanking = () => {
           body: JSON.stringify(requestBody)
         }
 
-        const response = await fetch('/open-banking', options)
+        const response = await fetchInstance('/open-banking', options)
 
         if(response.ok) {
           // router.push(`/account/register?who=${who}&success=true&role=${redirectRole}`)
