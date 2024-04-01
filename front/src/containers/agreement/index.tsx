@@ -23,8 +23,8 @@ const Agreement = () => {
     const fetchUserCode = async () => {
       // fetchInstance 함수를 사용하여 userCode를 가져옴
       const response = await fetchInstance('/users/usercode');
-      console.log(response)
-      // const userCodeText = await response.text()
+      const userCodeText = await response.text()
+      console.log(userCodeText)
       // if (response) {
       //   setUserCode(userCodeText);
       //   console.log(userCodeText);
