@@ -10,46 +10,50 @@ export interface WhoProps {
 }
 
 const RegisterEach = ({who}: WhoProps) => {
-  const [isDone, setIsDone] = useState<boolean>(false)
+  const [isDone, setIsDone] = useState<{[key in 'GROOM' | 'BRIDE'] ?: boolean}>({})
   const {setWho} = usesAccountWhoStore()
 
   useEffect(() => {
     setWho(who)
   }, [who, setWho])
-23
-  const handleOpenBanking = () => {
-    window.location.href = process.env.NEXT_PUBLIC_OPENBANKING_URI as string
+
+  const handleOpenBanking = (role: 'GROOM' | 'BRIDE') => {
+    window.location.href = `${process.env.NEXT_PUBLIC_OPENBANKING_URI as string}&role=${role}`
   }
 
-  const renderWho = (text: string) => (
-    <div className={styles.registEach}>
-      <div>
-        {text} 계좌 번호 등록
+  const renderWho = (role: 'GROOM' | 'BRIDE') => {
+    const text = role === 'GROOM' ? '신랑' : '신부'
+    return (
+      <div className={styles.registEach}>
+        <div>
+          {text} 계좌 번호 등록
+        </div>
+        <Button
+          type='button'
+          size='small'
+          colorStyle='roseGold'
+          filled={true}
+          disabled={!!isDone[role]}
+          onClick={() => {
+            handleOpenBanking(role)
+          }}
+        >
+          {isDone[role] ? '인증 완료' : '인증'}
+        </Button>
       </div>
-      <Button
-        type='button'
-        size='small'
-        colorStyle='roseGold'
-        filled={true}
-        disabled={isDone}
-        onClick={() => {
-          handleOpenBanking()
-        }}
-      >
-        {isDone ? '인증 완료' : '인증'}
-      </Button>
-    </div>
-  )
+    )
+  }
 
   return (
     <>
       <main className={styles.accountWrapper}>
         {who === 'BOTH' ? (
           <>
-            {renderWho('신랑')}
-            {renderWho('신부')}
+            {renderWho('GROOM')}
+            {renderWho('BRIDE')}
           </>
-        ) : renderWho(who === 'GROOM' ? '신랑' : '신부')}
+        ) : (who !== null ? renderWho(who) : null)
+        }
       </main>
     </>
   )
