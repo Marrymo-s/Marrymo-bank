@@ -9,9 +9,10 @@ import * as styles from './index.css';
 interface Props {
   setWeddingLocation: Dispatch<SetStateAction<string>>;
   closeModal: () => void;
+  onValidationPassed: () => void;
 }
 
-const KakaoMap = ({setWeddingLocation, closeModal}: Props) => {
+const KakaoMap = ({setWeddingLocation, closeModal, onValidationPassed}: Props) => {
   const [inputText, setInputText] = useState<string>('');
   const [searchResults, setSearchResults] = useState<Place[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<string>('');
@@ -103,6 +104,7 @@ const KakaoMap = ({setWeddingLocation, closeModal}: Props) => {
     setSelectedPlace(location);
     setWeddingLocation(location);
     closeModal();
+    onValidationPassed();
   };
 
   useEffect(() => {
