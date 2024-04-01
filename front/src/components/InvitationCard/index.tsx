@@ -52,11 +52,10 @@ const InvitationCard = () => {
     try {
       const response = await fetch(`/users/${userCode}`);
       if (!response.ok) {
-        // 응답 상태가 OK가 아닌 경우, 오류를 던집니다.
         throw new Error('Network response was not ok');
       }
-      const data = await response.json(); // 응답 본문을 JSON으로 파싱합니다.
-      setInvitationData(data); // 파싱된 데이터를 상태에 저장합니다.
+      const data = await response.json();
+      setInvitationData(data);
     } catch (error) {
       console.error('유저 정보 조회 실패', error);
     }
