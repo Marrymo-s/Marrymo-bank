@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		String requestURI = httpServletRequest.getRequestURI();
 
 		if (requestURI.startsWith("/login") ||
-				requestURI.equals("/api/moneygift/send") ||
+				requestURI.equals("/moneygift/send") ||
 				containsContextPath(requestURI)
 		) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
@@ -76,12 +76,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// "/api/users/{userCode}"를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
 		if(httpServletRequest.getMethod().equals("GET") &&
-			requestURI.startsWith("/api/users")){
+			requestURI.startsWith("/users")){
 			String[] split = requestURI.split("/");
-			log.debug("length="+split.length);
-			log.debug("split="+split[3]);
 
-			if(cookies == null && split.length==4 && isContainsUserCode(split[3].trim())){
+			if(cookies == null && split.length==3 && isContainsUserCode(split[2].trim())){
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
 			}
