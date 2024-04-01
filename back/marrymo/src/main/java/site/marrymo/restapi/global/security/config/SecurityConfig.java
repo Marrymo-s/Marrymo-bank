@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationF
 import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.security.service.CustomOAuth2UserService;
@@ -26,49 +28,52 @@ import site.marrymo.restapi.global.security.filter.JwtAuthenticationFilter;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-	private final CustomOAuth2UserService customOAuth2UserService;
-	private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-	private final JWTProvider jwtProvider;
-	private final RedisService redisService;
-	private static final String[] swaggerURL = {
-		"/graphiql", "/graphql",
-		"/swagger-ui/**", "/api-docs", "/swagger-ui.html",
-		"/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html"
-	};
 
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring()
-			.requestMatchers(swaggerURL)
-			.requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // 정적 리소스들
-	}
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final JWTProvider jwtProvider;
+    private final RedisService redisService;
+    private final CorsConfigurationSource corsConfigurationSource;
+    private static final String[] swaggerURL = {
+        "/graphiql", "/graphql",
+        "/swagger-ui/**", "/api-docs", "/swagger-ui.html",
+        "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html"
+    };
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+            .requestMatchers(swaggerURL)
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // 정적 리소스들
+    }
 
-		http
-			.csrf(AbstractHttpConfigurer::disable);
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http
-			.formLogin(AbstractHttpConfigurer::disable)
-			.httpBasic(AbstractHttpConfigurer::disable)
-			.sessionManagement((sessionManagement) ->
-				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource));
 
-		http
-			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisService),
-				UsernamePasswordAuthenticationFilter.class);
+        http
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .sessionManagement((sessionManagement) ->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		http
-			.authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/h2-console/**", "/favicon.ico", "/error").permitAll()
-				.requestMatchers(swaggerURL).permitAll()
-				.anyRequest().permitAll());
-		http
-			.oauth2Login((oauth2) -> oauth2
-				.successHandler(oAuth2LoginSuccessHandler)
-				.userInfoEndpoint(userInfoEndpoint ->
-					userInfoEndpoint.userService(customOAuth2UserService)));
-		return http.build();
-	}
+        http
+            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisService),
+                UsernamePasswordAuthenticationFilter.class);
+
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/h2-console/**", "/favicon.ico", "/error").permitAll()
+                .requestMatchers(swaggerURL).permitAll()
+                .anyRequest().permitAll());
+        http
+            .oauth2Login((oauth2) -> oauth2
+                .successHandler(oAuth2LoginSuccessHandler)
+                .userInfoEndpoint(userInfoEndpoint ->
+                    userInfoEndpoint.userService(customOAuth2UserService)));
+        return http.build();
+    }
 }
