@@ -22,6 +22,6 @@ export const userSenderStore = create<userSender>()(
   ),
 );
 
-export const getSender = () => useSenderStore((state) => state.sender);
+export const getSender = () => userSenderStore((state) => state.sender);
 
-export const setSender = () => useSenderStore((state) => state.setSender);
+export const setSender = () => userSenderStore((state) => state.setSender);
