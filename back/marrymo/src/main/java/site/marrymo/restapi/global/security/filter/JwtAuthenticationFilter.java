@@ -78,6 +78,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if(httpServletRequest.getMethod().equals("GET") &&
 			requestURI.startsWith("/api/users")){
 			String[] split = requestURI.split("/");
+			log.debug("length="+split.length);
+			log.debug("split="+split[3]);
 
 			if(cookies == null && split.length==4 && isContainsUserCode(split[3].trim())){
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
