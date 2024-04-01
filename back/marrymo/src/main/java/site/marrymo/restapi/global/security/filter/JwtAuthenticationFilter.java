@@ -64,7 +64,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		if (requestURI.startsWith("/login") ||
 				contextPath.equals("/api/moneygift/send") ||
-				containsContextPath(contextPath)
+				containsContextPath(contextPath) ||
+				requestURI.equals("/oauth2/authorization/kakao")
 		) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 			return;
