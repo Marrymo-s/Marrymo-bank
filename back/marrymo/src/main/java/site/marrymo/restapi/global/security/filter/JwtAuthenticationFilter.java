@@ -77,6 +77,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// cookie를 담아오지 않는다.
 		if(httpServletRequest.getMethod().equals("GET") &&
 			requestURI.startsWith("/api/users")){
+			log.debug("enter");
 			String[] split = requestURI.split("/");
 
 			if(cookies == null && isContainsUserCode(split[2])){
@@ -101,7 +102,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 			if (tokenName.equals("accessToken")) {
 				accessToken = tokenValue;
-				log.debug("accessToken="+accessToken);
 
 				userCode = jwtProvider.getUserCode(accessToken);
 			} else if (tokenName.equals("refreshToken")) {
