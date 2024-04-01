@@ -22,7 +22,7 @@ const Checkboxes = () => {
       }
 
       const options: RequestInit = {
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify(requestBody)
       }
 
