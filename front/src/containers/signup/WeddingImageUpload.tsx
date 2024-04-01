@@ -36,7 +36,7 @@ const WeddingImageUpload = () => {
         <div key={index} className={styles.imageBox}>
           <img
             src={URL.createObjectURL(image)}
-            alt={`Image ${index + 1}`}
+            alt={`Wedding Gallery ${index + 1}`}
             width={60}
             height={60}
             onLoad={(event) => URL.revokeObjectURL((event.target as HTMLImageElement).src)}
