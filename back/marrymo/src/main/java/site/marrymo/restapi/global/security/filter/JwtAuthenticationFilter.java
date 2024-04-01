@@ -14,6 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
+import site.marrymo.restapi.user.exception.UserErrorCode;
+import site.marrymo.restapi.user.exception.UserException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -56,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		String requestURI = httpServletRequest.getRequestURI();
 		String contextPath = httpServletRequest.getContextPath();
+
 		if (requestURI.startsWith("/login") ||
 				contextPath.equals("/api/moneygift/send") ||
 				containsContextPath(contextPath)
@@ -93,6 +96,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				refreshToken = tokenValue;
 
 				userCode = jwtProvider.getUserCode(refreshToken);
+			}
+		}
+
+		if(httpServletRequest.getMethod().equals("GET")
+				&& contextPath.startsWith("/api/users")){
+			String[] split = contextPath.split("/");
+
+			if(containsUserCode(split[2])){
+				if(!userCode.equals(split[2]))
+					throw new UserException(UserErrorCode.USERCODE_INCORRECT);
 			}
 		}
 
@@ -199,6 +212,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		return false;
+	}
+
+	public boolean containsUserCode(String userCode){
+		for(int len = 0; len < 4; len++){
+			if(!('a'<= userCode.charAt(len) && userCode.charAt(len) <= 'z')){
+				return false;
+			}
+		}
+		for(int len = 4; len < 8; len++){
+			if(!('0'<= userCode.charAt(len) && userCode.charAt(len) <= '9')){
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 }

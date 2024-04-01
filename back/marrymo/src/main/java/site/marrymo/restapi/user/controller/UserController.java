@@ -36,7 +36,7 @@ public class UserController {
         userService.modifyUserInfo(userDTO, userModifyRequest);
     }
 
-    @GetMapping
+    @GetMapping("/{userCode}")
     @Operation(summary = "사용자 정보 조회 (테스트 완료)", description = "사용자 정보를 조회합니다.")
     public ResponseEntity<UserGetResponse> getUserInfo(@LoginUser UserDTO userDTO){
         UserGetResponse userGetResponse = userService.getUserInfo(userDTO);
