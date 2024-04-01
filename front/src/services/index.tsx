@@ -1,8 +1,10 @@
 export const fetchInstance = async (url: string, options: RequestInit = {}) => {
+  //baseUrl 환경변수처리
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
   console.log(baseUrl)
 
-  //header, credentials
+  //header, credentials(쿠키) 설정
+  //options 설정
   const defaultOptions: RequestInit = {
     ...options,
     headers: {
@@ -11,6 +13,8 @@ export const fetchInstance = async (url: string, options: RequestInit = {}) => {
     },
     credentials: 'include',
   }
+
+  //매개변수로 받은 url앞에 baseUrl 붙여서 fetch 되게 함
   try {
     const response = await fetch(`${baseUrl}${url}`, defaultOptions)
     console.log(response)
