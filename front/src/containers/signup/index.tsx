@@ -70,7 +70,7 @@ const Signup = () => {
     formData.append('brideMother', brideMother);
 
     try {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/users', {
         method: 'POST',
         body: formData,
       });
