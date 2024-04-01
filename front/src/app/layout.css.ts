@@ -1,15 +1,13 @@
-import {globalStyle} from '@vanilla-extract/css';
+import {globalStyle, globalFontFace, style} from '@vanilla-extract/css';
 import {vars} from '@/styles/vars.css';
 // import { font } from '@/styles/font.css';
-import {cardFont} from '@/styles/font.css';
+import {cardFont, globalFont} from '@/styles/font.css';
 
 
 globalStyle('html', {
   backgroundColor: vars.colors.white,
   scrollbarGutter: 'stable',
   fontFamily: 'pretendard', // 폰트 이름 직접 사용
-
-
 });
 
 globalStyle('body', {
@@ -36,3 +34,18 @@ globalStyle('ul', {
 globalStyle('textarea', {
   fontFamily: cardFont,
 });
+
+const bmJua='BMJUA';
+globalFontFace(bmJua, {
+  src: "url('/fonts/ttf/BMJUA') format('ttf')",
+  fontWeight:'normal',
+  fontStyle:'normal'
+});
+
+export const font = style({
+  fontFamily : bmJua
+});
+
+globalStyle('html',{
+  fontFamily: bmJua
+})

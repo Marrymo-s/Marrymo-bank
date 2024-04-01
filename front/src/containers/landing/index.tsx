@@ -5,12 +5,11 @@ import * as styles from './index.css';
 import KakaoLoginButton from '@/containers/landing/KakaoLoginButton';
 import Carousel from '@/containers/landing/carousel';
 
-
 const Landing = () => {
   return (
     <>
       <main className={styles.landingWrapper}>
-        <div className={styles.landingText({contentType: 'title'})}>
+        <div className={`${styles.landingText({contentType: 'title'})} ${styles.fontSize}`}>
           Marrymo
         </div>
         <div className={styles.landingText({contentType: 'content'})}>

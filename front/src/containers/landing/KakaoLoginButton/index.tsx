@@ -4,8 +4,7 @@ import {useEffect} from 'react';
 import Image from 'next/image';
 import * as styles from './index.css';
 
-
-const kakaoUrl = 'https://marrymo.site/oauth2/authorization/kakao';
+const kakaoUrl = 'https://spring.marrymo.site/oauth2/authorization/kakao';
 // env에 넣어주기
 const KakaoLoginButton = () => {
   const kakaoLoginHandler = () => {
@@ -22,7 +21,7 @@ const KakaoLoginButton = () => {
       className={styles.kakaoLoginImage}
       onClick={kakaoLoginHandler}
     />
-  )
-}
+  );
+};
 
 export default KakaoLoginButton;
