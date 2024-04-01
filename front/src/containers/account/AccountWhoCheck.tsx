@@ -41,7 +41,7 @@ const Checkboxes = () => {
       //url 생성하고, 페이지 이동
       router.push(`/account/register?${urlParams}`)
 
-      const response = await fetchInstance('/users/account/who', options)
+      const response = await fetchInstance('/users/account', options)
       console.log(response);
     } catch(error) {
       console.error('moneygift history get중 오류 발생', error)
