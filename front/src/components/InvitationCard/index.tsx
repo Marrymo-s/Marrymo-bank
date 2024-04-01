@@ -50,7 +50,7 @@ const InvitationCard = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await fetch(`/api/users/${userCode}`);
+      const response = await fetch(`/users/${userCode}`);
       if (!response.ok) {
         // 응답 상태가 OK가 아닌 경우, 오류를 던집니다.
         throw new Error('Network response was not ok');
