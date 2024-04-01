@@ -332,7 +332,7 @@ const Signup = () => {
           <InputBox
             inputBoxHeader="결혼식 장소 선택"
             value={weddingLocation}
-            placeholder="결혼식 장소를 선택해주세요."
+            placeholder="결혼식 장소를 입력해주세요."
             asterisk={true}
             readonly={true}
             onClick={openKakaoMapSearch}
@@ -361,7 +361,11 @@ const Signup = () => {
         </div>
         <Modal>
           <>
-            <KakaoMap setWeddingLocation={setWeddingLocation} closeModal={closeModal} />
+            <KakaoMap
+              setWeddingLocation={setWeddingLocation}
+              closeModal={closeModal}
+              onValidationPassed={() => setIsWeddingLocationValid(true)}
+            />
           </>
         </Modal>
       </main>
