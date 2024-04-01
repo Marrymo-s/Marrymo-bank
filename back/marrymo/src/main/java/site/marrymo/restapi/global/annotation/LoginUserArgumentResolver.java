@@ -59,6 +59,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
             }
         }
 
-        throw new JWTException(JWTErrorCode.INVALID_TOKEN);
+        return null;
     }
 }
