@@ -23,7 +23,7 @@ import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 
-const InvitationCard = async () => {
+const InvitationCard = () => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -65,7 +65,7 @@ const InvitationCard = async () => {
       <CardTop
         weddingDate={invitationData.weddingDate}
         weddingTime={invitationData.weddingTime}
-        imgUrl={invitationData.imgUrl.length > 0 ? invitationData.imgUrl[0] : 'none'}
+        imgUrl={invitationData.imgUrl && invitationData.imgUrl[0]}
       />
       <CardUnderTop
         groomName={invitationData.groomName}
@@ -88,7 +88,7 @@ const InvitationCard = async () => {
         greeting={invitationData.greeting}
       />
       <SecondImage
-        imgUrl={invitationData.imgUrl.length > 0 ? invitationData.imgUrl[0] : 'none'}
+        imgUrl={invitationData.imgUrl && invitationData.imgUrl[0]}
       />
       <Location
         weddingDate={invitationData.weddingDate}
