@@ -6,6 +6,7 @@ import {historyListContainer} from "@/containers/history/index.css";
 //type
 import {historyResponse, moneygifts} from "@/types/history";
 import {HistoryListProps} from "@/containers/history/index";
+import {fetchInstance} from '@/services';
 type SelectedProp = Pick<HistoryListProps, 'selected'>
 
 const HistoryList = ({selected} : SelectedProp) => {
@@ -20,7 +21,7 @@ const HistoryList = ({selected} : SelectedProp) => {
 
     const getHistory = async () => {
         try {
-            const response = await fetch('/moneygift').then((res) => res) as historyResponse
+            const response = await fetchInstance('/moneygift').then((res) => res) as historyResponse
             console.log(response);
 
             setHistoryData(response.moneyList); //서버 정상화되면 연결해서 테스트해볼 예정
