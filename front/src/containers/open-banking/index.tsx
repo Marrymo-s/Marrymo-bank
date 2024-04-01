@@ -1,14 +1,14 @@
 'use client'
 
 import {useSearchParams} from 'next/navigation';
-import {usesAccountWhoStore} from '@/store/useAccountWho';
+import {useAccountWhoStore} from '@/store/useAccountWho';
 import {useEffect} from 'react';
 import {router} from 'next/client';
 
 const OpenBanking = () => {
   const searchParams = useSearchParams()
   const searchCode  = searchParams.get('code')
-  const {who} = usesAccountWhoStore()
+  const {who, authStatus} = useAccountWhoStore()
 
   useEffect(() => {
     const registAccount = async () => {
@@ -26,7 +26,8 @@ const OpenBanking = () => {
         const response = await fetch('/open-banking', options)
 
         if(response.ok) {
-          router.push(`/account/register?who=${who}`)
+          // router.push(`/account/register?who=${who}&success=true&role=${redirectRole}`)
+          router.push(`/account/register?who=${who}&success=true`)
         }
 
       }catch(error) {

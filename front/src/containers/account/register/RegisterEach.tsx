@@ -2,23 +2,26 @@
 
 import * as styles from '../index.css'
 import Button from '@/components/Button';
-import React, {useState, useEffect} from 'react';
-import {usesAccountWhoStore} from '@/store/useAccountWho';
+import React, {useEffect} from 'react';
+import {useAccountWhoStore} from '@/store/useAccountWho';
+import {useSearchParams} from 'next/navigation';
 
 export interface WhoProps {
   who : 'GROOM' | 'BRIDE' | 'BOTH' | null
 }
 
 const RegisterEach = ({who}: WhoProps) => {
-  const [isDone, setIsDone] = useState<{[key in 'GROOM' | 'BRIDE'] ?: boolean}>({})
-  const {setWho} = usesAccountWhoStore()
+  const {setWho, authStatus, setAuthStatus} = useAccountWhoStore()
+  const searchParams = useSearchParams()
+  const isSuccess  = searchParams.get('success') === 'true'
 
   useEffect(() => {
     setWho(who)
-  }, [who, setWho])
+  }, [who, setWho, isSuccess, setAuthStatus, searchParams])
 
   const handleOpenBanking = (role: 'GROOM' | 'BRIDE') => {
-    window.location.href = `${process.env.NEXT_PUBLIC_OPENBANKING_URI as string}&role=${role}`
+    setAuthStatus(role, true)
+    window.location.href = process.env.NEXT_PUBLIC_OPENBANKING_URI as string
   }
 
   const renderWho = (role: 'GROOM' | 'BRIDE') => {
@@ -33,12 +36,12 @@ const RegisterEach = ({who}: WhoProps) => {
           size='small'
           colorStyle='roseGold'
           filled={true}
-          disabled={!!isDone[role]}
+          disabled={authStatus[role]}
           onClick={() => {
             handleOpenBanking(role)
           }}
         >
-          {isDone[role] ? '인증 완료' : '인증'}
+          {authStatus[role] ? '인증 완료' : '인증'}
         </Button>
       </div>
     )

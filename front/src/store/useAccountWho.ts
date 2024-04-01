@@ -9,7 +9,7 @@ interface AccountWhoState {
   setAuthStatus: (role: 'GROOM' | 'BRIDE', status: boolean) => void;
 }
 
-export const usesAccountWhoStore = create<AccountWhoState>()(
+export const useAccountWhoStore = create<AccountWhoState>()(
   devtools(
     persist(
       (set) => ({
