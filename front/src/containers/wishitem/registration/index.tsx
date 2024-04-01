@@ -31,9 +31,6 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
   const userCode = userInfoStore((state) => state.userCode);
 
   console.log(userCode)
-  // useEffect(() => {
-  //   getWishData()
-  // }, [wishLists])
 
   useEffect(() => { // 수정된 useEffect 사용법
     const getWishData = async () => {
@@ -53,6 +50,7 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
 
     return () => {
       window.removeEventListener('wishAdded', getWishData);
+      console.log('삭제완료')
     };
 
   }, [userCode]);
