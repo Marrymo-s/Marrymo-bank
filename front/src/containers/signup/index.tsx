@@ -15,7 +15,7 @@ import Button from '@/components/Button/index';
 import useModal from '@/hooks/useModal';
 
 import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
-import {userInfoStore} from '@/store/store';
+import {userInfoStore} from '@/store/useUserInfo';
 
 const today = new Date();
 const weekDay: string[] = ['일', '월', '화', '수', '목', '금', '토'];

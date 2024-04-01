@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 import { fetchInstance } from '@/services';
 
-import { userInfoStore } from '@/store/store';
+import { userInfoStore } from '@/store/useUserInfo';
 import {registraionEachImageWrapper} from "./index.css";
 
 
