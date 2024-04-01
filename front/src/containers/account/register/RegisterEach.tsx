@@ -2,14 +2,20 @@
 
 import * as styles from '../index.css'
 import Button from '@/components/Button';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {usesAccountWhoStore} from '@/store/useAccountWho';
 
 export interface WhoProps {
   who : 'GROOM' | 'BRIDE' | 'BOTH' | null
 }
 
 const RegisterEach = ({who}: WhoProps) => {
-  const [isDone, setIsDone] = useState<boolean>(false);
+  const [isDone, setIsDone] = useState<boolean>(false)
+  const {setWho} = usesAccountWhoStore()
+
+  useEffect(() => {
+    setWho(who)
+  }, [who, setWho])
 
   const handleOpenBanking = () => {
     window.location.href = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?response_type=code&client_id=fe57b880-6b09-4967-b74a-dd9b09d5bf62&redirect_uri=https://marrymo.site/open-banking&scope=login inquiry transfer&state=b80BLsfigm9OokPTjy03elbJqRHOfGSY&auth_type=0"
