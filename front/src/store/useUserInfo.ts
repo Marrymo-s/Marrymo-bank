@@ -14,7 +14,7 @@ export const userInfoStore = create<userInfo>()(
         setUserCode: (userCode: string) => set({userCode}),
       }),
       {
-        name: 'user-info-storage', // persist key 얜 뭐지
+        name: 'user-info-storage',
         version: 1,
         storage: createJSONStorage(() => sessionStorage),
       }

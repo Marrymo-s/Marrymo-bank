@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 import { fetchInstance } from '@/services';
 
-import { userInfoStore } from '@/store/store';
+import { userInfoStore } from '@/store/useUserInfo';
 import {registraionEachImageWrapper} from "./index.css";
 
 
@@ -31,16 +31,14 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
   const userCode = userInfoStore((state) => state.userCode);
 
   console.log(userCode)
-  // useEffect(() => {
-  //   getWishData()
-  // }, [wishLists])
 
   useEffect(() => { // 수정된 useEffect 사용법
     const getWishData = async () => {
       try {
         const response = await fetchInstance(`/wish-item/${userCode}`);
         console.log(response);
-        setWishLists(response.items)
+        setWishLists([...response.items].reverse())
+
       } catch(error) {
         console.error('에러 ㅋ', error);
       }
@@ -52,9 +50,10 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
 
     return () => {
       window.removeEventListener('wishAdded', getWishData);
+      console.log('삭제완료')
     };
 
-  }, []);
+  }, [userCode]);
 
   const goToDetail = (num:number) => {
     router.push(`detail/${userCode}/${num}`)
