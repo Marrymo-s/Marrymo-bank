@@ -28,7 +28,6 @@ const Agreement = () => {
         console.log(response.userCode);
       }
     };
-
     fetchUserCode();
   }, [setUserCode]);
   // 모든 체크박스가 체크되었는지 확인
