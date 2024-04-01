@@ -58,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		String requestURI = httpServletRequest.getRequestURI();
 		String contextPath = httpServletRequest.getContextPath();
-		log.debug("contextPath:"+contextPath);
 
 		if (requestURI.startsWith("/login") ||
 				contextPath.equals("/api/moneygift/send") ||
@@ -97,17 +96,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				refreshToken = tokenValue;
 
 				userCode = jwtProvider.getUserCode(refreshToken);
-			}
-		}
-
-		if(httpServletRequest.getMethod().equals("GET")
-				&& contextPath.startsWith("/api/users")){
-			String[] split = contextPath.split("/");
-
-			if(containsUserCode(split[2])){
-				log.debug("split:"+split[2]);
-				if(!userCode.equals(split[2]))
-					throw new UserException(UserErrorCode.USERCODE_INCORRECT);
 			}
 		}
 
@@ -215,20 +203,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		return false;
 	}
-
-	public boolean containsUserCode(String userCode){
-		for(int len = 0; len < 4; len++){
-			if(!('a'<= userCode.charAt(len) && userCode.charAt(len) <= 'z')){
-				return false;
-			}
-		}
-		for(int len = 4; len < 8; len++){
-			if(!('0'<= userCode.charAt(len) && userCode.charAt(len) <= '9')){
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 }
