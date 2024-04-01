@@ -17,10 +17,12 @@ import SecondImage from '@/components/InvitationCard/secondImage';
 // import { axiosInstance } from '@/services';
 import { signupRequest } from '@/types/auth';
 import {fetchInstance} from "@/services";
+import { userInfoStore } from '@/store/useUserInfo';
 
 // 폰트
 import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
+
 
 
 const InvitationCard = () => {
@@ -41,14 +43,14 @@ const InvitationCard = () => {
     brideMother: '',
     imgUrl: [],
   })
-
+  const userCode = userInfoStore((state) => state.userCode);
   useEffect(() => {
     getUserInfo()
   }, [])
 
   const getUserInfo = async () => {
     try {
-      const response = await fetch('/api/users');
+      const response = await fetch(`/api/users/${userCode}`);
       if (!response.ok) {
         // 응답 상태가 OK가 아닌 경우, 오류를 던집니다.
         throw new Error('Network response was not ok');
