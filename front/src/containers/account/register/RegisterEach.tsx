@@ -36,7 +36,7 @@ const RegisterEach = ({who}: WhoProps) => {
           handleOpenBanking()
         }}
       >
-        인증
+        {isDone ? '인증 완료' : '인증'}
       </Button>
     </div>
   )
