@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		String requestURI = httpServletRequest.getRequestURI();
 		String contextPath = httpServletRequest.getContextPath();
-		log.debug("contextPath={}",contextPath);
+		log.debug("contextPath="+contextPath);
 
 		if (requestURI.startsWith("/login") ||
 				contextPath.equals("/api/moneygift/send") ||
