@@ -6,20 +6,26 @@ import * as styles from './index.css';
 import CloseIcon from '../../../public/svgs/close.svg';
 import Button from '@/components/Button';
 
-const WeddingImageUpload = () => {
+interface WeddingImageUploadProps {
+  updateImages: (files: File[]) => void;
+}
+
+const WeddingImageUpload = ({updateImages}: WeddingImageUploadProps) => {
   const [images, setImages] = useState<File[]>([]);
   const [thumbnails, setThumbnails] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && images.length < 10) {
-      const selectedFilesArray = Array.from(e.target.files).slice(0, 10 - images.length);
-      const newImageArray = [...images, ...selectedFilesArray];
+      const selectedFiles = Array.from(e.target.files).slice(0, 10 - images.length);
+      const newImageArray = [...images, ...selectedFiles];
       setImages(newImageArray);
     }
     e.preventDefault();
     const selectedFiles: File[] = e.target.files ? Array.from(e.target.files) : [];
     const newThumbnails = selectedFiles.map((file) => URL.createObjectURL(file));
+
+    updateImages(selectedFiles);
 
     setImages((prevImages) => [...prevImages, ...selectedFiles]);
     setThumbnails((prevThumbnails) => [...prevThumbnails, ...newThumbnails]);
