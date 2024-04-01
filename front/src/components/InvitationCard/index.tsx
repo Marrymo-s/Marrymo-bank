@@ -23,22 +23,40 @@ import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 
-const InvitationCard = () => {
-  const [invitationData, setInvitationData] = useState<signupRequest | null>(null);
-  useEffect(() => {
-    // fetchData 함수는 비동기로 API를 호출하고 결과를 상태에 설정합니다.
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<signupRequest>('/users'); // 여기에 실제 API 엔드포인트 주소를 사용하세요.
-        setInvitationData(response.data);
-      } catch (error) {
-        console.error("Failed to fetch invitation data:", error);
-      }
-    };
+const InvitationCard = async () => {
+  const [invitationData, setInvitationData] = useState<signupRequest>({
+    groomName: '',
+    brideName: '',
+    groomContact: '',
+    brideContact: '',
+    weddingDate: '',
+    weddingDay: '',
+    weddingTime: '',
+    location: '',
+    email: '',
+    greeting: '',
+    groomFather: '',
+    groomMother: '',
+    brideFather: '',
+    brideMother: '',
+    imgUrl: [],
+  })
 
-    fetchData();
-  }, []);
-  console.log(invitationData)
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+
+  const getUserInfo = async () => {
+    try {
+      const response = await fetch('/users').then((res) => res) as signupRequest
+      console.log(response)
+      setInvitationData(response)
+    } catch(error) {
+      console.log('유저정보 조회실패')
+    }
+  }
+
+
 
   // const [invitationData, setInvitationData] = useState<signupRequest>({
   //   groomName: '',
