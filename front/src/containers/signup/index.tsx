@@ -14,7 +14,7 @@ import InvitationMessage from '@/containers/signup/InvitationMessage';
 import Button from '@/components/Button/index';
 import useModal from '@/hooks/useModal';
 
-// import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
+import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
 
 const today = new Date();
@@ -51,8 +51,8 @@ const Signup = () => {
     const formattedDate: string = format(weddingDate, 'yyyy-MM-dd');
     const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
     const formData = new FormData();
-    images.forEach(image => {
-      formData.append('imgUrl', image);
+    images.forEach((image, index) => {
+      formData.append(`imgUrl[]`, image);
     });
     formData.append('groomName', groomName);
     formData.append('brideName', brideName);
@@ -79,7 +79,8 @@ const Signup = () => {
         throw new Error('Network response was not ok');
       }
       // 요청 성공 처리
-      console.log('Submission successful');
+      const responseData = await response.json();
+      console.log('Submission successful', responseData);
       router.push(`/home/${userCode}`);
     } catch (error) {
       // 에러 처리
@@ -367,7 +368,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          {/*<WeddingImageUpload />*/}
+          <WeddingImageUpload />
         </div>
         <div>
           <Button
