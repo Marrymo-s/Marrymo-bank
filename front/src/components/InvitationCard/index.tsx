@@ -48,7 +48,7 @@ const InvitationCard = async () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await fetch('/users').then((res) => res) as signupRequest
+      const response = await fetch('/api/users').then((res) => res) as signupRequest
       console.log(response)
       setInvitationData(response)
     } catch(error) {
