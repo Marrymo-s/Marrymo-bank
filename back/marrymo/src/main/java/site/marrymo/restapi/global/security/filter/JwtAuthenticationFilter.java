@@ -94,6 +94,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 			if (tokenName.equals("accessToken")) {
 				accessToken = tokenValue;
+				log.debug("accessToken="+accessToken);
 
 				userCode = jwtProvider.getUserCode(accessToken);
 			} else if (tokenName.equals("refreshToken")) {
