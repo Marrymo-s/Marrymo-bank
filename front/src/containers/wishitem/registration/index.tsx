@@ -45,15 +45,8 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
     };
 
     getWishData()
-    // 'wishAdded' 이벤트에 대한 리스너 등록
-    window.addEventListener('wishAdded', getWishData);
 
-    return () => {
-      window.removeEventListener('wishAdded', getWishData);
-      console.log('삭제완료')
-    };
-
-  }, [userCode]);
+  }, [wishLists]);
 
   const goToDetail = (num:number) => {
     router.push(`detail/${userCode}/${num}`)
