@@ -15,7 +15,7 @@ export const usesAccountWhoStore = create<AccountWhoState>()(
         setWho: (who) => set({ who }),
       }),
       {
-        name: 'account-who', // persist key 얜 뭐지
+        name: 'account-who',
         storage : createJSONStorage(() => localStorage),
       }
     )

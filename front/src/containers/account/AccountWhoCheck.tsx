@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import * as styles from './index.css'
 import Checkbox from '@/components/Checkbox'
 import Button from "@/components/Button";
-import {usePathname, useRouter, useSearchParams} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 
 const Checkboxes = () => {
   const [selected, setSelected] = useState<string>();
