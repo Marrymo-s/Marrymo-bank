@@ -44,6 +44,7 @@ export const inputBoxText = style({
   padding: '12px 16px',
   boxSizing: 'border-box',
   fontSize: vars.fontSize['2x'],
+  fontFamily: 'BMJua',
   color: vars.colors.black,
   '::placeholder': {
     color: vars.colors.lightGray,
