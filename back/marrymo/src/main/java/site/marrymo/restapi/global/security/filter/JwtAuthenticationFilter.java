@@ -104,6 +104,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			String[] split = contextPath.split("/");
 
 			if(containsUserCode(split[2])){
+				log.debug("split:"+split[2]);
 				if(!userCode.equals(split[2]))
 					throw new UserException(UserErrorCode.USERCODE_INCORRECT);
 			}
