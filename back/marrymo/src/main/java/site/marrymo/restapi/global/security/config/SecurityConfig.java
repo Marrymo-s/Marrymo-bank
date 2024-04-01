@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.security.service.CustomOAuth2UserService;
@@ -53,7 +54,7 @@ public class SecurityConfig {
 
 		http
 			.addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisService),
-				OAuth2LoginAuthenticationFilter.class);
+				UsernamePasswordAuthenticationFilter.class);
 
 		http
 			.authorizeHttpRequests(authorize -> authorize
