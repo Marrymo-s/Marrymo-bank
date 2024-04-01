@@ -137,7 +137,7 @@ export const dropdown = style({
 export const galleryContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   justifyContent: 'center',
   gap: vars.space['2x'],
 });
