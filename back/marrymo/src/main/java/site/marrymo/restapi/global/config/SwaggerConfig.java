@@ -18,7 +18,7 @@ public class SwaggerConfig {
 			.version("1.0")
 			.description("marrymo APIs");
 		Server server = new Server();
-		server.setUrl("https://marrymo.site");
+		server.setUrl("https://spring.marrymo.site");
 		return new OpenAPI()
 			.info(info)
 			.addServersItem(server);
