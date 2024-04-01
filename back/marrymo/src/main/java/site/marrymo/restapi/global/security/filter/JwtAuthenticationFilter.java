@@ -106,6 +106,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 			// 에러페이지 만들기
 			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			return;
 		}
 
 		for (Cookie cookie : cookies) {
@@ -128,7 +129,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// exception 터뜨림
 		if (!refreshToken.equals("") && jwtProvider.validateLogoutToken(refreshToken)) {
 			removeAllCookies(httpServletResponse, cookies);
+
 			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			return;
 		}
 
 		Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
@@ -187,6 +190,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			//재로그인 하라는 에러메시지를 보낸다
 			else if (accessTokenCookie != null && refreshTokenCookie != null) {
 				httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+				return;
 			}
 		}
 
