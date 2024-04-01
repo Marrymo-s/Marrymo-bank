@@ -11,6 +11,7 @@ import localFont from 'next/font/local';
 // });
 
 import './layout.css';
+import { font } from './layout.css';
 
 const inter = Inter({subsets: ['latin']})
 
@@ -32,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-      <html lang="en">
+      <html lang="en" className={font}>
       <body className={inter.className}>
         <Provider>
           {children}
