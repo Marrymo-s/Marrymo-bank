@@ -61,7 +61,7 @@ const Signup = () => {
     formData.append('weddingDate', formattedDate);
     formData.append('weddingDay', weddingDay);
     formData.append('weddingTime', formattedTime);
-    formData.append('weddingLocation', weddingLocation);
+    formData.append('location', weddingLocation);
     formData.append('email', email);
     formData.append('greeting', greeting);
     formData.append('groomFather', groomFather);
@@ -134,10 +134,6 @@ const Signup = () => {
     setBrideMother(name);
   };
 
-  const handleSelectWeddingLocation = (location: string) => {
-    setWeddingLocation(location);
-    closeModal();
-  };
   const handleSetImages = (image: File[]) => {
     setImages(image);
   };
