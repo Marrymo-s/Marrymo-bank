@@ -21,7 +21,8 @@ const RegisterEach = ({who}: WhoProps) => {
 
   const handleOpenBanking = (role: 'GROOM' | 'BRIDE') => {
     setAuthStatus(role, true)
-    window.location.href = process.env.NEXT_PUBLIC_OPENBANKING_URI as string
+    // window.location.href = process.env.NEXT_PUBLIC_OPENBANKING_URI as string
+    window.location.href = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?response_type=code&client_id=fe57b880-6b09-4967-b74a-dd9b09d5bf62&redirect_uri=https://marrymo.site/open-banking&scope=login inquiry transfer&state=b80BLsfigm9OokPTjy03elbJqRHOfGSY&auth_type=0"
   }
 
   const renderWho = (role: 'GROOM' | 'BRIDE') => {
