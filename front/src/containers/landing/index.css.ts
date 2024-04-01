@@ -4,6 +4,8 @@ import {recipe} from '@vanilla-extract/recipes';
 import {vars} from '@/styles/vars.css';
 import {contentWrapper} from '@/styles/wrapper.css';
 
+import {Inter} from 'next/font/google';
+
 export const landingWrapper = style([
   contentWrapper({contentArea: 'noHeader'}),
   {
@@ -34,5 +36,6 @@ export const landingText = recipe({
   },
 });
 
-
-
+export const fontSize = style({
+  fontSize: '50px'
+});

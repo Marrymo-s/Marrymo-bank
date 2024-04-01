@@ -26,3 +26,9 @@ globalFontFace(gowun, {
 export const cardFont = style({
   fontFamily: gowun,
 });
+
+export const bmJuaFontFamily = globalFontFace('BMJua',{
+  src: `url('/fonts/ttf/GowunBatang-Bold.ttf') format('truetype')`,
+  fontWeight: '400',
+  fontStyle:'normal'
+})

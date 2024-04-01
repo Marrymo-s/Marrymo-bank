@@ -1,6 +1,8 @@
 import { recipe } from '@vanilla-extract/recipes';
 
 import { vars } from '@/styles/vars.css';
+import {bmJuaFontFamily} from './font.css';
+import { globalStyle } from '@vanilla-extract/css';
 
 export const defaultWrapper = recipe({
   base: {
@@ -84,4 +86,6 @@ export const plainButton= recipe({
   },
 });
 
-
+globalStyle('body', {
+  fontFamily: 'BMJua'
+});
