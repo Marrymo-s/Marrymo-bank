@@ -77,8 +77,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// cookie를 담아오지 않는다.
 		if(httpServletRequest.getMethod().equals("GET") &&
 			requestURI.startsWith("/api/users")){
-			log.debug("enter");
 			String[] split = requestURI.split("/");
+			log.debug("userCode="+split[2]);
 
 			if(cookies == null && isContainsUserCode(split[2])){
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
