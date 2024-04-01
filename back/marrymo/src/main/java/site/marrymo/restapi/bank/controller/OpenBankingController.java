@@ -17,7 +17,7 @@ import site.marrymo.restapi.user.dto.UserDTO;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
-@RequestMapping("/api/open-banking")
+@RequestMapping("/open-banking")
 public class OpenBankingController {
     private final OpenBankingService openBankingService;
     private final MoBankService moBankService;

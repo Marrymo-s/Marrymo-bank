@@ -20,7 +20,7 @@ import site.marrymo.restapi.user.service.UserService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
 public class UserController {
     private final UserService userService;

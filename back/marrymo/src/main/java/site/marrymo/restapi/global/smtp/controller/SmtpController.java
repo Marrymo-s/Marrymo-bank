@@ -15,7 +15,7 @@ import site.marrymo.restapi.user.service.UserService;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/smtp")
+@RequestMapping("/smtp")
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
 public class SmtpController {
