@@ -33,6 +33,7 @@ export const textarea = style({
   borderStyle: 'solid',
   borderRadius: vars.borderRadius['1x'],
   fontSize: vars.fontSize['2x'],
+  fontFamily: 'BMJua',
   resize: 'none',
   cursor: 'pointer',
 });
