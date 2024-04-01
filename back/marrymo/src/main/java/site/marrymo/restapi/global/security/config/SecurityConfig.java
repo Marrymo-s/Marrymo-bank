@@ -60,7 +60,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/h2-console/**", "/favicon.ico", "/error").permitAll()
 				.requestMatchers(swaggerURL).permitAll()
-				.anyRequest().permitAll());
+				.anyRequest().authenticated());
 		http
 			.oauth2Login((oauth2) -> oauth2
 				.successHandler(oAuth2LoginSuccessHandler)
