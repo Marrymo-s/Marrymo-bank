@@ -44,6 +44,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
                 for(Cookie cookie : cookies){
                     String tokenName = cookie.getName();
                     String tokenValue = cookie.getValue();
+                    log.debug("tokenName:"+tokenName);
 
                     if(tokenName.equals("accessToken")){
                         if(tokenValue != null && !tokenValue.trim().equals("")){

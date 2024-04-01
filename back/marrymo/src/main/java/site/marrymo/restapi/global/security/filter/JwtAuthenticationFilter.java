@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		if (requestURI.startsWith("/login") ||
 				requestURI.equals("/moneygift/send") ||
-				containsContextPath(requestURI)
+				containsWishItemRequestURI(requestURI)
 		) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 			return;
@@ -203,10 +203,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 	}
 
-	public boolean containsContextPath(String requestURI){
+	public boolean containsWishItemRequestURI(String requestURI){
 		String[] split = requestURI.split("/");
 
-		if(split[0].equals("api") && split[1].equals("wish-item")){
+		if(split[1].equals("wish-item")){
 			if(split.length == 4 ||
 					(split.length == 3 && split[2].length() == 8 && ('a' <= split[2].charAt(0) && split[2].charAt(0) <= 'z'))){
 				return true;
