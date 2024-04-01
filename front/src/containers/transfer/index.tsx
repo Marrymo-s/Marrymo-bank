@@ -6,6 +6,8 @@ import InputBox from '@/components/InputBox';
 import Checkbox from '@/components/Checkbox';
 import Button from '@/components/Button';
 import {useRouter} from 'next/navigation';
+import {router} from 'next/client';
+import {fetchInstance} from '@/services';
 
 const Transfer = () => {
   
@@ -20,8 +22,33 @@ const Transfer = () => {
     setBrideChecked(!brideChecked);
   }
   
-  const routeToComplete = () =>{
+  const postMoneygift = async () =>{
+    try{
+      const requestBody = {
+        "userSequence":,
+        "userCode":,
+        "wishItemSequence":,
+        "guestType": ,
+        "type": ,
+        "amount":,
+        "relationship": ,
+        "sender": ,
+      }
 
+      const options: RequestInit = {
+        method: 'POST',
+        body: JSON.stringify(requestBody)
+      }
+
+      const response = await fetchInstance('/moneygift/send', options)
+
+      if(response.ok) {
+        router.push('/complete')
+      }
+
+    }catch(error) {
+      console.error('moneygift 송금 중 오류 발생', error)
+    }
   }
   return (
     <>
