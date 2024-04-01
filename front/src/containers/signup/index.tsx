@@ -49,7 +49,7 @@ const Signup = () => {
   // POST 요청 함수
   const handleSubmit = async () => {
     const formattedDate: string = format(weddingDate, 'yyyy-MM-dd');
-    const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}`;
+    const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
     const formData = new FormData();
     images.forEach(image => {
       formData.append('imgUrl', image);
