@@ -25,12 +25,12 @@ const Agreement = () => {
       const response = await fetchInstance('/users/usercode');
       if (response && response.userCode) {
         setUserCode(response.userCode);
+        console.log(response.userCode);
       }
     };
 
     fetchUserCode();
   }, [setUserCode]);
-
   // 모든 체크박스가 체크되었는지 확인
   const allChecked = agreementChecked && privacyChecked;
 
