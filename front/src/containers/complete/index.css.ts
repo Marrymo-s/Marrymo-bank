@@ -1,11 +1,11 @@
-import {style} from '@vanilla-extract/css';
+import {keyframes, style} from '@vanilla-extract/css';
 import {recipe} from '@vanilla-extract/recipes';
 
 import {vars} from '@/styles/vars.css';
 import {flex} from '@/styles/common.css';
 import {contentWrapper} from '@/styles/wrapper.css';
 
-export const landingWrapper = style([
+export const completeWrapper = style([
   contentWrapper({contentArea: 'header'}),
   flex({
     align: 'center',
@@ -13,7 +13,13 @@ export const landingWrapper = style([
     direction: 'column',
   }),
   {
-    padding: vars.space['4x']
+    width: '100%',
+    height: '65vh',
+    maxHeight: '600px',
+    position: 'relative',
+    aspectRatio: '16 / 9',
+    padding: vars.space['4x'],
+    overflow: 'hidden',
   },
   {
     '@media': {
@@ -24,11 +30,11 @@ export const landingWrapper = style([
   },
 ]);
 
-export const landingText = recipe({
+export const completeText = recipe({
   base: {
     color: vars.colors.black,
     margin: vars.space['1x'],
-    marginTop: vars.space.none,
+    marginTop: '80px',
     textAlign: 'center',
     width: 'auto',
   },
@@ -36,7 +42,7 @@ export const landingText = recipe({
     contentType: {
       title: {
         fontSize: vars.fontSize['5x'],
-        fontWeight: vars.fontWeight['accent']
+        fontWeight: vars.fontWeight['accent'],
       },
       content: {
         fontSize: vars.fontSize['3x'],
@@ -44,9 +50,44 @@ export const landingText = recipe({
         marginTop: vars.space['2x'],
         marginBottom: vars.space['2x'],
       },
-    }
-  }
+    },
+  },
 });
 
+export const thankWrapper = style({
+  // 기본 스타일
+  width: '100%',
+  height: '65vh',
+  maxHeight: '600px',
+  position: 'relative',
+  aspectRatio: '16 / 9',
+  overflow: 'hidden',
+});
 
+const float = keyframes({
+  '0%': {
+    transform: 'translateY(0px)',
+  },
+  '50%': {
+    transform: 'translateY(-20px)',
+  },
+  '100%': {
+    transform: 'translateY(0px)',
+  },
+});
 
+export const heart = style({
+  position: 'absolute',
+  top: '15%',
+  left: '48%',
+  transform: 'translate(-50%, -50%)',
+  fontSize: '30px', // Adjust size as needed
+  color: 'red',
+  animation: `${float} 2s ease-in-out infinite`,
+});
+
+export const buttonContainer = style({
+  width: '100%',
+  alignContent: 'center',
+  margin: vars.space['2x'],
+});
