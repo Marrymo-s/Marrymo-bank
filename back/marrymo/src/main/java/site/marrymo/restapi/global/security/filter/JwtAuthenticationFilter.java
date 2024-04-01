@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
 		Cookie[] cookies = httpServletRequest.getCookies();
 
-		// "/api/users/{userCode}"를 비회원이 요청하는 경우
+		// "/users/{userCode}"를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
 		if(httpServletRequest.getMethod().equals("GET") &&
 			requestURI.startsWith("/users")){
@@ -82,6 +82,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			if(cookies == null && split.length==3 && isContainsUserCode(split[2].trim())){
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
+			}
+		}
+
+		// "/wish-item/{userCode}" 또는 "/wish-item/{userCode}/{wishItemSequence}를 비회원이 요청하는 경우
+		// cookie를 담아오지 않는다.
+		if(requestURI.startsWith("/wish-item")){
+			String[] split = requestURI.split("/");
+
+			if(cookies == null){
+				if(split.length > 2){
+					filterChain.doFilter(httpServletRequest, httpServletResponse);
+					return;
+				}
 			}
 		}
 
