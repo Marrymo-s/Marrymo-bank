@@ -23,8 +23,21 @@ import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 
-const InvitationCard = async () => {
-  const invitationData = await fetchInstance('/users') as signupRequest
+const InvitationCard = () => {
+  const [invitationData, setInvitationData] = useState<signupRequest | null>(null);
+  useEffect(() => {
+    // fetchData 함수는 비동기로 API를 호출하고 결과를 상태에 설정합니다.
+    const fetchData = async () => {
+      try {
+        const response = await axios.get<signupRequest>('/users'); // 여기에 실제 API 엔드포인트 주소를 사용하세요.
+        setInvitationData(response.data);
+      } catch (error) {
+        console.error("Failed to fetch invitation data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   console.log(invitationData)
 
   // const [invitationData, setInvitationData] = useState<signupRequest>({
