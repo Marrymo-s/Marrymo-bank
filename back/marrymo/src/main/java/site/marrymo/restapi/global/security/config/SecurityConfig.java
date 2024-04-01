@@ -45,10 +45,13 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+		http
+			.csrf(AbstractHttpConfigurer::disable);
+
 		http
 			.formLogin(AbstractHttpConfigurer::disable)
 			.httpBasic(AbstractHttpConfigurer::disable)
-			.csrf(AbstractHttpConfigurer::disable)
 			.sessionManagement((sessionManagement) ->
 				sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -60,7 +63,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/h2-console/**", "/favicon.ico", "/error").permitAll()
 				.requestMatchers(swaggerURL).permitAll()
-				.anyRequest().authenticated());
+				.anyRequest().permitAll());
 		http
 			.oauth2Login((oauth2) -> oauth2
 				.successHandler(oAuth2LoginSuccessHandler)
