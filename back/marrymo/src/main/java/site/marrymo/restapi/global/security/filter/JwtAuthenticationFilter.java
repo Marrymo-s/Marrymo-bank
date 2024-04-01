@@ -57,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 
 		String requestURI = httpServletRequest.getRequestURI();
+		log.debug("requestURI="+requestURI);
 
 		if (requestURI.startsWith("/login") ||
 				requestURI.equals("/api/moneygift/send") ||
