@@ -59,7 +59,7 @@ const HistoryList = ({selected} : SelectedProp) => {
                         <tr key={index}>
                             <td>{history.sender}</td>
                             <td>{history.amount}</td>
-                            <td>{history.type}</td>
+                            <td>{history.type === 'CASH' ? '축의금' : '펀딩'}</td>
                             <td>{history.guestType}</td>
                             <td>{history.relationship}</td>
                         </tr>
