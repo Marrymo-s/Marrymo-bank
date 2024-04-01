@@ -183,7 +183,10 @@ public class UserService {
         }
     }
 
-    public UserGetResponse getUserInfo(UserDTO userDTO){
+    public UserGetResponse getUserInfo(UserDTO userDTO, String userCode){
+        if(!userDTO.getUserCode().equals(userCode))
+            throw new UserException(UserErrorCode.USERCODE_INCORRECT);
+
         User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
