@@ -56,16 +56,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 		FilterChain filterChain) throws ServletException, IOException {
 
-		log.debug("hihi");
 		String requestURI = httpServletRequest.getRequestURI();
 
-		String contextPath = httpServletRequest.getRequestURI();
-		log.debug("contextPath={}",contextPath);
-
 		if (requestURI.startsWith("/login") ||
-				contextPath.equals("/api/moneygift/send") ||
-				containsContextPath(contextPath) ||
-				requestURI.equals("/oauth2/authorization/kakao")
+				requestURI.equals("/api/moneygift/send") ||
+				containsContextPath(requestURI)
 		) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 			return;
@@ -77,6 +72,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
 		Cookie[] cookies = httpServletRequest.getCookies();
+
+		// "/api/users/{userCode}"를 비회원이 요청하는 경우
+		// cookie를 담아오지 않는다.
+		if(httpServletRequest.getMethod().equals("GET") &&
+			requestURI.startsWith("/api/users")){
+			String[] split = requestURI.split("/");
+
+			if(cookies == null && isContainsUserCode(split[2])){
+				filterChain.doFilter(httpServletRequest, httpServletResponse);
+				return;
+			}
+		}
 
 		//쿠키가 모두 만료되어 없거나
 		//하나의 토큰만 하나의 쿠키에 담겨오는 경우
@@ -103,6 +110,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				userCode = jwtProvider.getUserCode(refreshToken);
 			}
 		}
+
 
 		// 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
 		// exception 터뜨림
@@ -196,8 +204,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 	}
 
-	public boolean containsContextPath(String contextPath){
-		String[] split = contextPath.split("/");
+	public boolean containsContextPath(String requestURI){
+		String[] split = requestURI.split("/");
 
 		if(split[0].equals("api") && split[1].equals("wish-item")){
 			if(split.length == 4 ||
@@ -207,5 +215,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		return false;
+	}
+
+	public boolean isContainsUserCode(String userCode){
+		for(int len = 0; len < 4; len++){
+			if(!('a'<= userCode.charAt(len) && userCode.charAt(len) <= 'z'))
+				return false;
+		}
+
+		for(int len = 4; len < 8; len++){
+			if(!('0'<= userCode.charAt(len) && userCode.charAt(len) <= '9'))
+				return false;
+		}
+
+		return true;
 	}
 }
