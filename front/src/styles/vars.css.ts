@@ -21,7 +21,8 @@ export const vars = createGlobalTheme(':root', {
     roseGold: '#FFC2B9',
     alertRed: '#E8635C', // 경고문구
     lightYellow: '#FFFDEF', // 청첩장 배경
-    safeGreen: '#02864A'  // 유효성 검증 통과
+    safeGreen: '#02864A',  // 유효성 검증 통과
+    strongYellow: "#FF7A00" // 위시리스트 상세페이지 주황색
   },
 
   borderRadius: {

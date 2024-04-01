@@ -7,7 +7,7 @@ import Button from '@/components/Button';
 import {commonButton} from '@/components/Button/index.css';
 import { signupRequest } from '@/types/auth';
 import { fetchInstance } from "@/services";
-import { wishItemStore } from "@/store/wishitem";
+import { wishItemStore } from "@/store/useWishitem";
 
 // 여기 페이지 타입들 수정하기
 
@@ -74,6 +74,7 @@ const WishCard = ({image, title, lprice, brand, category2, category4}: WishCardP
         colorStyle={'roseGold'}
         filled={true}
         onClick={handleClick}
+
       >
         담기
       </Button>

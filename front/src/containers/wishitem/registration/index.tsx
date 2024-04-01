@@ -8,7 +8,9 @@ import Image from 'next/image';
 
 import { fetchInstance } from '@/services';
 
-import { userInfoStore } from '@/store/store';
+import { userInfoStore } from '@/store/useUserInfo';
+import {registraionEachImageWrapper} from "./index.css";
+
 
 
 interface WishListItem {
@@ -74,9 +76,10 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
             <Image
               key={index}
               src={wishlist.img}
-              width={200}
-              height={200}
+              width={50}
+              height={50}
               alt="Picture of the author"
+              className={styles.registraionEachImageWrapper}
               onClick={() => goToDetail(wishlist.wishItemSequence) }
             />
           ))}

@@ -8,6 +8,11 @@ interface ResultsProps {
 }
 
 const Results = ({ results }: ResultsProps) => {
+
+  if(results.length == 0) {
+    return <div>원하는 상품을 검색해보세요!</div>
+  }
+
   return (
     <>
       <h3>추천리스트</h3>

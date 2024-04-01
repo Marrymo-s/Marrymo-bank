@@ -16,7 +16,7 @@ const RegisterEach = ({who}: WhoProps) => {
   useEffect(() => {
     setWho(who)
   }, [who, setWho])
-
+23
   const handleOpenBanking = () => {
     window.location.href = process.env.NEXT_PUBLIC_OPENBANKING_URI as string
   }

@@ -15,7 +15,7 @@ import Button from '@/components/Button/index';
 import useModal from '@/hooks/useModal';
 
 import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
-import {userInfoStore} from '@/store/store';
+import {userInfoStore} from '@/store/useUserInfo';
 
 const today = new Date();
 const weekDay: string[] = ['일', '월', '화', '수', '목', '금', '토'];
@@ -49,7 +49,7 @@ const Signup = () => {
   // POST 요청 함수
   const handleSubmit = async () => {
     const formattedDate: string = format(weddingDate, 'yyyy-MM-dd');
-    const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}`;
+    const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
     const formData = new FormData();
     images.forEach(image => {
       formData.append('imgUrl', image);
@@ -61,7 +61,7 @@ const Signup = () => {
     formData.append('weddingDate', formattedDate);
     formData.append('weddingDay', weddingDay);
     formData.append('weddingTime', formattedTime);
-    formData.append('weddingLocation', weddingLocation);
+    formData.append('location', weddingLocation);
     formData.append('email', email);
     formData.append('greeting', greeting);
     formData.append('groomFather', groomFather);
@@ -134,10 +134,6 @@ const Signup = () => {
     setBrideMother(name);
   };
 
-  const handleSelectWeddingLocation = (location: string) => {
-    setWeddingLocation(location);
-    closeModal();
-  };
   const handleSetImages = (image: File[]) => {
     setImages(image);
   };

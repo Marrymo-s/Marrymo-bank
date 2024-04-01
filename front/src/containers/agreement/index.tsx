@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import Button from '@/components/Button';
 import * as styles from '@/containers/agreement/index.css';
 import Checkbox from '@/components/Checkbox';
-import {userInfoStore} from '@/store/store';
+import {userInfoStore} from '@/store/useUserInfo';
 
 import TermsOfUse from './TermsOfUse';
 import {fetchInstance} from '@/services';

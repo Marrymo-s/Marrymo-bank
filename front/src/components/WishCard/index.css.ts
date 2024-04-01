@@ -5,16 +5,19 @@ import {style} from '@vanilla-extract/css';
 
 export const WishCardWrapper = style({
   background: vars.colors.white, // 구역확인용 임시 색
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderColor: vars.colors.lightGray,
   borderRadius: vars.borderRadius['2x'],
   overflow: 'hidden', // 이걸 해줘야 모퉁이가 둥글어짐
   width: 'auto',
   maxWidth: 200,
   height: 'auto',
   position: 'relative',
-  boxShadow: `5px 5px 5px 0px ${vars.colors.lightGray}`,
+  boxShadow: `2px 2px 2px 2px ${vars.colors.lightGray}`,
   padding: '1rem', // 내부 여백
   boxSizing: 'border-box', // 패딩을 포함한 너비로 계산
-  marginBottom: '2rem', // 카드 간의 간격
+  margin: '10px', // 카드 간의 간격
 });
 
 export const WishCardTextWrapper = style({

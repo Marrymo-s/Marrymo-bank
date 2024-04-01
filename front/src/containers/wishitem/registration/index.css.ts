@@ -32,6 +32,17 @@ export const registrationInnerWrapper = style([
   }
 ])
 
+export const registraionEachImageWrapper = style({
+  width: '80%',
+  height: '80%',
+  padding: '2px',
+  margin: '5px',
+  border: vars.colors.lightGray,
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  borderRadius: vars.borderRadius["2x"]
+})
+
 export const wishlistImageWrapper = style({
   display: 'inline-block', // 인라인 블록으로 설정하여 여러 이미지가 나란히 배치될 수 있도록 함
   margin: '5px',
