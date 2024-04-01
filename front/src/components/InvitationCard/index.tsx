@@ -56,38 +56,6 @@ const InvitationCard = async () => {
     }
   }
 
-
-
-  // const [invitationData, setInvitationData] = useState<signupRequest>({
-  //   groomName: '',
-  //   brideName: '',
-  //   groomContact: '',
-  //   brideContact: '',
-  //   weddingDate: '',
-  //   weddingDay: '',
-  //   weddingTime: '',
-  //   location: '',
-  //   email: '',
-  //   greeting: '',
-  //   groomFather: '',
-  //   groomMother: '',
-  //   brideFather: '',
-  //   brideMother: '',
-  //   imgUrl: [],
-  // })
-
-
-  // useEffect(() => {
-  //   axios.get<signupRequest>('/users')
-  //     .then(response => {
-  // setInvitationData(response.data);
-  //
-  //     })
-  //     .catch(error => {
-  //       console.error("Failed to fetch invitation data:", error);
-  //
-  //     });
-  // }, []);
   if (!invitationData) {
     return <div>Loading...</div>
   }
@@ -97,7 +65,7 @@ const InvitationCard = async () => {
       <CardTop
         weddingDate={invitationData.weddingDate}
         weddingTime={invitationData.weddingTime}
-        imgUrl={invitationData.imgUrl[0]}
+        imgUrl={invitationData.imgUrl.length > 0 ? invitationData.imgUrl[0] : 'none'}
       />
       <CardUnderTop
         groomName={invitationData.groomName}
@@ -120,7 +88,7 @@ const InvitationCard = async () => {
         greeting={invitationData.greeting}
       />
       <SecondImage
-        imgUrl={invitationData.imgUrl[0]}
+        imgUrl={invitationData.imgUrl.length > 0 ? invitationData.imgUrl[0] : 'none'}
       />
       <Location
         weddingDate={invitationData.weddingDate}
