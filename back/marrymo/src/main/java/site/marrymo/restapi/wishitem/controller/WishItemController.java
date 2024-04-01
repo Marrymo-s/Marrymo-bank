@@ -18,6 +18,7 @@ import site.marrymo.restapi.wishitem.service.WishItemService;
 @Slf4j
 @RestController
 @RequestMapping("/api/wish-item")
+@CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
 @RequiredArgsConstructor
 public class WishItemController {
     private final WishItemService wishItemService;

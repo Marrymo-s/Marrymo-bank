@@ -21,6 +21,7 @@ import site.marrymo.restapi.user.service.UserService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
+@CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
 public class UserController {
     private final UserService userService;
 
@@ -94,3 +95,4 @@ public class UserController {
         return ResponseEntity.ok(userDTO.getUserCode());
     }
 }
+
