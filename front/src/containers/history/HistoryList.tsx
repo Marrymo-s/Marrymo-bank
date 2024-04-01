@@ -17,7 +17,7 @@ const HistoryList = ({selected} : SelectedProp) => {
 
     useEffect(() => {
         getHistory()
-    }, [historyData])
+    }, [])
 
     const getHistory = async () => {
         try {

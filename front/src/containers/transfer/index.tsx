@@ -10,34 +10,30 @@ import {router} from 'next/client';
 import {fetchInstance} from '@/services';
 
 const Transfer = () => {
-  
-  const [groomChecked, setGroomChecked] = useState(true);
-  const [brideChecked, setBrideChecked] = useState(false);
+  const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
 
   // 둘 중 한 명만 체크되었는지 확인
-  const oneTypeChecked = (groomChecked || brideChecked) && !(groomChecked && brideChecked);
 
-  const changeCheckValue = () => {
-    setGroomChecked(!groomChecked);
-    setBrideChecked(!brideChecked);
+  const handleChange = (value: 'GROOM' | 'BRIDE') => {
+    setSelected(value)
   }
   
   const postMoneygift = async () =>{
     try{
-      const requestBody = {
-        "userSequence":,
-        "userCode":,
-        "wishItemSequence":,
-        "guestType": ,
-        "type": ,
-        "amount":,
-        "relationship": ,
-        "sender": ,
-      }
+      // const requestBody = {
+      //   userSequence:,
+      //   userCode:,
+      //   wishItemSequence:,
+      //   guestType: ,
+      //   type: ,
+      //   amount:,
+      //   relationship: ,
+      //   sender: ,
+      // }
 
       const options: RequestInit = {
         method: 'POST',
-        body: JSON.stringify(requestBody)
+        // body: JSON.stringify(requestBody)
       }
 
       const response = await fetchInstance('/moneygift/send', options)
@@ -78,8 +74,8 @@ const Transfer = () => {
           <div className={styles.checkInputContainer}>
               누구에게 송금하시겠어요?
               <div className={styles.checkboxContainer}>
-              <Checkbox checked={groomChecked} onChange={changeCheckValue}>신랑</Checkbox>
-              <Checkbox checked={brideChecked} onChange={changeCheckValue}>신부</Checkbox>
+              <Checkbox checked={selected === 'GROOM'} onChange={() => handleChange('GROOM')}>신랑</Checkbox>
+              <Checkbox checked={selected === 'BRIDE'} onChange={() => handleChange('BRIDE')}>신부</Checkbox>
               </div>
           </div>
 
@@ -88,7 +84,7 @@ const Transfer = () => {
 
         <Button
           type="button"
-          onClick={routeToComplete}
+          onClick={postMoneygift}
           colorStyle={'roseGold'}
           filled={true}
           size='large'
