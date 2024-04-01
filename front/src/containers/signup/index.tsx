@@ -14,7 +14,7 @@ import InvitationMessage from '@/containers/signup/InvitationMessage';
 import Button from '@/components/Button/index';
 import useModal from '@/hooks/useModal';
 
-import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
+// import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
 
 const today = new Date();
@@ -366,7 +366,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          <WeddingImageUpload />
+          {/*<WeddingImageUpload />*/}
         </div>
         <div>
           <Button
