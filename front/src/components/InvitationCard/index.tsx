@@ -55,7 +55,7 @@ const InvitationCard = () => {
       console.log('유저정보 조회실패')
     }
   }
-
+  console.log(invitationData)
   if (!invitationData) {
     return <div>Loading...</div>
   }
