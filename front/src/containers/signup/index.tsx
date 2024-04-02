@@ -16,6 +16,7 @@ import useModal from '@/hooks/useModal';
 
 import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
+import {fetchInstance} from '@/services';
 
 const today = new Date();
 const weekDay: string[] = ['일', '월', '화', '수', '목', '금', '토'];
@@ -71,7 +72,7 @@ const Signup = () => {
     formData.append('brideMother', brideMother);
 
     try {
-      const response = await fetch('/users', {
+      const response = await fetchInstance('/users', {
         method: 'POST',
         body: formData,
       });
