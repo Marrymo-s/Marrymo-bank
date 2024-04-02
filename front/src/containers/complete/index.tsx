@@ -26,10 +26,10 @@ const Complete = () => {
         <div className={styles.completeText({contentType: 'content'})}>{sender}님</div>
         <div className={styles.thankWrapper}>
           <Image
-            src='/images/complete/bubicon.jpg'
+            src='/images/complete/bubuicon.jpg'
             alt='Thank you for sending'
-            width={480}
-            height={480}
+            width={500}
+            height={500}
             layout='fixed'
           />
           <div className={styles.heart}>&#10084;&#65039;</div>
