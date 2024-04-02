@@ -58,9 +58,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		String requestURI = httpServletRequest.getRequestURI();
 
+		log.debug("requestURI={}", requestURI);
 		if (requestURI.startsWith("/login") ||
-				requestURI.equals("/moneygift/send") ||
-				containsWishItemRequestURI(requestURI)
+			requestURI.equals("/moneygift/send") ||
+			containsWishItemRequestURI(requestURI)
 		) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 			return;
@@ -75,11 +76,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// "/users/{userCode}"를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
-		if(httpServletRequest.getMethod().equals("GET") &&
-			requestURI.startsWith("/users")){
+		if (httpServletRequest.getMethod().equals("GET") &&
+			requestURI.startsWith("/users")) {
 			String[] split = requestURI.split("/");
 
-			if(cookies == null && split.length==3 && isContainsUserCode(split[2].trim())){
+			if (cookies == null && split.length == 3 && isContainsUserCode(split[2].trim())) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
 			}
@@ -87,11 +88,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// "/wish-item/{userCode}" 또는 "/wish-item/{userCode}/{wishItemSequence}를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
-		if(requestURI.startsWith("/wish-item")){
+		if (requestURI.startsWith("/wish-item")) {
 			String[] split = requestURI.split("/");
 
-			if(cookies == null){
-				if(split.length > 2){
+			if (cookies == null) {
+				if (split.length > 2) {
 					filterChain.doFilter(httpServletRequest, httpServletResponse);
 					return;
 				}
@@ -123,7 +124,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				userCode = jwtProvider.getUserCode(refreshToken);
 			}
 		}
-
 
 		// 로그아웃 해서 만료된 refresh token을 가지고 접근 할 경우
 		// exception 터뜨림
@@ -185,7 +185,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			// refreshToken만 재발급
 			else if (accessTokenCookie == null && refreshTokenCookie != null) {
 				httpServletResponse.addCookie(refreshTokenCookie);
-				redisService.setValue(refreshTokenCookie.getValue(),userCode, refreshTokenExpireTime);
+				redisService.setValue(refreshTokenCookie.getValue(), userCode, refreshTokenExpireTime);
 			}
 			//accessToken, refreshToken 모두 만료 되었을 시에
 			//재로그인 하라는 에러메시지를 보낸다
@@ -230,12 +230,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 	}
 
-	public boolean containsWishItemRequestURI(String requestURI){
+	public boolean containsWishItemRequestURI(String requestURI) {
 		String[] split = requestURI.split("/");
 
-		if(split[1].equals("wish-item")){
-			if(split.length == 4 ||
-					(split.length == 3 && split[2].length() == 8 && ('a' <= split[2].charAt(0) && split[2].charAt(0) <= 'z'))){
+		if (split[1].equals("wish-item")) {
+			if (split.length == 4 ||
+				(split.length == 3 && split[2].length() == 8 && ('a' <= split[2].charAt(0)
+					&& split[2].charAt(0) <= 'z'))) {
 				return true;
 			}
 		}
@@ -243,14 +244,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		return false;
 	}
 
-	public boolean isContainsUserCode(String userCode){
-		for(int len = 0; len < 4; len++){
-			if(!('a'<= userCode.charAt(len) && userCode.charAt(len) <= 'z'))
+	public boolean isContainsUserCode(String userCode) {
+		for (int len = 0; len < 4; len++) {
+			if (!('a' <= userCode.charAt(len) && userCode.charAt(len) <= 'z'))
 				return false;
 		}
 
-		for(int len = 4; len < 8; len++){
-			if(!('0'<= userCode.charAt(len) && userCode.charAt(len) <= '9'))
+		for (int len = 4; len < 8; len++) {
+			if (!('0' <= userCode.charAt(len) && userCode.charAt(len) <= '9'))
 				return false;
 		}
 
