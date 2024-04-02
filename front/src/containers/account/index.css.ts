@@ -13,6 +13,10 @@ export const checkboxesContainer = style([
 export const registEach = style({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-evenly',
+  marginBottom: '30px',
+  width:'80%',
+  fontSize:vars.fontSize["2.5x"],
 })
 
 export const accountContainer = style([
@@ -35,7 +39,7 @@ export const accountWrapper = style([
   contentWrapper({contentArea: 'header'}),
   flex({
     align: 'center',
-    justify: 'flexStart',
+    justify: 'spaceBetween',
     direction: 'column',
   }),
   {
@@ -44,5 +48,34 @@ export const accountWrapper = style([
         width: '480px',
       },
     },
+    height:'90vh',
+    
   },
 ]);
+
+export const accountContentWrapper = style({
+  padding:'0px 32px',
+  marginBottom:'32px',
+})
+
+export const accountContentStyle = style({
+  marginBottom:'20px',
+})
+
+export const accountRegisterWrapper = style([
+  // contentWrapper({contentArea: 'header'}),
+  flex({
+    direction: 'column',
+    justify:'flexStart',
+    align:'center'
+  }),
+  {
+    '@media': {
+      'screen and (min-width: 480px)': {
+        width: '480px',
+      },
+    },
+    height:'30vh',
+    fontSize:vars.fontSize["2.5x"]
+  },
+])

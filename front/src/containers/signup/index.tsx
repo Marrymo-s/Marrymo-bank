@@ -16,7 +16,7 @@ import useModal from '@/hooks/useModal';
 
 import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
-import {fetchNoJson} from '@/services';
+import {fetchInstance, fetchNoJson} from '@/services';
 
 const today = new Date();
 const weekDay: string[] = ['일', '월', '화', '수', '목', '금', '토'];
@@ -169,6 +169,8 @@ const Signup = () => {
   const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
   const [checkValidation, setCheckValidation] = useState<boolean>(false);
 
+  const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false)
+
   // 유효성 검사 코드
   const isValidateName = (value: string) => {
     // 유효성 검사: 한국어 2 ~ 19자, 영어 4 ~ 38자
@@ -199,6 +201,51 @@ const Signup = () => {
     // 입력 값이 있으면 true 반환
     return value.trim() !== '' ? undefined : ' ';
   };
+
+  const sendEmail = async () => {
+    try{
+
+      console.log("작동")
+      const requestBody = {
+        email: email,
+      }
+
+      const options: RequestInit = {
+        method: 'POST',
+        body: JSON.stringify(requestBody)
+      }
+
+      const response = await fetchInstance('/smtp/send', options)
+
+      if(response.ok){console.log("fetch 원활히 작동중")}
+
+    }catch(error){
+      console.error('이메일 전송 중 오류 발생', error)
+    }
+  }
+
+  const validEmail = async () => {
+    try{
+      const requestBody = {
+        email: email,
+        code: emailVerification,
+      }
+
+      const options: RequestInit = {
+        method: 'POST',
+        body: JSON.stringify(requestBody)
+      }
+
+      const response = await fetchInstance('/smtp/authcode/verifications', options)
+
+      if(response){
+        setIsEmailVerify(true)
+      }
+
+    }catch(error){
+      console.error('이메일 전송 중 오류 발생', error)
+    }
+  }
 
   useEffect(() => {
     // 유효성 검사 함수 호출
@@ -326,9 +373,7 @@ const Signup = () => {
             onValidationPassed={() => setIsEmailValid(true)}
             button={{
               text: '인증',
-              // 추후에 인증 메일 보내는 함수 작성
-              onClick: () => {
-              },
+              onClick: sendEmail,
               type: 'button',
               size: 'small',
             }}
@@ -344,6 +389,12 @@ const Signup = () => {
             onValueChange={handleSetEmailVerification}
             validate={isValidateEmailVerification}
             onValidationPassed={() => setIsEmailVerificationValid(true)}
+            button={{
+              text: '확인',
+              onClick: validEmail,
+              type: 'button',
+              size: 'small',
+            }}
           />
         </div>
         <div className={styles.weddingDatePickerContainer}>

@@ -22,6 +22,7 @@ const Home = () => {
       <main className={styles.homeWrapper}>
         <HamburgerButton />
         <div className={styles.invitationContainer}>
+          {/*<InvitationCard info={info}/>*/}
           <InvitationCard />
         </div>
       </main>

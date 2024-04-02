@@ -20,9 +20,9 @@ const RegisterEach = ({who}: WhoProps) => {
   }, [who, setWho, isSuccess, setAuthStatus, searchParams])
 
   const handleOpenBanking = (role: 'GROOM' | 'BRIDE') => {
-    setAuthStatus(role, true)
     // window.location.href = process.env.NEXT_PUBLIC_OPENBANKING_URI as string
     window.location.href = "https://testapi.openbanking.or.kr/oauth/2.0/authorize?response_type=code&client_id=fe57b880-6b09-4967-b74a-dd9b09d5bf62&redirect_uri=https://marrymo.site/open-banking&scope=login inquiry transfer&state=b80BLsfigm9OokPTjy03elbJqRHOfGSY&auth_type=0"
+    setAuthStatus(role, true)
   }
 
   const renderWho = (role: 'GROOM' | 'BRIDE') => {
@@ -34,7 +34,7 @@ const RegisterEach = ({who}: WhoProps) => {
         </div>
         <Button
           type='button'
-          size='small'
+          size='medium'
           colorStyle='roseGold'
           filled={true}
           disabled={authStatus[role]}

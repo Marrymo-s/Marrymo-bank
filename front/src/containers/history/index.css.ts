@@ -19,7 +19,7 @@ export const historyListContainer = style([
     background: vars.colors.lightBeige,
     minHeight: '60dvh',   // height의 비율 조정하기
     maxHeight: '60dvh',
-    margin: '32px 10px',
+    margin: '32px',
     position: 'relative',
     boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
     overflow: 'auto',
@@ -44,10 +44,10 @@ export const historyWrapper = style([
 ]);
 
 export const historyTableWrapper = style({
-  width:'80%',
+  width:'100%',
   tableLayout: 'fixed',
-  marginLeft: 'auto',
-  marginRight: 'auto',
+  borderSpacing: '5px',
+  
 })
 
 export const historyHeadWrapper = style({
@@ -55,6 +55,7 @@ export const historyHeadWrapper = style({
   top:0,
   fontSize: '20px',
   backgroundColor:vars.colors.roseGold,
+  padding: '10px',
 })
 
 export const historyBodyWrapper = style([
@@ -69,3 +70,8 @@ export const historyTHStyle = style([
     borderRadius: '5px',
   }
 ])
+
+// 셀 범위를 넘어간 경우 줄바꿈 처리
+export const cellStyle = style({
+  wordBreak: 'break-word'
+})
