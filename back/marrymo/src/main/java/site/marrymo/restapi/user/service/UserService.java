@@ -341,8 +341,8 @@ public class UserService {
     }
 
     public void sendCodeToEmail(String toEmail){
+        log.debug("sendCodeToEmail Function...");
         this.checkDuplicatedEmail(toEmail);
-
         String title = "Marrymo 이메일 인증 번호";
         String authCode = this.createCode();
         String content =
