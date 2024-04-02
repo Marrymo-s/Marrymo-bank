@@ -62,7 +62,9 @@ public class SecurityConfig {
             .formLogin(AbstractHttpConfigurer::disable)
             .httpBasic(AbstractHttpConfigurer::disable)
             .sessionManagement(sessionManagement ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionFixation().changeSessionId()
+                        .maximumSessions(1))
             .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisService),
                 UsernamePasswordAuthenticationFilter.class)
            .exceptionHandling(exception -> exception
