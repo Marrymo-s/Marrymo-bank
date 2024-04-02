@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useEffect, useState} from 'react'
-import {historyBodyWrapper, historyHeadWrapper, historyListContainer, historyRowWrapper, historyTHStyle, historyTableHeadWrapper, historyTableWrapper} from "@/containers/history/index.css";
+import {historyBodyWrapper, historyHeadWrapper, historyListContainer, historyTHStyle, historyTableWrapper} from "@/containers/history/index.css";
 
 //type
 import {historyResponse, moneygifts} from "@/types/history";
