@@ -24,6 +24,7 @@ public class SmtpController {
 	@PostMapping("/send")
 	@Operation(summary = "smtp 메일 인증번호 전송 (테스트 완료)", description = "사용자 정보 등록 시, 사용자 메일을 입력하고 인증 버튼을 누르면 메일이 갑니다.")
 	public void sendMessage(@Valid @RequestBody SmtpRegistRequest smtpRegistRequest) {
+		log.debug("/stmp/send 실행");
 		userService.sendCodeToEmail(smtpRegistRequest.getEmail());
 	}
 
