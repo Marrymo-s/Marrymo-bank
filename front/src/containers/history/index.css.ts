@@ -55,6 +55,7 @@ export const historyHeadWrapper = style({
   top:0,
   fontSize: '20px',
   backgroundColor:vars.colors.roseGold,
+  padding: '10px',
 })
 
 export const historyBodyWrapper = style([
