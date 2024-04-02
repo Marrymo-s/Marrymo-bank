@@ -39,8 +39,8 @@ public class UserController {
 
     @GetMapping("/{userCode}")
     @Operation(summary = "사용자 정보 조회 (테스트 완료)", description = "사용자 정보를 조회합니다.")
-    public ResponseEntity<UserGetResponse> getUserInfo(@PathVariable String userCode){
-        UserGetResponse userGetResponse = userService.getUserInfo(userCode);
+    public ResponseEntity<UserGetResponse> getUserInfo(@LoginUser UserDTO userDTO, @PathVariable String userCode){
+        UserGetResponse userGetResponse = userService.getUserInfo(userDTO, userCode);
         return ResponseEntity.ok(userGetResponse);
     }
 
