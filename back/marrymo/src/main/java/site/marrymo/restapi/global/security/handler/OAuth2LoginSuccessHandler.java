@@ -28,7 +28,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 	private final JWTProvider jwtProvider;
 	private final UserRepository userRepository;
-	private final String HOME_CALLBACK_URL = "https://marrymo.site/home/";
+	private final String HOME_CALLBACK_URL = "https://www.marrymo.site/home/";
 	private final String AGREEMENT_CALLBACK_URL = "https://marrymo.site/agreement";
 
 	@Override
