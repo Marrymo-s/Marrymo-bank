@@ -22,7 +22,7 @@ export const useAccountWhoStore = create<AccountWhoState>()(
       }),
       {
         name: 'account-who',
-        storage : createJSONStorage(() => localStorage),
+        storage : createJSONStorage(() => sessionStorage),
       }
     )
   )

@@ -16,6 +16,7 @@ import useModal from '@/hooks/useModal';
 
 import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
+import {fetchNoJson} from '@/services';
 
 const today = new Date();
 const weekDay: string[] = ['일', '월', '화', '수', '목', '금', '토'];
@@ -45,6 +46,7 @@ const Signup = () => {
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
   const {Modal, openModal, closeModal} = useModal();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   // POST 요청 함수
   const handleSubmit = async () => {
@@ -52,9 +54,6 @@ const Signup = () => {
     const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
     const formData = new FormData();
 
-    images.forEach((file, index) => {
-      formData.append('imgUrl', file);
-    });
     formData.append('groomName', groomName);
     formData.append('brideName', brideName);
     formData.append('groomContact', groomContact);
@@ -69,21 +68,31 @@ const Signup = () => {
     formData.append('groomMother', groomMother);
     formData.append('brideFather', brideFather);
     formData.append('brideMother', brideMother);
+    images.forEach((file) => {
+      formData.append('imgUrl', file);
+    });
 
     try {
-      const response = await fetch('/users', {
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
+
+      const options: RequestInit = {
         method: 'POST',
         body: formData,
-      });
+      };
+
+      const response = await fetchNoJson('/users', options);
       console.log(formData);
 
       if (response.ok) {
         // 요청 성공 처리
-        const responseData = await response.json();
+        const responseData = await response;
         console.log('Submission successful', responseData);
         router.push(`/home/${userCode}`);
       } else {
-        throw new Error('Failed to upload data');
+        const errorResponse = await response.text();
+        throw new Error(errorResponse);
       }
     } catch (error) {
       // 에러 처리
@@ -378,7 +387,8 @@ const Signup = () => {
           <Button
             onClick={handleSubmit}
             type="button"
-            disabled={!checkValidation}
+            size="large"
+            // disabled={!checkValidation}
           >회원 가입 완료</Button>
         </div>
         <Modal>
