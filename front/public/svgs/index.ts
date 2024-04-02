@@ -18,7 +18,7 @@ import IconSharing from './sharing.svg';
 import IconSavedReceipt from './saved-receipt.svg';
 import IconMagnify from './magnifying.svg';
 import IconPlus from './plus.svg';
-import HamburgerBar from './HamburgerBar.svg';
+import HamburgerBar from './hamburger-bar.svg';
 import CopyLink from './copy-link.svg';
 
 export {
