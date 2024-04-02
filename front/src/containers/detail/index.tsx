@@ -29,11 +29,8 @@ interface wishItemDetailProps {
 const Detail = async () => {
   const { userCode, wishItemSequence } = useParams()
 
-
-
   const wishItemDetailData = await fetchInstance(`/wish-item/${userCode}/${wishItemSequence}`) as wishItemDetailProps
   console.log(wishItemDetailData)
-
 
   const formattedPrice = formatPrice(String(wishItemDetailData.price));
   const formattedFund = formatPrice(String(wishItemDetailData.fund));
