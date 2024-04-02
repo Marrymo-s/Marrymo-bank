@@ -25,7 +25,7 @@ public class SchedulerConfig {
 	private final ExcelService excelService;
 	private final SmtpService smtpService;
 
-	@Scheduled(cron = "20 11 13 * * *", zone = "Asia/Seoul")
+	@Scheduled(cron = "50 16 13 * * *", zone = "Asia/Seoul")
 	public void makeExcel() throws IOException, MessagingException {
 		List<User> users = cardService.findUserSequenceByWeddingDateAndIsIssued();
 		for (User user : users) {
