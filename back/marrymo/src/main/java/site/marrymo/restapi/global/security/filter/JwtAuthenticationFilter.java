@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import site.marrymo.restapi.global.exception.UnAuthorizedException;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.global.jwt.dto.TokenDTO;
@@ -73,6 +74,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		Cookie[] cookies = httpServletRequest.getCookies();
 
 
+		log.debug("쿠키에서 두 개의 토큰 추출....");
 		// "/users/{userCode}"를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
 		if (httpServletRequest.getMethod().equals("GET") &&
@@ -85,6 +87,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 
+		log.debug("/users가 아님....");
 		// "/wish-item/{userCode}" 또는 "/wish-item/{userCode}/{wishItemSequence}를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
 		if (requestURI.startsWith("/wish-item")) {
@@ -98,6 +101,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 
+		log.debug("/wish-item이 아님....");
+
 		//쿠키가 모두 만료되어 없거나
 		//하나의 토큰만 하나의 쿠키에 담겨오는 경우
 		//exception을 터뜨려 재로그인 하도록 해준다.
@@ -105,8 +110,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			removeAllCookies(httpServletResponse, cookies);
 			log.debug("first exception");
 			// 인증되지 않은 사용자들에게 401 에러를 던진다
-			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
+			throw new UnAuthorizedException("쿠키가 모두 만료되어 없거나 하나의 토큰만 존재합니다.");
 		}
 
 		for (Cookie cookie : cookies) {
@@ -130,8 +134,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			removeAllCookies(httpServletResponse, cookies);
 			log.debug("second exception");
 			// 인증되지 않은 사용자들에게 401 에러를 던진다
-			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
+			throw new UnAuthorizedException("토큰이 만료되었습니다.");
 		}
 
 		Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
@@ -191,8 +194,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			else if (accessTokenCookie != null && refreshTokenCookie != null) {
 				// 인증되지 않은 사용자들에게 401 에러를 던진다
 				log.debug("third exception");
-				httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-				return;
+				throw new UnAuthorizedException("유효하지않은 토큰입니다. 로그인하세요.");
 			}
 		}
 
