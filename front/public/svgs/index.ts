@@ -19,6 +19,7 @@ import IconSavedReceipt from './saved-receipt.svg';
 import IconMagnify from './magnifying.svg';
 import IconPlus from './plus.svg';
 import HamburgerBar from './HamburgerBar.svg';
+import CopyLink from './copy-link.svg';
 
 export {
   AnimationLoading,
@@ -41,4 +42,5 @@ export {
   IconPlus,
   IconSavedReceipt,
   HamburgerBar,
+  CopyLink,
 };
