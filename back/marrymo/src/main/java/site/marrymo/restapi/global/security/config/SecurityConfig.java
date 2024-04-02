@@ -44,6 +44,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
             .requestMatchers(swaggerURL)
+            .requestMatchers("/error")
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // 정적 리소스들
     }
 
