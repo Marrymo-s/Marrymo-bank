@@ -11,14 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import site.marrymo.restapi.global.redis.service.RedisService;
-import site.marrymo.restapi.global.security.handler.OAuth2LoginFailureHandler;
 import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.security.service.CustomOAuth2UserService;
 import site.marrymo.restapi.global.jwt.JWTProvider;
@@ -32,7 +29,6 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final JWTProvider jwtProvider;
     private final RedisService redisService;
     private final CorsConfigurationSource corsConfigurationSource;
@@ -75,7 +71,6 @@ public class SecurityConfig {
         http
             .oauth2Login((oauth2) -> oauth2
                 .successHandler(oAuth2LoginSuccessHandler)
-                .failureHandler(oAuth2LoginFailureHandler)
                 .userInfoEndpoint(userInfoEndpoint ->
                     userInfoEndpoint.userService(customOAuth2UserService)));
         return http.build();
