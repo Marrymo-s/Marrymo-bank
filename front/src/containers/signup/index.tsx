@@ -373,7 +373,7 @@ const Signup = () => {
             onValidationPassed={() => setIsEmailValid(true)}
             button={{
               text: '인증',
-              onClick: () => {sendEmail},
+              onClick: sendEmail,
               type: 'button',
               size: 'small',
             }}
@@ -391,7 +391,7 @@ const Signup = () => {
             onValidationPassed={() => setIsEmailVerificationValid(true)}
             button={{
               text: '확인',
-              onClick: () => {validEmail},
+              onClick: validEmail,
               type: 'button',
               size: 'small',
             }}
