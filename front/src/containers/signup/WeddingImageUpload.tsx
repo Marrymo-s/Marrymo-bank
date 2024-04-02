@@ -19,21 +19,19 @@ const WeddingImageUpload = ({updateImages}: WeddingImageUploadProps) => {
     if (e.target.files && images.length < 10) {
       const selectedFiles = Array.from(e.target.files).slice(0, 10 - images.length);
       const newImageArray = [...images, ...selectedFiles];
-      setImages(newImageArray);
+      // setImages(newImageArray);
+
+      const newThumbnails = selectedFiles.map((file) => URL.createObjectURL(file));
+      setThumbnails((prevThumbnails) => [...prevThumbnails, ...newThumbnails]);
+
+      updateImages(newImageArray);
     }
     e.preventDefault();
-    const selectedFiles: File[] = e.target.files ? Array.from(e.target.files) : [];
-    const newThumbnails = selectedFiles.map((file) => URL.createObjectURL(file));
-
-    updateImages(selectedFiles);
-
-    setImages((prevImages) => [...prevImages, ...selectedFiles]);
-    setThumbnails((prevThumbnails) => [...prevThumbnails, ...newThumbnails]);
   };
 
   const deleteImage = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
-    // setThumbnails((prevThumbnails) => prevThumbnails.filter((_, index) => index !== indexToDelete));
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    setThumbnails((prevThumbnails) => prevThumbnails.filter((_, i) => i !== index));
   };
 
   return (
@@ -56,7 +54,7 @@ const WeddingImageUpload = ({updateImages}: WeddingImageUploadProps) => {
             </Button>
           </div>
         </div>
-      ))};
+      ))}
       {/*{images.length < 10 && (*/}
       {/*  <div className={styles.addButton}>*/}
       {/*    <Button*/}
@@ -65,31 +63,31 @@ const WeddingImageUpload = ({updateImages}: WeddingImageUploadProps) => {
       {/*    />*/}
       {/*  </div>*/}
       {/*)}*/}
-      <div className={styles.imagesContainer}>
-        {thumbnails.map((thumbnail, index) => (
-          <div key={index} className={styles.imageBox}>
-            <Image
-              src={thumbnail}
-              alt={`Uploaded image ${index}`}
-              layout="fill"
-              objectFit="cover"
-            />
-            {/*<button*/}
-            {/*  className={styles.deleteButton}*/}
-            {/*  onClick={() => deleteFile(index)}*/}
-            {/*>*/}
-            {/*  <Close size="0.8rem" />*/}
-            {/*</button>*/}
-          </div>
-        ))}
-        <div
-          role="presentation"
-          className={styles.addButton}
-          onClick={() => fileInputRef.current?.click()}
-        >
-          +
-        </div>
+      {/*<div className={styles.imagesContainer}>*/}
+      {/*  {thumbnails.map((thumbnail, index) => (*/}
+      {/*    <div key={index} className={styles.imageBox}>*/}
+      {/*      <Image*/}
+      {/*        src={thumbnail}*/}
+      {/*        alt={`Uploaded image ${index}`}*/}
+      {/*        layout="fill"*/}
+      {/*        objectFit="cover"*/}
+      {/*      />*/}
+      {/*<button*/}
+      {/*  className={styles.deleteButton}*/}
+      {/*  onClick={() => deleteFile(index)}*/}
+      {/*>*/}
+      {/*  <Close size="0.8rem" />*/}
+      {/*</button>*/}
+      {/*  </div>*/}
+      {/*))}*/}
+      <div
+        role="presentation"
+        className={styles.addButton}
+        onClick={() => fileInputRef.current?.click()}
+      >
+        +
       </div>
+      {/*</div>*/}
       <input
         ref={fileInputRef}
         type="file"
