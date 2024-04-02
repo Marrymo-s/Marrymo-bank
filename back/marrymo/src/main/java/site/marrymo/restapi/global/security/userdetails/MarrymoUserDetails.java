@@ -30,7 +30,9 @@ public class MarrymoUserDetails implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> collect = new ArrayList<>();
+        collect.add(() -> "ROLE_USER");
+        return collect;
     }
 
 }
