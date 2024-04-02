@@ -19,9 +19,9 @@ public class RedisService {
 
 	//key, value를 redis에 저장
 	public void setValue(String key, String value, Long time) {
-		if(this.getValue(key)!=null)
+		if (Boolean.TRUE.equals(redisTemplate.hasKey(key)))
 			this.deleteData(key);
-		redisTemplate.opsForValue().set(key,value, time, TimeUnit.MILLISECONDS);
+		redisTemplate.opsForValue().set(key, value, time, TimeUnit.MILLISECONDS);
 	}
 
 	//key에 해당하는 값을 redis에서 검색
@@ -29,7 +29,7 @@ public class RedisService {
 		return redisTemplate.opsForValue().get(key);
 	}
 
-	public void deleteData(String key){
+	public void deleteData(String key) {
 		redisTemplate.delete(key);
 	}
 }
