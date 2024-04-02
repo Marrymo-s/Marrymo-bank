@@ -19,7 +19,7 @@ const WeddingImageUpload = ({updateImages}: WeddingImageUploadProps) => {
     if (e.target.files && images.length < 10) {
       const selectedFiles = Array.from(e.target.files).slice(0, 10 - images.length);
       const newImageArray = [...images, ...selectedFiles];
-      setImages(newImageArray);
+      // setImages(newImageArray);
 
       const newThumbnails = selectedFiles.map((file) => URL.createObjectURL(file));
       setThumbnails((prevThumbnails) => [...prevThumbnails, ...newThumbnails]);
