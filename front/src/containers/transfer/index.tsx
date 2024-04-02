@@ -27,13 +27,13 @@ const Transfer = () => {
   const postMoneygift = async () =>{
     try{
       const requestBody = {
-        // userCode:,
-        // wishItemSequence:,
-        // guestType: selected,
-        // type: ,
-        // amount: amount,
-        // relationship: relationship,
-        // sender: sender,
+        userCode: ,
+        wishItemSequence: ,
+        guestType: selected,
+        type: ,
+        amount: amount,
+        relationship: relationship,
+        sender: sender,
       }
 
       const options: RequestInit = {
