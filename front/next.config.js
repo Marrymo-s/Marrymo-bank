@@ -8,10 +8,10 @@ const nextConfig = {
   swcMinify: true,
   async rewrites() {
     return [
-      {
-        source: '/:path*',
-        destination: 'https://spring.marrymo.site/:path*',
-      },
+      // {
+      //   source: '/:path*',
+      //   destination: 'https://spring.marrymo.site/:path*',
+      // },
       {
         // 네이버 검색 API에 대한 요청 처리
         source: '/v1/search/shop.json',
