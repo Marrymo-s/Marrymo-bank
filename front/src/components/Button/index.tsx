@@ -13,7 +13,7 @@ interface ButtonProps {
   disabled?: boolean;
   onClick?: () => void;
   type: 'submit' | 'reset' | 'button';
-  size?: 'small' | 'large' | 'medium';
+  size?: 'small' | 'large' ;
   colorStyle?: 'roseGold' | 'lightGray' | 'alertRed';
   filled?: boolean;
 }
