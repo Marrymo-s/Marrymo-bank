@@ -23,10 +23,11 @@ import site.marrymo.restapi.wishitem.service.WishItemService;
 public class WishItemController {
     private final WishItemService wishItemService;
 
-    @PostMapping
+    @PostMapping("/{userCode}")
     @Operation(summary = "위시 아이템 등록 (테스트 완료)", description = "위시 아이템 하나를 등록합니다.")
-    public void registWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
-        wishItemService.registWishItem(userDTO, wishItemRegistRequest);
+//    public void registWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
+    public void registWishItem(@PathVariable String userCode, @Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
+        wishItemService.registWishItem(userCode, wishItemRegistRequest);
     }
 
     @GetMapping("/{userCode}")
@@ -43,9 +44,10 @@ public class WishItemController {
         return ResponseEntity.ok(wishItemDetailResponse);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{userCode}")
     @Operation(summary = "위시 아이템 삭제 (테스트 완료)", description = "위시아이템 sequence로 해당 위시 아이템을 삭제합니다.")
-    public void deleteWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
-        wishItemService.deleteWishItem(userDTO, wishItemDeleteRequest);
+//    public void deleteWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
+    public void deleteWishItem(@PathVariable String userCode, @Valid @RequestBody WishItemDeleteRequest wishItemDeleteRequest) {
+        wishItemService.deleteWishItem(userCode, wishItemDeleteRequest);
     }
 }
