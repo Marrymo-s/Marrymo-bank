@@ -19,7 +19,7 @@ import site.marrymo.restapi.global.redis.service.RedisService;
 import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.security.service.CustomOAuth2UserService;
 import site.marrymo.restapi.global.jwt.JWTProvider;
-import site.marrymo.restapi.global.security.filter.JwtAuthenticationFilter;
+//import site.marrymo.restapi.global.security.filter.JwtAuthenticationFilter;
 
 @Slf4j
 @Configuration
@@ -59,9 +59,9 @@ public class SecurityConfig {
             .sessionManagement((sessionManagement) ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http
-            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisService),
-                UsernamePasswordAuthenticationFilter.class);
+//        http
+//            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisService),
+//                UsernamePasswordAuthenticationFilter.class);
 
         http
             .authorizeHttpRequests(authorize -> authorize
