@@ -25,13 +25,13 @@ import site.marrymo.restapi.user.service.UserService;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/{userCode}")
+    @PostMapping
     @Operation(summary = "사용자 정보 등록 (테스트 완료)", description = "카카오 로그인 후, 사용자 정보를 등록합니다.")
     public void registUserInfo(@LoginUser UserDTO userDTO, @Valid UserRegistRequest userRegistRequest){
         userService.registUserInfo(userDTO, userRegistRequest);
     }
 
-    @PutMapping("/{userCode}")
+    @PutMapping
     @Operation(summary = "사용자 정보 수정 (테스트 완료)", description = "사용자 정보를 수정합니다.")
     public void modifyUserInfo(@LoginUser UserDTO userDTO, @Valid UserModifyRequest userModifyRequest){
         userService.modifyUserInfo(userDTO, userModifyRequest);
