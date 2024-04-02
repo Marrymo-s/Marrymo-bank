@@ -34,7 +34,7 @@ const RegisterEach = ({who}: WhoProps) => {
         </div>
         <Button
           type='button'
-          size='small'
+          size='medium'
           colorStyle='roseGold'
           filled={true}
           disabled={authStatus[role]}
