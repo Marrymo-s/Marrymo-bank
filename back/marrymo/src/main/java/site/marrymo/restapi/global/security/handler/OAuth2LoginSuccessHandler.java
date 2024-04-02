@@ -26,7 +26,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 	private final JWTProvider jwtProvider;
 	private final UserRepository userRepository;
-	private final String HOME_CALLBACK_URL = "https://marrymo.site/home/";
+//	private String HOME_CALLBACK_URL = "https://marrymo.site/home/";
+	private String HOME_CALLBACK_URL = "https://marrymo.site";
 	private final String AGREEMENT_CALLBACK_URL = "https://marrymo.site/agreement";
 
 	@Override
@@ -40,6 +41,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			.orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
 		String userCode = user.getUserCode();
+	//	HOME_CALLBACK_URL += userCode;
 		VerifyToken verifyToken = jwtProvider.generateVerifyToken(userCode);
 
 		Cookie accessTokenCookie = new Cookie("accessToken", verifyToken.getAccessToken());
@@ -63,7 +65,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		response.addHeader("Expires", "0");
 
 		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL).build().toUriString();
-//		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
+		//		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
 		String signupTargetUrl = UriComponentsBuilder.fromUriString(AGREEMENT_CALLBACK_URL).build().toUriString();
 
 		if (user.getCard() != null)
