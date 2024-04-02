@@ -22,8 +22,8 @@ const WishItem = () => {
     setTrigger(!trigger);
   };
   const search = async (query: string) => {
-    const clientId = process.env.NEXT_PUBLIC_NAVERAPI_CLIENT_ID;
-    const clientSecret = process.env.NEXT_PUBLIC_NAVERAPI_CLIENT_SECRET;
+    const clientId = "cdGnnsDtcBloMfx2lmru";
+    const clientSecret = "r3VNttta7L";
     const apiUrl = 'https://openapi.naver.com/v1/search/shop.json?';
 
 
