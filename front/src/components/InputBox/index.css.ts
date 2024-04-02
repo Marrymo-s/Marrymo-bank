@@ -3,12 +3,12 @@ import {style} from '@vanilla-extract/css';
 import {vars} from '@/styles/vars.css';
 
 export const inputBoxContainer = style({
-  margin: `0 ${vars.space['4x']}`,
-  // width: `calc(100% - 2 * ${vars.space['4x']})`,
+  margin: '0 auto',
+  maxWidth: '416px',
+  width: '100%',
   alignItems: 'flex-start',
-  maxWidth: '100%',
   boxSizing: 'border-box',
-  marginBottom: vars.space['2x']
+  marginBottom: vars.space['2x'],
 });
 
 export const inputBoxHeader = style({
@@ -16,14 +16,14 @@ export const inputBoxHeader = style({
   width: '100%',
   alignItems: 'center',
   fontSize: vars.fontSize['2x'],
-  marginBottom: vars.space['0.5x']
+  marginBottom: vars.space['0.5x'],
 });
 
 export const asterisk = style({
   marginLeft: vars.space['0.5x'],
   color: vars.colors.alertRed,
   fontSize: vars.fontSize['2x'],
-  fontWeight: vars.fontWeight.accent
+  fontWeight: vars.fontWeight.accent,
 });
 
 export const errorMessage = style({
@@ -34,7 +34,8 @@ export const errorMessage = style({
 
 export const inputBoxText = style({
   // TODO: width 반응형 적용 및 우측 끝으로 가게 하는 설정 필요
-  flexGrow: 1,
+  // flexGrow: 1,
+  width: '100%',
   borderWidth: '0.5px',
   borderColor: vars.colors.lightGray,
   borderStyle: 'solid',
