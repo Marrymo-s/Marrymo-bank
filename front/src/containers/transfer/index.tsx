@@ -8,6 +8,8 @@ import Button from '@/components/Button';
 import {useRouter} from 'next/navigation';
 import {router} from 'next/client';
 import {fetchInstance} from '@/services';
+import {userInfoStore} from '@/store/useUserInfo';
+import {useWishitemSeqStore} from '@/store/useWishitemSeq';
 
 const Transfer = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
@@ -15,30 +17,29 @@ const Transfer = () => {
   const [amount, setAmount] = useState<number>()
   const [relationship, setRelationship] = useState<string>()
 
+  //zustand
+  const {wishitemSeq} = useWishitemSeqStore()
+  const {userCode} = userInfoStore()
+
   const handleChange = (value: 'GROOM' | 'BRIDE') => {
     setSelected(value)
   }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<string>>) => {
-    setState(e.target.value);
-  };
   
   const postMoneygift = async () =>{
     try{
       const requestBody = {
-        // userSequence: ,
-        // userCode:,
-        // wishItemSequence:,
-        // guestType: selected,
-        // type: ,
-        // amount: amount,
-        // relationship: relationship,
-        // sender: sender,
+        userCode: userCode,
+        wishItemSequence: wishitemSeq,
+        guestType: selected,
+        type: wishitemSeq ? 'ITEM' : 'CASH',
+        amount: amount,
+        relationship: relationship,
+        sender: sender,
       }
 
       const options: RequestInit = {
         method: 'POST',
-        // body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody)
       }
 
       const response = await fetchInstance('/moneygift/send', options)
@@ -62,6 +63,8 @@ const Transfer = () => {
               placeholder='이름을 입력해주세요.'
               asterisk={true}
               value={sender}
+              onValueChange={(val) => setSender(val)}
+
               />
           </div>
           <div>
@@ -69,12 +72,16 @@ const Transfer = () => {
               inputBoxHeader='금액'
               placeholder='보내시는 금액을 입력해주세요'
               asterisk={true}
+              value={amount ? amount.toString() : ''}
+              onValueChange={(val) => setAmount(parseInt(val, 10) || 0)}
               />
           </div>
           <div>
             <InputBox 
               inputBoxHeader='관계(선택)'
               placeholder='보내는 분과 어떤 관계인가요?'
+              value={relationship || ''}
+              onValueChange={(val) => setRelationship(val)}
               />
           </div>
           <div className={styles.checkInputContainer}>
@@ -84,9 +91,7 @@ const Transfer = () => {
               <Checkbox checked={selected === 'BRIDE'} onChange={() => handleChange('BRIDE')}>신부</Checkbox>
               </div>
           </div>
-
         </div>
-        
 
         <Button
           type="button"
