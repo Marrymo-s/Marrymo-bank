@@ -45,9 +45,10 @@ const InvitationCard = () => {
   })
 
   const userCode = userInfoStore((state) => state.userCode);
+  console.log(userCode)
   useEffect(() => {
     getUserInfo()
-  }, [])
+  }, [userCode])
   //
   const getUserInfo = async () => {
     try {
