@@ -17,14 +17,12 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
 	private final RedisTemplate<String, String> redisTemplate;
 
-	//key, value를 redis에 저장
 	public void setValue(String key, String value, Long time) {
 		if (Boolean.TRUE.equals(redisTemplate.hasKey(key)))
 			this.deleteData(key);
 		redisTemplate.opsForValue().set(key, value, time, TimeUnit.MILLISECONDS);
 	}
 
-	//key에 해당하는 값을 redis에서 검색
 	public String getValue(String key) {
 		return redisTemplate.opsForValue().get(key);
 	}
