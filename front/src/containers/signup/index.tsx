@@ -169,7 +169,7 @@ const Signup = () => {
   const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
   const [checkValidation, setCheckValidation] = useState<boolean>(false);
 
-  const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false)
+  const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false);
 
   // 유효성 검사 코드
   const isValidateName = (value: string) => {
@@ -203,45 +203,45 @@ const Signup = () => {
   };
 
   const sendEmail = async () => {
-    try{
+    try {
       const requestBody = {
         email: email,
-      }
+      };
 
       const options: RequestInit = {
         method: 'POST',
-        body: JSON.stringify(requestBody)
-      }
+        body: JSON.stringify(requestBody),
+      };
 
-      const response = await fetchInstance('/smtp/send', options)
+      const response = await fetchInstance('/smtp/send', options);
 
-    }catch(error){
-      console.error('이메일 전송 중 오류 발생', error)
+    } catch (error) {
+      console.error('이메일 전송 중 오류 발생', error);
     }
-  }
+  };
 
   const validEmail = async () => {
-    try{
+    try {
       const requestBody = {
         email: email,
         code: emailVerification,
-      }
+      };
 
       const options: RequestInit = {
         method: 'POST',
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
+      };
+
+      const response = await fetchInstance('/smtp/authcode/verifications', options);
+
+      if (response) {
+        setIsEmailVerify(true);
       }
 
-      const response = await fetchInstance('/smtp/authcode/verifications', options)
-
-      if(response){
-        setIsEmailVerify(true)
-      }
-
-    }catch(error){
-      console.error('이메일 전송 중 오류 발생', error)
+    } catch (error) {
+      console.error('이메일 전송 중 오류 발생', error);
     }
-  }
+  };
 
   useEffect(() => {
     // 유효성 검사 함수 호출
@@ -394,17 +394,17 @@ const Signup = () => {
           />
         </div>
         <div className={styles.weddingDatePickerContainer}>
-          <div>
+          <div className={styles.datePickerHeaderText}>
             결혼식 일자 선택
             <span className={styles.asteriskStyle}>*</span>
           </div>
-          <div>
-            <WeddingDatepicker
-              onDateChange={handleSetWeddingDate}
-              onTimeChange={handleSetWeddingTime}
-              onDayChange={handleSetWeddingDay}
-            />
-          </div>
+        </div>
+        <div>
+          <WeddingDatepicker
+            onDateChange={handleSetWeddingDate}
+            onTimeChange={handleSetWeddingTime}
+            onDayChange={handleSetWeddingDay}
+          />
         </div>
         <div className={styles.inputBoxStyle}>
           <InputBox
@@ -435,7 +435,7 @@ const Signup = () => {
             onClick={handleSubmit}
             type="button"
             size="large"
-            // disabled={!checkValidation}
+            disabled={!checkValidation}
           >회원 가입 완료</Button>
         </div>
         <Modal>
