@@ -50,6 +50,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		accessTokenCookie.setHttpOnly(true);
 		accessTokenCookie.setSecure(true);
 		accessTokenCookie.setDomain("spring.marrymo.site");
+		accessTokenCookie.setDomain("marrymo.site");
 		response.addCookie(accessTokenCookie);
 
 		Cookie refreshTokenCookie = new Cookie("refreshToken", verifyToken.getRefreshToken());
@@ -58,6 +59,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		refreshTokenCookie.setHttpOnly(true);
 		refreshTokenCookie.setSecure(true);
 		refreshTokenCookie.setDomain("spring.marrymo.site");
+		refreshTokenCookie.setDomain("marrymo.site");
 
 		response.addCookie(refreshTokenCookie);
 		response.addHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
@@ -67,7 +69,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
 		String signupTargetUrl = UriComponentsBuilder.fromUriString(AGREEMENT_CALLBACK_URL).build().toUriString();
 
-		log.debug("------------------------");
 		if (user.getCard() != null)
 			getRedirectStrategy().sendRedirect(request, response, homeTargetUrl);
 		else
