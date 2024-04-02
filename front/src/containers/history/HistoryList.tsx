@@ -45,6 +45,13 @@ const HistoryList = ({selected} : SelectedProp) => {
         <>
             <div className={historyListContainer}>
                 <table className={historyTableWrapper}>
+                    <colgroup>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'20%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'25%'}}/>
+                    </colgroup>
                     <thead className={historyHeadWrapper}>
                         <tr>
                             <th className={historyTHStyle}>이름</th>
