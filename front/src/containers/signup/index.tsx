@@ -46,6 +46,7 @@ const Signup = () => {
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
   const {Modal, openModal, closeModal} = useModal();
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   // POST 요청 함수
   const handleSubmit = async () => {
@@ -72,7 +73,10 @@ const Signup = () => {
     });
 
     try {
-      const response = await fetchInstance('/users', {
+      // for (let [key, value] of formData.entries()) {
+      //   console.log(`${key}: ${value}`);
+      // }
+      const response = await fetch(`${baseUrl}/users`, {
         method: 'POST',
         body: formData,
       });
@@ -84,7 +88,8 @@ const Signup = () => {
         console.log('Submission successful', responseData);
         router.push(`/home/${userCode}`);
       } else {
-        throw new Error('Failed to upload data');
+        const errorResponse = await response.text();
+        throw new Error(errorResponse);
       }
     } catch (error) {
       // 에러 처리
@@ -379,7 +384,7 @@ const Signup = () => {
           <Button
             onClick={handleSubmit}
             type="button"
-            disabled={!checkValidation}
+            // disabled={!checkValidation}
           >회원 가입 완료</Button>
         </div>
         <Modal>
