@@ -24,11 +24,16 @@ export const signupWrapper = style([
 ]);
 
 export const textareaContainer = style({
+  maxWidth: '416px',
+  width: '100%',
   position: 'relative',
+  // padding: `0 ${vars.space['2x']}`,
+  boxSizing: 'border-box',
+  marginBottom: vars.space['2x'],
 });
 
 export const textarea = style({
-  width: '100%',
+  width: '92%',
   lineHeight: 1.5,
   height: `calc(${vars.fontSize['2x']} * 1.5 * 10)`,
   padding: vars.space['2x'],
@@ -40,12 +45,15 @@ export const textarea = style({
   fontFamily: 'BMJua',
   resize: 'none',
   cursor: 'pointer',
+  '::placeholder': {
+    color: vars.colors.lightGray,
+  },
 });
 
 export const charCounter = style({
   position: 'absolute',
   bottom: vars.space['1x'],
-  right: vars.space['0.5x'],
+  right: vars.space['1x'],
   fontSize: vars.fontSize['1.5x'],
   color: vars.colors.gray,
 });
@@ -58,13 +66,13 @@ export const alertMessage = style({
 });
 
 export const weddingDatePickerContainer = style([
-  // TODO: '결혼식 일자 선택' 텍스트가 왼쪽에 오도록 정렬하기
   flex({
     align: 'flexStart',
     justify: 'flexStart',
-    direction: 'column',
+    direction: 'row',
   }),
   {
+    marginBottom: vars.space['2x'],
     fontSize: vars.fontSize['2x'],
   },
 ]);
@@ -76,17 +84,9 @@ export const asteriskStyle = style({
   fontWeight: vars.fontWeight.accent,
 });
 
-export const mapContainer = style({
-  height: '300px',
-  width: '300px',
-  maxHeight: 'auto',
-  maxWidth: '100%',
-});
-
 export const selectedDate = style({
   fontSize: vars.fontSize['2x'],
   textAlign: 'center',
-  // Add other styles such as margins, padding, etc.
 });
 
 export const datePicker = style({
@@ -136,7 +136,6 @@ export const dropdown = style({
       outline: 'none',
     },
   },
-  // 추후 CSS 작업 시 여기에 추가
 });
 
 export const galleryContainer = style({
@@ -153,35 +152,8 @@ export const galleryHeader = style({
   alignItems: 'center',
   width: '100%',
   padding: vars.space['2x'],
-  // 추가적인 스타일 ...
 });
 
-export const uploadButton = style({
-  padding: vars.space['1x'],
-  backgroundColor: vars.colors.lightGray, // 버튼 배경색
-  border: 'none',
-  borderRadius: vars.borderRadius['1x'],
-  cursor: 'pointer',
-  // 추가적인 스타일 ...
-});
-
-export const imagesContainer = style({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: vars.space['2x'],
-  // 컨테이너 크기가 이미지에 따라 조절되도록 설정
-});
-
-export const imageWrapper = style({
-  width: '100%',
-  // 이미지 래퍼 스타일 ...
-});
-
-export const image = style({
-  width: '100%',
-  height: 'auto',
-  // 이미지 스타일 ...
-});
 
 export const inputBoxContainer = style([
   // TODO: '결혼식 장소 선택' 텍스트가 왼쪽에 오도록 정렬하기
@@ -195,17 +167,8 @@ export const inputBoxContainer = style([
   },
 ]);
 
-export const imagePreviewContainer = style({
-  display: 'flex',
-  overflowX: 'auto', // 가로 스크롤 설정
-  gap: vars.space['2x'], // 이미지 간 간격
-  padding: vars.space['2x'], // 컨테이너 내부 여백
-  // 추가 스타일링이 필요하면 여기에 작성
-});
-
 export const imageBox = style({
   position: 'relative',
-  // 이미지 래퍼 스타일...
 });
 
 export const imagePreview = style({
@@ -213,7 +176,6 @@ export const imagePreview = style({
   height: '100px', // 미리보기 이미지 높이 설정
   objectFit: 'cover', // 이미지 비율 유지
   borderRadius: vars.borderRadius['1x'], // 이미지 둥근 모서리
-  // 추가 스타일링이 필요하면 여기에 작성
 });
 
 export const deleteButton = style({
@@ -247,7 +209,6 @@ export const addButton = style({
   borderRadius: vars.borderRadius['1x'],
   cursor: 'pointer',
   fontSize: vars.fontSize['2x'],
-  // 추가 스타일링이 필요하면 여기에 작성
 });
 
 export const addFileButton = style({
@@ -259,7 +220,6 @@ export const addFileButton = style({
   ':hover': {
     backgroundColor: vars.colors.lightGray,
   },
-  // 이 외에도 필요한 스타일 속성들을 추가할 수 있습니다.
 });
 
 export const dropArea = style({
@@ -274,13 +234,13 @@ export const dropArea = style({
   // 드래그 앤 드롭 영역의 스타일을 더 추가할 수 있습니다.
 });
 
-export const imageContainer = style({
-  position: 'relative',
-  width: '80px',
-  height: '80px',
-});
-
 export const inputBoxStyle = style({
   width: '100%', // 부모 컨테이너의 너비에 맞게 설정
   marginBottom: vars.space['2x'], // InputBox 간의 간격 조정
+});
+
+export const datePickerHeaderText = style({
+  display: 'flex',
+  alignItems: 'center',
+  marginBottom: vars.space['1x'], // or whatever space you want between the header and the picker
 });
