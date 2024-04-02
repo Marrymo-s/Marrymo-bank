@@ -35,11 +35,9 @@ public class WishItemService {
     private final MoneygiftRepository moneygiftRepository;
 
     //아직 accessToken 없어서 userSequence 파라미터로 넣는 걸로
-    public void registWishItem(String userCode, WishItemRegistRequest wishItemRegistRequest) {
+    public void registWishItem(UserDTO userDTO, WishItemRegistRequest wishItemRegistRequest) {
         //사용자 조회
-//        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
-//                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
-        User user = userRepository.findByUserCode(userCode)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         //WishItem 생성 및 저장
@@ -109,12 +107,9 @@ public class WishItemService {
                 .build();
     }
 
-    public void deleteWishItem(String userCode, WishItemDeleteRequest wishItemDeleteRequest) {
+    public void deleteWishItem(UserDTO userDTO, WishItemDeleteRequest wishItemDeleteRequest) {
         //사용자 조회
-//        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
-//                .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
-
-        User user = userRepository.findByUserCode(userCode)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         //wishItemSequence로 wishItem 조회
