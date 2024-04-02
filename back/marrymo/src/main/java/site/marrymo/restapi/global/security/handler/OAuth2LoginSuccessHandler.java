@@ -67,6 +67,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
 		String signupTargetUrl = UriComponentsBuilder.fromUriString(AGREEMENT_CALLBACK_URL).build().toUriString();
 
+		log.debug("------------------------");
 		if (user.getCard() != null)
 			getRedirectStrategy().sendRedirect(request, response, homeTargetUrl);
 		else
