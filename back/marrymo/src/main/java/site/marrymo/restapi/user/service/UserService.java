@@ -349,7 +349,9 @@ public class UserService {
                 "안녕하세요, Marrymo 입니다. <br>"
                         + "<strong>" + toEmail + "</strong>님께 이메일 인증번호를 발송해드립니다.<br/><br/>"
                         + "<h3>" + authCode + "</h3>";
+        log.debug("send mail start...");
         smtpService.sendEmail(toEmail, title, content);
+        log.debug("send mail end...");
 
         //이메일 요청 시 인증 번호를 Redis에 저장
         //(key = Email / value = AuthCode)
