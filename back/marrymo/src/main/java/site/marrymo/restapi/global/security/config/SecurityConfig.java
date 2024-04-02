@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import site.marrymo.restapi.global.redis.service.RedisService;
-import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
+//import site.marrymo.restapi.global.security.handler.OAuth2LoginSuccessHandler;
 import site.marrymo.restapi.global.security.service.CustomOAuth2UserService;
 import site.marrymo.restapi.global.jwt.JWTProvider;
 //import site.marrymo.restapi.global.security.filter.JwtAuthenticationFilter;
@@ -28,7 +28,7 @@ import site.marrymo.restapi.global.jwt.JWTProvider;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+//    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final JWTProvider jwtProvider;
     private final RedisService redisService;
     private final CorsConfigurationSource corsConfigurationSource;
@@ -68,11 +68,11 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**", "/favicon.ico", "/error").permitAll()
                 .requestMatchers(swaggerURL).permitAll()
                 .anyRequest().authenticated());
-        http
-            .oauth2Login((oauth2) -> oauth2
-                .successHandler(oAuth2LoginSuccessHandler)
-                .userInfoEndpoint(userInfoEndpoint ->
-                    userInfoEndpoint.userService(customOAuth2UserService)));
+//        http
+//            .oauth2Login((oauth2) -> oauth2
+//                .successHandler(oAuth2LoginSuccessHandler)
+//                .userInfoEndpoint(userInfoEndpoint ->
+//                    userInfoEndpoint.userService(customOAuth2UserService)));
         return http.build();
     }
 }
