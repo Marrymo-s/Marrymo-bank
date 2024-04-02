@@ -228,7 +228,7 @@ const Signup = () => {
     <>
       <Header title={'개인 정보 입력'} hasPrevious />
       <main className={styles.signupWrapper}>
-        <div>
+        <div className={styles.inputBoxStyle}>
           {/*TODO: 이름, 연락처 받는 건 별도의 tsx 파일에서 관리 - 리팩토링 시*/}
           <InputBox
             inputBoxHeader="신랑 이름"
@@ -240,7 +240,7 @@ const Signup = () => {
             onValidationPassed={() => setIsGroomNameValid(true)}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="신랑 아버지 이름"
             value={groomFather}
@@ -249,7 +249,7 @@ const Signup = () => {
             validate={isValidateName}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="신랑 어머니 이름"
             value={groomMother}
@@ -258,7 +258,7 @@ const Signup = () => {
             validate={isValidateName}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="신부 이름"
             value={brideName}
@@ -269,7 +269,7 @@ const Signup = () => {
             onValidationPassed={() => setIsBrideNameValid(true)}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="신부 아버지 이름"
             value={brideFather}
@@ -278,7 +278,7 @@ const Signup = () => {
             validate={isValidateName}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="신부 어머니 이름"
             value={brideMother}
@@ -287,7 +287,7 @@ const Signup = () => {
             validate={isValidateName}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="신랑 연락처"
             value={groomContact}
@@ -298,7 +298,7 @@ const Signup = () => {
             onValidationPassed={() => setIsGroomContactValid(true)}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="신부 연락처"
             value={brideContact}
@@ -309,13 +309,13 @@ const Signup = () => {
             onValidationPassed={() => setIsBrideContactValid(true)}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InvitationMessage
             onGreetingChange={handleSetGreeting}
             onValidationPassed={setIsGreetingValid}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="이메일 주소"
             value={email}
@@ -334,7 +334,7 @@ const Signup = () => {
             }}
           />
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           {/*TODO: 인증번호가 일치하면 safeGreen 색깔로 안내 문구 뜨게 만들기*/}
           <InputBox
             inputBoxHeader="인증 번호 입력"
@@ -359,7 +359,7 @@ const Signup = () => {
             />
           </div>
         </div>
-        <div>
+        <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="결혼식 장소 선택"
             value={weddingLocation}
