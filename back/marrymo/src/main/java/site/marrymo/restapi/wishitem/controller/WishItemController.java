@@ -22,7 +22,6 @@ import site.marrymo.restapi.wishitem.service.WishItemService;
 @RequiredArgsConstructor
 public class WishItemController {
     private final WishItemService wishItemService;
-
     @PostMapping
     @Operation(summary = "위시 아이템 등록 (테스트 완료)", description = "위시 아이템 하나를 등록합니다.")
     public void registWishItem(@LoginUser UserDTO userDTO, @Valid @RequestBody WishItemRegistRequest wishItemRegistRequest) {
