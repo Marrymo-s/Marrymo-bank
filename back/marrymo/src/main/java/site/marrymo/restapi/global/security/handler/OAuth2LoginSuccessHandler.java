@@ -49,7 +49,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		accessTokenCookie.setPath("/");
 		accessTokenCookie.setHttpOnly(true);
 		accessTokenCookie.setSecure(true);
-		accessTokenCookie.setDomain("spring.marrymo.site");
 		accessTokenCookie.setDomain("marrymo.site");
 		response.addCookie(accessTokenCookie);
 
@@ -58,7 +57,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		refreshTokenCookie.setPath("/");
 		refreshTokenCookie.setHttpOnly(true);
 		refreshTokenCookie.setSecure(true);
-		refreshTokenCookie.setDomain("spring.marrymo.site");
 		refreshTokenCookie.setDomain("marrymo.site");
 
 		response.addCookie(refreshTokenCookie);
