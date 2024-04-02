@@ -24,21 +24,6 @@ public class WebConfig implements WebMvcConfigurer {
 
 	private final LoginUserArgumentResolver loginUserArgumentResolver;
 
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.setAllowedOrigins(
-			Arrays.asList("https://www.marrymo.site", "http://localhost:3000", "https://marrymo.site"));
-		corsConfiguration.setAllowedMethods(
-			Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-		corsConfiguration.setAllowedHeaders(
-			Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", corsConfiguration);
-		return source;
-	}
-
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(loginUserArgumentResolver);

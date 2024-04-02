@@ -19,8 +19,6 @@ import site.marrymo.restapi.user.repository.UserRepository;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
@@ -28,15 +26,13 @@ import javax.swing.text.html.Option;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	private final UserRepository userRepository;
 	private final UserCodeGenerator userCodeGenerator;
-	private final JWTProvider jwtProvider;
 	private User user;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User = super.loadUser(userRequest);
-		log.debug("loadUser 함수 시작...");
-		Map<String, Object> attributes = oAuth2User.getAttributes();
-		Map<String, Object> kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
+		log.debug("CustomOAuth2UserService...");
+		Map<String, Object> kakaoAccount = (Map<String, Object>)oAuth2User.getAttributes().get("kakao_account");
 
 		String kakaoId = (String)kakaoAccount.get("email");
 
@@ -44,12 +40,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 		Optional<User> auth = userRepository.findByKakaoId(kakaoId);
 
-		if (auth.isEmpty()) {
+		if (auth.isPresent()) {
+			user = auth.get();
+		} else {
 			String userCode = userCodeGenerator.makeUserCode();
 			user = User.builder().userCode(userCode).kakaoId(kakaoId).build();
 			userRepository.save(user);
-		} else
-			user = auth.get();
+		}
 
 		return new MarrymoUserDetails(user, oAuth2User.getAttributes());
 	}
