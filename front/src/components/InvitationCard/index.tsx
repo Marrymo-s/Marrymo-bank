@@ -43,27 +43,28 @@ const InvitationCard = () => {
     brideMother: '',
     imgUrl: [],
   })
-  const userCode = userInfoStore((state) => state.userCode);
-  // useEffect(() => {
-  //   getUserInfo()
-  // }, [])
 
-  // const getUserInfo = async () => {
-  //   try {
-  //     const response = await fetch(`/users/${userCode}`);
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     const data = await response.json();
-  //     setInvitationData(data);
-  //   } catch (error) {
-  //     console.error('유저 정보 조회 실패', error);
-  //   }
-  // };
-  // console.log(invitationData)
-  // if (!invitationData) {
-  //   return <div>Loading...</div>
-  // }
+  const userCode = userInfoStore((state) => state.userCode);
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+  //
+  const getUserInfo = async () => {
+    try {
+      const response = await fetchInstance(`/users/${userCode}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      setInvitationData(response);
+    } catch (error) {
+      console.error('유저 정보 조회 실패', error);
+    }
+  };
+  console.log(invitationData)
+  if (!invitationData) {
+    return <div>Loading...</div>
+  }
 
   return (
     <main className={CardGap}>
