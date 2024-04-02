@@ -29,8 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
 		corsConfiguration.setAllowedOrigins(
-			Arrays.asList("https://www.marrymo.site", "http://localhost:3000", "https://marrymo.site",
-				"https://spring.marrymo.site"));
+			Arrays.asList("https://www.marrymo.site", "http://localhost:3000", "https://marrymo.site"));
 		corsConfiguration.setAllowedMethods(
 			Arrays.asList("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 		corsConfiguration.setAllowedHeaders(
@@ -40,16 +39,6 @@ public class WebConfig implements WebMvcConfigurer {
 		return source;
 	}
 
-	//    @Override
-	//    public void addCorsMappings(CorsRegistry registry) {
-	//        registry.addMapping("/**")
-	//            .allowedOriginPatterns("https://marrymo.site", "http://localhost:3000")
-	//            .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS")
-	//            .allowedHeaders("Authorization", "Content-Type")
-	//            .exposedHeaders("*")
-	//            .allowCredentials(true)
-	//            .maxAge(3600);
-	//    }
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(loginUserArgumentResolver);

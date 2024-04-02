@@ -27,7 +27,6 @@ import javax.swing.text.html.Option;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	private final UserRepository userRepository;
-	//   private final RefreshTokenRepository refreshTokenRepository;
 	private final UserCodeGenerator userCodeGenerator;
 	private final JWTProvider jwtProvider;
 	private User user;
@@ -35,7 +34,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User = super.loadUser(userRequest);
-
+		log.debug("loadUser 함수 시작...");
 		Map<String, Object> attributes = oAuth2User.getAttributes();
 		Map<String, Object> kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
 

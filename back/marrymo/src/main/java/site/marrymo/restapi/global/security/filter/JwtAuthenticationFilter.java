@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		String requestURI = httpServletRequest.getRequestURI();
 
-		log.debug("requestURI={}", requestURI);
+		log.debug("requestURI = {}", requestURI);
 		if (requestURI.startsWith("/login") ||
 			requestURI.equals("/moneygift/send") ||
 			containsWishItemRequestURI(requestURI)
