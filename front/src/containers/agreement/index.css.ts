@@ -28,11 +28,11 @@ export const termsOfUseContainer = style([
   flex({justify: 'center', align: 'flexStart'}),  // center 정렬 적용이 안 됨(원인은 5주차에 잡을 예정)
   {
     width: 'auto',
-    maxWidth: '83%',
+    maxWidth: '416px',
     padding: vars.space['2x'],
     background: vars.colors.whitesmoke,
     height: 'calc(80dvh - 80px - 120px)',
-    margin: '32px 0px',
+    margin: `80px ${vars.space['2x']} 0`,
     position: 'relative',
     boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
     overflow: 'auto',
@@ -42,4 +42,6 @@ export const checkboxWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start', // 왼쪽 정렬
+  margin: `${vars.space['3x']} 0`,
+  gap: vars.space['1x'],
 });

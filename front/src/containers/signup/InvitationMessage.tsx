@@ -43,7 +43,8 @@ const InvitationMessage: React.FC<InviationMessageProps> = ({onGreetingChange, o
   };
 
   return (
-    <div className={styles.textareaContainer}>초대 문구 작성하기
+    <div className={styles.textareaContainer}>
+      초대 문구 작성하기
       <span className={styles.asteriskStyle}>*</span>
       <textarea
         ref={textAreaRef}
