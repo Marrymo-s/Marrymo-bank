@@ -198,6 +198,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 
+		log.debug("jwtFilter 통과!!!");
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
 
 	}
