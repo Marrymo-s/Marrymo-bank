@@ -13,7 +13,7 @@ import {signupRequest} from '@/types/auth';
 // 근데 생각해보니까 홈은 뒤에 userCode 붙을 필요 없을 듯
 
 export const generateStaticParams = async () => {
-  const userCodes = await fetch('https://spring.marrymo.site/home').then((res) => res.json())
+  const userCodes = await fetchInstance('https://spring.marrymo.site/home').then((res) => res.json())
   return userCodes.map((uc: { userCode: { slug: string } }) => ({
     userCode: uc.userCode
   }))
