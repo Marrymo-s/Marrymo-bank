@@ -29,6 +29,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	private final JWTProvider jwtProvider;
 	private final UserRepository userRepository;
 	private final String HOME_CALLBACK_URL = "https://marrymo.site/home/";
+	private final String HOME_CALLBACK_URL2 = "https://marrymo.site";
 	private final String AGREEMENT_CALLBACK_URL = "https://marrymo.site/agreement";
 
 	@Override
@@ -64,7 +65,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 		response.addHeader("Pragma", "no-cache");
 		response.addHeader("Expires", "0");
 
-		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL + userCode).build().toUriString();
+		String homeTargetUrl = UriComponentsBuilder.fromUriString(HOME_CALLBACK_URL2).build().toUriString();
 		String signupTargetUrl = UriComponentsBuilder.fromUriString(AGREEMENT_CALLBACK_URL).build().toUriString();
 
 		if (user.getCard() != null)
