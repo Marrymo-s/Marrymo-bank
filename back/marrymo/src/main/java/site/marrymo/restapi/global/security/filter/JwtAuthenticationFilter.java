@@ -71,17 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
 		Cookie[] cookies = httpServletRequest.getCookies();
-		int tokenLength = 0;
-		int cookieLength = cookies.length;
-		for(Cookie cookie : cookies){
-			if(cookie.getName().equals("accessToken"))
-				tokenLength++;
-			else if(cookie.getName().equals("refreshToken"))
-				tokenLength++;
-		}
 
-		log.debug("tokenLength="+tokenLength);
-		log.debug("cookieLength="+cookieLength);
 
 		// "/users/{userCode}"를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
@@ -111,7 +101,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		//쿠키가 모두 만료되어 없거나
 		//하나의 토큰만 하나의 쿠키에 담겨오는 경우
 		//exception을 터뜨려 재로그인 하도록 해준다.
-		if (cookies == null || cookies.length == 1) {
+		if (!isExistAccessAndRefresh(cookies)) {
 			removeAllCookies(httpServletResponse, cookies);
 			log.debug("first exception");
 			// 인증되지 않은 사용자들에게 401 에러를 던진다
@@ -226,16 +216,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 	}
 
-	//모든 쿠키를 제거하는 로직
+	// accessToken, refreshToken을 담은 모든 쿠키를 제거
 	public void removeAllCookies(HttpServletResponse httpServletResponse, Cookie[] cookies) {
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				cookie.setMaxAge(0);
-				cookie.setPath("/");
-				cookie.setHttpOnly(true);
-				cookie.setSecure(true);
-				cookie.setDomain("marrymo.site");
-				httpServletResponse.addCookie(cookie);
+				if(cookie.getName().equals("accessToken") || cookie.getName().equals("refreshToken")) {
+					cookie.setMaxAge(0);
+					cookie.setPath("/");
+					cookie.setHttpOnly(true);
+					cookie.setSecure(true);
+					cookie.setDomain("marrymo.site");
+					httpServletResponse.addCookie(cookie);
+				}
 			}
 		}
 	}
@@ -266,5 +258,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		return true;
+	}
+
+	public boolean isExistAccessAndRefresh(Cookie[] cookies){
+		int accessTokenCnt = 0;
+		int refreshTokenCnt = 0;
+
+		if(cookies != null){
+			for(Cookie cookie : cookies){
+				if(cookie.getName().equals("accessToken"))
+					accessTokenCnt++;
+				else if(cookie.getName().equals("refreshToken"))
+					refreshTokenCnt++;
+			}
+		}
+
+		if(accessTokenCnt==1 && refreshTokenCnt==1)
+			return true;
+		else
+			return false;
 	}
 }
