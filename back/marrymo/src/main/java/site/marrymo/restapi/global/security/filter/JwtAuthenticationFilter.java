@@ -157,7 +157,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				accessTokenCookie.setPath("/");
 				accessTokenCookie.setHttpOnly(true);
 				accessTokenCookie.setSecure(true);
-				accessTokenCookie.setDomain("spring.marrymo.site");
+				accessTokenCookie.setDomain("marrymo.site");
 			}
 			//refresh token을 보내줬다면
 			//refresh token이 만료 되었다는 의미
@@ -173,7 +173,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				refreshTokenCookie.setPath("/");
 				refreshTokenCookie.setHttpOnly(true);
 				refreshTokenCookie.setSecure(true);
-				refreshTokenCookie.setDomain("spring.marrymo.site");
+				refreshTokenCookie.setDomain("marrymo.site");
 			}
 
 			// accessToken만 만료 되어서
@@ -209,7 +209,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 					cookie.setPath("/");
 					cookie.setHttpOnly(true);
 					cookie.setSecure(true);
-					cookie.setDomain("spring.marrymo.site");
+					cookie.setDomain("marrymo.site");
 					httpServletResponse.addCookie(cookie);
 				}
 			}
@@ -224,7 +224,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				cookie.setPath("/");
 				cookie.setHttpOnly(true);
 				cookie.setSecure(true);
-				cookie.setDomain("spring.marrymo.site");
+				cookie.setDomain("marrymo.site");
 				httpServletResponse.addCookie(cookie);
 			}
 		}
