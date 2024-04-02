@@ -104,7 +104,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (cookies == null || cookies.length == 1) {
 			removeAllCookies(httpServletResponse, cookies);
 
-			// 에러페이지 만들기
+			// 인증되지 않은 사용자들에게 401 에러를 던진다
 			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
@@ -130,6 +130,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (!refreshToken.equals("") && jwtProvider.validateLogoutToken(refreshToken)) {
 			removeAllCookies(httpServletResponse, cookies);
 
+			// 인증되지 않은 사용자들에게 401 에러를 던진다
 			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
@@ -189,6 +190,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			//accessToken, refreshToken 모두 만료 되었을 시에
 			//재로그인 하라는 에러메시지를 보낸다
 			else if (accessTokenCookie != null && refreshTokenCookie != null) {
+				// 인증되지 않은 사용자들에게 401 에러를 던진다
 				httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 				return;
 			}
