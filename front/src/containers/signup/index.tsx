@@ -204,8 +204,6 @@ const Signup = () => {
 
   const sendEmail = async () => {
     try{
-
-      console.log("작동")
       const requestBody = {
         email: email,
       }
@@ -216,8 +214,6 @@ const Signup = () => {
       }
 
       const response = await fetchInstance('/smtp/send', options)
-
-      if(response.ok){console.log("fetch 원활히 작동중")}
 
     }catch(error){
       console.error('이메일 전송 중 오류 발생', error)
