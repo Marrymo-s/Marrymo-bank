@@ -42,7 +42,7 @@ const commonButtonBase = style({
   fontFamily: 'BMJua',
   fontWeight: vars.fontWeight.accent,
   height: 48,
-  margin: 'auto',
+  // margin: 'auto',
   paddingTop: vars.space['0.5x'],
   paddingBottom: vars.space['0.5x'],
   textDecorationLine: 'none',
@@ -133,9 +133,10 @@ export const ButtonWrapper = {
   small: style([
     {
       boxSizing: 'border-box',
-      width: '64px',
-      marginLeft: vars.space['2x'],
-      marginRight: vars.space['2x'],
+      width: '100%',
+      maxWidth: '64px',
+      // marginLeft: vars.space['2x'],
+      // marginRight: vars.space['2x'],
     },
   ]),
   medium: style([

@@ -22,7 +22,7 @@ const Agreement = () => {
   useEffect(() => {
     const fetchUserCode = async () => {
       // fetchInstance 함수를 사용하여 userCode를 가져옴
-      const response = await fetch('https://spring.marrymo.site/users/usercode');
+      const response = await fetch('/users/usercode');
       if (!response.ok) {
         throw new Error('떼잉 ');
       }

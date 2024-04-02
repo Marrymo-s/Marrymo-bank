@@ -62,4 +62,5 @@ export const inputBoxTextButtonGroup = style({
 export const inputBoxButtonStyle = style({
   width: '64px',
   flexShrink: 0,
+  alignItems: 'center',
 });
