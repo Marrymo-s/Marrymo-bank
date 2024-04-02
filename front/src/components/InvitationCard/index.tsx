@@ -25,7 +25,7 @@ import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 
 
-const InvitationCard = () => {
+const InvitationCard = ({userCode} : {userCode: string}) => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -43,7 +43,7 @@ const InvitationCard = () => {
     brideMother: '',
     imgUrl: [],
   })
-  const userCode = userInfoStore((state) => state.userCode);
+  // const userCode = userInfoStore((state) => state.userCode);
   useEffect(() => {
     getUserInfo()
   }, [])
