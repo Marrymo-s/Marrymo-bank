@@ -9,12 +9,17 @@ import {useRouter} from 'next/navigation';
 import {router} from 'next/client';
 import {fetchInstance} from '@/services';
 import {userInfoStore} from '@/store/useUserInfo';
+import {useWishitemSeqStore} from '@/store/useWishitemSeq';
 
 const Transfer = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
   const [sender, setSender] = useState<string>()
   const [amount, setAmount] = useState<number>()
   const [relationship, setRelationship] = useState<string>()
+
+  //zustand
+  const {wishitemSeq} = useWishitemSeqStore()
+  const {userCode} = userInfoStore()
 
   const handleChange = (value: 'GROOM' | 'BRIDE') => {
     setSelected(value)
@@ -27,10 +32,10 @@ const Transfer = () => {
   const postMoneygift = async () =>{
     try{
       const requestBody = {
-        userCode: ,
-        wishItemSequence: ,
+        userCode: userCode,
+        wishItemSequence: (wishitemSeq !== null) ? wishitemSeq : null,
         guestType: selected,
-        type: ,
+        type: (wishitemSeq !== null) ? 'ITEM' : 'CASH',
         amount: amount,
         relationship: relationship,
         sender: sender,

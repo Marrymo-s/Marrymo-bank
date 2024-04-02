@@ -3,7 +3,7 @@ import { devtools, persist, createJSONStorage } from 'zustand/middleware'
 
 interface WishitemSeqState {
   wishitemSeq: number | null
-  setWishitemSeq: (seq: number) => void
+  setWishitemSeq: (wishitemSeq: number | null) => void
 }
 
 export const useWishitemSeqStore = create<WishitemSeqState>()(
