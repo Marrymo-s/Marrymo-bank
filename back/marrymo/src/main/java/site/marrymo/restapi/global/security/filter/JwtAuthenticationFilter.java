@@ -71,6 +71,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
 		Cookie[] cookies = httpServletRequest.getCookies();
+		for(Cookie cookie : cookies){
+			log.debug("cookieName="+cookie.getName());
+			log.debug("cookieValue="+cookie.getValue());
+		}
 
 		// "/users/{userCode}"를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
