@@ -42,9 +42,10 @@ const AccountRegister = () => {
   return (
     <>
       <Header title='계좌 등록하기' hasPrevious/>
-      <main className={styles.accountWrapper}>
-        <div><h2>계좌 등록하기</h2></div>
-        <RegisterEach who={validatedSearch} />
+      <div className={styles.accountWrapper}>
+          <div className={styles.accountRegisterWrapper}>
+            <RegisterEach who={validatedSearch} />
+          </div>
         <Button
           type='button'
           size='large'
@@ -55,7 +56,7 @@ const AccountRegister = () => {
         >
           계좌번호 등록하기
         </Button>
-      </main>
+      </div>
     </>
   )
 }
