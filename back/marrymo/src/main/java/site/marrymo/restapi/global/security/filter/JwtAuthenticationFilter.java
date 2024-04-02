@@ -104,6 +104,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (cookies == null || cookies.length == 1) {
 			removeAllCookies(httpServletResponse, cookies);
 
+			Cookie[] cookies1 = httpServletRequest.getCookies();
+			if(cookies1 != null){
+				for(Cookie cookie : cookies1){
+					log.debug("cookieName="+cookie.getName());
+				}
+			}
+
 			// 에러페이지 만들기
 			httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
