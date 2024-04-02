@@ -65,6 +65,7 @@ public class UserController {
 
     @PatchMapping("/account/{userCode}")
     @Operation(summary = "계좌 등록 대상 정보 등록 (테스트 완료)", description = "계좌 등록 대상 정보를 등록합니다.")
+//    public void registWho(@LoginUser UserDTO userDTO, @Valid @RequestBody WhoRegistRequest whoRegistRequest){
     public void registWho(@PathVariable String userCode, @Valid @RequestBody WhoRegistRequest whoRegistRequest){
         userService.registWho(userCode, whoRegistRequest);
     }
