@@ -1,98 +1,92 @@
 'use client';
 
-import React, {useState} from 'react';
-import Link from 'next/link';
-import {useRouter} from 'next/navigation';
-import {logout} from '@/services/home';
+import React, { use, useState, useEffect } from 'react';
+import {fetchInstance} from "@/services";
 
+import Header from "@/components/Header";
+import Button from '@/components/Button'
 import * as styles from './index.css';
-import {HamburgerBar, IconRightBracket} from '#/svgs';
-import Button from '@/components/Button';
-import useModal from '@/hooks/useModal';
+import Image from 'next/image';
 
-interface Props {
+import { useParams } from 'next/navigation';
 
-}
+import ProgressBar from '@/containers/pangpang/ProgressBar';
+import {detailColorText, detailImageWrapper, detailTotalPriceText} from "./index.css";
 
-const Pangpang = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-  const {openModal, Modal} = useModal();
+import {formatPrice} from '@/utils/format';
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
-  const handleLogout = async () => {
-    await logout();
-    router.replace('/');
-  };
+// interface wishItemDetailProps {
+//   wishItemSequence: number;
+//   name: string;
+//   fund: number;
+//   person: number;
+//   price: number;
+//   img: string
+// }
+
+
+const Test = async () => {
+  // const { userCode, wishItemSequence } = useParams()
+
+  // const wishItemDetailData = await fetchInstance(`/wish-item/${userCode}/${wishItemSequence}`) as wishItemDetailProps
+  // console.log(wishItemDetailData)
+
+  const formattedPrice = formatPrice(String(1000000));
+  const formattedFund = formatPrice(String(10000));
+  const testImage = '/images/landing/example1.png';
 
   return (
-    <div>
-      <button className={styles.hamburgerButton} onClick={toggleMenu}>
-        <HamburgerBar />
-      </button>
-      <div className={`${styles.hamburgerMenuTab} ${isOpen ? styles.hamburgerMenuTabActive : ''}`}>
-        <hr className={styles.hamburgerBarSeperateLine} />
-        <Link
-          href="/wishitem"
-          className={styles.hamburgerListContent}>
-          <div>위시리스트 등록</div>
-          <IconRightBracket />
-        </Link>
-        <hr className={styles.hamburgerBarSeperateLine} />
-        <Link
-          href="/account"
-          className={styles.hamburgerListContent}>
-          <div>계좌 등록</div>
-          <IconRightBracket />
-        </Link>
-        <hr className={styles.hamburgerBarSeperateLine} />
-        <Link
-          href="/edit"
-          className={styles.hamburgerListContent}>
-          <div>정보 수정</div>
-          <IconRightBracket />
-        </Link>
-        <hr className={styles.hamburgerBarSeperateLine} />
-        <Link
-          href="/history"
-          className={styles.hamburgerListContent}>
-          <div>축의금 내역</div>
-          <IconRightBracket />
-        </Link>
-        <hr className={styles.hamburgerBarSeperateLine} />
-        <div
-          role="presentation"
-          className={styles.hamburgerListContent}
-          onClick={openModal}
-        >
-          <div>로그아웃</div>
-          <IconRightBracket />
+    <>
+      <Header title="위시리스트 상세" hasPrevious/>
+      <main className={styles.detailWrapper}>
+        <div className={styles.detailImageWrapper}>
+          <Image
+            src={testImage}
+            alt="cardTopImage"
+            width={480}
+            height={480}
+            sizes='100vw'
+            className={styles.detailImageContainer}
+          />
         </div>
-        <Modal title="로그아웃 하시겠어요?">
-          <div className={styles.logoutModalWrapper}>
-            <Button
-              type="button"
-              colorStyle="alertRed"
-              filled
-              onClick={handleLogout}
-            >
-              로그아웃
-            </Button>
+        <hr />
+        <div className={styles.detailNameText}>
+          삼성전자삼성전자삼
+        </div>
+        <div>
+          <ProgressBar fund={10} price={100}/>
+        </div>
+        <hr/>
+        <div>
+          <div>
+            현재 &nbsp;<span className={styles.detailTotalPriceText}>
+                  {formattedPrice}
+                </span> 중 <br />
+            <span className={styles.detailPartialPriceText}>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formattedFund}
+            </span> 원이  모였어요 <br />
+            모금 마감까지&nbsp;
+            <span className={styles.detailColorText}>
+               n
+            </span> 일이 남았어요! <br />
+            지금까지&nbsp;
+            <span className={styles.detailColorText}>
+              2
+            </span> 명이 모금에 참여했어요
           </div>
-        </Modal>
-        <hr className={styles.hamburgerBarSeperateLine} />
-        <Link
-          href="/wishitem"
-          className={styles.hamburgerListContent}>
-          <div>회원 탈퇴</div>
-          <IconRightBracket />
-        </Link>
-        <hr className={styles.hamburgerBarSeperateLine} />
-      </div>
-    </div>
-  );
-};
-export default Pangpang;
+        </div>
+        <Button
+          type='button'
+          size='large'
+          colorStyle='roseGold'
+          filled={true}
+        >
+          펀딩하기
+        </Button>
+      </main>
+    </>
+  )
+}
+
+export default Test;

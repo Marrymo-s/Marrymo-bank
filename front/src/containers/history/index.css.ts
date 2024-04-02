@@ -11,18 +11,19 @@ export const checkboxesContainer = style([
 ])
 
 export const historyListContainer = style([
-  flex({justify: 'center', align: 'center'}),  // center 정렬 적용이 안 됨(원인은 5주차에 잡을 예정)
+  // flex({justify: 'center'}),  // center 정렬 적용이 안 됨(원인은 5주차에 잡을 예정)
   {
     width: 'auto',
-    maxWidth: '83%',
-    padding: vars.space["2x"],
-    background: vars.colors.whitesmoke,
-    minHeight: '56dvh',   // height의 비율 조정하기
-    maxHeight: '56dvh',
-    margin: '32px 0px',
+    // maxWidth: '83%',
+    padding: vars.space["0.5x"],
+    background: vars.colors.lightBeige,
+    minHeight: '60dvh',   // height의 비율 조정하기
+    maxHeight: '60dvh',
+    margin: '32px',
     position: 'relative',
     boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
-    overflow: 'auto'
+    overflow: 'auto',
+    borderRadius: '10px',
   }
   ]);
 
@@ -41,3 +42,36 @@ export const historyWrapper = style([
     },
   },
 ]);
+
+export const historyTableWrapper = style({
+  width:'100%',
+  tableLayout: 'fixed',
+  borderSpacing: '5px',
+  
+})
+
+export const historyHeadWrapper = style({
+  position:'sticky',
+  top:0,
+  fontSize: '20px',
+  backgroundColor:vars.colors.roseGold,
+  padding: '10px',
+})
+
+export const historyBodyWrapper = style([
+  {
+    textAlign:'center',
+    width: '100%',
+  }
+])
+
+export const historyTHStyle = style([
+  {
+    borderRadius: '5px',
+  }
+])
+
+// 셀 범위를 넘어간 경우 줄바꿈 처리
+export const cellStyle = style({
+  wordBreak: 'break-word'
+})

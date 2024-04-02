@@ -1,88 +1,82 @@
 import {style} from '@vanilla-extract/css';
+import {recipe} from '@vanilla-extract/recipes';
+import {calc} from '@vanilla-extract/css-utils';
 
-import {defaultWrapper, flex} from '@/styles/common.css';
+import {flex} from '@/styles/common.css';
+import {contentWrapper} from '@/styles/wrapper.css';
 import {vars} from '@/styles/vars.css';
 
-export const homeWrapper = style([
-  // TODO: 토큰 담아서 Wrapper noHeader 스타일로 적용시키기
-  defaultWrapper({height: 'max'}),
+export const detailWrapper = style([
+  contentWrapper({contentArea: 'header'}),
+  flex({
+    align: 'center',
+    justify: 'flexStart',
+    direction: 'column',
+  }),
   {
-    backgroundColor: vars.colors.lightYellow,
-    textAlign: 'center',
+    padding: vars.space['4x'],
+  },
+  {
+    '@media': {
+      'screen and (min-width: 480px)': {
+        width: '480px',
+        margin: '0 auto',
+      },
+    },
+    width: '100%',
   },
 ]);
 
-export const invitationContainer = style({
+export const detailImageWrapper = style({
+  borderColor: vars.colors.black,
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  objectFit: 'cover',
+  width: 'auto',
+
+
+})
+
+export const detailImageContainer = style({
   background: vars.colors.lightYellow,
   width: 'auto',
   maxWidth: 480,
-  height: '100%',
+  height: '2000',
   position: 'relative',
   marginBottom: vars.space['4x'],
   boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
-  overflow: 'auto',
-});
-
-export const hamburgerButton = style({
-  position: 'relative',
-  zIndex: 2,
-  marginTop: vars.space['3x'],
-  marginLeft: vars.space['3x'],
-  background: 'transparent',
-  border: 'none',
-  cursor: 'pointer',
-  '@media': {
-    'screen and (min-width: 480px)': {
-      left: 'calc(480px - 100%)', // 화면 너비가 480px 이상일 때 버튼의 위치를 조정
-    },
-  },
-});
-
-export const hamburgerMenuTab = style({
-  background: vars.colors.whitesmoke, // 메뉴의 배경색
-  width: '320px', // 메뉴의 너비
-  height: '100vh', // 화면 높이와 동일하게 설정
-  position: 'fixed',
-  top: 0,
-  transition: 'transform 3s ease', // 왼쪽으로 슬라이딩하는 애니메이션
-  zIndex: 2, // 다른 요소들보다 앞에 위치하도록 높은 z-index 값 설정
-  overflowY: 'auto', // 내용이 많을 경우 스크롤 가능
-  transform: 'translateX(-100%)',
-  '@media': {
-    'screen and (min-width: 480px)': {
-      width: '320px', // 메뉴의 너비를 320px로 설정
-      transform: 'translateX(0)', // 화면 너비가 480px 이상일 때 메뉴가 보이도록 설정
-    },
-  },
-});
-
-export const hamburgerMenuTabActive = style({
-  transform: 'translateX(0)',
+  overflow: 'hidden',
+  borderColor: vars.colors.black,
+  borderWidth: '1px',
+  borderStyle: 'solid',
 
 });
 
-export const hamburgerListContent = style([
-  flex({justify: 'spaceBetween', align: 'center', direction: 'row'}),
-  {
-    padding: vars.space['2x'],
-    color: 'black',
-    width: `calc(100% - 2 * ${vars.space['2x']})`,
-    backgroundColor: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    textDecorationLine: 'none',
-  },
-]);
+export const detailImage = style({
 
-export const hamburgerBarSeperateLine = style({
-  border: `1px solid ${vars.colors.lightGray}`,
-  width: '100%',
-});
+})
 
-export const logoutModalWrapper = style([
-  flex({justify: 'center'}),
-  {
-    alignItems: 'center',
-    marginTop: '320px',
-  },
-]);
+export const detailNameText = style({
+  fontSize: vars.fontSize['4x'],
+  overflow: 'hidden', // 내용이 넘칠 때 숨김
+  textOverflow: 'ellipsis', // 넘친 텍스트를 말줄임표로 표시
+  whiteSpace: 'nowrap', // 텍스트가 줄바꿈 없이 한 줄로 표시
+  width: '100%', // 부모 요소에 맞춰 너비를 설정
+  maxWidth: '100%', // 최대 너비를 부모 요소에 맞춰 설정
+  paddingLeft: '110px',
+})
+
+export const detailTotalPriceText = style({
+  fontSize: vars.fontSize["3x"]
+})
+
+export const detailPartialPriceText = style({
+  fontSize: vars.fontSize["3x"],
+  fontWeight: vars.fontWeight.accent
+})
+
+export const detailColorText = style({
+  color: vars.colors.strongYellow,
+  fontSize: vars.fontSize["4x"],
+  fontWeight: vars.fontWeight.accent
+})

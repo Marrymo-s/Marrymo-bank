@@ -32,21 +32,20 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
 
   console.log(userCode)
 
-  useEffect(() => { // 수정된 useEffect 사용법
-    const getWishData = async () => {
-      try {
-        const response = await fetchInstance(`/wish-item/${userCode}`);
-        console.log(response);
-        setWishLists([...response.items].reverse())
+  // trigger 값의 변경을 감지하여 위시리스트 데이터 다시 불러오기
+  useEffect(() => {
+    getWishData();
+  }, [trigger]); // trigger를 의존성 배열에 추가
+  const getWishData = async () => {
+    try {
+      const response = await fetchInstance(`/wish-item/${userCode}`);
+      setWishLists([...response.items].reverse());
+    } catch (error) {
+      console.error('Fetching error:', error);
+    }
+  };
 
-      } catch(error) {
-        console.error('에러 ㅋ', error);
-      }
-    };
 
-    getWishData()
-
-  }, [wishLists]);
 
   const goToDetail = (num:number) => {
     router.push(`detail/${userCode}/${num}`)

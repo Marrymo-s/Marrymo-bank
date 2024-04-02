@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useEffect, useState} from 'react'
-import {historyListContainer} from "@/containers/history/index.css";
+import {cellStyle, historyBodyWrapper, historyHeadWrapper, historyListContainer, historyTHStyle, historyTableWrapper} from "@/containers/history/index.css";
 
 //type
 import {historyResponse, moneygifts} from "@/types/history";
@@ -40,33 +40,38 @@ const HistoryList = ({selected} : SelectedProp) => {
         if (selected === 'moneygift' && history.type === 'CASH') return true; // 축의금만 표시
         return false; // 그 외의 경우 데이터를 표시하지 않음
     })
-
     return (
         <>
             <div className={historyListContainer}>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>이름</th>
-                        <th>금액</th>
-                        <th>유형</th>
-                        <th>하객</th>
-                        <th>비고</th>
-                    </tr>
+                <table className={historyTableWrapper}>
+                    <colgroup>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'20%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'15%'}}/>
+                        <col style={{width:'25%'}}/>
+                    </colgroup>
+                    <thead className={historyHeadWrapper}>
+                        <tr>
+                            <th className={historyTHStyle}>이름</th>
+                            <th className={historyTHStyle}>금액</th>
+                            <th className={historyTHStyle}>유형</th>
+                            <th className={historyTHStyle}>하객</th>
+                            <th className={historyTHStyle}>비고</th>
+                        </tr>
                     </thead>
                     <tbody>
                     {filteredData?.map((history,  index) => (
-                        <tr key={index}>
-                            <td>{history.sender}</td>
-                            <td>{history.amount}</td>
-                            <td>{history.type === 'CASH' ? '축의금' : '펀딩'}</td>
-                            <td>{history.guestType}</td>
-                            <td>{history.relationship}</td>
+                        <tr key={index} className={historyBodyWrapper}>
+                            <td className={cellStyle}>{history.sender}</td>
+                            <td className={cellStyle}>{history.amount.toLocaleString(navigator.language)}</td>
+                            <td className={cellStyle}>{history.type === 'CASH' ? '축의금' : '펀딩'}</td>
+                            <td className={cellStyle}>{history.guestType}</td>
+                            <td className={cellStyle}>{history.relationship}</td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
-
             </div>
         </>
     )

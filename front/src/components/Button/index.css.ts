@@ -67,6 +67,13 @@ const commonButtonVariants = {
       justifyContent: 'center',
       alignItems: 'center',
     },
+    medium: {
+      width: '70%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: vars.fontSize['2.5x'],
+    },
   },
   colorStyle: {
     roseGold: vars.colors.roseGold,
@@ -127,6 +134,14 @@ export const ButtonWrapper = {
     {
       boxSizing: 'border-box',
       width: '64px',
+      marginLeft: vars.space['2x'],
+      marginRight: vars.space['2x'],
+    },
+  ]),
+  medium: style([
+    {
+      boxSizing: 'border-box',
+      width: '100px',
       marginLeft: vars.space['2x'],
       marginRight: vars.space['2x'],
     },
