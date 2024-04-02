@@ -13,6 +13,10 @@ export const checkboxesContainer = style([
 export const registEach = style({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-evenly',
+  marginBottom: '30px',
+  width:'80%',
+  fontSize:vars.fontSize["2.5x"],
 })
 
 export const accountContainer = style([
@@ -57,3 +61,21 @@ export const accountContentWrapper = style({
 export const accountContentStyle = style({
   marginBottom:'20px',
 })
+
+export const accountRegisterWrapper = style([
+  // contentWrapper({contentArea: 'header'}),
+  flex({
+    direction: 'column',
+    justify:'flexStart',
+    align:'center'
+  }),
+  {
+    '@media': {
+      'screen and (min-width: 480px)': {
+        width: '480px',
+      },
+    },
+    height:'30vh',
+    fontSize:vars.fontSize["2.5x"]
+  },
+])
