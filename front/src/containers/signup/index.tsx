@@ -53,9 +53,6 @@ const Signup = () => {
     const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
     const formData = new FormData();
 
-    images.forEach((file, index) => {
-      formData.append('imgUrl', file);
-    });
     formData.append('groomName', groomName);
     formData.append('brideName', brideName);
     formData.append('groomContact', groomContact);
@@ -70,6 +67,9 @@ const Signup = () => {
     formData.append('groomMother', groomMother);
     formData.append('brideFather', brideFather);
     formData.append('brideMother', brideMother);
+    images.forEach((file) => {
+      formData.append('imgUrl', file);
+    });
 
     try {
       const response = await fetchInstance('/users', {
