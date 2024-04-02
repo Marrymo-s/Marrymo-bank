@@ -16,7 +16,9 @@ import { fetchInstance } from "@/services";
 
 
 
+
 const Home = () => {
+
   return (
     <>
       <main className={styles.homeWrapper}>
