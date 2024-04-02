@@ -33,7 +33,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		OAuth2User oAuth2User = super.loadUser(userRequest);
 		log.debug("CustomOAuth2UserService...");
 		Map<String, Object> kakaoAccount = (Map<String, Object>)oAuth2User.getAttributes().get("kakao_account");
-
 		String kakaoId = (String)kakaoAccount.get("email");
 
 		log.debug("kakaoId:" + kakaoId);
