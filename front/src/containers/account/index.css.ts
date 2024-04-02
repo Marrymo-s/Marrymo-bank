@@ -35,7 +35,7 @@ export const accountWrapper = style([
   contentWrapper({contentArea: 'header'}),
   flex({
     align: 'center',
-    justify: 'flexStart',
+    justify: 'spaceBetween',
     direction: 'column',
   }),
   {
@@ -44,5 +44,16 @@ export const accountWrapper = style([
         width: '480px',
       },
     },
+    height:'90vh',
+    
   },
 ]);
+
+export const accountContentWrapper = style({
+  padding:'0px 32px',
+  marginBottom:'32px',
+})
+
+export const accountContentStyle = style({
+  marginBottom:'20px',
+})
