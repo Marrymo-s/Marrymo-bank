@@ -273,6 +273,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 
+		log.debug("accessTokenCnt="+accessTokenCnt);
+		log.debug("refreshTokenCnt="+refreshTokenCnt);
+
 		if(accessTokenCnt==1 && refreshTokenCnt==1)
 			return true;
 		else
