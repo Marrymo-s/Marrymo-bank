@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useEffect, useState} from 'react'
-import {historyListContainer} from "@/containers/history/index.css";
+import {historyBodyWrapper, historyHeadWrapper, historyListContainer, historyRowWrapper, historyTHStyle, historyTableHeadWrapper, historyTableWrapper} from "@/containers/history/index.css";
 
 //type
 import {historyResponse, moneygifts} from "@/types/history";
@@ -44,19 +44,19 @@ const HistoryList = ({selected} : SelectedProp) => {
     return (
         <>
             <div className={historyListContainer}>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>이름</th>
-                        <th>금액</th>
-                        <th>유형</th>
-                        <th>하객</th>
-                        <th>비고</th>
-                    </tr>
+                <table className={historyTableWrapper}>
+                    <thead className={historyHeadWrapper}>
+                        <tr>
+                            <th className={historyTHStyle}>이름</th>
+                            <th className={historyTHStyle}>금액</th>
+                            <th className={historyTHStyle}>유형</th>
+                            <th className={historyTHStyle}>하객</th>
+                            <th className={historyTHStyle}>비고</th>
+                        </tr>
                     </thead>
                     <tbody>
                     {filteredData?.map((history,  index) => (
-                        <tr key={index}>
+                        <tr key={index} className={historyBodyWrapper}>
                             <td>{history.sender}</td>
                             <td>{history.amount}</td>
                             <td>{history.type === 'CASH' ? '축의금' : '펀딩'}</td>
@@ -66,7 +66,6 @@ const HistoryList = ({selected} : SelectedProp) => {
                     ))}
                     </tbody>
                 </table>
-
             </div>
         </>
     )
