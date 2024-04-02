@@ -34,6 +34,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws IOException {
+		log.debug("Oauth2LoginSuccessHandler.....");
 		String kakaoId = authentication.getName();
 
 		//받아온 kakaoId를 통해서 user 정보를 찾는다
