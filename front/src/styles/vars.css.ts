@@ -22,7 +22,8 @@ export const vars = createGlobalTheme(':root', {
     alertRed: '#E8635C', // 경고문구
     lightYellow: '#FFFDEF', // 청첩장 배경
     safeGreen: '#02864A',  // 유효성 검증 통과
-    strongYellow: "#FF7A00" // 위시리스트 상세페이지 주황색
+    strongYellow: "#FF7A00", // 위시리스트 상세페이지 주황색
+    lightBeige : "#fffaf5", // 축의금 내역 배경
   },
 
   borderRadius: {
