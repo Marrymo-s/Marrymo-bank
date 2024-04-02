@@ -8,6 +8,7 @@ import Button from '@/components/Button';
 import {useRouter} from 'next/navigation';
 import {router} from 'next/client';
 import {fetchInstance} from '@/services';
+import {userInfoStore} from '@/store/useUserInfo';
 
 const Transfer = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
@@ -26,7 +27,6 @@ const Transfer = () => {
   const postMoneygift = async () =>{
     try{
       const requestBody = {
-        // userSequence: ,
         // userCode:,
         // wishItemSequence:,
         // guestType: selected,
