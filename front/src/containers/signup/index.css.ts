@@ -12,10 +12,14 @@ export const signupWrapper = style([
   }),
   {
     '@media': {
-      'screen and (min-width: 480px)': {
-        width: '480px',
+      'screen and (min-width: 416px)': {
+        width: '100%',
       },
     },
+    width: '100%',
+    margin: '0',
+    padding: '112px 32px 32px',
+    boxSizing: 'border-box',
   },
 ]);
 
@@ -274,4 +278,9 @@ export const imageContainer = style({
   position: 'relative',
   width: '80px',
   height: '80px',
+});
+
+export const inputBoxStyle = style({
+  width: '100%', // 부모 컨테이너의 너비에 맞게 설정
+  marginBottom: vars.space['2x'], // InputBox 간의 간격 조정
 });
