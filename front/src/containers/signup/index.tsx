@@ -14,7 +14,7 @@ import InvitationMessage from '@/containers/signup/InvitationMessage';
 import Button from '@/components/Button/index';
 import useModal from '@/hooks/useModal';
 
-// import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
+import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
 
 const today = new Date();
@@ -51,8 +51,9 @@ const Signup = () => {
     const formattedDate: string = format(weddingDate, 'yyyy-MM-dd');
     const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
     const formData = new FormData();
-    images.forEach(image => {
-      formData.append('imgUrl', image);
+
+    images.forEach((file, index) => {
+      formData.append('imgUrl', file);
     });
     formData.append('groomName', groomName);
     formData.append('brideName', brideName);
@@ -70,22 +71,26 @@ const Signup = () => {
     formData.append('brideMother', brideMother);
 
     try {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/users', {
         method: 'POST',
         body: formData,
       });
+      console.log(formData);
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      if (response.ok) {
+        // 요청 성공 처리
+        const responseData = await response.json();
+        console.log('Submission successful', responseData);
+        router.push(`/home/${userCode}`);
+      } else {
+        throw new Error('Failed to upload data');
       }
-      // 요청 성공 처리
-      console.log('Submission successful');
-      router.push(`/home/${userCode}`);
     } catch (error) {
       // 에러 처리
       console.error('Submission failed', error);
     }
   };
+
   const handleSetGroomName = (name: string) => {
     setGroomName(name);
   };
@@ -134,9 +139,10 @@ const Signup = () => {
     setBrideMother(name);
   };
 
-  const handleSetImages = (image: File[]) => {
-    setImages(image);
+  const handleSetImages = (newImages: File[]) => {
+    setImages((currentImages) => [...currentImages, ...newImages]);
   };
+  console.log(images);
 
   const openKakaoMapSearch = () => {
     openModal();
@@ -366,7 +372,7 @@ const Signup = () => {
           />
         </div>
         <div>
-          {/*<WeddingImageUpload />*/}
+          <WeddingImageUpload updateImages={handleSetImages} />
         </div>
         <div>
           <Button

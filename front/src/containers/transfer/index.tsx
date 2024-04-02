@@ -11,25 +11,30 @@ import {fetchInstance} from '@/services';
 
 const Transfer = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
-
-  // 둘 중 한 명만 체크되었는지 확인
+  const [sender, setSender] = useState<string>()
+  const [amount, setAmount] = useState<number>()
+  const [relationship, setRelationship] = useState<string>()
 
   const handleChange = (value: 'GROOM' | 'BRIDE') => {
     setSelected(value)
   }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<string>>) => {
+    setState(e.target.value);
+  };
   
   const postMoneygift = async () =>{
     try{
-      // const requestBody = {
-      //   userSequence:,
-      //   userCode:,
-      //   wishItemSequence:,
-      //   guestType: ,
-      //   type: ,
-      //   amount:,
-      //   relationship: ,
-      //   sender: ,
-      // }
+      const requestBody = {
+        // userSequence: ,
+        // userCode:,
+        // wishItemSequence:,
+        // guestType: selected,
+        // type: ,
+        // amount: amount,
+        // relationship: relationship,
+        // sender: sender,
+      }
 
       const options: RequestInit = {
         method: 'POST',
@@ -56,6 +61,7 @@ const Transfer = () => {
               inputBoxHeader='이름'
               placeholder='이름을 입력해주세요.'
               asterisk={true}
+              value={sender}
               />
           </div>
           <div>

@@ -39,6 +39,7 @@ const commonButtonBase = style({
   borderRadius: vars.borderRadius.full,
   border: 'none',
   fontSize: vars.fontSize['3x'],
+  fontFamily: 'BMJua',
   fontWeight: vars.fontWeight.accent,
   height: 48,
   margin: 'auto',
