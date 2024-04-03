@@ -3,7 +3,7 @@ import {contentWrapper} from '@/styles/wrapper.css';
 import {flex} from '@/styles/common.css';
 import {vars} from '@/styles/vars.css';
 
-export const signupWrapper = style([
+export const editWrapper = style([
   contentWrapper({contentArea: 'header'}),
   flex({
     align: 'center',
@@ -194,4 +194,9 @@ export const imagesScrollContainer = style({
   display: 'flex',
   overflowX: 'auto',
   paddingLeft: vars.space['2x'],
+});
+
+export const buttonContainer = style({
+  width: '100%',
+  margin: vars.space['2x'],
 });
