@@ -46,6 +46,7 @@ public class PaymentService {
 		.build();
 
 	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) {
+		log.debug(transfer.getUserCode());
 		User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(
 			UserErrorCode.USER_NOT_FOUND));
 		log.debug("통과함?");
