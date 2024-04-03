@@ -27,15 +27,14 @@ const Registration = ({ trigger, userCode}: RegistrationProps) => {
   const [wishLists, setWishLists] = useState<WishListItem[]>([]);
   const router = useRouter();
 
-  console.log(userCode);
-
   useEffect(() => {
     console.log(`userCode: ${userCode}`)
     if (userCode) {
       (async () => {
         try {
+          console.log(trigger)
           const response = await fetchInstance(`/wish-item/${userCode}`);
-          console.log(response)
+          // console.log(response)
           setWishLists([...response.items].reverse());
 
         } catch (error) {
@@ -46,12 +45,11 @@ const Registration = ({ trigger, userCode}: RegistrationProps) => {
       console.log('userCode is not defined yet.');
     }
   }, [trigger])
-  console.log(wishLists)
+
 
   const goToDetail = (num: number) => {
     router.push(`detail/${userCode}/${num}`);
   };
-
 
   return (
     <div className={styles.registrationContainer}>
