@@ -1,5 +1,6 @@
 //리액트 라이브러리
 'use client'
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -23,9 +24,12 @@ import { userInfoStore } from '@/store/useUserInfo';
 import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
+type Props = {
+  params: { userCode: string}
+}
 
 
-const InvitationCard = () => {
+const InvitationCard = ({params}:Props) => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -44,28 +48,27 @@ const InvitationCard = () => {
     imgUrl: [],
   })
 
-  const userCode = userInfoStore((state) => state.userCode);
-  console.log(userCode)
+  const { userCode } = params;
+  console.log("invitation",userCode)
   useEffect(() => {
-    getUserInfo()
-  }, [userCode])
-  //
-  const getUserInfo = async () => {
-    try {
-      const response = await fetchInstance(`/users/${userCode}`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+    console.log(`userCode: ${userCode}`); // userCode 값 확인
+    if (userCode) {
+      (async () => { // 즉시 실행 비동기 함수 사용
+        try {
+          const response = await fetchInstance(`/users/${userCode}`);
+          console.log(response)
+          setInvitationData(response); // 상태 업데이트
 
-      setInvitationData(response);
-    } catch (error) {
-      console.error('유저 정보 조회 실패', error);
+        } catch (error) {
+          console.error('유저 정보 조회 실패', error);
+        }
+      })();
+    } else {
+      console.log('userCode is not defined yet.');
     }
-  };
+  }, [userCode]);
+
   console.log(invitationData)
-  if (!invitationData) {
-    return <div>Loading...</div>
-  }
 
   return (
     <main className={CardGap}>
