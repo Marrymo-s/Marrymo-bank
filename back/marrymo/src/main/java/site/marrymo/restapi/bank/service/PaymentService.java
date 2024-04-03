@@ -1,5 +1,7 @@
 package site.marrymo.restapi.bank.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -45,7 +47,7 @@ public class PaymentService {
 		.baseUrl("https://open-api.kakaopay.com")
 		.build();
 
-	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) {
+	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) throws JsonProcessingException {
 		log.debug("게스트 타입.네임={}",transfer.getGuestType().name());
 		log.debug("게스트 타입.투스트링={}",transfer.getGuestType().toString());
 		log.debug("타입.네임={}",transfer.getType().name());
@@ -67,13 +69,16 @@ public class PaymentService {
 			.partner_order_id(PID)
 			.partner_user_id(PID)
 			.item_name(forWho)
-			.quantity("1")
-			.total_amount(String.valueOf(transfer.getAmount()))
-			.tax_free_amount("0")
+			.quantity(1)
+			.total_amount(transfer.getAmount())
+			.tax_free_amount(0)
 			.approval_url(redirectUrl)
 			.cancel_url(redirectUrl)
 			.fail_url(redirectUrl)
 			.build();
+
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(paymentRequest);
 
 		log.debug(paymentRequest.toString());
 		return kakaopayWebClient
@@ -81,7 +86,7 @@ public class PaymentService {
 			.uri("/online/v1/payment/ready")
 			.header("Authorization","SECRET_KEY DEV9E319E8DD99C907F55D02AFBEBFFBABA46A53")
 			.contentType(MediaType.APPLICATION_JSON)
-			.bodyValue(BodyInserters.fromValue(paymentRequest))
+			.bodyValue(BodyInserters.fromValue(jsonString))
 			.retrieve()
 			.bodyToMono(PaymentResponse.class)
 			.block();
