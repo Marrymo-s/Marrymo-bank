@@ -14,30 +14,32 @@ const OpenBanking = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const requestBody = {
-          who: who,
-          code: searchCode
+      if(who !== null && searchCode){
+        console.log(who)
+        try {
+          const requestBody = {
+            who: who,
+            code: searchCode
+          }
+
+          const options: RequestInit = {
+            method: 'POST',
+            body: JSON.stringify(requestBody)
+          }
+
+          const response = await fetchInstance('/open-banking', options)
+
+          if(response.ok) {
+            router.push(`/account/register?who=${who}&success=true`)
+          }
+
+        }catch(error) {
+          console.error('오픈뱅킹 연결 중', error)
         }
-
-        const options: RequestInit = {
-          method: 'POST',
-          body: JSON.stringify(requestBody)
-        }
-
-        const response = await fetchInstance('/open-banking', options)
-
-        if(response.ok) {
-          // router.push(`/account/register?who=${who}&success=true&role=${redirectRole}`)
-          router.push(`/account/register?who=${who}&success=true`)
-        }
-
-      }catch(error) {
-        console.error('오픈뱅킹 연결 중', error)
       }
-    })()
-
-  }, [who, searchCode])
+    }
+  )()
+  }, [who, searchCode, router])
 
   return (
     <>
