@@ -48,7 +48,7 @@ public class PaymentService {
 	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) {
 		User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(
 			UserErrorCode.USER_NOT_FOUND));
-
+		log.debug("통과함?");
 		if (transfer.getGuestType() == GuestType.GROOM)
 			forWho = user.getCard().getGroomName();
 		else
