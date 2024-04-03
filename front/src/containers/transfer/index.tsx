@@ -6,16 +6,16 @@ import InputBox from '@/components/InputBox';
 import Checkbox from '@/components/Checkbox';
 import Button from '@/components/Button';
 import {useRouter} from 'next/navigation';
-import {router} from 'next/client';
 import {fetchInstance} from '@/services';
 import {userInfoStore} from '@/store/useUserInfo';
 import {useWishitemSeqStore} from '@/store/useWishitemSeq';
 
 const Transfer = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
-  const [sender, setSender] = useState<string>()
+  const [sender, setSender] = useState<string>('')
   const [amount, setAmount] = useState<number>()
-  const [relationship, setRelationship] = useState<string>()
+  const [relationship, setRelationship] = useState<string>('')
+  const router = useRouter()
 
   //zustand
   const {wishitemSeq} = useWishitemSeqStore()
@@ -24,7 +24,7 @@ const Transfer = () => {
   const handleChange = (value: 'GROOM' | 'BRIDE') => {
     setSelected(value)
   }
-  
+
   const postMoneygift = async () =>{
     try{
       const requestBody = {
@@ -44,8 +44,10 @@ const Transfer = () => {
 
       const response = await fetchInstance('/moneygift/send', options)
 
-      if(response.ok) {
-        router.push('/complete')
+      if(response.payment_url) {
+        router.push(response.payment_url)
+      } else {
+        console.error('payment_url이 안왔어요')
       }
 
     }catch(error) {
@@ -58,38 +60,38 @@ const Transfer = () => {
       <main className={styles.transferWrapper}>
         <div>
           <div>
-            <InputBox 
+            <InputBox
               inputBoxHeader='이름'
               placeholder='이름을 입력해주세요.'
               asterisk={true}
               value={sender}
               onValueChange={(val) => setSender(val)}
 
-              />
+            />
           </div>
           <div>
-            <InputBox 
+            <InputBox
               inputBoxHeader='금액'
               placeholder='보내시는 금액을 입력해주세요'
               asterisk={true}
               value={amount ? amount.toString() : ''}
               onValueChange={(val) => setAmount(parseInt(val, 10) || 0)}
-              />
+            />
           </div>
           <div>
-            <InputBox 
+            <InputBox
               inputBoxHeader='관계(선택)'
               placeholder='보내는 분과 어떤 관계인가요?'
               value={relationship || ''}
               onValueChange={(val) => setRelationship(val)}
-              />
+            />
           </div>
           <div className={styles.checkInputContainer}>
-              누구에게 송금하시겠어요?
-              <div className={styles.checkboxContainer}>
+            누구에게 송금하시겠어요?
+            <div className={styles.checkboxContainer}>
               <Checkbox checked={selected === 'GROOM'} onChange={() => handleChange('GROOM')}>신랑</Checkbox>
               <Checkbox checked={selected === 'BRIDE'} onChange={() => handleChange('BRIDE')}>신부</Checkbox>
-              </div>
+            </div>
           </div>
         </div>
 
@@ -109,3 +111,4 @@ const Transfer = () => {
 }
 
 export default Transfer;
+
