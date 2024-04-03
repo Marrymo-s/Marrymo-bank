@@ -14,29 +14,28 @@ import { useParams } from 'next/navigation';
 import { fetchInstance } from "@/services";
 
 
+type Props = {
+  params: { userCode: string}
+}
 
-
-const Home = () => {
+const Home = ({params}: Props) => {
   const { userCode } = useParams() as { userCode:string }
   const setUserCode = userInfoStore((state) => state.setUserCode);
 
   useEffect(() => {
     if (userCode) {
       setUserCode(userCode);
+      console.log(userCode)
     }
   }, [userCode, setUserCode]);
 
-  // if (userCode == '') {
-  //   return <div>Loading...</div>
-  // }
-  // const cookieStore = cookies();
   return (
     <>
       <main className={styles.homeWrapper}>
         <HamburgerButton />
         <div className={styles.invitationContainer}>
           {/*<InvitationCard info={info}/>*/}
-          <InvitationCard />
+          <InvitationCard params={{userCode}}/>
         </div>
       </main>
     </>
