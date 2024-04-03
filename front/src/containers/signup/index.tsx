@@ -77,9 +77,9 @@ const Signup = () => {
         body: formData,
       };
 
-      const response = await fetch('https://spring.marrymo.site/users', options);
+      const response = await fetch('/users', options);
       console.log(formData);
-
+      console.log(response);
       if (response.ok) {
         // 요청 성공 처리
         const responseData = await response;
