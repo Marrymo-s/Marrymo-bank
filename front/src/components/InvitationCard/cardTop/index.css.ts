@@ -16,8 +16,8 @@ export const cardTopText = style([
   {
     width: 'auto',
     maxWidth: 480,
-    minHeight: '10svh',
-    maxHeight: '10svh',
+    minHeight: '10dvh',
+    maxHeight: '10dvh',
     position: 'relative',
     fontSize: vars.fontSize['4x'],
     fontWeight: vars.fontWeight.accent,
