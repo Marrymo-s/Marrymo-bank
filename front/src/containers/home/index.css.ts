@@ -169,3 +169,31 @@ export const copyText = style({
   fontSize: vars.space['1.5x'],
   color: vars.colors.gray,
 });
+
+export const NonLoginHomeWrapper = style([
+  // TODO: 토큰 담아서 Wrapper noHeader 스타일로 적용시키기
+  defaultWrapper({height: 'max'}),
+  {
+    maxWidth: '480px',
+    backgroundColor: vars.colors.white,
+    textAlign: 'center',
+    overflow: 'hidden',
+  },
+]);
+
+export const NonLoginInvitationContainer = style({
+  background: vars.colors.lightYellow,
+  width: 'auto',
+  maxWidth: 480,
+  height: '85%',
+  position: 'relative',
+  marginBottom: vars.space['4x'],
+  boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
+  overflow: 'auto',
+});
+
+export const homeButton = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+})
