@@ -41,6 +41,7 @@
 
 #### Infra(CI/CD)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/docker_compose-blue?style=for-the-badge&logo=docker&logoColor=white)
 ![Jenkins](https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white)
 #### DB
 - RDBMS <br />
@@ -147,7 +148,7 @@
 
 #### :rose: 박도연
 - Backend
-- 카카오 소셜 로그인, 스프링 시큐리티, JWT, 오픈 뱅킹 api
+- 카카오 소셜 로그인, 스프링 시큐리티, JWT, SMTP, 오픈 뱅킹 api
 
 #### :sunflower: 정일규
 - Frontend
