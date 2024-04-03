@@ -2,6 +2,7 @@ package site.marrymo.restapi.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 
@@ -53,9 +54,11 @@ public class User extends BaseTimeEntity {
     private String groomFintechUseNum;
 
     @Column(name="is_bride_once")
+    @ColumnDefault("false")
     private Boolean isBrideOnce;
 
     @Column(name="is_groom_once")
+    @ColumnDefault("false")
     private Boolean isGroomOnce;
 
     @Column(name="is_withdraw")
