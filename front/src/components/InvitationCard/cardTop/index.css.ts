@@ -16,10 +16,12 @@ export const cardTopText = style([
   {
     width: 'auto',
     maxWidth: 480,
-    minHeight: '10svh',
-    maxHeight: '10svh',
+    minHeight: '10dvh',
+    maxHeight: '10dvh',
     position: 'relative',
-    fontSize: vars.fontSize['3x'],
+    fontSize: vars.fontSize['4x'],
+    fontWeight: vars.fontWeight.accent,
+    paddingTop: '80px',
   },
 
 ])
@@ -27,8 +29,9 @@ export const cardTopText = style([
 export const cardTopImage = style([
   {
     width: '100%', // 왜 이걸 100% 해야 중앙에 옴?
-    height: '15vh',
+    height: '300px',
     maxHeight: '600px',
+    paddingTop: '80px',
 
 
   },

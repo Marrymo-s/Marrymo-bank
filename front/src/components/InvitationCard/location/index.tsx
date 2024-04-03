@@ -1,20 +1,26 @@
 import * as styles from './index.css';
 import React from 'react';
-import { signupRequest } from '@/types/auth';
+
+import {signupRequest} from '@/types/auth';
+import formatDateTime from '@/utils/formatdatetime';
+
 
 type locationProps = Pick<signupRequest, 'weddingDate' | 'weddingTime' | 'location'>
-// 카카오지도는 어디서 어떻게 가져오지?
 
-const location = ({ weddingDate, weddingTime, location}: locationProps) => {
+
+const weddingLocation = ({weddingDate, weddingTime, location}: locationProps) => {
+  const formattedDate = formatDateTime(weddingDate, weddingTime)
+
   return (
-    <div>
-      <div>Location( 이건 그냥 문자열 )</div>
-      <div>오시는 길 (얘도 그냥 문자열)</div>
-      <div>{weddingDate} {weddingTime}</div>
+    <div className={styles.locationWrapper}>
+      <div className={styles.locationFirstText}>Location</div>
+      <div className={styles.locationRawText}>오시는 길</div>
+      <div>{formattedDate}</div>
       <div>{location}</div>
+      <br/>
       <div>카카오 지도</div>
     </div>
   )
 }
 
-export default location;
+export default weddingLocation;

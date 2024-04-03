@@ -1,7 +1,7 @@
-import { recipe } from '@vanilla-extract/recipes';
-import { style } from '@vanilla-extract/css';
+import {recipe} from '@vanilla-extract/recipes';
+import {style} from '@vanilla-extract/css';
 
-import{ defaultWrapper, flex } from'@/styles/common.css';
+import {defaultWrapper, flex} from '@/styles/common.css';
 
 const contentWrapperBase = style([
   defaultWrapper({
@@ -10,34 +10,31 @@ const contentWrapperBase = style([
   }),
   flex({
     align: 'center',
+    direction: 'column',
   }),
   {
     position: 'relative',
     boxSizing: 'border-box',
     border: 'none',
   },
-])
+]);
 
 export const contentWrapper = recipe({
-  base:contentWrapperBase,
+  base: contentWrapperBase,
 
   variants: {
     contentArea: {
-      headerOnly: {
-        paddingTop: '80px',
+      header: {
+        paddingTop: '120px',
       },
-      navBarOnly: {
-        paddingBottom: '48px',
-      },
-      headerAndNavBar: {
-        paddingTop: '80px',
-        paddingBottom: '48px',
+      noHeader: {
+        paddingTop: '40px',
       },
     },
     heightStyle: {
       max: {
-        height: '100svh',
+        height: '100dvh',
       },
     },
-  }
-})
+  },
+});

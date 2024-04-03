@@ -1,4 +1,5 @@
 # 📦 Containers
+
 여기는 marrymo의 containers directory 입니다.
 
 ---
@@ -11,7 +12,7 @@
 
 ```tsx
 // src/app/example/page.tsx
-export { default } from '@/containers/example';
+export {default} from '@/containers/example';
 ```
 
 ### 🌱 How to contribute
