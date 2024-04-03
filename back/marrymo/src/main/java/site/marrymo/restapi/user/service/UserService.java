@@ -232,7 +232,7 @@ public class UserService {
         card.modifyIsIssued(invitationIssueRequest.getIsIssued());
         cardRepository.save(card);
 
-        return InvitationIssueResponse.toDto(card.getInvitationUrl(), invitationIssueRequest.getIsIssued());
+        return InvitationIssueResponse.builder().isIssued(invitationIssueRequest.getIsIssued()).build();
     }
 
     public void registWho(UserDTO userDTO, WhoRegistRequest whoRegistRequest){
