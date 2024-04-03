@@ -49,21 +49,19 @@ public class PaymentService {
 	private final String PID = "Marrymo";
 	private final UserRepository userRepository;
 
-	private String forWho = "축의금";
+	private String forWho = "";
 	private final WebClient kakaopayWebClient = WebClient.builder()
 		.baseUrl("https://open-api.kakaopay.com/online/v1/payment/ready")
 		.build();
 
 	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) throws JsonProcessingException {
 
-		// User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(
-		// 	UserErrorCode.USER_NOT_FOUND));
-		// log.debug("통과함?");
-		// if (transfer.getGuestType() == GuestType.GROOM)
-		// 	forWho = user.getCard().getGroomName();
-		// else
-		// 	forWho = user.getCard().getBrideName();
-		// forWho += "님에게 전달할 축의금(Marrymo)";
+		User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+		if (transfer.getGuestType() == GuestType.GROOM)
+		forWho = user.getCard().getGroomName();
+		else
+		forWho = user.getCard().getBrideName();
+		forWho += "님에게 전달할 축의금(Marrymo)";
 
 		Map<String, Object> bodyMap = new HashMap<>();
 		bodyMap.put("cid", CID);
