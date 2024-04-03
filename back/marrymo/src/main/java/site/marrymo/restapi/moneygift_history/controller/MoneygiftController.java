@@ -47,7 +47,7 @@ public class MoneygiftController {
 		PaymentResponse paymentResponse = paymentService.paymentApi(moneygiftTransferRequest);
 		log.debug(paymentResponse.toString());
 		log.debug("kakao url 생성");
-		moneygiftService.sendMoneygift(moneygiftTransferRequest);
+		// moneygiftService.sendMoneygift(moneygiftTransferRequest);
 		response.sendRedirect(paymentResponse.getNext_redirect_pc_url());
 	}
 }
