@@ -19,30 +19,16 @@ interface WishListItem {
 }
 
 interface RegistrationProps {
-  refresh: () => void;
   trigger: boolean;
   userCode: string;
 }
 
-const Registration = ({refresh, trigger, userCode}: RegistrationProps) => {
+const Registration = ({ trigger, userCode}: RegistrationProps) => {
   const [wishLists, setWishLists] = useState<WishListItem[]>([]);
   const router = useRouter();
 
-
   console.log(userCode);
 
-  // trigger 값의 변경을 감지하여 위시리스트 데이터 다시 불러오기
-  // useEffect(() => {
-  //   getWishData(userCode);
-  // }, [trigger]); // trigger를 의존성 배열에 추가
-  // const getWishData = async (uc:string) => {
-  //   try {
-  //     const response = await fetchInstance(`/wish-item/${uc}`);
-  //     setWishLists([...response.items].reverse());
-  //   } catch (error) {
-  //     console.error('Fetching error:', error);
-  //   }
-  // };
   useEffect(() => {
     console.log(`userCode: ${userCode}`)
     if (userCode) {
@@ -73,12 +59,6 @@ const Registration = ({refresh, trigger, userCode}: RegistrationProps) => {
       <div className={styles.registrationOuterWrapper}>
         <div className={styles.registrationInnerWrapper}>
           {wishLists.map((wishlist, index) => (
-            // <div
-            //   key={wishlist.wishItemSequence}
-            //   className={styles.wishlistImageWrapper}>
-            //   {wishlist.name}
-            //
-            // </div>
             <Image
               key={index}
               src={wishlist.img}

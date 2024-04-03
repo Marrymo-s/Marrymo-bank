@@ -60,8 +60,8 @@ const WishItem = ({params}: Props) => {
       <main className={styles.wishitemWrapper}>
         <div className={styles.wishitemContainer}>
           <Search search={search}/>
-          <Registration refresh={refreshData} trigger={trigger} userCode={userCode}/>
-          <Results results={results} userCode={userCode}/>
+          <Registration trigger={trigger} userCode={userCode}/>
+          <Results results={results} refreshData={refreshData}/>
         </div>
       </main>
     </>
