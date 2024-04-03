@@ -50,26 +50,24 @@ const WeddingDatePicker = ({onDateChange, onTimeChange, onDayChange}: WeddingDat
   };
 
   return (
-    <div>
-      <div className={styles.selectedDate}>
-        {format(startDate, 'M월 d일 (EEE)', {locale: ko})}
+    <div className={styles.weddingDatePickerContainer}>
+      <div className={styles.datePickerHeaderText}>
+        결혼식 일자, 시간 선택
+        <span className={styles.asteriskStyle}>*</span>
       </div>
-      <DatePicker
-        selected={startDate}
-        onChange={handleDateChange}
-        minDate={tomorrow}
-        locale="ko"
-        dateFormat="yyyy년 M월 d일"
-        dropdownMode="select"
-        className={styles.datePicker}
-        calendarClassName={styles.calendar}
-        wrapperClassName={styles.calendarWrapper}
-      />
-      <div className={styles.timePickerContainer}>
+      <div className={styles.selectedDate}>
         <div>
-          결혼식 시간
-          <span className={styles.asteriskStyle}>*</span>
+          <DatePicker
+            selected={startDate}
+            onChange={handleDateChange}
+            minDate={tomorrow}
+            locale="ko"
+            dateFormat="yyyy년 M월 d일"
+            dropdownMode="select"
+            className={styles.datePicker}
+          />
         </div>
+        {format(startDate, 'M월 d일 (EEE)', {locale: ko})}
         <select
           value={time.hour}
           onChange={handleHourChange}

@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useRouter} from 'next/navigation';
 import {addDays, format} from 'date-fns';
 
@@ -393,12 +393,6 @@ const Signup = () => {
             }}
           />
         </div>
-        <div className={styles.weddingDatePickerContainer}>
-          <div className={styles.datePickerHeaderText}>
-            결혼식 일자 선택
-            <span className={styles.asteriskStyle}>*</span>
-          </div>
-        </div>
         <div>
           <WeddingDatepicker
             onDateChange={handleSetWeddingDate}
@@ -430,14 +424,16 @@ const Signup = () => {
         <div>
           <WeddingImageUpload updateImages={handleSetImages} />
         </div>
-        <div>
-          <Button
-            onClick={handleSubmit}
-            type="button"
-            size="large"
-            disabled={!checkValidation}
-          >회원 가입 완료</Button>
-        </div>
+        <Button
+          onClick={handleSubmit}
+          type="button"
+          colorStyle="roseGold"
+          filled={true}
+          size="large"
+          disabled={!checkValidation}
+        >
+          회원 가입 완료
+        </Button>
         <Modal>
           <>
             <KakaoMap
