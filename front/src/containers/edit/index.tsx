@@ -151,7 +151,7 @@ const Edit = () => {
         body: formData,
       };
 
-      const putResponse = await fetchNoJson(`/users/${userCode}`, putOptions);
+      const putResponse = await fetch('https://spring.marrymo.site/users', putOptions);
       console.log(formData);
 
       if (!putResponse.ok) {
@@ -258,7 +258,6 @@ const Edit = () => {
 
   // 결혼식 장소가 입력되었는지 확인하는 유효성 검사 함수
   const isValidateWeddingLocation = (value: string) => {
-    // 입력 값이 있으면 true 반환
     return value.trim() !== '' ? undefined : ' ';
   };
 
