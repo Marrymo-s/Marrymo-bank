@@ -3,16 +3,17 @@
 import {useSearchParams} from 'next/navigation';
 import {useAccountWhoStore} from '@/store/useAccountWho';
 import {useEffect} from 'react';
-import {router} from 'next/client';
+import {useRouter} from 'next/navigation';
 import {fetchInstance} from '@/services';
 
 const OpenBanking = () => {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const searchCode  = searchParams.get('code')
   const {who, authStatus} = useAccountWhoStore()
 
   useEffect(() => {
-    const registAccount = async () => {
+    (async () => {
       try {
         const requestBody = {
           who: who,
@@ -34,15 +35,13 @@ const OpenBanking = () => {
       }catch(error) {
         console.error('오픈뱅킹 연결 중', error)
       }
-    }
+    })()
 
-    if (who && searchCode) {
-      registAccount();
-    }
   }, [who, searchCode])
 
   return (
     <>
+      <div>오픈뱅킹 연결</div>
     </>
   )
 }

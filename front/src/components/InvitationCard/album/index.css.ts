@@ -35,7 +35,7 @@ export const albumPhotoBook = style([
     paddingTop: '40px',
     width: 'auto',
     maxWidth: 480,
-    minHeight: '75svh',
+    minHeight: '75dvh',
     position: 'relative',
   }
 ])

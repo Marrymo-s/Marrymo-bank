@@ -33,7 +33,7 @@ export const contentWrapper = recipe({
     },
     heightStyle: {
       max: {
-        height: '100svh',
+        height: '100dvh',
       },
     },
   },
