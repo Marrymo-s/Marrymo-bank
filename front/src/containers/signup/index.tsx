@@ -46,7 +46,6 @@ const Signup = () => {
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
   const {Modal, openModal, closeModal} = useModal();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
   // POST 요청 함수
   const handleSubmit = async () => {
@@ -73,16 +72,12 @@ const Signup = () => {
     });
 
     try {
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(`${key}: ${value}`);
-      // }
-
       const options: RequestInit = {
         method: 'POST',
         body: formData,
       };
 
-      const response = await fetchNoJson('/users', options);
+      const response = await fetch('https://spring.marrymo.site/users', options);
       console.log(formData);
 
       if (response.ok) {
