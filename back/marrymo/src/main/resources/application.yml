@@ -87,7 +87,10 @@ server:
       max-request-size: 100MB
   forward-headers-strategy: framework   # 추가
 
-
+kakaopay:
+  client_id: ${KAKAOPAY_CLIENT_ID}
+  secret_key: ${KAKAOPAY_SECRET_KEY}
+  redirect_url: ${KAKAOPAY_REDIRECT_URL}
 
 #open-banking
 open-banking:
