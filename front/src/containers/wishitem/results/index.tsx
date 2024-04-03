@@ -5,9 +5,14 @@ import * as styles from './index.css';
 
 interface ResultsProps {
   results: searchResponse[];
+  userCode: string;
 }
 
-const Results = ({ results }: ResultsProps) => {
+const Results = ({ results, userCode }: ResultsProps) => {
+  const removeTags = (text: string) => {
+    return text.replace(/<[^>]*>?/gm, '');
+  };
+
 
   if(results.length == 0) {
     return <div>원하는 상품을 검색해보세요!</div>
@@ -20,13 +25,13 @@ const Results = ({ results }: ResultsProps) => {
         {results.map((item, productId) => (
           <WishCard
             key={productId}
-            title={item.title}
+            title={removeTags(item.title)}
             image={item.image}
             lprice={item.lprice}
             brand={item.brand}
             category2={item.category2}
             category4={item.category4}
-
+            userCode={userCode}
           />
         ))}
       </div>
