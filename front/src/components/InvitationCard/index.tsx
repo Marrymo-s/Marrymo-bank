@@ -61,7 +61,7 @@ const InvitationCard = ({params, setIsMem}:Props) => {
           const response = await fetchInstance(`/users/${userCode}`);
           console.log(response)
           setInvitationData(response); // 상태 업데이트
-
+          setIsMem(response.isMem);
         } catch (error) {
           console.error('유저 정보 조회 실패', error);
         }
