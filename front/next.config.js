@@ -9,6 +9,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: '/users',
+        destination: 'https://spring.marrymo.site/users',
+      },
+      {
         source: '/users/:path*',
         destination: 'https://spring.marrymo.site/users/:path*',
       },
