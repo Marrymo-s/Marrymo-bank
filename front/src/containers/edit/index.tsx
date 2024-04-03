@@ -39,6 +39,7 @@ const Edit = () => {
   const [brideFather, setBrideFather] = useState<string>('');
   const [brideMother, setBrideMother] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
+  const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
@@ -50,7 +51,6 @@ const Edit = () => {
         const response = await fetch(`https://spring.marrymo.site/users/${userCode}`);
         if (!response.ok) {
           throw new Error('유저 데이터를 불러오는 것을 실패했습니다.');
-          router.push(`/home/${userCode}`);
         }
         const data = await response.json();
 
@@ -69,6 +69,7 @@ const Edit = () => {
         setBrideFather(data.brideFather);
         setBrideMother(data.brideMother);
         setImages(data.imgUrl);
+
       } catch (error) {
         console.error('유저 정보를 조회하지 못했어요.', error);
       }
@@ -151,7 +152,7 @@ const Edit = () => {
         body: formData,
       };
 
-      const putResponse = await fetchNoJson(`/users/${userCode}`, putOptions);
+      const putResponse = await fetch('https://spring.marrymo.site/users', putOptions);
       console.log(formData);
 
       if (!putResponse.ok) {
@@ -235,6 +236,15 @@ const Edit = () => {
     openModal();
   };
 
+  const handleInvitationClick = () => {
+    if (canIssueInvitation()) {
+      handleFinalSubmit();
+    } else {
+      setShowErrorMessage(true);
+      setTimeout(() => setShowErrorMessage(false), 3000);
+    }
+  };
+
   const [isGroomNameValid, setIsGroomNameValid] = useState(false);
   const [isBrideNameValid, setIsBrideNameValid] = useState(false);
   const [isGroomContactValid, setIsGroomContactValid] = useState(false);
@@ -242,7 +252,8 @@ const Edit = () => {
   const [isGreetingValid, setIsGreetingValid] = useState(true);
   const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
   const [checkValidation, setCheckValidation] = useState<boolean>(false);
-  const [isAccountRegistered, setIsAccountRegistered] = useState<boolean>(false);
+  // TODO: isAccountRegistered: true인 이유는 시연 때 발급하기를 진행하려고(발표 후 false로 reset 예정)
+  const [isAccountRegistered, setIsAccountRegistered] = useState<boolean>(true);
 
   const isValidateName = (value: string) => {
     // 유효성 검사: 한국어 2 ~ 19자, 영어 4 ~ 38자
@@ -250,15 +261,12 @@ const Edit = () => {
     return isValid ? undefined : '이름은 한글 2~19자, 영문 4~38자(공백 포함)까지 가능해요.';
   };
 
-  // 연락처 유효성 검사
   const isValidateContact = (value: string) => {
     const isValid = /^\d{10,11}$/.test(value);
     return isValid ? undefined : '유효한 연락처를 입력해주세요. (10-11자리 숫자)';
   };
 
-  // 결혼식 장소가 입력되었는지 확인하는 유효성 검사 함수
   const isValidateWeddingLocation = (value: string) => {
-    // 입력 값이 있으면 true 반환
     return value.trim() !== '' ? undefined : ' ';
   };
 
@@ -454,7 +462,7 @@ const Edit = () => {
         </div>
         <div className={styles.buttonContainer}>
           <Button
-            onClick={handleFinalSubmit}
+            onClick={handleInvitationClick}
             type="button"
             colorStyle="roseGold"
             filled={true}
@@ -463,6 +471,11 @@ const Edit = () => {
           >
             청첩장 최종 발행하기
           </Button>
+          {showErrorMessage && (
+            <div className={styles.errorMessage}>
+              필수 입력 정보, 계좌 등록을 완료해야 청첩장 발급이 가능해요
+            </div>
+          )}
         </div>
         <Modal>
           <>

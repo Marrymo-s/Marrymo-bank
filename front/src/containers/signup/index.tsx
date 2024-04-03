@@ -77,9 +77,9 @@ const Signup = () => {
         body: formData,
       };
 
-      const response = await fetch('https://spring.marrymo.site/users', options);
+      const response = await fetch('/users', options);
       console.log(formData);
-
+      console.log(response);
       if (response.ok) {
         // 요청 성공 처리
         const responseData = await response;
@@ -151,7 +151,6 @@ const Signup = () => {
     openModal();
   };
 
-  // 필수값이 입력되었는지 확인하는 부분
   const [isGroomNameValid, setIsGroomNameValid] = useState(false);
   const [isBrideNameValid, setIsBrideNameValid] = useState(false);
   const [isGroomContactValid, setIsGroomContactValid] = useState(false);
@@ -208,6 +207,8 @@ const Signup = () => {
       };
 
       const response = await fetchInstance('/smtp/send', options);
+      console.log('이메일 전송 성공:', response.text);
+      return;
 
     } catch (error) {
       console.error('이메일 전송 중 오류 발생', error);
@@ -238,7 +239,6 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    // 유효성 검사 함수 호출
     const groomNameValid = isValidateName(groomName) === undefined;
     const brideNameValid = isValidateName(brideName) === undefined;
     const groomContactValid = isValidateContact(groomContact) === undefined;
@@ -247,7 +247,6 @@ const Signup = () => {
     const emailVerificationValid = isValidateEmailVerification(emailVerification) === undefined;
     const weddingLocationValid = isValidateWeddingLocation(weddingLocation) === undefined;
 
-    // 모든 입력 필드의 유효성 검사 결과 업데이트
     setIsGroomNameValid(groomNameValid);
     setIsBrideNameValid(brideNameValid);
     setIsGroomContactValid(groomContactValid);
@@ -256,7 +255,6 @@ const Signup = () => {
     setIsEmailVerificationValid(emailVerificationValid);
     setIsWeddingLocationValid(weddingLocationValid);
 
-    // 모든 검사를 통과했는지 종합하여 checkValidation 상태 업데이트
     const allValid = groomNameValid && brideNameValid && groomContactValid && brideContactValid && emailValid && emailVerificationValid && weddingLocationValid;
     setCheckValidation(allValid);
   }, [groomName, brideName, groomContact, brideContact, email, emailVerification, weddingLocation]);

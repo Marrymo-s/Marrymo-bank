@@ -25,11 +25,12 @@ import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 type Props = {
-  params: { userCode: string}
+  params: { userCode: string};
+  setIsMem: (isMem: boolean) => void
 }
 
 
-const InvitationCard = ({params}:Props) => {
+const InvitationCard = ({params, setIsMem}:Props) => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -46,9 +47,11 @@ const InvitationCard = ({params}:Props) => {
     brideFather: '',
     brideMother: '',
     imgUrl: [],
+    isMem: false,
   })
 
   const { userCode } = params;
+
   console.log("invitation",userCode)
   useEffect(() => {
     console.log(`userCode: ${userCode}`); // userCode 값 확인
@@ -66,9 +69,10 @@ const InvitationCard = ({params}:Props) => {
     } else {
       console.log('userCode is not defined yet.');
     }
-  }, [userCode]);
+  }, [userCode, setIsMem]);
 
   console.log(invitationData)
+  console.log(invitationData.isMem)
 
   return (
     <main className={CardGap}>
@@ -108,7 +112,9 @@ const InvitationCard = ({params}:Props) => {
       <Album
         imgUrl={invitationData.imgUrl}
       />
-      <Wishlist />
+      <Wishlist
+        params={{userCode}}
+      />
       <div className={rightsText}>
         @Marrymo All rights reserved
       </div>
