@@ -46,6 +46,7 @@ const InvitationCard = ({params}:Props) => {
     brideFather: '',
     brideMother: '',
     imgUrl: [],
+    isMem: false,
   })
 
   const { userCode } = params;
@@ -69,6 +70,7 @@ const InvitationCard = ({params}:Props) => {
   }, [userCode]);
 
   console.log(invitationData)
+  console.log(invitationData.isMem)
 
   return (
     <main className={CardGap}>

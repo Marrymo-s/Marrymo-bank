@@ -13,3 +13,8 @@ export const search = style([
     position: 'fixed',
   }
 ])
+
+export const searchInputBoxStyle = style({
+  width: '100%',
+  marginBottom: vars.space['2x'],
+});
