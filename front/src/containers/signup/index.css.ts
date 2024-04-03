@@ -69,9 +69,10 @@ export const weddingDatePickerContainer = style([
   flex({
     align: 'flexStart',
     justify: 'flexStart',
-    direction: 'row',
+    direction: 'column',
   }),
   {
+    width: '100%',
     marginBottom: vars.space['2x'],
     fontSize: vars.fontSize['2x'],
   },
@@ -87,40 +88,24 @@ export const asteriskStyle = style({
 export const selectedDate = style({
   fontSize: vars.fontSize['2x'],
   textAlign: 'center',
+  width: '100%',
 });
 
 export const datePicker = style({
-  // Styles for the input field of the date picker
-  borderRadius: '9999px', // Full pill shape
+  display: 'flex',
+  width: '100%',
+  borderRadius: vars.borderRadius['2x'], // Full pill shape
+  padding: `${vars.space['1x']} ${vars.space['2x']}`,
+  height: vars.space['4x'],
   borderColor: vars.colors.roseGold,
-  // Add other styles such as padding, fontSize, etc.
+  fontSize: vars.space['2x'],
+  fontWeight: vars.fontWeight.accent,
+  alignContent: 'flex-start',
+  justifyContent: 'center',
 });
-
-export const calendar = style({
-  // Styles for the calendar pop-up
-  // Customize the look of the selected date, etc.
-});
-
-export const calendarWrapper = style({
-  // Any additional wrapper styles you need
-});
-
-export const timePickerContainer = style([
-  // TODO: '결혼식 시간 선택' 텍스트가 왼쪽에 오도록 정렬하기
-  flex({
-    align: 'flexStart',
-    justify: 'flexStart',
-    direction: 'row', // direction을 row로 바꿔서 옆으로 나란히 두기
-  }),
-  {
-    fontSize: vars.fontSize['2x'],
-    marginBottom: vars.space['2x'], // 아래 여백 추가
-  },
-]);
 
 export const dropdown = style({
-  // 네이티브 select 드롭다운 스타일
-  appearance: 'none', // 네이티브 스타일 제거
+  appearance: 'none',
   padding: vars.space['1x'],
   margin: vars.space['1x'],
   backgroundColor: vars.colors.white,
@@ -128,8 +113,6 @@ export const dropdown = style({
   borderRadius: vars.borderRadius['1x'],
   fontSize: vars.fontSize['2x'],
   cursor: 'pointer',
-
-  // 선택됐을 때 테두리 색상 변경을 위한 가상 클래스
   selectors: {
     '&:focus': {
       borderColor: vars.colors.roseGold,
@@ -139,108 +122,76 @@ export const dropdown = style({
 });
 
 export const galleryContainer = style({
+  position: 'relative',
   display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-  gap: vars.space['2x'],
-});
-
-export const galleryHeader = style({
-  display: 'flex',
-  justifyContent: 'space-between',
+  maxWidth: '416px',
+  height: '100px',
+  flexDirection: 'row',
   alignItems: 'center',
-  width: '100%',
-  padding: vars.space['2x'],
+  justifyContent: 'flex-start',
+  gap: vars.space['1x'],
+  overflowX: 'auto',
+  marginBottom: vars.space['2x'],
 });
-
-
-export const inputBoxContainer = style([
-  // TODO: '결혼식 장소 선택' 텍스트가 왼쪽에 오도록 정렬하기
-  flex({
-    align: 'flexStart',
-    justify: 'flexStart',
-    direction: 'column',
-  }),
-  {
-    fontSize: vars.fontSize['2x'],
-  },
-]);
 
 export const imageBox = style({
   position: 'relative',
-});
-
-export const imagePreview = style({
-  width: '100px', // 미리보기 이미지 너비 설정
-  height: '100px', // 미리보기 이미지 높이 설정
-  objectFit: 'cover', // 이미지 비율 유지
-  borderRadius: vars.borderRadius['1x'], // 이미지 둥근 모서리
+  minWidth: '100px',
+  height: '100px',
+  objectFit: 'cover',
+  borderRadius: vars.borderRadius['1x'],
 });
 
 export const deleteButton = style({
   position: 'absolute',
-  top: vars.space['0.5x'], // 상단에서 조금 떨어지게 설정
-  right: vars.space['0.5x'], // 우측에서 조금 떨어지게 설정
-  background: vars.colors.alertRed, // 버튼 배경색 설정
-  color: 'white', // 버튼 텍스트색 설정
+  top: 0,
+  right: 0,
+  background: vars.colors.alertRed,
+  color: 'black',
   border: 'none',
-  borderRadius: '50%', // 원형 버튼
-  width: '20px', // 버튼 크기
-  height: '20px', // 버튼 크기
+  borderRadius: vars.borderRadius.full,
+  width: vars.space['3x'],
+  height: vars.space['3x'],
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-  // 선택됐을 때 테두리 색상 변경을 위한 가상 클래스
   selectors: {
     '&:hover': {
-      backgroundColor: vars.colors.alertRed, // 호버 상태일 때 배경색 변경
+      backgroundColor: vars.colors.alertRed,
     },
   },
 });
 
 export const addButton = style({
-  backgroundColor: vars.colors.roseGold, // 버튼 배경색
-  color: 'white', // 버튼 텍스트색
+  position: 'relative',
+  top: vars.space['2x'],
+  left: vars.space['2x'],
+  backgroundColor: vars.colors.roseGold,
+  color: 'black',
   padding: vars.space['1x'],
-  margin: vars.space['1x'],
+  marginBottom: vars.space['1x'],
   border: 'none',
   borderRadius: vars.borderRadius['1x'],
   cursor: 'pointer',
   fontSize: vars.fontSize['2x'],
 });
 
-export const addFileButton = style({
-  padding: vars.space['2x'],
-  backgroundColor: vars.colors.whitesmoke,
-  color: vars.colors.white,
-  borderRadius: vars.borderRadius['1x'],
-  cursor: 'pointer',
-  ':hover': {
-    backgroundColor: vars.colors.lightGray,
-  },
-});
-
-export const dropArea = style({
-  border: `2px dashed ${vars.colors.whitesmoke}`,
-  borderRadius: vars.borderRadius['1x'],
-  padding: vars.space['4x'],
-  textAlign: 'center',
-  cursor: 'pointer',
-  ':hover': {
-    backgroundColor: vars.colors.lightGray,
-  },
-  // 드래그 앤 드롭 영역의 스타일을 더 추가할 수 있습니다.
-});
-
 export const inputBoxStyle = style({
-  width: '100%', // 부모 컨테이너의 너비에 맞게 설정
-  marginBottom: vars.space['2x'], // InputBox 간의 간격 조정
+  width: '100%',
+  marginBottom: vars.space['2x'],
 });
 
 export const datePickerHeaderText = style({
   display: 'flex',
-  alignItems: 'center',
-  marginBottom: vars.space['1x'], // or whatever space you want between the header and the picker
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+  marginBottom: vars.space['1x'],
+  width: '100%',
+});
+
+export const imagesScrollContainer = style({
+  display: 'flex',
+  overflowX: 'auto',
+  paddingLeft: vars.space['2x'],
 });
