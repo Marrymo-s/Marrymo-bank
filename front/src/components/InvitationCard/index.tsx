@@ -25,7 +25,8 @@ import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 type Props = {
-  params: { userCode: string}
+  params: { userCode: string};
+  setIsMem: (isMem: boolean) => void
 }
 
 
