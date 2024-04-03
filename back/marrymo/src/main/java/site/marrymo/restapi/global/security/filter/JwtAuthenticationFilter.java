@@ -74,27 +74,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// Request에서 쿠키를 가져온 후 accessToken과 refreshToken을 추출
 		Cookie[] cookies = httpServletRequest.getCookies();
+		log.debug("cookie extract.");
 
-
-		log.debug("쿠키에서 두 개의 토큰 추출....");
 		// "/users/{userCode}"를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
 		if (httpServletRequest.getMethod().equals("GET") &&
 			requestURI.startsWith("/users")) {
 			String[] split = requestURI.split("/");
-
+			log.debug("/users/{userCode} 요청 처리 중...");
 			if (cookies == null && split.length == 3 && isContainsUserCode(split[2].trim())) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
 			}
 		}
 
-		log.debug("/users가 아님....");
 		// "/wish-item/{userCode}" 또는 "/wish-item/{userCode}/{wishItemSequence}를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
 		if (requestURI.startsWith("/wish-item")) {
 			String[] split = requestURI.split("/");
-
+			log.debug("/wish-item 요청 처리 중...");
 			if (cookies == null) {
 				if (split.length > 2) {
 					filterChain.doFilter(httpServletRequest, httpServletResponse);
@@ -103,7 +101,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		}
 
-		log.debug("/wish-item이 아님....");
 
 		//쿠키가 모두 만료되어 없거나
 		//하나의 토큰만 하나의 쿠키에 담겨오는 경우
@@ -112,7 +109,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			removeAllCookies(httpServletResponse, cookies);
 			log.debug("first exception");
 			// 인증되지 않은 사용자들에게 401 에러를 던진다
-			throw new UnAuthorizedException("쿠키가 모두 만료되어 없거나 하나의 토큰만 존재합니다.");
+			throw new UnAuthorizedException("only one token or cookie is expired.");
 		}
 
 		for (Cookie cookie : cookies) {
@@ -134,9 +131,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// exception 터뜨림
 		if (!refreshToken.equals("") && jwtProvider.validateLogoutToken(refreshToken)) {
 			removeAllCookies(httpServletResponse, cookies);
-			log.debug("second exception");
 			// 인증되지 않은 사용자들에게 401 에러를 던진다
-			throw new UnAuthorizedException("토큰이 만료되었습니다.");
+			throw new UnAuthorizedException("RefreshToken is expired.");
 		}
 
 		Map<String, Object> tokens = jwtProvider.reIssueToken(accessToken, refreshToken, userCode);
@@ -195,12 +191,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			//재로그인 하라는 에러메시지를 보낸다
 			else if (accessTokenCookie != null && refreshTokenCookie != null) {
 				// 인증되지 않은 사용자들에게 401 에러를 던진다
-				log.debug("third exception");
-				throw new UnAuthorizedException("유효하지않은 토큰입니다. 로그인하세요.");
+				throw new UnAuthorizedException("AccessToken, RefreshToken are expired.");
 			}
 		}
 
-		log.debug("jwtFilter 통과!!!");
+		log.debug("jwtAuthenticationFilter pass.");
 		filterChain.doFilter(httpServletRequest, httpServletResponse);
 
 	}
