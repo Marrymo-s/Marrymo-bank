@@ -40,21 +40,21 @@ public class PaymentService {
 	private final String PID = "Marrymo";
 	private final UserRepository userRepository;
 
-	private String forWho;
+	private String forWho="축의금";
 	private final WebClient kakaopayWebClient = WebClient.builder()
 		.baseUrl("https://open-api.kakaopay.com")
 		.build();
 
 	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) {
 		log.debug(transfer.getUserCode());
-		User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(
-			UserErrorCode.USER_NOT_FOUND));
-		log.debug("통과함?");
-		if (transfer.getGuestType() == GuestType.GROOM)
-			forWho = user.getCard().getGroomName();
-		else
-			forWho = user.getCard().getBrideName();
-		forWho += "님에게 전달할 축의금(Marrymo)";
+		// User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(
+		// 	UserErrorCode.USER_NOT_FOUND));
+		// log.debug("통과함?");
+		// if (transfer.getGuestType() == GuestType.GROOM)
+		// 	forWho = user.getCard().getGroomName();
+		// else
+		// 	forWho = user.getCard().getBrideName();
+		// forWho += "님에게 전달할 축의금(Marrymo)";
 
 		PaymentRequest paymentRequest = PaymentRequest.builder()
 			.cid(CID)
