@@ -61,7 +61,8 @@ const Transfer = () => {
 
   const kakaoPayMentAPI = async () => {
     const authorization = 'SECRET_KEY ' + process.env.NEXT_PUBLIC_KAKAOPAY_SECRET_KEY;
-    const redirectUrl = process.env.NEXT_PUBLIC_KAKAOPAY_REDIRECT_URL;
+    //   const redirectUrl = process.env.NEXT_PUBLIC_KAKAOPAY_REDIRECT_URL;
+    const redirectUrl = 'http://localhost:3000/transfer';
     try {
       const paymentDataRequestBody = {
         cid: 'TC0ONETIME',
@@ -75,7 +76,8 @@ const Transfer = () => {
         cancel_url: redirectUrl,
         fail_url: redirectUrl,
       };
-      const paymentResponse = await fetch('https://open-api.kakaopay.com/online/v1/payment/ready', {
+      console.log("카카오 송금 api 호출")
+      const paymentResponse = await fetch('/online/v1/payment/ready', {
         method: 'POST',
         headers: {
           'Authorization': authorization, // 관리자 키를 입력하세요.
