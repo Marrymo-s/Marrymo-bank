@@ -75,7 +75,7 @@ const Transfer = () => {
         cancel_url: redirectUrl,
         fail_url: redirectUrl,
       };
-      const paymentResponse = await fetch('/online/v1/payment/ready', {
+      const paymentResponse = await fetch('https://open-api.kakaopay.com/online/v1/payment/ready', {
         method: 'POST',
         headers: {
           'Authorization': authorization, // 관리자 키를 입력하세요.
