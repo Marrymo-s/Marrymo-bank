@@ -11,12 +11,12 @@ export const defaultWrapper = recipe({
   variants: {
     width: {
       max: {
-        width: '100svw',
+        width: '100dvw',
       },
     },
     height: {
       max: {
-        height: '100svh',
+        height: '100dvh',
       },
       auto: {
         height: 'auto',

@@ -17,8 +17,8 @@ export const resultsContainer = style([
     gap: vars.space['1x'],
     width: 'auto',
     maxWidth: 480,
-    minHeight: '75svh',
-    maxHeight: '75svh',
+    minHeight: '75dvh',
+    maxHeight: '75dvh',
     position: 'relative',
     overflow: 'auto',
   }

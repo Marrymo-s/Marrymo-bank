@@ -13,7 +13,7 @@ globalStyle('html', {
 globalStyle('body', {
   width: 'auto',
   maxWidth: 480,
-  minHeight: '100svh',
+  minHeight: '100dvh',
   margin: '0 auto',
   padding: 0,
   backgroundColor: vars.colors.white,
