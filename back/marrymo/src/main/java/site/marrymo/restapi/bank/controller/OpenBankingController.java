@@ -28,7 +28,7 @@ public class OpenBankingController {
     public ResponseEntity<OpenBankingAccountInquiryResponse> getUserAccountInfo(@LoginUser UserDTO userDTO,
                                                                      @Valid @RequestBody OpenBankingCodeRequest openBankingCodeRequest){
         log.debug("code : " + openBankingCodeRequest.getCode());
-
+        log.debug("who : " + openBankingCodeRequest.getWho());
         //토큰 발급 api 호출
         OpenBankingTokenApiResponse openBankingTokenApiResponse = openBankingService.callTokenApi(openBankingCodeRequest);
 
