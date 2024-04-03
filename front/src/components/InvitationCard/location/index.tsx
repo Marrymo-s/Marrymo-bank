@@ -21,7 +21,7 @@ const weddingLocation = ({weddingDate, weddingTime, location}: locationProps ) =
       <div>{location}</div>
       <br/>
       <div>
-        <KakaoMap />
+        {/*<KakaoMap />*/}
       </div>
     </div>
   )
