@@ -1,17 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { searchResponse } from '@/types/search';
-import { useRouter } from 'next/navigation';
+import React, {useState, useEffect} from 'react';
+import {searchResponse} from '@/types/search';
+import {useRouter} from 'next/navigation';
 import * as styles from './index.css';
 import Image from 'next/image';
 
-import { fetchInstance } from '@/services';
+import {fetchInstance} from '@/services';
 
-import { userInfoStore } from '@/store/useUserInfo';
-import {registraionEachImageWrapper} from "./index.css";
-
-
+import {userInfoStore} from '@/store/useUserInfo';
+import {registraionEachImageWrapper} from './index.css';
 
 interface WishListItem {
   wishItemSequence: number;
@@ -25,12 +23,12 @@ interface RegistrationProps {
   trigger: boolean;
 }
 
-const Registration = ({ refresh, trigger }:RegistrationProps) => {
+const Registration = ({refresh, trigger}: RegistrationProps) => {
   const [wishLists, setWishLists] = useState<WishListItem[]>([]);
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
 
-  console.log(userCode)
+  console.log(userCode);
 
   // trigger 값의 변경을 감지하여 위시리스트 데이터 다시 불러오기
   useEffect(() => {
@@ -46,10 +44,9 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
   };
 
 
-
-  const goToDetail = (num:number) => {
-    router.push(`detail/${userCode}/${num}`)
-  }
+  const goToDetail = (num: number) => {
+    router.push(`detail/${userCode}/${num}`);
+  };
 
 
   return (
@@ -71,7 +68,7 @@ const Registration = ({ refresh, trigger }:RegistrationProps) => {
               height={50}
               alt="Picture of the author"
               className={styles.registraionEachImageWrapper}
-              onClick={() => goToDetail(wishlist.wishItemSequence) }
+              onClick={() => goToDetail(wishlist.wishItemSequence)}
             />
           ))}
         </div>
