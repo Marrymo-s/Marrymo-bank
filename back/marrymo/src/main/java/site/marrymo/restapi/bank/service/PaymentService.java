@@ -2,6 +2,7 @@ package site.marrymo.restapi.bank.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,8 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import net.minidev.json.JSONObject;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 import site.marrymo.restapi.bank.dto.request.MoBankTokenApiRequest;
 import site.marrymo.restapi.bank.dto.request.OpenBankingCodeRequest;
 import site.marrymo.restapi.bank.dto.request.OpenBankingTokenApiRequest;
@@ -42,19 +46,19 @@ public class PaymentService {
 	private final String PID = "Marrymo";
 	private final UserRepository userRepository;
 
-	private String forWho="축의금";
+	private String forWho = "축의금";
 	private final WebClient kakaopayWebClient = WebClient.builder()
 		.baseUrl("https://open-api.kakaopay.com/online/v1/payment/ready")
 		.build();
 
 	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) throws JsonProcessingException {
-		log.debug("게스트 타입.네임={}",transfer.getGuestType().name());
-		log.debug("게스트 타입.투스트링={}",transfer.getGuestType().toString());
-		log.debug("타입.네임={}",transfer.getType().name());
-		log.debug("타입.투스트링={}",transfer.getType().toString());
-		log.debug("금액={}",transfer.getAmount());
-		log.debug("관계={}",transfer.getRelationship());
-		log.debug("발송자={}",transfer.getSender());
+		log.debug("게스트 타입.네임={}", transfer.getGuestType().name());
+		log.debug("게스트 타입.투스트링={}", transfer.getGuestType().toString());
+		log.debug("타입.네임={}", transfer.getType().name());
+		log.debug("타입.투스트링={}", transfer.getType().toString());
+		log.debug("금액={}", transfer.getAmount());
+		log.debug("관계={}", transfer.getRelationship());
+		log.debug("발송자={}", transfer.getSender());
 		// User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(
 		// 	UserErrorCode.USER_NOT_FOUND));
 		// log.debug("통과함?");
@@ -64,28 +68,23 @@ public class PaymentService {
 		// 	forWho = user.getCard().getBrideName();
 		// forWho += "님에게 전달할 축의금(Marrymo)";
 
-		PaymentRequest paymentRequest = PaymentRequest.builder()
-			.cid(CID)
-			.partner_order_id(PID)
-			.partner_user_id(PID)
-			.item_name(forWho)
-			.quantity(1)
-			.total_amount(transfer.getAmount())
-			.tax_free_amount(0)
-			.approval_url(redirectUrl)
-			.cancel_url(redirectUrl)
-			.fail_url(redirectUrl)
-			.build();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("cid", CID);
+		jsonObject.put("partner_order_id", PID);
+		jsonObject.put("partner_user_id", PID);
+		jsonObject.put("item_name", forWho);
+		jsonObject.put("quantity", "1");
+		jsonObject.put("total_amount", String.valueOf(transfer.getAmount()));
+		jsonObject.put("tax_free_amount", "0");
+		jsonObject.put("approval_url", redirectUrl);
+		jsonObject.put("cancel_url", redirectUrl);
+		jsonObject.put("fail_url", redirectUrl);
 
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(paymentRequest);
-
-		log.debug(jsonString);
 		return kakaopayWebClient
 			.post()
-			.header("Authorization","SECRET_KEY DEV9E319E8DD99C907F55D02AFBEBFFBABA46A53")
-			.header("Content-Type","application/json")
-			.bodyValue(BodyInserters.fromValue(jsonString))
+			.header("Authorization", "SECRET_KEY DEV9E319E8DD99C907F55D02AFBEBFFBABA46A53")
+			.contentType(MediaType.APPLICATION_JSON)
+			.body(Mono.just(jsonObject.toString()), JSONObject.class)
 			.retrieve()
 			.bodyToMono(PaymentResponse.class)
 			.block();
