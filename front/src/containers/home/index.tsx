@@ -29,7 +29,7 @@ const Home = ({params}: Props) => {
       console.log(userCode)
     }
   }, [userCode, setUserCode]);
-
+  console.log(isMem)
   return (
     <>
       <main className={styles.homeWrapper}>
