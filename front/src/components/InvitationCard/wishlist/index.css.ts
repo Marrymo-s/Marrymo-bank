@@ -28,7 +28,7 @@ export const wishlistEachImageWrapper = style({
   width: '80%',
   height: '80%',
   padding: '2px',
-  margin: '5px',
+  margin: '20px',
   border: vars.colors.lightGray,
   borderWidth: '1px',
   borderStyle: 'solid',
