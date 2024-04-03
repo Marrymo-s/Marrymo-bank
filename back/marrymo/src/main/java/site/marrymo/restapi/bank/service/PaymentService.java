@@ -79,7 +79,7 @@ public class PaymentService {
 		return kakaopayWebClient
 			.post()
 			.uri("/online/v1/payment/ready")
-			.header("Authorization","SECRET_KEY "+secretKey)
+			.header("Authorization","SECRET_KEY DEV9E319E8DD99C907F55D02AFBEBFFBABA46A53")
 			.contentType(MediaType.APPLICATION_JSON)
 			.bodyValue(BodyInserters.fromValue(paymentRequest))
 			.retrieve()
