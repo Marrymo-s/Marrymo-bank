@@ -1,14 +1,16 @@
 import * as styles from './index.css';
 import React from 'react';
 
+
 import {signupRequest} from '@/types/auth';
 import formatDateTime from '@/utils/formatdatetime';
+import {KakaoMap} from "@/components/InvitationCard/location/kakao";
 
 
 type locationProps = Pick<signupRequest, 'weddingDate' | 'weddingTime' | 'location'>
 
 
-const weddingLocation = ({weddingDate, weddingTime, location}: locationProps) => {
+const weddingLocation = ({weddingDate, weddingTime, location}: locationProps ) => {
   const formattedDate = formatDateTime(weddingDate, weddingTime)
 
   return (
@@ -18,7 +20,9 @@ const weddingLocation = ({weddingDate, weddingTime, location}: locationProps) =>
       <div>{formattedDate}</div>
       <div>{location}</div>
       <br/>
-      <div>카카오 지도</div>
+      <div>
+        <KakaoMap />
+      </div>
     </div>
   )
 }
