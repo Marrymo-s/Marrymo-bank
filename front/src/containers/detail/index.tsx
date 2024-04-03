@@ -52,8 +52,8 @@ const Detail = async () => {
           <Image
             src={wishItemDetailData.img}
             alt="cardTopImage"
-            width={480}
-            height={480}
+            width={400}
+            height={400}
             sizes='100vw'
           />
         </div>
@@ -74,9 +74,9 @@ const Detail = async () => {
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formattedFund}
             </span> 원이 모였어요 <br/>
             모금 마감까지&nbsp;
-            <span className={styles.detailColorText}>
-               n
-            </span> 일이 남았어요! <br/>
+            {/*<span className={styles.detailColorText}>*/}
+            {/*   n*/}
+            {/*</span> 일이 남았어요! <br/>*/}
             지금까지&nbsp;
             <span className={styles.detailColorText}>
               {wishItemDetailData.person}
