@@ -12,7 +12,7 @@ import site.marrymo.restapi.user.dto.Who;
 public class MoneygiftTransferRequest {
     Long userSequence;
 
-    @NotBlank(message = "userCode를 입력해주세요")
+    //@NotBlank(message = "userCode를 입력해주세요")
     String userCode;
 
     Long wishItemSequence;          // 위시리스트 고유번호
