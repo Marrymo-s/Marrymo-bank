@@ -163,40 +163,19 @@ export const deleteButton = style({
   },
 });
 
-export const addButton = style({
-  position: 'relative',
-  top: vars.space['2x'],
-  left: vars.space['2x'],
-  backgroundColor: vars.colors.roseGold,
-  color: 'black',
-  padding: vars.space['1x'],
-  marginBottom: vars.space['1x'],
-  border: 'none',
-  borderRadius: vars.borderRadius['1x'],
-  cursor: 'pointer',
-  fontSize: vars.fontSize['2x'],
-});
-
 export const inputBoxStyle = style({
   width: '100%',
   marginBottom: vars.space['2x'],
 });
 
-export const datePickerHeaderText = style({
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'flex-start',
-  marginBottom: vars.space['1x'],
-  width: '100%',
-});
-
-export const imagesScrollContainer = style({
-  display: 'flex',
-  overflowX: 'auto',
-  paddingLeft: vars.space['2x'],
-});
-
 export const buttonContainer = style({
   width: '100%',
   margin: vars.space['2x'],
+});
+
+export const errorMessage = style({
+  marginTop: vars.space['1x'],
+  color: vars.colors.alertRed,
+  fontSize: vars.fontSize['1x'],
+  textAlign: 'center',
 });
