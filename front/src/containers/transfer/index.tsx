@@ -1,7 +1,7 @@
 'use client';
 import React, {useState} from 'react';
-import Header from '@/components/Header';
-import * as styles from './index.css';
+import Header from '@/components/Header'
+import * as styles from './index.css'
 import InputBox from '@/components/InputBox';
 import Checkbox from '@/components/Checkbox';
 import Button from '@/components/Button';
@@ -10,29 +10,23 @@ import {router} from 'next/client';
 import {fetchInstance} from '@/services';
 import {userInfoStore} from '@/store/useUserInfo';
 import {useWishitemSeqStore} from '@/store/useWishitemSeq';
-import * as process from 'process';
-
-interface PaymentResponse {
-  next_redirect_pc_url: string;
-}
-
 
 const Transfer = () => {
-  const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>();
-  const [sender, setSender] = useState<string>('');
-  const [amount, setAmount] = useState<number>();
-  const [relationship, setRelationship] = useState<string>('');
+  const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
+  const [sender, setSender] = useState<string>()
+  const [amount, setAmount] = useState<number>()
+  const [relationship, setRelationship] = useState<string>()
 
   //zustand
-  const {wishitemSeq} = useWishitemSeqStore();
-  const {userCode} = userInfoStore();
+  const {wishitemSeq} = useWishitemSeqStore()
+  const {userCode} = userInfoStore()
 
   const handleChange = (value: 'GROOM' | 'BRIDE') => {
-    setSelected(value);
-  };
+    setSelected(value)
+  }
 
-  const postMoneygift = async () => {
-    try {
+  const postMoneygift = async () =>{
+    try{
       const requestBody = {
         userCode: userCode,
         wishItemSequence: wishitemSeq,
@@ -41,70 +35,32 @@ const Transfer = () => {
         amount: amount,
         relationship: relationship,
         sender: sender,
-      };
+      }
 
       const options: RequestInit = {
         method: 'POST',
-        body: JSON.stringify(requestBody),
-      };
-
-      const response = await fetchInstance('/moneygift/send', options);
-
-      if (response.ok) {
-        router.push('/complete');
+        body: JSON.stringify(requestBody)
       }
 
-    } catch (error) {
-      console.error('moneygift 송금 중 오류 발생', error);
-    }
-  };
+      const response = await fetchInstance('/moneygift/send', options)
 
-  const kakaoPayMentAPI = async () => {
-    const authorization = 'SECRET_KEY ' + process.env.NEXT_PUBLIC_KAKAOPAY_SECRET_KEY;
-    //   const redirectUrl = process.env.NEXT_PUBLIC_KAKAOPAY_REDIRECT_URL;
-    const redirectUrl = 'http://localhost:3000/transfer';
-    try {
-      const paymentDataRequestBody = {
-        cid: 'TC0ONETIME',
-        partner_order_id: 'A403',
-        partner_user_id: 'Marrymo',
-        item_name: '축의금',
-        quantity: 1,
-        total_amount: amount,
-        tax_free_amount: 0,
-        approval_url: redirectUrl,
-        cancel_url: redirectUrl,
-        fail_url: redirectUrl,
-      };
-      console.log("카카오 송금 api 호출")
-      const paymentResponse = await fetch('/online/v1/payment/ready', {
-        method: 'POST',
-        headers: {
-          'Authorization': authorization, // 관리자 키를 입력하세요.
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(paymentDataRequestBody),
-      });
-      if (paymentResponse.ok) {
-        const paymentData = await paymentResponse.json() as PaymentResponse;
-        window.location.href = paymentData.next_redirect_pc_url;
+      if(response.ok) {
+        router.push('/complete')
       }
-    } catch (error) {
-      console.error('paymentDataRequest 중 오류 발생', error);
 
+    }catch(error) {
+      console.error('moneygift 송금 중 오류 발생', error)
     }
-
-  };
-
+  }
   return (
     <>
-      <Header title="축의금 보내기" hasPrevious />
+      <Header title='축의금 보내기' hasPrevious/>
       <main className={styles.transferWrapper}>
         <div>
           <div>
             <InputBox
-              inputBoxHeader="이름"
-              placeholder="이름을 입력해주세요."
+              inputBoxHeader='이름'
+              placeholder='이름을 입력해주세요.'
               asterisk={true}
               value={sender}
               onValueChange={(val) => setSender(val)}
@@ -113,8 +69,8 @@ const Transfer = () => {
           </div>
           <div>
             <InputBox
-              inputBoxHeader="금액"
-              placeholder="보내시는 금액을 입력해주세요"
+              inputBoxHeader='금액'
+              placeholder='보내시는 금액을 입력해주세요'
               asterisk={true}
               value={amount ? amount.toString() : ''}
               onValueChange={(val) => setAmount(parseInt(val, 10) || 0)}
@@ -122,8 +78,8 @@ const Transfer = () => {
           </div>
           <div>
             <InputBox
-              inputBoxHeader="관계(선택)"
-              placeholder="보내는 분과 어떤 관계인가요?"
+              inputBoxHeader='관계(선택)'
+              placeholder='보내는 분과 어떤 관계인가요?'
               value={relationship || ''}
               onValueChange={(val) => setRelationship(val)}
             />
@@ -139,17 +95,18 @@ const Transfer = () => {
 
         <Button
           type="button"
-          onClick={kakaoPayMentAPI}
+          onClick={postMoneygift}
           colorStyle={'roseGold'}
           filled={true}
-          size="large"
+          size='large'
           disabled={false}
         >
           보내기
         </Button>
       </main>
     </>
-  );
-};
+  )
+}
 
 export default Transfer;
+
