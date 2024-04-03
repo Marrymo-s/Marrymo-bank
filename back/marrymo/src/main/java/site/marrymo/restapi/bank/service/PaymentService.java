@@ -44,7 +44,7 @@ public class PaymentService {
 
 	private String forWho="축의금";
 	private final WebClient kakaopayWebClient = WebClient.builder()
-		.baseUrl("https://open-api.kakaopay.com")
+		.baseUrl("https://open-api.kakaopay.com/online/v1/payment/ready")
 		.build();
 
 	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) throws JsonProcessingException {
@@ -80,12 +80,11 @@ public class PaymentService {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonString = mapper.writeValueAsString(paymentRequest);
 
-		log.debug(paymentRequest.toString());
+		log.debug(jsonString);
 		return kakaopayWebClient
 			.post()
-			.uri("/online/v1/payment/ready")
 			.header("Authorization","SECRET_KEY DEV9E319E8DD99C907F55D02AFBEBFFBABA46A53")
-			.contentType(MediaType.APPLICATION_JSON)
+			.header("Content-Type","application/json")
 			.bodyValue(BodyInserters.fromValue(jsonString))
 			.retrieve()
 			.bodyToMono(PaymentResponse.class)
