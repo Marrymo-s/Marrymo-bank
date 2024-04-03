@@ -50,7 +50,8 @@ const Registration = ({refresh, trigger, userCode}: RegistrationProps) => {
         try {
           const response = await fetchInstance(`/wish-item/${userCode}`);
           console.log(response)
-          setWishLists(response.items)
+          setWishLists([...response.items].reverse());
+
         } catch (error) {
           console.error('조회실패')
         }
@@ -58,7 +59,7 @@ const Registration = ({refresh, trigger, userCode}: RegistrationProps) => {
     } else {
       console.log('userCode is not defined yet.');
     }
-  }, [])
+  }, [trigger])
   console.log(wishLists)
 
   const goToDetail = (num: number) => {
