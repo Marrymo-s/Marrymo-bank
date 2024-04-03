@@ -44,12 +44,10 @@ const WishCard = ({image, title, lprice, brand, category2, category4, refreshDat
     }
 
     const response = await fetchInstance(`/wish-item`, options)
+    refreshData()
     console.log(response)
-
     // 요청 성공시 커스텀 이벤트 발생시키기
-    if (response.ok) {
-      refreshData(); // '담기' 성공 후 refreshData 호출
-    }
+
   }
 
   return (
