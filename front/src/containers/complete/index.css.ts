@@ -14,8 +14,8 @@ export const completeWrapper = style([
   }),
   {
     width: '100%',
-    height: '65vh',
-    maxHeight: '600px',
+    height: '800px',
+    maxHeight: '1000px',
     position: 'relative',
     aspectRatio: '16 / 9',
     padding: vars.space['4x'],
@@ -35,6 +35,7 @@ export const completeText = recipe({
     color: vars.colors.black,
     margin: vars.space['1x'],
     marginTop: '80px',
+    marginBottom: '80px',
     textAlign: 'center',
     width: 'auto',
   },
@@ -48,7 +49,7 @@ export const completeText = recipe({
         fontSize: vars.fontSize['3x'],
         fontWeight: vars.fontWeight['normal'],
         marginTop: vars.space['2x'],
-        marginBottom: vars.space['2x'],
+        marginBottom: vars.space['5x'], // 여기서 '5x'는 원하는 간격에 맞게 조정하세요.
       },
     },
   },
@@ -56,12 +57,17 @@ export const completeText = recipe({
 
 export const thankWrapper = style({
   // 기본 스타일
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   width: '100%',
-  height: '65vh',
+  height: '500px',
   maxHeight: '600px',
+  marginTop: vars.space['5x'], // 여기서 '5x'는 원하는 간격에 맞게 조정하세요.
   position: 'relative',
   aspectRatio: '16 / 9',
   overflow: 'hidden',
+
 });
 
 const float = keyframes({
@@ -78,8 +84,9 @@ const float = keyframes({
 
 export const heart = style({
   position: 'absolute',
-  top: '15%',
+  top: '4%',
   left: '48%',
+  marginBottom: '5px',
   transform: 'translate(-50%, -50%)',
   fontSize: '30px', // Adjust size as needed
   color: 'red',
@@ -87,7 +94,10 @@ export const heart = style({
 });
 
 export const buttonContainer = style({
+  display: 'flex',
+  marginTop: '100px',
   width: '100%',
+  justifyContent: 'center',
   alignContent: 'center',
   margin: vars.space['2x'],
 });

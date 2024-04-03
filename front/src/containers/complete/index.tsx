@@ -28,9 +28,10 @@ const Complete = () => {
           <Image
             src='/images/complete/bubuicon.jpg'
             alt='Thank you for sending'
-            width={500}
-            height={500}
-            layout='fixed'
+            width={500} // 원본 이미지의 실제 크기에 맞게 설정
+            height={700} // 원본 이미지의 실제 크기에 맞게 설정
+            layout='responsive' // 또는 'fill' 사용
+            objectFit='contain' // 이미지가 잘리지 않도록 설정
           />
           <div className={styles.heart}>&#10084;&#65039;</div>
         </div>
