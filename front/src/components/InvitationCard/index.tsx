@@ -108,7 +108,9 @@ const InvitationCard = ({params}:Props) => {
       <Album
         imgUrl={invitationData.imgUrl}
       />
-      <Wishlist />
+      <Wishlist
+        params={{userCode}}
+      />
       <div className={rightsText}>
         @Marrymo All rights reserved
       </div>

@@ -23,7 +23,7 @@ const WishItem = ({params}: Props) => {
   const [trigger, setTrigger] = useState<boolean>(false);
 
   const userCode = userInfoStore((state) => state.userCode)
-  console.log(userCode)
+  // console.log(userCode)
   const refreshData = () => {
     setTrigger(!trigger);
   };
@@ -42,15 +42,12 @@ const WishItem = ({params}: Props) => {
           "X-Naver-Client-Secret": clientSecret,
         },
       });
-      console.log(clientId)
-      console.log(clientSecret)
-      console.log(response)
       setResults(response.data.items);
     } catch (error) {
       console.error('검색 중 오류 발생:', error);
     }
   };
-
+  console.log('상태:',trigger)
   if (!userCode) {
     return <div>ㅎㅎ..</div>
   }
