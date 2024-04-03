@@ -22,7 +22,7 @@ import site.marrymo.restapi.user.dto.UserDTO;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/moneygift")
 @CrossOrigin(origins = {"https://marrymo.site", "http://localhost:3000"}, exposedHeaders = "*")
 public class MoneygiftController {
@@ -40,14 +40,13 @@ public class MoneygiftController {
 
 	@PostMapping("/send")
 	@Operation(summary = "하객이 부부에게 송금하기 (테스트 완료)", description = "축의금 or 펀딩을 위한 송금 API입니다.")
-	public void sendMoneygift(
+	public ResponseEntity<?> sendMoneygift(
 		@RequestBody MoneygiftTransferRequest moneygiftTransferRequest, HttpServletResponse response) throws
 		IOException {
 		log.info("call sendMoneygift...");
 		PaymentResponse paymentResponse = paymentService.paymentApi(moneygiftTransferRequest);
 		log.debug(paymentResponse.toString());
 		log.debug("kakao url 생성");
-		// moneygiftService.sendMoneygift(moneygiftTransferRequest);
-		response.sendRedirect(paymentResponse.getNext_redirect_pc_url());
+		return ResponseEntity.ok(paymentResponse.getNext_redirect_pc_url());
 	}
 }
