@@ -25,6 +25,10 @@ const nextConfig = {
         source: '/v1/search/shop.json',
         destination: 'https://openapi.naver.com/v1/search/shop.json',
       },
+      {
+        source: '/online/v1/payment/ready',
+        destination: 'https://open-api.kakaopay.com/online/v1/payment/ready',
+      },
     ];
   },
   images: {
