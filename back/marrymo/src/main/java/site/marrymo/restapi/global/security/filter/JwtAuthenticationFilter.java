@@ -61,8 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (requestURI.startsWith("/login") ||
 			requestURI.equals("/moneygift/send") ||
 				requestURI.equals("/smtp/send") ||
-				requestURI.equals("/smtp/authcode/verifications") ||
-			containsWishItemRequestURI(requestURI)
+				requestURI.equals("/smtp/authcode/verifications")
 		) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 			return;
@@ -80,6 +79,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// cookie를 담아오지 않는다.
 		if (httpServletRequest.getMethod().equals("GET") &&
 			requestURI.startsWith("/users")) {
+			log.debug("/users 요청 처리 중...");
 			String[] split = requestURI.split("/");
 
 			if (isNotExistAccessAndRefresh(cookies) && split.length == 3 && isContainsUserCode(split[2].trim())) {
@@ -91,11 +91,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// "/wish-item/{userCode}" 또는 "/wish-item/{userCode}/{wishItemSequence}를 비회원이 요청하는 경우
 		// cookie를 담아오지 않는다.
 		if (requestURI.startsWith("/wish-item")) {
+			log.debug("/wish-item 요청 처리 중...");
 			String[] split = requestURI.split("/");
 
 			if (isNotExistAccessAndRefresh(cookies)) {
-			log.debug("/wish-item 요청 처리 중...");
-
 				if (split.length > 2) {
 					filterChain.doFilter(httpServletRequest, httpServletResponse);
 					return;
