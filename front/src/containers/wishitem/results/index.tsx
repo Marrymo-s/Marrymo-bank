@@ -13,7 +13,6 @@ const Results = ({ results, refreshData }: ResultsProps) => {
     return text.replace(/<[^>]*>?/gm, '');
   };
 
-
   if(results.length == 0) {
     return <div>원하는 상품을 검색해보세요!</div>
   }
