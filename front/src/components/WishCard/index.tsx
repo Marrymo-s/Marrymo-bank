@@ -18,6 +18,7 @@ interface WishCardProps {
   brand: string;
   category2: string;
   category4: string;
+  userCode: string;
 }
 
 interface myWishProps {
@@ -26,7 +27,7 @@ interface myWishProps {
   price: string;
 }
 
-const WishCard = ({image, title, lprice, brand, category2, category4}: WishCardProps) => {
+const WishCard = ({image, title, lprice, brand, category2, category4, userCode}: WishCardProps) => {
 
   const formattedPrice = formatPrice(lprice);
   // const userCode = userInfoStore((state) => state.userCode);
@@ -42,7 +43,7 @@ const WishCard = ({image, title, lprice, brand, category2, category4}: WishCardP
       body: JSON.stringify(myWish)
     }
 
-    const response = await fetchInstance('/wish-item', options)
+    const response = await fetchInstance(`/wish-item`, options)
 
     // 요청 성공시 커스텀 이벤트 발생시키기
     if (response.ok) {

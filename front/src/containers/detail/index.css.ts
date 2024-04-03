@@ -14,22 +14,41 @@ export const detailWrapper = style([
     direction: 'column',
   }),
   {
+    padding: vars.space['4x'],
+  },
+  {
     '@media': {
       'screen and (min-width: 480px)': {
         width: '480px',
+        margin: '0 auto',
       },
     },
+    width: '100%',
   },
 ]);
 
-export const detailContainer = style({
+export const detailImageWrapper = style({
+  borderColor: vars.colors.black,
+  borderWidth: '1px',
+  borderStyle: 'solid',
+  objectFit: 'cover',
+  width: 'auto',
+
+
+})
+
+export const detailImageContainer = style({
   background: vars.colors.lightYellow,
   width: 'auto',
   maxWidth: 480,
-  height: '300px',
+  height: '2000',
   position: 'relative',
   marginBottom: vars.space['4x'],
   boxShadow: `0px 10px 25px 0px ${vars.colors.whitesmoke}`,
+  overflow: 'hidden',
+  borderColor: vars.colors.black,
+  borderWidth: '1px',
+  borderStyle: 'solid',
 
 });
 
@@ -44,15 +63,15 @@ export const detailNameText = style({
   whiteSpace: 'nowrap', // 텍스트가 줄바꿈 없이 한 줄로 표시
   width: '100%', // 부모 요소에 맞춰 너비를 설정
   maxWidth: '100%', // 최대 너비를 부모 요소에 맞춰 설정
-  paddingLeft: '40px',
+  paddingLeft: '110px',
 })
 
 export const detailTotalPriceText = style({
-  fontSize: vars.fontSize["4x"]
+  fontSize: vars.fontSize["3x"]
 })
 
 export const detailPartialPriceText = style({
-  fontSize: vars.fontSize["4x"],
+  fontSize: vars.fontSize["3x"],
   fontWeight: vars.fontWeight.accent
 })
 

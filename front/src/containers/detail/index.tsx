@@ -40,12 +40,12 @@ const Detail = async () => {
       {/*<div>유저{userCode} 제품{wishItemSequence}</div>*/}
       <Header title="위시리스트 상세" hasPrevious/>
       <main className={styles.detailWrapper}>
-        <div className={styles.detailContainer}>
+        <div className={styles.detailImageWrapper}>
           <Image
             src={wishItemDetailData.img}
             alt="cardTopImage"
-            width={300}
-            height={300}
+            width={480}
+            height={480}
             sizes='100vw'
           />
         </div>

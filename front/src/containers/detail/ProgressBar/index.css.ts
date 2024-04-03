@@ -8,13 +8,16 @@ import {vars} from '@/styles/vars.css';
 
 
 export const progressTotalContainer = style({
+
   width: '300px',
   height: '30px',
   borderColor: vars.colors.black,
   borderWidth: '1px',
-  borderStyle: 'solid'
+  borderStyle: 'solid',
+  overflow: 'hidden',
 })
 
 export const progressPartialContainer = style({
-  background: vars.colors.roseGold
+  background: vars.colors.roseGold,
+  height: '100%',
 })
