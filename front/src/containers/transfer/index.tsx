@@ -6,16 +6,16 @@ import InputBox from '@/components/InputBox';
 import Checkbox from '@/components/Checkbox';
 import Button from '@/components/Button';
 import {useRouter} from 'next/navigation';
-import {router} from 'next/client';
 import {fetchInstance} from '@/services';
 import {userInfoStore} from '@/store/useUserInfo';
 import {useWishitemSeqStore} from '@/store/useWishitemSeq';
 
 const Transfer = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
-  const [sender, setSender] = useState<string>()
+  const [sender, setSender] = useState<string>('')
   const [amount, setAmount] = useState<number>()
-  const [relationship, setRelationship] = useState<string>()
+  const [relationship, setRelationship] = useState<string>('')
+  const router = useRouter()
 
   //zustand
   const {wishitemSeq} = useWishitemSeqStore()
@@ -44,8 +44,10 @@ const Transfer = () => {
 
       const response = await fetchInstance('/moneygift/send', options)
 
-      if(response.ok) {
-        router.push('/complete')
+      if(response.payment_url) {
+        router.push(response.payment_url)
+      } else {
+        console.error('payment_url이 안왔어요')
       }
 
     }catch(error) {
