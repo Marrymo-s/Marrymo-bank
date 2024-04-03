@@ -16,7 +16,7 @@ import useModal from '@/hooks/useModal';
 
 import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
-import {fetchInstance, fetchNoJson} from '@/services';
+import {fetchNoJson} from '@/services';
 
 const today = new Date();
 const weekDay: string[] = ['일', '월', '화', '수', '목', '금', '토'];
@@ -31,12 +31,9 @@ const Edit = () => {
   const [weddingDate, setWeddingDate] = useState<Date>(addDays(new Date(), 1));
   const [weddingDay, setWeddingDay] = useState<string>(initialDayName);
   const [weddingTime, setWeddingTime] = useState({hour: '12', minute: '00'});
-  const [weddingLocation, setWeddingLocation] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [emailVerification, setEmailVerification] = useState<string>('');
-  const [greeting, setGreeting] = useState<string>(
-    '우리의 사랑이 꽃피는 순간\n\n서로의 마음을 확인하며\n\n약속의 말을 건넵니다.\n\n이 행복을 여러분과 나누고 싶어\n\n여러분을 초대합니다.',
-  );
+  const [greeting, setGreeting] = useState<string>('');
   const [groomFather, setGroomFather] = useState<string>('');
   const [groomMother, setGroomMother] = useState<string>('');
   const [brideFather, setBrideFather] = useState<string>('');
@@ -46,9 +43,40 @@ const Edit = () => {
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
   const {Modal, openModal, closeModal} = useModal();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // POST 요청 함수
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://spring.marrymo.site/users/${userCode}`);
+        if (!response.ok) {
+          throw new Error('유저 데이터를 불러오는 것을 실패했습니다.');
+          router.push(`/home/${userCode}`);
+        }
+        const data = await response.json();
+
+        setGroomName(data.groomName);
+        setBrideName(data.brideName);
+        setGroomContact(data.groomContact);
+        setBrideContact(data.brideContact);
+        setWeddingDate(data.weddingDate);
+        setWeddingDay(data.weddingDay);
+        setWeddingTime(data.weddingTime);
+        setLocation(data.location);
+        setEmail(data.email);
+        setGreeting(data.greeting);
+        setGroomFather(data.groomFather);
+        setGroomMother(data.groomMother);
+        setBrideFather(data.brideFather);
+        setBrideMother(data.brideMother);
+        setImages(data.imgUrl);
+      } catch (error) {
+        console.error('유저 정보를 조회하지 못했어요.', error);
+      }
+    };
+
+    fetchData();
+  }, [userCode]);
+
   const handleSubmit = async () => {
     const formattedDate: string = format(weddingDate, 'yyyy-MM-dd');
     const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
@@ -61,7 +89,7 @@ const Edit = () => {
     formData.append('weddingDate', formattedDate);
     formData.append('weddingDay', weddingDay);
     formData.append('weddingTime', formattedTime);
-    formData.append('location', weddingLocation);
+    formData.append('location', location);
     formData.append('email', email);
     formData.append('greeting', greeting);
     formData.append('groomFather', groomFather);
@@ -73,22 +101,16 @@ const Edit = () => {
     });
 
     try {
-      // for (let [key, value] of formData.entries()) {
-      //   console.log(`${key}: ${value}`);
-      // }
-
       const options: RequestInit = {
-        method: 'POST',
+        method: 'PUT',
         body: formData,
       };
 
-      const response = await fetchNoJson('/users', options);
+      const response = await fetchNoJson(`/users/${userCode}`, options);
       console.log(formData);
 
       if (response.ok) {
-        // 요청 성공 처리
-        const responseData = await response;
-        console.log('Submission successful', responseData);
+        console.log('유저 정보 업데이트 성공');
         router.push(`/home/${userCode}`);
       } else {
         const errorResponse = await response.text();
@@ -96,8 +118,70 @@ const Edit = () => {
       }
     } catch (error) {
       // 에러 처리
-      console.error('Submission failed', error);
+      console.error('유저 정보 업데이트 실패', error);
     }
+  };
+
+  const handleFinalSubmit = async () => {
+    const formattedDate: string = format(weddingDate, 'yyyy-MM-dd');
+    const formattedTime: string = `${weddingTime.hour}:${weddingTime.minute}:00`;
+    const formData = new FormData();
+
+    formData.append('groomName', groomName);
+    formData.append('brideName', brideName);
+    formData.append('groomContact', groomContact);
+    formData.append('brideContact', brideContact);
+    formData.append('weddingDate', formattedDate);
+    formData.append('weddingDay', weddingDay);
+    formData.append('weddingTime', formattedTime);
+    formData.append('location', location);
+    formData.append('email', email);
+    formData.append('greeting', greeting);
+    formData.append('groomFather', groomFather);
+    formData.append('groomMother', groomMother);
+    formData.append('brideFather', brideFather);
+    formData.append('brideMother', brideMother);
+    images.forEach((file) => {
+      formData.append('imgUrl', file);
+    });
+
+    try {
+      const putOptions: RequestInit = {
+        method: 'PUT',
+        body: formData,
+      };
+
+      const putResponse = await fetchNoJson(`/users/${userCode}`, putOptions);
+      console.log(formData);
+
+      if (!putResponse.ok) {
+        const errorPutResponse = await putResponse.text();
+        throw new Error(errorPutResponse);
+      }
+
+      console.log('유저 정보 업데이트 성공'!);
+
+      const patchOptions = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({isIssued: true}),
+      };
+
+      const patchResponse = await fetch('https://spring/marrymo.site/users/invitations', patchOptions);
+
+      if (!patchResponse.ok) {
+        const errorPatchResponse = await patchResponse.text();
+        throw new Error(errorPatchResponse);
+      }
+
+      console.log('청첩장 최종 발급 성공!');
+      router.push(`/home/${userCode}`);
+    } catch (error) {
+      console.error('청첩장 발급 과정 중의 에러', error);
+    }
+
   };
 
   const handleSetGroomName = (name: string) => {
@@ -121,17 +205,12 @@ const Edit = () => {
   const handleSetWeddingTime = (selectedTime: {hour: string, minute: string}) => {
     setWeddingTime(selectedTime);
   };
-  const handleSetWeddingLocation = (location: string) => {
-    setWeddingLocation(location);
+  const handleSetWeddingLocation = (weddingLocation: string) => {
+    setLocation(weddingLocation);
   };
   const handleSetEmail = (mail: string) => {
     setEmail(mail);
   };
-
-  const handleSetEmailVerification = (verification: string) => {
-    setEmailVerification(verification);
-  };
-
   const handleSetGreeting = (content: string) => {
     setGreeting(content);
   };
@@ -156,37 +235,19 @@ const Edit = () => {
     openModal();
   };
 
-  // 필수값이 입력되었는지 확인하는 부분
   const [isGroomNameValid, setIsGroomNameValid] = useState(false);
   const [isBrideNameValid, setIsBrideNameValid] = useState(false);
   const [isGroomContactValid, setIsGroomContactValid] = useState(false);
   const [isBrideContactValid, setIsBrideContactValid] = useState(false);
-  // 초대 문구는 기본 값이 주어지므로 true
   const [isGreetingValid, setIsGreetingValid] = useState(true);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isEmailVerificationValid, setIsEmailVerificationValid] = useState(false);
   const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
   const [checkValidation, setCheckValidation] = useState<boolean>(false);
+  const [isAccountRegistered, setIsAccountRegistered] = useState<boolean>(false);
 
-  const [isEmailVerify, setIsEmailVerify] = useState<boolean>(false);
-
-  // 유효성 검사 코드
   const isValidateName = (value: string) => {
     // 유효성 검사: 한국어 2 ~ 19자, 영어 4 ~ 38자
     const isValid = /^[\uac00-\ud7a3 ]{2,19}$|^[A-Za-z ]{4,38}$/.test(value);
     return isValid ? undefined : '이름은 한글 2~19자, 영문 4~38자(공백 포함)까지 가능해요.';
-  };
-
-  // 이메일 유효성 검사
-  const isValidateEmail = (value: string) => {
-    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-    return isValid ? undefined : '유효한 이메일 주소를 입력해주세요.';
-  };
-  // 이메일 인증 유효성 검사
-  // TODO: 인증번호 일치 여부 로직 구현(월)
-  const isValidateEmailVerification = (value: string) => {
-    // 입력 값이 있으면 true 반환
-    return value.trim() !== '' ? undefined : '인증 번호를 입력해주세요.';
   };
 
   // 연락처 유효성 검사
@@ -201,77 +262,58 @@ const Edit = () => {
     return value.trim() !== '' ? undefined : ' ';
   };
 
-  const sendEmail = async () => {
-    try {
-      const requestBody = {
-        email: email,
-      };
-
-      const options: RequestInit = {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-      };
-
-      const response = await fetchInstance('/smtp/send', options);
-
-    } catch (error) {
-      console.error('이메일 전송 중 오류 발생', error);
-    }
-  };
-
-  const validEmail = async () => {
-    try {
-      const requestBody = {
-        email: email,
-        code: emailVerification,
-      };
-
-      const options: RequestInit = {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-      };
-
-      const response = await fetchInstance('/smtp/authcode/verifications', options);
-
-      if (response) {
-        setIsEmailVerify(true);
-      }
-
-    } catch (error) {
-      console.error('이메일 전송 중 오류 발생', error);
-    }
-  };
-
   useEffect(() => {
     // 유효성 검사 함수 호출
     const groomNameValid = isValidateName(groomName) === undefined;
     const brideNameValid = isValidateName(brideName) === undefined;
     const groomContactValid = isValidateContact(groomContact) === undefined;
     const brideContactValid = isValidateContact(brideContact) === undefined;
-    const emailValid = isValidateEmail(email) === undefined;
-    const emailVerificationValid = isValidateEmailVerification(emailVerification) === undefined;
-    const weddingLocationValid = isValidateWeddingLocation(weddingLocation) === undefined;
+    const weddingLocationValid = isValidateWeddingLocation(location) === undefined;
 
     // 모든 입력 필드의 유효성 검사 결과 업데이트
     setIsGroomNameValid(groomNameValid);
     setIsBrideNameValid(brideNameValid);
     setIsGroomContactValid(groomContactValid);
     setIsBrideContactValid(brideContactValid);
-    setIsEmailValid(emailValid);
-    setIsEmailVerificationValid(emailVerificationValid);
     setIsWeddingLocationValid(weddingLocationValid);
 
     // 모든 검사를 통과했는지 종합하여 checkValidation 상태 업데이트
-    const allValid = groomNameValid && brideNameValid && groomContactValid && brideContactValid && emailValid && emailVerificationValid && weddingLocationValid;
+    const allValid = groomNameValid && brideNameValid && groomContactValid && brideContactValid && weddingLocationValid;
     setCheckValidation(allValid);
-  }, [groomName, brideName, groomContact, brideContact, email, emailVerification, weddingLocation]);
+  }, [groomName, brideName, groomContact, brideContact, location]);
+
+  const fetchAccountStatus = async () => {
+    try {
+      const response = await fetch(`/users/account`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch account status');
+      }
+      const data = await response.json();
+      return data.isRegistered; // Assuming the API returns an object with an 'isRegistered' field
+    } catch (error) {
+      console.error('Error fetching account status:', error);
+      return false;
+    }
+  };
+
+  const updateAccountStatus = async () => {
+    const status = await fetchAccountStatus();
+    setIsAccountRegistered(status);
+  };
+
+  const canIssueInvitation = () => {
+    return isAccountRegistered && checkValidation;
+  };
+
+  useEffect(() => {
+    updateAccountStatus();
+  }, []);
 
   return (
     <>
-      <Header title={'개인 정보 입력'} hasPrevious />
-      <main className={styles.signupWrapper}>
+      <Header title={'청첩장 정보 수정'} hasPrevious />
+      <main className={styles.editWrapper}>
         <div className={styles.inputBoxStyle}>
-          {/*TODO: 이름, 연락처 받는 건 별도의 tsx 파일에서 관리 - 리팩토링 시*/}
           <InputBox
             inputBoxHeader="신랑 이름"
             value={groomName}
@@ -364,32 +406,7 @@ const Edit = () => {
             placeholder="이메일 주소를 입력하세요."
             asterisk={true}
             onValueChange={handleSetEmail}
-            validate={isValidateEmail}
-            onValidationPassed={() => setIsEmailValid(true)}
-            button={{
-              text: '인증',
-              onClick: sendEmail,
-              type: 'button',
-              size: 'small',
-            }}
-          />
-        </div>
-        <div className={styles.inputBoxStyle}>
-          {/*TODO: 인증번호가 일치하면 safeGreen 색깔로 안내 문구 뜨게 만들기*/}
-          <InputBox
-            inputBoxHeader="인증 번호 입력"
-            value={emailVerification}
-            placeholder="인증 번호를 입력해주세요."
-            asterisk={true}
-            onValueChange={handleSetEmailVerification}
-            validate={isValidateEmailVerification}
-            onValidationPassed={() => setIsEmailVerificationValid(true)}
-            button={{
-              text: '확인',
-              onClick: validEmail,
-              type: 'button',
-              size: 'small',
-            }}
+            readonly={true}
           />
         </div>
         <div>
@@ -402,7 +419,7 @@ const Edit = () => {
         <div className={styles.inputBoxStyle}>
           <InputBox
             inputBoxHeader="결혼식 장소 선택"
-            value={weddingLocation}
+            value={location}
             placeholder="결혼식 장소를 입력해주세요."
             asterisk={true}
             readonly={true}
@@ -423,20 +440,34 @@ const Edit = () => {
         <div>
           <WeddingImageUpload updateImages={handleSetImages} />
         </div>
-        <Button
-          onClick={handleSubmit}
-          type="button"
-          colorStyle="roseGold"
-          filled={true}
-          size="large"
-          disabled={!checkValidation}
-        >
-          회원 가입 완료
-        </Button>
+        <div className={styles.buttonContainer}>
+          <Button
+            onClick={handleSubmit}
+            type="button"
+            colorStyle="roseGold"
+            filled={true}
+            size="large"
+            disabled={!checkValidation}
+          >
+            수정 사항 저장
+          </Button>
+        </div>
+        <div className={styles.buttonContainer}>
+          <Button
+            onClick={handleFinalSubmit}
+            type="button"
+            colorStyle="roseGold"
+            filled={true}
+            size="large"
+            disabled={!canIssueInvitation()}
+          >
+            청첩장 최종 발행하기
+          </Button>
+        </div>
         <Modal>
           <>
             <KakaoMap
-              setWeddingLocation={setWeddingLocation}
+              setWeddingLocation={setLocation}
               closeModal={closeModal}
               onValidationPassed={() => setIsWeddingLocationValid(true)}
             />
