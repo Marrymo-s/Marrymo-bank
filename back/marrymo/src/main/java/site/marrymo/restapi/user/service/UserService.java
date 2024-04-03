@@ -183,8 +183,16 @@ public class UserService {
     }
 
     public UserGetResponse getUserInfo(UserDTO userDTO, String userCode){
+        boolean isMem = true;
+
+        //회원이 접근 할 경우
+        //쿠키를 까봤을 때 나온 userCode와 프론트에서 보낸 userCode가 다르다면
         if(userDTO != null && !userDTO.getUserCode().equals(userCode))
-            throw new UserException(UserErrorCode.USERCODE_INCORRECT);
+            isMem = false;
+
+        //비회원이 접근할 경우
+        if(userDTO == null)
+            isMem = false;
 
         User user = userRepository.findByUserCode(userCode)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
@@ -203,7 +211,7 @@ public class UserService {
             imgUrlList.add(weddingImg.getImgUrl());
         }
 
-        return UserGetResponse.toDto(user, card, imgUrlList);
+        return UserGetResponse.toDto(user, card, imgUrlList, isMem);
     }
 
     public void deleteUser(UserDTO userDTO){

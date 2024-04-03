@@ -32,8 +32,9 @@ public class UserGetResponse {
     private String brideMother;
     private List<String> imgUrl;
     private String userCode;
+    private Boolean isMem;
 
-    public static UserGetResponse toDto(User user, Card card, List<String> imgUrl){
+    public static UserGetResponse toDto(User user, Card card, List<String> imgUrl, Boolean isMem){
         return UserGetResponse.builder()
                 .userSequence(user.getUserSequence())
                 .groomName(card.getGroomName())
@@ -52,6 +53,7 @@ public class UserGetResponse {
                 .brideMother(card.getBrideMother())
                 .imgUrl(imgUrl)
                 .userCode(user.getUserCode())
+                .isMem(isMem)
                 .build();
     }
 }
