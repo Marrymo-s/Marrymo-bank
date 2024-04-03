@@ -95,7 +95,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (requestURI.startsWith("/wish-item")) {
 			String[] split = requestURI.split("/");
 
-			if (cookies == null) {
+			if (isNotExistAccessAndRefresh(cookies)) {
 				if (split.length > 2) {
 					filterChain.doFilter(httpServletRequest, httpServletResponse);
 					return;
