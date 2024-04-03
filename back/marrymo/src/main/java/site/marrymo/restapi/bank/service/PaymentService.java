@@ -1,5 +1,8 @@
 package site.marrymo.restapi.bank.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -68,23 +71,26 @@ public class PaymentService {
 		// 	forWho = user.getCard().getBrideName();
 		// forWho += "님에게 전달할 축의금(Marrymo)";
 
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("cid", CID);
-		jsonObject.put("partner_order_id", PID);
-		jsonObject.put("partner_user_id", PID);
-		jsonObject.put("item_name", forWho);
-		jsonObject.put("quantity", "1");
-		jsonObject.put("total_amount", String.valueOf(transfer.getAmount()));
-		jsonObject.put("tax_free_amount", "0");
-		jsonObject.put("approval_url", redirectUrl);
-		jsonObject.put("cancel_url", redirectUrl);
-		jsonObject.put("fail_url", redirectUrl);
+		Map<String, Object> bodyMap = new HashMap<>();
+		bodyMap.put("cid", CID);
+		bodyMap.put("partner_order_id", PID);
+		bodyMap.put("partner_user_id", PID);
+		bodyMap.put("item_name", forWho);
+		bodyMap.put("quantity", 1);
+		bodyMap.put("total_amount", transfer.getAmount());
+		bodyMap.put("tax_free_amount", 0);
+		bodyMap.put("approval_url", redirectUrl);
+		bodyMap.put("cancel_url", redirectUrl);
+		bodyMap.put("fail_url", redirectUrl);
 
-		return kakaopayWebClient
-			.post()
-			.header("Authorization", "SECRET_KEY DEV9E319E8DD99C907F55D02AFBEBFFBABA46A53")
+		ObjectMapper objectMapper = new ObjectMapper();
+		// Map을 JSON 문자열로 직렬화
+		String jsonBody = objectMapper.writeValueAsString(bodyMap);
+
+		return kakaopayWebClient.post()
+			.header(HttpHeaders.AUTHORIZATION, "SECRET_KEY " + secretKey)
 			.contentType(MediaType.APPLICATION_JSON)
-			.body(Mono.just(jsonObject.toString()), JSONObject.class)
+			.bodyValue(jsonBody) // JSON 문자열을 바로 전달
 			.retrieve()
 			.bodyToMono(PaymentResponse.class)
 			.block();
