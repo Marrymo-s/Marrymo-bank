@@ -233,20 +233,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 	}
 
-	public boolean containsWishItemRequestURI(String requestURI) {
-		String[] split = requestURI.split("/");
-
-		if (split[1].equals("wish-item")) {
-			if (split.length == 4 ||
-				(split.length == 3 && split[2].length() == 8 && ('a' <= split[2].charAt(0)
-					&& split[2].charAt(0) <= 'z'))) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public boolean isContainsUserCode(String userCode) {
 		for (int len = 0; len < 4; len++) {
 			if (!('a' <= userCode.charAt(len) && userCode.charAt(len) <= 'z'))
