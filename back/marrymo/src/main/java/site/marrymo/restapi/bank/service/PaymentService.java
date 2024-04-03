@@ -73,7 +73,7 @@ public class PaymentService {
 			.uri("/online/v1/payment/ready")
 			.header("Authorization","SECRET_KEY "+secretKey)
 			.contentType(MediaType.APPLICATION_JSON)
-			.body(BodyInserters.fromValue(paymentRequest))
+			.bodyValue(BodyInserters.fromValue(paymentRequest))
 			.retrieve()
 			.bodyToMono(PaymentResponse.class)
 			.block();
