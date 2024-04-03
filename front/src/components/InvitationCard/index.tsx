@@ -25,11 +25,12 @@ import * as style from '@/styles/font.css';
 import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 type Props = {
-  params: { userCode: string}
+  params: { userCode: string};
+  updateIsMem: () => void
 }
 
 
-const InvitationCard = ({params}:Props) => {
+const InvitationCard = ({params, updateIsMem}:Props) => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -46,9 +47,11 @@ const InvitationCard = ({params}:Props) => {
     brideFather: '',
     brideMother: '',
     imgUrl: [],
+    isMem: false,
   })
 
   const { userCode } = params;
+
   console.log("invitation",userCode)
   useEffect(() => {
     console.log(`userCode: ${userCode}`); // userCode 값 확인
@@ -58,7 +61,7 @@ const InvitationCard = ({params}:Props) => {
           const response = await fetchInstance(`/users/${userCode}`);
           console.log(response)
           setInvitationData(response); // 상태 업데이트
-
+          updateIsMem()
         } catch (error) {
           console.error('유저 정보 조회 실패', error);
         }
@@ -69,6 +72,7 @@ const InvitationCard = ({params}:Props) => {
   }, [userCode]);
 
   console.log(invitationData)
+  console.log(invitationData.isMem)
 
   return (
     <main className={CardGap}>

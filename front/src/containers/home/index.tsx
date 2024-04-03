@@ -21,21 +21,26 @@ type Props = {
 const Home = ({params}: Props) => {
   const { userCode } = useParams() as { userCode:string }
   const setUserCode = userInfoStore((state) => state.setUserCode);
+  const [isMem, setIsMem] = useState<boolean>(true); // 상태 추가
 
   useEffect(() => {
     if (userCode) {
       setUserCode(userCode);
       console.log(userCode)
     }
-  }, [userCode, setUserCode]);
+  }, [userCode, setUserCode, isMem]);
 
+  const updateIsMem = () => {
+    setIsMem(!isMem);
+  };
+  console.log(isMem)
   return (
     <>
       <main className={styles.homeWrapper}>
-        <HamburgerButton />
+        {isMem && <HamburgerButton />} {/* 조건부 렌더링 */}
         <div className={styles.invitationContainer}>
           {/*<InvitationCard info={info}/>*/}
-          <InvitationCard params={{userCode}}/>
+          <InvitationCard params={{userCode}} updateIsMem={updateIsMem}/>
         </div>
       </main>
     </>
