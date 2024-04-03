@@ -26,11 +26,11 @@ import {CardGap, rightsText} from '@/components/InvitationCard/index.css';
 
 type Props = {
   params: { userCode: string};
-  setIsMem: (isMem: boolean) => void
+  updateIsMem: () => void
 }
 
 
-const InvitationCard = ({params, setIsMem}:Props) => {
+const InvitationCard = ({params, updateIsMem}:Props) => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -61,7 +61,7 @@ const InvitationCard = ({params, setIsMem}:Props) => {
           const response = await fetchInstance(`/users/${userCode}`);
           console.log(response)
           setInvitationData(response); // 상태 업데이트
-
+          updateIsMem()
         } catch (error) {
           console.error('유저 정보 조회 실패', error);
         }
@@ -69,7 +69,7 @@ const InvitationCard = ({params, setIsMem}:Props) => {
     } else {
       console.log('userCode is not defined yet.');
     }
-  }, [userCode, setIsMem]);
+  }, [userCode]);
 
   console.log(invitationData)
   console.log(invitationData.isMem)
