@@ -17,7 +17,7 @@ export const homeWrapper = style([
 // 햄버거바 열림
 const slideInFromLeft = keyframes({
   'from': {
-    transform: 'translateX(-100%)',
+    transform: 'translateX(-20%)',
   },
   'to': {
     transform: 'translateX(0)',
@@ -30,7 +30,7 @@ const slideOutToLeft = keyframes({
     transform: 'translateX(0)',
   },
   'to': {
-    transform: 'translateX(-100%)',
+    transform: 'translateX(-20%)',
   },
 });
 
