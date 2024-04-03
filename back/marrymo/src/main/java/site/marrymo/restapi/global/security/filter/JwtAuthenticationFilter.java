@@ -83,7 +83,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			requestURI.startsWith("/users")) {
 			String[] split = requestURI.split("/");
 
-			if (cookies == null && split.length == 3 && isContainsUserCode(split[2].trim())) {
+			if (isNotExistAccessAndRefresh(cookies) && split.length == 3 && isContainsUserCode(split[2].trim())) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
 			}
@@ -282,6 +282,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		log.debug("refreshTokenCnt="+refreshTokenCnt);
 
 		if(accessTokenCnt==1 && refreshTokenCnt==1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isNotExistAccessAndRefresh(Cookie[] cookies){
+		int accessTokenCnt = 0;
+		int refreshTokenCnt = 0;
+
+		if(cookies != null){
+			for(Cookie cookie : cookies){
+				if(cookie.getName().equals("accessToken"))
+					accessTokenCnt++;
+				else if(cookie.getName().equals("refreshToken"))
+					refreshTokenCnt++;
+			}
+		}
+
+		if(accessTokenCnt==0 && refreshTokenCnt==0)
 			return true;
 		else
 			return false;
