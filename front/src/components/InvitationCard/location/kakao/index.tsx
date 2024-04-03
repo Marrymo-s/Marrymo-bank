@@ -7,7 +7,7 @@ import * as styles from './index.css'
 interface keywordProps {
   searchKeyword: string;
 }
-export const KakaoMap = () => {
+export const KakaoMap = ({searchKeyword}: keywordProps) => {
   // TODO: 이 부분은 preview, home에서 띄워주는 게 맞을 듯
   useEffect(() => {
     if (window.kakao) {
