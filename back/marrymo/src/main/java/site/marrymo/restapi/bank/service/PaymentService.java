@@ -46,7 +46,13 @@ public class PaymentService {
 		.build();
 
 	public PaymentResponse paymentApi(MoneygiftTransferRequest transfer) {
-		log.debug(transfer.getUserCode());
+		log.debug("게스트 타입.네임={}",transfer.getGuestType().name());
+		log.debug("게스트 타입.투스트링={}",transfer.getGuestType().toString());
+		log.debug("타입.네임={}",transfer.getType().name());
+		log.debug("타입.투스트링={}",transfer.getType().toString());
+		log.debug("금액={}",transfer.getAmount());
+		log.debug("관계={}",transfer.getRelationship());
+		log.debug("발송자={}",transfer.getSender());
 		// User user = userRepository.findByUserCode(transfer.getUserCode()).orElseThrow(() -> new UserException(
 		// 	UserErrorCode.USER_NOT_FOUND));
 		// log.debug("통과함?");
