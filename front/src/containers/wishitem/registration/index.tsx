@@ -50,6 +50,7 @@ const Registration = ({refresh, trigger, userCode}: RegistrationProps) => {
         try {
           const response = await fetchInstance(`/wish-item/${userCode}`);
           console.log(response)
+          setWishLists(response.items)
         } catch (error) {
           console.error('조회실패')
         }
@@ -58,7 +59,7 @@ const Registration = ({refresh, trigger, userCode}: RegistrationProps) => {
       console.log('userCode is not defined yet.');
     }
   }, [])
-
+  console.log(wishLists)
 
   const goToDetail = (num: number) => {
     router.push(`detail/${userCode}/${num}`);
