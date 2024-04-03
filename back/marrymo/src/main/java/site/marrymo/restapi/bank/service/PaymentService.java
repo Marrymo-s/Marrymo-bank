@@ -75,6 +75,7 @@ public class PaymentService {
 			.fail_url(redirectUrl)
 			.build();
 
+		log.debug(paymentRequest.toString());
 		return kakaopayWebClient
 			.post()
 			.uri("/online/v1/payment/ready")
