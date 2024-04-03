@@ -1,6 +1,8 @@
 package site.marrymo.restapi.moneygift_history.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,13 +42,14 @@ public class MoneygiftController {
 
 	@PostMapping("/send")
 	@Operation(summary = "하객이 부부에게 송금하기 (테스트 완료)", description = "축의금 or 펀딩을 위한 송금 API입니다.")
-	public ResponseEntity<?> sendMoneygift(
-		@RequestBody MoneygiftTransferRequest moneygiftTransferRequest, HttpServletResponse response) throws
+	public ResponseEntity<?> sendMoneygift(@RequestBody MoneygiftTransferRequest moneygiftTransferRequest) throws
 		IOException {
 		log.info("call sendMoneygift...");
 		PaymentResponse paymentResponse = paymentService.paymentApi(moneygiftTransferRequest);
 		log.debug(paymentResponse.toString());
+		Map<String, String> response = new HashMap<>();
+		response.put("payment_url", paymentResponse.getNext_redirect_pc_url());
 		log.debug("kakao url 생성");
-		return ResponseEntity.ok(paymentResponse.getNext_redirect_pc_url());
+		return ResponseEntity.ok(response);
 	}
 }
