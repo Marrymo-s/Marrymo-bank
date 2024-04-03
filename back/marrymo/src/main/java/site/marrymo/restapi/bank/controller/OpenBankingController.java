@@ -1,5 +1,6 @@
 package site.marrymo.restapi.bank.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class OpenBankingController {
     private final MoBankService moBankService;
 
     @PostMapping
+    @Operation(summary = "오픈 뱅킹 api 연결, 은행에 계좌 등록 성공 후 메리모에 계좌 등록(테스트 완료)", description = "부부 계좌를 등록합니다.")
     public ResponseEntity<OpenBankingAccountInquiryResponse> getUserAccountInfo(@LoginUser UserDTO userDTO,
                                                                      @Valid @RequestBody OpenBankingCodeRequest openBankingCodeRequest){
         log.debug("code : " + openBankingCodeRequest.getCode());
