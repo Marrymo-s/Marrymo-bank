@@ -38,11 +38,21 @@ const Edit = () => {
   const [groomMother, setGroomMother] = useState<string>('');
   const [brideFather, setBrideFather] = useState<string>('');
   const [brideMother, setBrideMother] = useState<string>('');
-  const [images, setImages] = useState<File[]>([]);
+  // images 데이터 형태 바꿈(미리 보기 테스트)
+  const [images, setImages] = useState<{file: File, preview: string}[]>([]);
+  const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
   const {Modal, openModal, closeModal} = useModal();
+
+  const fetchImages = async (imageUrls: []) => {
+    return Promise.all(imageUrls.map(async (imageUrl) => {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      return {file: new File([blob], 'image.jpg', {type: 'image/jpeg'}), preview: URL.createObjectURL(blob)};
+    }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +60,6 @@ const Edit = () => {
         const response = await fetch(`https://spring.marrymo.site/users/${userCode}`);
         if (!response.ok) {
           throw new Error('유저 데이터를 불러오는 것을 실패했습니다.');
-          router.push(`/home/${userCode}`);
         }
         const data = await response.json();
 
@@ -69,6 +78,11 @@ const Edit = () => {
         setBrideFather(data.brideFather);
         setBrideMother(data.brideMother);
         setImages(data.imgUrl);
+
+        if (data.images) {
+          const imageObjects = await fetchImages(data.images);
+          setImages(imageObjects);
+        }
       } catch (error) {
         console.error('유저 정보를 조회하지 못했어요.', error);
       }
@@ -227,12 +241,31 @@ const Edit = () => {
     setBrideMother(name);
   };
 
-  const handleSetImages = (newImages: File[]) => {
+  const handleSetImages = (newFiles: File[]) => {
+    const newImages = newFiles.map((file) => ({
+      file: file,
+      preview: URL.createObjectURL(file),
+    }));
     setImages((currentImages) => [...currentImages, ...newImages]);
   };
 
+  useEffect(() => {
+    return () => {
+      images.forEach((image) => URL.revokeObjectURL(image.preview));
+    };
+  }, [images]);
+
   const openKakaoMapSearch = () => {
     openModal();
+  };
+
+  const handleInvitationClick = () => {
+    if (canIssueInvitation()) {
+      handleFinalSubmit();
+    } else {
+      setShowErrorMessage(true);
+      setTimeout(() => setShowErrorMessage(false), 3000);
+    }
   };
 
   const [isGroomNameValid, setIsGroomNameValid] = useState(false);
@@ -453,7 +486,7 @@ const Edit = () => {
         </div>
         <div className={styles.buttonContainer}>
           <Button
-            onClick={handleFinalSubmit}
+            onClick={handleInvitationClick}
             type="button"
             colorStyle="roseGold"
             filled={true}
@@ -462,6 +495,11 @@ const Edit = () => {
           >
             청첩장 최종 발행하기
           </Button>
+          {showErrorMessage && (
+            <div className={styles.errorMessage}>
+              필수 입력 정보, 계좌 등록을 완료해야 청첩장 발급이 가능해요
+            </div>
+          )}
         </div>
         <Modal>
           <>
