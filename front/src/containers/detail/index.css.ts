@@ -57,7 +57,7 @@ export const detailImage = style({
 })
 
 export const detailNameText = style({
-  fontSize: vars.fontSize['4x'],
+  fontSize: vars.fontSize['3x'],
   overflow: 'hidden', // 내용이 넘칠 때 숨김
   textOverflow: 'ellipsis', // 넘친 텍스트를 말줄임표로 표시
   whiteSpace: 'nowrap', // 텍스트가 줄바꿈 없이 한 줄로 표시
