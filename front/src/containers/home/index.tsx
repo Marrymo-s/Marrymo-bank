@@ -8,10 +8,13 @@ import HamburgerButton from '@/containers/home/HamburgerButton';
 import {userInfoStore} from "@/store/useUserInfo";
 import { signupRequest } from '@/types/auth';
 import { useParams } from 'next/navigation';
+import Button from '@/components/Button'
 // import { axiosInstance } from '@/services';
 // const userCode = userInfoStore((state) => state.userCode);
+import {useRouter} from 'next/navigation';
 
 import { fetchInstance } from "@/services";
+import {NonLoginHomeWrapper, NonLoginInvitationContainer} from "./index.css";
 
 
 type Props = {
@@ -23,6 +26,8 @@ const Home = ({params}: Props) => {
   const setUserCode = userInfoStore((state) => state.setUserCode);
   const [isMem, setIsMem] = useState<boolean>(false); // 상태 추가
 
+  const router = useRouter()
+
   useEffect(() => {
     if (userCode) {
       setUserCode(userCode);
@@ -30,15 +35,44 @@ const Home = ({params}: Props) => {
     }
   }, [userCode, setUserCode]);
   console.log(isMem)
+
+  const handleButtonClick = () => {
+    router.push('/transfer');
+  }
+
   return (
     <>
-      <main className={styles.homeWrapper}>
-        {isMem && <HamburgerButton />} {/* 조건부 렌더링 */}
-        <div className={styles.invitationContainer}>
-          {/*<InvitationCard info={info}/>*/}
-          <InvitationCard params={{userCode}} setIsMem={setIsMem}/>
-        </div>
-      </main>
+      {/*<main className={styles.homeWrapper}>*/}
+      {/*  {isMem && <HamburgerButton />} /!* 조건부 렌더링 *!/*/}
+      {/*  <div className={styles.invitationContainer}>*/}
+      {/*    /!*<InvitationCard info={info}/>*!/*/}
+      {/*    <InvitationCard params={{userCode}} setIsMem={setIsMem}/>*/}
+      {/*  </div>*/}
+      {/*</main>*/}
+      {isMem ?
+        <main className={styles.homeWrapper}>
+          <HamburgerButton/>
+          <div className={styles.invitationContainer}>
+            <InvitationCard params={{userCode}} setIsMem={setIsMem}/>
+          </div>
+        </main> :
+        <main className={styles.NonLoginHomeWrapper}>
+          <div className={styles.NonLoginInvitationContainer}>
+            <InvitationCard params={{userCode}} setIsMem={setIsMem}/>
+          </div>
+          <div className={styles.homeButton}>
+            <Button
+              onClick={handleButtonClick}
+              type='button'
+              size='large'
+              colorStyle='roseGold'
+              filled={true}
+            >
+              축의금 보내기
+            </Button>
+          </div>
+        </main>
+      }
     </>
   )
 }
