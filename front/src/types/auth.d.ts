@@ -15,5 +15,6 @@ export interface signupRequest {
   groomMother?: string,
   brideFather?: string,
   brideMother?: string,
-  imgUrl: List<object>
+  imgUrl: List<object>,
+  isMem: boolean,
 }
