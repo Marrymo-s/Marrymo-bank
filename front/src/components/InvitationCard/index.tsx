@@ -30,7 +30,7 @@ type Props = {
 }
 
 
-const InvitationCard = ({params}:Props) => {
+const InvitationCard = ({params, setIsMem}:Props) => {
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -51,6 +51,7 @@ const InvitationCard = ({params}:Props) => {
   })
 
   const { userCode } = params;
+
   console.log("invitation",userCode)
   useEffect(() => {
     console.log(`userCode: ${userCode}`); // userCode 값 확인
@@ -68,7 +69,7 @@ const InvitationCard = ({params}:Props) => {
     } else {
       console.log('userCode is not defined yet.');
     }
-  }, [userCode]);
+  }, [userCode, setIsMem]);
 
   console.log(invitationData)
   console.log(invitationData.isMem)
