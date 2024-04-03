@@ -3,8 +3,7 @@
 import React, {useState, useRef} from 'react';
 import Image from 'next/image';
 import * as styles from './index.css';
-import CloseIcon from '../../../public/svgs/close.svg';
-import Button from '@/components/Button';
+import {IconClose, IconPlus} from '#/svgs';
 
 interface WeddingImageUploadProps {
   updateImages: (files: File[]) => void;
@@ -36,58 +35,31 @@ const WeddingImageUpload = ({updateImages}: WeddingImageUploadProps) => {
 
   return (
     <div className={styles.galleryContainer}>
-      {images.map((image, index) => (
-        <div key={index} className={styles.imageBox}>
-          <img
-            src={URL.createObjectURL(image)}
-            alt={`Wedding Gallery ${index + 1}`}
-            width={60}
-            height={60}
-            onLoad={(event) => URL.revokeObjectURL((event.target as HTMLImageElement).src)}
-          />
-          <div className={styles.deleteButton}>
-            <Button
-              type="button"
-              onClick={() => deleteImage(index)}
-            >
-              <CloseIcon />
-            </Button>
-          </div>
-        </div>
-      ))}
-      {/*{images.length < 10 && (*/}
-      {/*  <div className={styles.addButton}>*/}
-      {/*    <Button*/}
-      {/*      type='button'*/}
-      {/*      onClick={() => fileInputRef.current?.click()}*/}
-      {/*    />*/}
-      {/*  </div>*/}
-      {/*)}*/}
-      {/*<div className={styles.imagesContainer}>*/}
-      {/*  {thumbnails.map((thumbnail, index) => (*/}
-      {/*    <div key={index} className={styles.imageBox}>*/}
-      {/*      <Image*/}
-      {/*        src={thumbnail}*/}
-      {/*        alt={`Uploaded image ${index}`}*/}
-      {/*        layout="fill"*/}
-      {/*        objectFit="cover"*/}
-      {/*      />*/}
-      {/*<button*/}
-      {/*  className={styles.deleteButton}*/}
-      {/*  onClick={() => deleteFile(index)}*/}
-      {/*>*/}
-      {/*  <Close size="0.8rem" />*/}
-      {/*</button>*/}
-      {/*  </div>*/}
-      {/*))}*/}
       <div
         role="presentation"
         className={styles.addButton}
         onClick={() => fileInputRef.current?.click()}
       >
-        +
+        <IconPlus />
       </div>
-      {/*</div>*/}
+      <div className={styles.imagesScrollContainer}>
+        {thumbnails.map((thumbnail, index) => (
+          <div key={index} className={styles.imageBox}>
+            <Image
+              src={thumbnail}
+              alt={`Uploaded image ${index}`}
+              layout="fill"
+              objectFit="cover"
+            />
+            <button
+              className={styles.deleteButton}
+              onClick={() => deleteImage(index)}
+            >
+              🗙
+            </button>
+          </div>
+        ))}
+      </div>
       <input
         ref={fileInputRef}
         type="file"
