@@ -18,7 +18,7 @@ interface WishCardProps {
   brand: string;
   category2: string;
   category4: string;
-  userCode: string;
+  refreshData: () => void;
 }
 
 interface myWishProps {
@@ -27,7 +27,7 @@ interface myWishProps {
   price: string;
 }
 
-const WishCard = ({image, title, lprice, brand, category2, category4, userCode}: WishCardProps) => {
+const WishCard = ({image, title, lprice, brand, category2, category4, refreshData}: WishCardProps) => {
 
   const formattedPrice = formatPrice(lprice);
   // const userCode = userInfoStore((state) => state.userCode);
@@ -48,8 +48,7 @@ const WishCard = ({image, title, lprice, brand, category2, category4, userCode}:
 
     // 요청 성공시 커스텀 이벤트 발생시키기
     if (response.ok) {
-    const wishAddedEvent = new CustomEvent('wishAdded', { detail: myWish });
-    window.dispatchEvent(wishAddedEvent);
+      refreshData(); // '담기' 성공 후 refreshData 호출
     }
   }
 
