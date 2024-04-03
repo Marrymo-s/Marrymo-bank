@@ -31,6 +31,7 @@ type Props = {
 
 
 const InvitationCard = ({params, setIsMem}:Props) => {
+  const [loading, setLoading] = useState<boolean>(true);
   const [invitationData, setInvitationData] = useState<signupRequest>({
     groomName: '',
     brideName: '',
@@ -58,12 +59,16 @@ const InvitationCard = ({params, setIsMem}:Props) => {
     if (userCode) {
       (async () => { // 즉시 실행 비동기 함수 사용
         try {
+          setLoading(true);
           const response = await fetchInstance(`/users/${userCode}`);
           console.log(response)
+          setLoading(false);
           setInvitationData(response); // 상태 업데이트
           setIsMem(response.isMem);
+
         } catch (error) {
           console.error('유저 정보 조회 실패', error);
+          setLoading(false);
         }
       })();
     } else {
@@ -73,12 +78,15 @@ const InvitationCard = ({params, setIsMem}:Props) => {
 
   console.log(invitationData)
   console.log(invitationData.isMem)
+  if (loading) {
+    return <div></div>;
+  }
 
   return (
     <main className={CardGap}>
       <CardTop
         weddingDate={invitationData.weddingDate}
-        weddingTime={invitationData.weddingTime}
+        weddingDay={invitationData.weddingDay}
         imgUrl={invitationData.imgUrl && invitationData.imgUrl[0]}
       />
       <CardUnderTop
@@ -102,7 +110,7 @@ const InvitationCard = ({params, setIsMem}:Props) => {
         greeting={invitationData.greeting}
       />
       <SecondImage
-        imgUrl={invitationData.imgUrl && invitationData.imgUrl[0]}
+        imgUrl={invitationData.imgUrl && invitationData.imgUrl[1]}
       />
       <Location
         weddingDate={invitationData.weddingDate}
