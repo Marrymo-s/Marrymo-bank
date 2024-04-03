@@ -48,8 +48,8 @@ const Wishlist = ({params}:Props) => {
 
   return (
     <>
-      <div>친구의 신혼가전 마련해주기</div>
-      <div>(작은 글씨) 이미지를 클릭하면 후원페이지로 이동할 수 있어요</div>
+      <div>친구가 등록한 위시리스트</div>
+      <div>아래 이미지를 클릭하면 후원페이지로 이동할 수 있어요</div>
       <div className={styles.wishlistContainer}>
         {friendsList.map((item, index) => (
           <Image
