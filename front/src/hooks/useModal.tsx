@@ -12,6 +12,9 @@ const useModal = () => {
   };
   const closeModal = () => {
     setIsUnmount(true);
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 300);
   };
 
   interface Props {
