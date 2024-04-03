@@ -5,10 +5,10 @@ import * as styles from './index.css';
 
 interface ResultsProps {
   results: searchResponse[];
-  userCode: string;
+  refreshData: () => void;
 }
 
-const Results = ({ results, userCode }: ResultsProps) => {
+const Results = ({ results, refreshData }: ResultsProps) => {
   const removeTags = (text: string) => {
     return text.replace(/<[^>]*>?/gm, '');
   };
@@ -31,7 +31,7 @@ const Results = ({ results, userCode }: ResultsProps) => {
             brand={item.brand}
             category2={item.category2}
             category4={item.category4}
-            userCode={userCode}
+            refreshData={refreshData}
           />
         ))}
       </div>
