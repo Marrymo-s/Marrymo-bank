@@ -45,6 +45,7 @@ public class MoneygiftController {
 		IOException {
 		log.info("call sendMoneygift...");
 		PaymentResponse paymentResponse = paymentService.paymentApi(moneygiftTransferRequest);
+		log.debug(paymentResponse.toString());
 		log.debug("kakao url 생성");
 		moneygiftService.sendMoneygift(moneygiftTransferRequest);
 		response.sendRedirect(paymentResponse.getNext_redirect_pc_url());
