@@ -1,17 +1,14 @@
 import {style} from '@vanilla-extract/css';
 import {vars} from '@/styles/vars.css';
-import { flex } from '@/styles/common.css';
+import {defaultWrapper, flex} from '@/styles/common.css';
 
 export const albumWrapper = style([
+  defaultWrapper({ height: 'auto', width: 'max' }),
   {
     textAlign: 'center',
     justifyContent: 'center',
-    paddingTop: '80px',
-    width: 'auto',
-    maxWidth: '480px',
-
-  },
-])
+  }
+]);
 
 export const albumText = style({
   fontSize: vars.fontSize['2.5x'],

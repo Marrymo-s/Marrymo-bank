@@ -27,13 +27,13 @@ const Home = ({params}: Props) => {
   const [isMem, setIsMem] = useState<boolean>(false); // 상태 추가
 
   const router = useRouter()
-
-  useEffect(() => {
-    if (userCode) {
-      setUserCode(userCode);
-      console.log(userCode)
-    }
-  }, [userCode, setUserCode]);
+  setUserCode(userCode);
+  // useEffect(() => {
+  //   if (userCode) {
+  //     setUserCode(userCode);
+  //     console.log(userCode)
+  //   }
+  // }, [userCode, setUserCode]);
   console.log(isMem)
 
   const handleButtonClick = () => {
@@ -42,13 +42,6 @@ const Home = ({params}: Props) => {
 
   return (
     <>
-      {/*<main className={styles.homeWrapper}>*/}
-      {/*  {isMem && <HamburgerButton />} /!* 조건부 렌더링 *!/*/}
-      {/*  <div className={styles.invitationContainer}>*/}
-      {/*    /!*<InvitationCard info={info}/>*!/*/}
-      {/*    <InvitationCard params={{userCode}} setIsMem={setIsMem}/>*/}
-      {/*  </div>*/}
-      {/*</main>*/}
       {isMem ?
         <main className={styles.homeWrapper}>
           <HamburgerButton/>
