@@ -28,11 +28,7 @@ const Home = ({params}: Props) => {
       setUserCode(userCode);
       console.log(userCode)
     }
-  }, [userCode, setUserCode, isMem]);
-
-  const updateIsMem = () => {
-    setIsMem(!isMem);
-  };
+  }, [userCode, setUserCode]);
   console.log(isMem)
   return (
     <>
@@ -40,7 +36,7 @@ const Home = ({params}: Props) => {
         {isMem && <HamburgerButton />} {/* 조건부 렌더링 */}
         <div className={styles.invitationContainer}>
           {/*<InvitationCard info={info}/>*/}
-          <InvitationCard params={{userCode}} updateIsMem={updateIsMem}/>
+          <InvitationCard params={{userCode}} setIsMem={setIsMem}/>
         </div>
       </main>
     </>

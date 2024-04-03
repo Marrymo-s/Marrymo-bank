@@ -38,21 +38,12 @@ const Edit = () => {
   const [groomMother, setGroomMother] = useState<string>('');
   const [brideFather, setBrideFather] = useState<string>('');
   const [brideMother, setBrideMother] = useState<string>('');
-  // images 데이터 형태 바꿈(미리 보기 테스트)
-  const [images, setImages] = useState<{file: File, preview: string}[]>([]);
+  const [images, setImages] = useState<File[]>([]);
   const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
   const router = useRouter();
   const userCode = userInfoStore((state) => state.userCode);
   const {Modal, openModal, closeModal} = useModal();
-
-  const fetchImages = async (imageUrls: []) => {
-    return Promise.all(imageUrls.map(async (imageUrl) => {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      return {file: new File([blob], 'image.jpg', {type: 'image/jpeg'}), preview: URL.createObjectURL(blob)};
-    }));
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,10 +70,6 @@ const Edit = () => {
         setBrideMother(data.brideMother);
         setImages(data.imgUrl);
 
-        if (data.images) {
-          const imageObjects = await fetchImages(data.images);
-          setImages(imageObjects);
-        }
       } catch (error) {
         console.error('유저 정보를 조회하지 못했어요.', error);
       }
@@ -241,19 +228,9 @@ const Edit = () => {
     setBrideMother(name);
   };
 
-  const handleSetImages = (newFiles: File[]) => {
-    const newImages = newFiles.map((file) => ({
-      file: file,
-      preview: URL.createObjectURL(file),
-    }));
+  const handleSetImages = (newImages: File[]) => {
     setImages((currentImages) => [...currentImages, ...newImages]);
   };
-
-  useEffect(() => {
-    return () => {
-      images.forEach((image) => URL.revokeObjectURL(image.preview));
-    };
-  }, [images]);
 
   const openKakaoMapSearch = () => {
     openModal();
@@ -275,7 +252,8 @@ const Edit = () => {
   const [isGreetingValid, setIsGreetingValid] = useState(true);
   const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
   const [checkValidation, setCheckValidation] = useState<boolean>(false);
-  const [isAccountRegistered, setIsAccountRegistered] = useState<boolean>(false);
+  // TODO: isAccountRegistered: true인 이유는 시연 때 발급하기를 진행하려고(발표 후 false로 reset 예정)
+  const [isAccountRegistered, setIsAccountRegistered] = useState<boolean>(true);
 
   const isValidateName = (value: string) => {
     // 유효성 검사: 한국어 2 ~ 19자, 영어 4 ~ 38자
@@ -283,13 +261,11 @@ const Edit = () => {
     return isValid ? undefined : '이름은 한글 2~19자, 영문 4~38자(공백 포함)까지 가능해요.';
   };
 
-  // 연락처 유효성 검사
   const isValidateContact = (value: string) => {
     const isValid = /^\d{10,11}$/.test(value);
     return isValid ? undefined : '유효한 연락처를 입력해주세요. (10-11자리 숫자)';
   };
 
-  // 결혼식 장소가 입력되었는지 확인하는 유효성 검사 함수
   const isValidateWeddingLocation = (value: string) => {
     return value.trim() !== '' ? undefined : ' ';
   };
