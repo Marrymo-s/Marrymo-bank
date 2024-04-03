@@ -81,8 +81,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (httpServletRequest.getMethod().equals("GET") &&
 			requestURI.startsWith("/users")) {
 			String[] split = requestURI.split("/");
-			log.debug("/users/{userCode} 요청 처리 중...");
-			if (cookies == null && split.length == 3 && isContainsUserCode(split[2].trim())) {
+
+			if (isNotExistAccessAndRefresh(cookies) && split.length == 3 && isContainsUserCode(split[2].trim())) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
 			}
@@ -92,8 +92,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// cookie를 담아오지 않는다.
 		if (requestURI.startsWith("/wish-item")) {
 			String[] split = requestURI.split("/");
+
+			if (isNotExistAccessAndRefresh(cookies)) {
 			log.debug("/wish-item 요청 처리 중...");
-			if (cookies == null) {
+
 				if (split.length > 2) {
 					filterChain.doFilter(httpServletRequest, httpServletResponse);
 					return;
@@ -277,6 +279,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		log.debug("refreshTokenCnt="+refreshTokenCnt);
 
 		if(accessTokenCnt==1 && refreshTokenCnt==1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isNotExistAccessAndRefresh(Cookie[] cookies){
+		int accessTokenCnt = 0;
+		int refreshTokenCnt = 0;
+
+		if(cookies != null){
+			for(Cookie cookie : cookies){
+				if(cookie.getName().equals("accessToken"))
+					accessTokenCnt++;
+				else if(cookie.getName().equals("refreshToken"))
+					refreshTokenCnt++;
+			}
+		}
+
+		if(accessTokenCnt==0 && refreshTokenCnt==0)
 			return true;
 		else
 			return false;
