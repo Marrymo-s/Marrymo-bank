@@ -21,7 +21,7 @@ type Props = {
 const Home = ({params}: Props) => {
   const { userCode } = useParams() as { userCode:string }
   const setUserCode = userInfoStore((state) => state.setUserCode);
-  const [isMem, setIsMem] = useState<boolean>(true); // 상태 추가
+  const [isMem, setIsMem] = useState<boolean>(false); // 상태 추가
 
   useEffect(() => {
     if (userCode) {
