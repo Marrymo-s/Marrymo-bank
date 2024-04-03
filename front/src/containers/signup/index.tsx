@@ -151,7 +151,6 @@ const Signup = () => {
   const handleSetImages = (newImages: File[]) => {
     setImages((currentImages) => [...currentImages, ...newImages]);
   };
-  console.log(images);
 
   const openKakaoMapSearch = () => {
     openModal();
