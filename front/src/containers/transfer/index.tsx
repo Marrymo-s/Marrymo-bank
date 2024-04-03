@@ -9,6 +9,8 @@ import {useRouter} from 'next/navigation';
 import {fetchInstance} from '@/services';
 import {userInfoStore} from '@/store/useUserInfo';
 import {useWishitemSeqStore} from '@/store/useWishitemSeq';
+import { userSenderStore } from '@/store/useSender'; // userSenderStore 임포트
+
 
 const Transfer = () => {
   const [selected, setSelected] = useState<'GROOM' | 'BRIDE'>()
@@ -17,6 +19,7 @@ const Transfer = () => {
   const [relationship, setRelationship] = useState<string>('')
   const router = useRouter()
 
+  const updateSenderInStore = userSenderStore((state) => state.setSender);
   //zustand
   const {wishitemSeq} = useWishitemSeqStore()
   const {userCode} = userInfoStore()
@@ -26,6 +29,7 @@ const Transfer = () => {
   }
 
   const postMoneygift = async () =>{
+    updateSenderInStore(sender)
     try{
       const requestBody = {
         userCode: userCode,

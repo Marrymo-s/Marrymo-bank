@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import Button from '@/components/Button'
 import * as styles from './index.css';
 import Image from 'next/image';
-
+import {useRouter} from 'next/navigation';
 import { useParams } from 'next/navigation';
 
 import ProgressBar from '@/containers/detail/ProgressBar';
@@ -28,12 +28,16 @@ interface wishItemDetailProps {
 
 const Detail = async () => {
   const { userCode, wishItemSequence } = useParams()
-
+  const router = useRouter()
   const wishItemDetailData = await fetchInstance(`/wish-item/${userCode}/${wishItemSequence}`) as wishItemDetailProps
   console.log(wishItemDetailData)
 
   const formattedPrice = formatPrice(String(wishItemDetailData.price));
   const formattedFund = formatPrice(String(wishItemDetailData.fund));
+
+  const handleButtonClick = () => {
+    router.push('/transfer');
+  }
 
   return (
     <>
@@ -76,6 +80,7 @@ const Detail = async () => {
           </div>
         </div>
         <Button
+          onClick={handleButtonClick}
           type='button'
           size='large'
           colorStyle='roseGold'
