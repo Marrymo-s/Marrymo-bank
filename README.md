@@ -104,12 +104,6 @@
 |:---:|
 |![로그인_시_청첩장_등록_되었음](/uploads/6fd1643822137f90edf0e0d66d064e90/로그인_시_청첩장_등록_되었음.gif)|
 
-#### 계좌번호 등록
-<b>오픈 뱅킹 API를 통해서 예비 부부는 축의금과 펀딩을 받을 계좌를 등록</b>
-|계좌 번호 등록 화면|
-|:---:|
-|사진|
-
 #### 위시리스트 검색 및 등록
 <b>예비 부부는 네이버 검색 API를 통해서 위시 리스트를 검색 할 수 있고 펀딩 받고 싶은 위시 리스트 등록 가능</b>
 |위시리스트 검색 및 등록 화면|
@@ -163,7 +157,40 @@
 ![카카오_단건_결제_API_로직](/uploads/98f56a555f373d22a428ae5384fffa6d/카카오_단건_결제_API_로직.png)
 
 ## 7. 트러블 슈팅
-#### next.js CSR에서 CORS 에러 처리
+#### Backend - Open Banking API(토큰 발급 API) Web Client를 통해 호출
+![토큰_발급_api-1](/uploads/23e25120d2163799ba0714604894960a/토큰_발급_api-1.PNG)
+![토큰_발급_api-2](/uploads/4f45832204aa9105f5f188f5ef8c855c/토큰_발급_api-2.PNG)
+- <b>문제 원인</b> <br />
+request body에 Map이 아닌 객체의 형태로 보내려고 해서 발생한 문제
+
+- <b>해결 방법</b> <br />
+토큰 발급 API 요청 Content-Type이 application/x-www-form-urlencoded; 이기 때문에 키가 중복될 수 있고 그에 따라 여러 값이 하나의 키에 매핑될 수 있음.<br />
+따라서 하나의 키에 여러 개의 값을 가질 수 있는 MultiValueMap Collection을 채택하여 보내야 했음.
+```
+public MultiValueMap<String, String> toMultiValueMap() {
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+
+        parameters.add("code", this.code);
+        parameters.add("client_id", this.client_id);
+        parameters.add("client_secret", this.client_secret);
+        parameters.add("redirect_uri", this.redirect_uri);
+        parameters.add("grant_type", this.grant_type);
+
+        return parameters;
+    }
+```
+```
+return openBankingWebClient
+                .post()
+                .uri("/oauth/2.0/token")
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .body(BodyInserters.fromFormData(openBankingTokenApiRequest.toMultiValueMap()))
+                .retrieve()
+                .bodyToMono(OpenBankingTokenApiResponse.class)
+                .block();
+```
+
+#### Frontend - next.js CSR에서 CORS 에러 처리
 - <b>문제 원인</b> <br />
   next의 app router는 기본적으로 서버 컴포넌트로 구성되어 있어 SSR 페이지에서만 api 호출하거나 SSG로 도메인이 같기 때문에 CORS 에러 날 일이 없다. 하지만 use client를 쓴 CSR 페이지에서는 localhost로 요청이 가기 때문에 CORS 에러가 날 수 있다.
 - <b>해결 방법</b> <br />
