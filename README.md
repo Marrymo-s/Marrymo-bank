@@ -164,7 +164,7 @@
 request body에 Map이 아닌 객체의 형태로 보내려고 해서 발생한 문제
 
 - <b>해결 방법</b> <br />
-토큰 발급 API 요청 Content-Type이 application/x-www-form-urlencoded; 이기 때문에 키가 중복될 수 있고 그에 따라 여러 값이 하나의 키에 매핑될 수 있음.<br />
+토큰 발급 API 요청 Content-Type이 application/x-www-form-urlencoded; 이기 때문에 텍스트 데이터를 key-value 쌍으로 인코딩 함.<br /> 특수한 상황의 경우 키가 중복될 수 있고 그에 따라 여러 값이 하나의 키에 매핑될 수 있음.<br />
 따라서 하나의 키에 여러 개의 값을 가질 수 있는 MultiValueMap Collection을 채택하여 보내야 했음.
 ```
 public MultiValueMap<String, String> toMultiValueMap() {
