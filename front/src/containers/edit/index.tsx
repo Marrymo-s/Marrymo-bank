@@ -107,7 +107,7 @@ const Edit = () => {
         body: formData,
       };
 
-      const response = await fetchNoJson(`/users/${userCode}`, options);
+      const response = await fetch('https://spring.marrymo.site/users', options);
       console.log(formData);
 
       if (response.ok) {
