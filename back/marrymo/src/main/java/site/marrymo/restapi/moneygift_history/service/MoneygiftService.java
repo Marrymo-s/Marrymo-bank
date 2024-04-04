@@ -3,12 +3,10 @@ package site.marrymo.restapi.moneygift_history.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.card.exception.CardErrorCode;
 import site.marrymo.restapi.card.exception.CardException;
@@ -17,27 +15,23 @@ import site.marrymo.restapi.moneygift_history.dto.GuestType;
 import site.marrymo.restapi.moneygift_history.dto.Type;
 import site.marrymo.restapi.moneygift_history.dto.request.MoBankTransferRequest;
 import site.marrymo.restapi.moneygift_history.dto.request.MoneygiftTransferRequest;
+import site.marrymo.restapi.moneygift_history.dto.response.MoBankTransferResponse;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneyInfo;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftGetResponse;
 import site.marrymo.restapi.moneygift_history.dto.response.MoneygiftTransferResponse;
 import site.marrymo.restapi.moneygift_history.entity.Moneygift;
 import site.marrymo.restapi.moneygift_history.repository.MoneygiftRepository;
-import site.marrymo.restapi.open_banking.dto.response.MoBankAccountResponse;
-import site.marrymo.restapi.open_banking.dto.response.MoBankTokenApiResponse;
-import site.marrymo.restapi.open_banking.service.MoBankService;
-import site.marrymo.restapi.user.dto.Who;
-import site.marrymo.restapi.user.dto.response.UserGetResponse;
+import site.marrymo.restapi.bank.service.MoBankService;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.dto.response.UserInfoResponse;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
 import site.marrymo.restapi.user.repository.UserRepository;
+import site.marrymo.restapi.wishitem.entity.WishItem;
 import site.marrymo.restapi.wishitem.repository.WishItemRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -54,10 +48,13 @@ public class MoneygiftService {
     private final MoBankService moBankService;
     private final UserRepository userRepository;
     private final MoneygiftRepository moneygiftRepository;
+    private final WishItemRepository wishItemRepository;
     private final CardRepository cardRepository;
     private final WebClient moBankWebClient = WebClient.builder().baseUrl("http://3.37.251.197/api/").build();
 
-    public MoneygiftGetResponse getMoneygiftInfo(Long userSequence) {
+    public MoneygiftGetResponse getMoneygiftInfo(UserDTO userDTO) {
+        Long userSequence = userDTO.getUserSequence();
+
         User user = userRepository.findByUserSequence(userSequence)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
@@ -112,6 +109,7 @@ public class MoneygiftService {
                                 .sender(moneygift.getSender())
                                 .amount(amount)
                                 .relationship(moneygift.getRelationship())
+                                .wishItemName(moneygift.getWishItem().getName())
                                 .guestType(guestTypeToStr)
                                 .build()
                 );
@@ -130,8 +128,6 @@ public class MoneygiftService {
 
     public MoneygiftTransferResponse sendMoneygift(MoneygiftTransferRequest moneygiftTransferRequest) {
 
-        // 메리모 은행에 접근하기 위한 token 발급
-        MoBankTokenApiResponse moBankToken = moBankService.callMoBankTokenApi();
 
         // userCode로 송금 보낼 사람을 찾는다.
         User user = userRepository.findByUserCode(moneygiftTransferRequest.getUserCode())
@@ -142,26 +138,25 @@ public class MoneygiftService {
 
         // 신랑 이름과 신부 이름을 구한다.
         UserInfoResponse userInfoResponse = UserInfoResponse.toDto(user, card);
-        
+
         // 송금하는 사람은 메리모 정보로 통일
         MoBankTransferRequest moBankTransferRequest=MoBankTransferRequest
                 .builder()
                 .senderName(clientName)
                 .senderAccountNum(clientAccount)
                 .tranAmt(moneygiftTransferRequest.getAmount())
-                .tranMsg("[메리모] 축의금 정산")
+                .tranMsg("[메리모] "+moneygiftTransferRequest.getSender() + "송금")
                 .build();
-
         // 송금을 각자 받을 경우
         if (userInfoResponse.getIsGroomOnce() && userInfoResponse.getIsBrideOnce()){
             if (moneygiftTransferRequest.getGuestType()==GuestType.GROOM){
-                moBankTransferRequest.toBuilder()
+                moBankTransferRequest=moBankTransferRequest.toBuilder()
                         .receiverName(userInfoResponse.getGroomName())
                         .receiverAccountNum(userInfoResponse.getGroomAccount())
                         .build();
             }
             else if(moneygiftTransferRequest.getGuestType()==GuestType.BRIDE){
-                moBankTransferRequest.toBuilder()
+                moBankTransferRequest=moBankTransferRequest.toBuilder()
                         .receiverName(userInfoResponse.getBrideName())
                         .receiverAccountNum(userInfoResponse.getBrideAccount())
                         .build();
@@ -169,18 +164,52 @@ public class MoneygiftService {
         }
         // 신랑 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsGroomOnce()){
-            moBankTransferRequest.toBuilder()
+            moBankTransferRequest=moBankTransferRequest.toBuilder()
                     .receiverName(userInfoResponse.getGroomName())
                     .receiverAccountNum(userInfoResponse.getGroomAccount())
                     .build();
         }
         // 신부 계좌로만 돈을 받을 경우
         else if (userInfoResponse.getIsBrideOnce()){
-            moBankTransferRequest.toBuilder()
+            moBankTransferRequest=moBankTransferRequest.toBuilder()
                     .receiverName(userInfoResponse.getBrideName())
                     .receiverAccountNum(userInfoResponse.getBrideAccount())
                     .build();
         }
-        return moBankService.sendMoney(moneygiftTransferRequest);
+        try{
+            MoBankTransferResponse moBankTransferResponse=moBankService.sendMoney(moBankTransferRequest);
+
+        }catch (WebClientResponseException e){
+            e.printStackTrace();
+        }
+        // 메리모 moneygift history 데이터베이스에 저장할 entity를 만든다.
+        User receiver = userRepository.findByUserCode(userInfoResponse.getUserCode())
+                .orElseThrow(()->new UserException(UserErrorCode.USER_NOT_FOUND));
+
+        WishItem wishItem=null;
+        if (moneygiftTransferRequest.getType()==Type.ITEM){
+            wishItem =wishItemRepository.findByWishItemSequenceAndUser(moneygiftTransferRequest.getWishItemSequence(), user)
+                    .orElseThrow(()->new NoSuchElementException("찾을 수 없는 위시아이템입니다. 위시 아이템 sequence 혹은 사용자를 확인해주세요"));
+        }
+
+
+        Moneygift moneygift = new Moneygift(receiver,
+                wishItem,
+                moneygiftTransferRequest.getGuestType(),
+                moneygiftTransferRequest.getType(),
+                moneygiftTransferRequest.getAmount(),
+                moneygiftTransferRequest.getRelationship(),
+                moneygiftTransferRequest.getSender());
+
+        Moneygift savedMoneygift = moneygiftRepository.save(moneygift);
+        MoneygiftTransferResponse moneygiftTransferResponse = MoneygiftTransferResponse.builder()
+                .amount(savedMoneygift.getAmount())
+                .relationship(savedMoneygift.getRelationship())
+                .guestType(savedMoneygift.getGuestType())
+                .type(savedMoneygift.getType())
+                .guestType(savedMoneygift.getGuestType())
+                .build();
+
+        return moneygiftTransferResponse;
     }
 }

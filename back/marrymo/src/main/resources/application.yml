@@ -1,12 +1,12 @@
-# database 세팅
-# kakao login 설정 세팅
-spring :
+# mysql setting
+spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://mysql:3306/marrymo?useSSL=false&serverTimezone=UTC
-    url: jdbc:mysql://localhost:3306/marrymo?useSSL=false&serverTimezone=UTC
-    username: root
-    password: hat1da2chi3go4
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  # kakao login settings
   security:
     oauth2:
       client:
@@ -14,7 +14,7 @@ spring :
           kakao:
             client-id: ${KAKAO_CLIENT_ID}
             client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            redirect-uri: ${KAKAO_REDIRECT_URI}
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope: account_email
@@ -26,14 +26,16 @@ spring :
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
-  # aws application-aws.yml 사용
+  # aws application-aws.yml
   profiles:
-    active: aws
+    active: ${AWS}
 
+  # h2 database
   h2:
-     console:
-       enabled: true
-  # Mail Settings
+    console:
+      enabled: true
+
+  # mail settings
   mail:
     default-encoding: UTF-8
     host: smtp.gmail.com
@@ -51,61 +53,69 @@ spring :
           starttls:
             enable: true
             required: true
-    auth-code-expiration-mills: 300000
+    auth-code-expiration-millis: 300000
 
-  # spring data jpa 세팅
+  # spring data jpa settings
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     open-in-view: false
-    show-sql: true
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
 
-  # redis 세팅
-#  data:
-#    redis:
-#      port: 6379
-#      host: redis
-#      password: ${SPRING_REDIS_PASSWORD}
-
+  # redis settings
   data:
     redis:
-      port: 6379
-      host: localhost
+      port: ${SPRING_REDIS_PORT}
+      host: ${SPRING_REDIS_HOST}
+      password: ${SPRING_REDIS_PASSWORD}
 
-# log 설정
+# log settings
 logging:
   level:
     root: info
     site.marrymo.restapi: debug
 
-  # encoding utf-8
+# encoding utf-8
 server:
   servlet:
     encoding:
       force: true
       charset: UTF-8
       enabled: true
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  forward-headers-strategy: framework   # 추가
 
+kakaopay:
+  client_id: ${KAKAOPAY_CLIENT_ID}
+  secret_key: ${KAKAOPAY_SECRET_KEY}
+  redirect_url: ${KAKAOPAY_REDIRECT_URL}
 
-  #open-banking
+#open-banking
 open-banking:
-  client_id: ${CLIENT_ID}
-  client_secret: ${CLIENT_SECRET}
+  client_id: ${OPENBANK_CLIENT_ID}
+  client_secret: ${OPENBANK_CLIENT_SECRET}
 
+#mobank
 mo-bank:
   client_id: ${MOBANK_CLIENT_ID}
-  client_secret: ${MOBANK_CLEINT_SECRET}
+  client_secret: ${MOBANK_CLIENT_SECRET}
   client_name: ${MOBANK_CLIENT_NAME}
   client_account: ${MOBANK_CLIENT_ACCOUNT}
 
-  #jwt
+#jwt
 jwt:
   salt: ${JWT_SALT}
   access-token:
     expiretime: ${JWT_ACCESS_TOKEN_EXPIRETIME}
   refresh-token:
     expiretime: ${JWT_REFRESH_TOKEN_EXPIRETIME}
+
+# Swagger
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+    use-root-path: true
+  api-docs:
+    path: /v3/api-docs

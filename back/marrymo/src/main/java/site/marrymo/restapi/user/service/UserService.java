@@ -1,17 +1,27 @@
 package site.marrymo.restapi.user.service;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import site.marrymo.restapi.global.redis.service.RedisService;
+import site.marrymo.restapi.global.smtp.dto.request.SmtpVerifyRequest;
+import site.marrymo.restapi.global.smtp.service.SmtpService;
+import site.marrymo.restapi.user.repository.BlackListRepository;
 import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.card.exception.CardErrorCode;
 import site.marrymo.restapi.card.exception.CardException;
 import site.marrymo.restapi.card.repository.CardRepository;
-import site.marrymo.restapi.global.config.AwsS3Config;
-import site.marrymo.restapi.global.service.awsS3Service;
+import site.marrymo.restapi.global.jwt.entity.BlackList;
+import site.marrymo.restapi.global.s3.service.AwsS3Service;
 import site.marrymo.restapi.global.util.UserCodeGenerator;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.dto.Who;
 import site.marrymo.restapi.user.dto.request.*;
 import site.marrymo.restapi.user.dto.response.InvitationIssueResponse;
@@ -26,22 +36,32 @@ import site.marrymo.restapi.wedding_img.entity.WeddingImg;
 import site.marrymo.restapi.wedding_img.repository.WeddingImgRepository;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
+    private static final String AUTH_CODE_PREFIX = "AuthCode ";
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
     private final WeddingImgRepository weddingImgRepository;
-    private final awsS3Service awsS3Service;
+    private final AwsS3Service awsS3Service;
+    private final BlackListRepository blackListRepository;
+    private final RedisService redisService;
+    private final SmtpService smtpService;
+
+    @Value("${spring.mail.auth-code-expiration-millis}")
+    private long authCodeExpirationMillis;
 
     public String makeUniqueUserCode(){
         UserCodeGenerator userCodeGenerator = new UserCodeGenerator();
@@ -60,9 +80,9 @@ public class UserService {
         return uniqueUserCode;
     }
 
-    public void registUserInfo(Long userSequence, UserRegistRequest userRegistRequest) {
+    public void registUserInfo(UserDTO userDTO, UserRegistRequest userRegistRequest) {
         //user table에 email 정보 저장
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         user.setIsRequired(true);
@@ -112,11 +132,10 @@ public class UserService {
         }
     }
 
-    public void modifyUserInfo(Long userSequence, UserModifyRequest userModifyRequest){
+    public void modifyUserInfo(UserDTO userDTO, UserModifyRequest userModifyRequest){
         //user table에 email 정보 저장
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
-
 
         user.modifyUserEmail(userModifyRequest.getEmail());
         userRepository.save(user);
@@ -163,14 +182,25 @@ public class UserService {
         }
     }
 
-    public UserGetResponse getUserInfo(Long userSequence){
-        User user = userRepository.findByUserSequence(userSequence)
+    public UserGetResponse getUserInfo(UserDTO userDTO, String userCode){
+        boolean isMem = true;
+
+        //회원이 접근 할 경우
+        //쿠키를 까봤을 때 나온 userCode와 프론트에서 보낸 userCode가 다르다면
+        if(userDTO != null && !userDTO.getUserCode().equals(userCode))
+            isMem = false;
+
+        //비회원이 접근할 경우
+        if(userDTO == null)
+            isMem = false;
+
+        User user = userRepository.findByUserCode(userCode)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Card card = cardRepository.findByUser(user)
                 .orElseThrow(() -> new CardException(CardErrorCode.CARD_NOT_FOUND));
 
-        List<WeddingImg> weddingImgList = weddingImgRepository.findAll();
+        List<WeddingImg> weddingImgList = weddingImgRepository.findByCard(card);
         List<String> imgUrlList = new ArrayList<>();
 
         for(WeddingImg weddingImg : weddingImgList){
@@ -181,11 +211,11 @@ public class UserService {
             imgUrlList.add(weddingImg.getImgUrl());
         }
 
-        return UserGetResponse.toDto(user, card, imgUrlList);
+        return UserGetResponse.toDto(user, card, imgUrlList, isMem);
     }
 
-    public void deleteUser(Long userSequence){
-        User user = userRepository.findByUserSequence(userSequence)
+    public void deleteUser(UserDTO userDTO){
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         if(user.getDeletedAt() != null)
@@ -198,8 +228,8 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public InvitationIssueResponse invitationIssued(Long userSequence, InvitationIssueRequest invitationIssueRequest){
-        User user = userRepository.findByUserSequence(userSequence)
+    public InvitationIssueResponse invitationIssued(UserDTO userDTO, InvitationIssueRequest invitationIssueRequest){
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Card card = user.getCard();
@@ -210,11 +240,11 @@ public class UserService {
         card.modifyIsIssued(invitationIssueRequest.getIsIssued());
         cardRepository.save(card);
 
-        return InvitationIssueResponse.toDto(card.getInvitationUrl(), invitationIssueRequest.getIsIssued());
+        return InvitationIssueResponse.builder().isIssued(invitationIssueRequest.getIsIssued()).build();
     }
 
-    public void registWho(Long userSequence, WhoRegistRequest whoRegistRequest){
-        User user = userRepository.findByUserSequence(userSequence)
+    public void registWho(UserDTO userDTO, WhoRegistRequest whoRegistRequest){
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Who who = null;
@@ -233,24 +263,24 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public VerifyAccountResponse verifyAccount(Long userSequence){
+    public VerifyAccountResponse verifyAccount(UserDTO userDTO){
         Boolean isVerify = false;
 
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         if(user.getWho() == Who.GROOM){
-            if(user.getGroomFintechUseNum() != null && !user.getGroomFintechUseNum().equals(""))
+            if(user.getGroomAccount() != null && !user.getGroomAccount().equals(""))
                 isVerify = true;
         }
         else if(user.getWho() == Who.BRIDE){
-            if(user.getBrideFintechUseNum() != null && !user.getBrideFintechUseNum().equals(""))
+            if(user.getBrideAccount() != null && !user.getBrideAccount().equals(""))
                 isVerify = true;
 
         }
         else if(user.getWho() == Who.BOTH){
-            if(user.getGroomFintechUseNum() != null && !user.getGroomFintechUseNum().equals("") &&
-                    user.getBrideFintechUseNum() != null && !user.getBrideFintechUseNum().equals("")){
+            if(user.getGroomAccount() != null && !user.getGroomAccount().equals("") &&
+                    user.getBrideAccount() != null && !user.getBrideAccount().equals("")){
                 isVerify = true;
             }
         }
@@ -258,16 +288,16 @@ public class UserService {
         return VerifyAccountResponse.builder().isVerify(isVerify).build();
     }
 
-    public void patchAgreement(Long userSequence, PrivacyRegistRequest privacyRegistRequest) {
-        User user = userRepository.findByUserSequence(userSequence)
+    public void patchAgreement(UserDTO userDTO, PrivacyRegistRequest privacyRegistRequest) {
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         user.setIsAgreement(privacyRegistRequest.getIsAgreement());
         userRepository.save(user);
     }
 
-    public PermissionResponse getUserPermission(Long userSequence) {
-        User user = userRepository.findByUserSequence(userSequence)
+    public PermissionResponse getUserPermission(UserDTO userDTO) {
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         Boolean isAgreement = user.isAgreement();
@@ -277,5 +307,67 @@ public class UserService {
                 .isAgreement(isAgreement)
                 .isRequired(isRequired)
                 .build();
+    }
+
+    public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        String refreshToken = "";
+        //access token, refresh token 정보를 담고 있는 cookie 모두 제거
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals("refreshToken")){
+                refreshToken = cookie.getValue();
+            }
+            cookie.setMaxAge(0);
+            httpServletResponse.addCookie(cookie);
+        }
+
+        //black_list 테이블에 만료된 refresh token 정보를 저장
+        blackListRepository.save(BlackList.builder().invalidRefreshToken(refreshToken).build());
+    }
+
+    public void sendCodeToEmail(String toEmail){
+        log.debug("sendCodeToEmail Function...");
+        this.checkDuplicatedEmail(toEmail);
+        String title = "Marrymo 이메일 인증 번호";
+        String authCode = this.createCode();
+        String content =
+                "안녕하세요, Marrymo 입니다. <br>"
+                        + "<strong>" + toEmail + "</strong>님께 이메일 인증번호를 발송해드립니다.<br/><br/>"
+                        + "<h3>" + authCode + "</h3>";
+        log.debug("send mail start...");
+        smtpService.sendEmail(toEmail, title, content);
+        log.debug("send mail end...");
+
+        //이메일 요청 시 인증 번호를 Redis에 저장
+        //(key = Email / value = AuthCode)
+        redisService.setValue(toEmail, authCode, authCodeExpirationMillis);
+    }
+
+    public Boolean verifiedAuthCode(SmtpVerifyRequest smtpVerifyRequest){
+        String redisAuthCode = redisService.getValue(smtpVerifyRequest.getEmail());
+
+        if(smtpVerifyRequest.getCode().equals(redisAuthCode))
+            return true;
+        else
+            return false;
+    }
+
+    private void checkDuplicatedEmail(String email){
+        Optional<User> user = userRepository.findByEmail(email);
+        //탈퇴하지 않은 회원 중 해당 email이 존재하다면
+        if(user.isPresent() && user.get().getDeletedAt() == null){
+            throw new UserException(UserErrorCode.USER_ALREADY_EXIST);
+        }
+    }
+
+    private String createCode(){
+        StringBuilder sb = new StringBuilder();
+
+        for(int len = 0; len < 6; len++){
+            int num = (int)(Math.random()*10);
+            sb.append(num);
+        }
+
+        return sb.toString();
     }
 }

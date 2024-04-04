@@ -2,6 +2,7 @@ package site.marrymo.restapi.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import site.marrymo.restapi.card.entity.Card;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 
@@ -37,9 +38,6 @@ public class User extends BaseTimeEntity {
 
     private String email;
 
-    @Column(name="refresh_token")
-    private String refreshToken;
-
     @Column
     private Who who;
 
@@ -56,9 +54,11 @@ public class User extends BaseTimeEntity {
     private String groomFintechUseNum;
 
     @Column(name="is_bride_once")
+    @ColumnDefault("false")
     private Boolean isBrideOnce;
 
     @Column(name="is_groom_once")
+    @ColumnDefault("false")
     private Boolean isGroomOnce;
 
     @Column(name="is_withdraw")
@@ -83,7 +83,6 @@ public class User extends BaseTimeEntity {
                 String bankCode,
                 String userCode,
                 String email,
-                String refreshToken,
                 String brideAccount,
                 String brideFintechUseNum,
                 String groomAccount,
@@ -100,7 +99,6 @@ public class User extends BaseTimeEntity {
         this.bankCode = bankCode;
         this.userCode = userCode;
         this.email = email;
-        this.refreshToken = refreshToken;
         this.brideAccount = brideAccount;
         this.brideFintechUseNum = brideFintechUseNum;
         this.groomAccount = groomAccount;
@@ -120,6 +118,10 @@ public class User extends BaseTimeEntity {
     public void setIsAgreement(boolean isAgreement){
         this.isAgreement = isAgreement;
     }
-
     public void setIsRequired(boolean isRequired) { this.isRequired = isRequired; }
+    public void setbrideAccount(String brideAccount) { this.brideAccount = brideAccount; }
+    public void setBrideFintechUseNum(String brideFintechUseNum) { this.brideFintechUseNum = brideFintechUseNum; }
+    public void setGroomAccount(String groomAccount) { this.groomAccount = groomAccount; }
+    public void setGroomFintechUseNum(String fintechUseNum) { this.groomFintechUseNum = groomFintechUseNum; }
+
 }

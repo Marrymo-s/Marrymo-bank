@@ -14,5 +14,6 @@ public class MoneyInfo {
     private String sender;
     private Integer amount;
     private String relationship;
+    private String wishItemName;
     private String guestType;
 }
