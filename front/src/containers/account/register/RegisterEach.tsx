@@ -42,7 +42,7 @@ const RegisterEach = ({who}: WhoProps) => {
             handleOpenBanking(role)
           }}
         >
-          {authStatus[role] ? '인증 완료' : '인증'}
+          {authStatus[role] ? '완료' : '인증'}
         </Button>
       </div>
     )
