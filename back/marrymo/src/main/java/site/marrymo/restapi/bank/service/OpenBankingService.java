@@ -33,7 +33,7 @@ public class OpenBankingService {
                 .code(openBankingCodeRequest.getCode())
                 .client_id(clientId)
                 .client_secret(clientSecret)
-                .redirect_uri("https://spring.marrymo.site/open-banking")
+                .redirect_uri("https://marrymo.site/open-banking")
                 .grant_type("authorization_code")
                 .build();
 
