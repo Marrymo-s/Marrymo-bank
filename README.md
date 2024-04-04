@@ -165,8 +165,8 @@
 request body에 Map이 아닌 객체의 형태로 보내려고 해서 발생한 문제
 
 - <b>해결 방법</b> <br />
-토큰 발급 API 요청 Content-Type이 application/x-www-form-urlencoded; 이기 때문에 텍스트 데이터를 key-value 쌍으로 인코딩 함.<br /> 특수한 상황의 경우 키가 중복될 수 있고 그에 따라 여러 값이 하나의 키에 매핑될 수 있음.<br />
-따라서 하나의 키에 여러 개의 값을 가질 수 있는 MultiValueMap Collection을 채택하여 보내야 했음.
+토큰 발급 API 요청 Content-Type이 application/x-www-form-urlencoded; 이기 때문에 텍스트 데이터를 key-value 쌍으로 인코딩 함.<br /> 특수한 상황의 경우 키가 중복될 수 있고 그에 따라 여러 값이 하나의 키에 매핑될 수 있음<br />
+따라서 하나의 키에 여러 개의 값을 가질 수 있는 MultiValueMap Collection을 채택하여 보내야 했음
 ```
 public MultiValueMap<String, String> toMultiValueMap() {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
@@ -194,9 +194,9 @@ return openBankingWebClient
 #### Frontend 
 #### next.js CSR에서 CORS 에러 처리
 - <b>문제 원인</b> <br />
-  next의 app router는 기본적으로 서버 컴포넌트로 구성되어 있어 SSR 페이지에서만 api 호출하거나 SSG로 도메인이 같기 때문에 CORS 에러 날 일이 없다. 하지만 use client를 쓴 CSR 페이지에서는 localhost로 요청이 가기 때문에 CORS 에러가 날 수 있다.
+  next의 app router는 기본적으로 서버 컴포넌트로 구성되어 있어 SSR 페이지에서만 api 호출하거나 SSG로 도메인이 같기 때문에 CORS 에러 날 일이 없음<br /> 하지만 use client를 쓴 CSR 페이지에서는 localhost로 요청이 가기 때문에 CORS 에러가 날 수 있음
 - <b>해결 방법</b> <br />
-  proxy 우회 방법을 쓴 것처럼 next.config.js에서 rewrites()를 이용해 요청 url을 우회할 수 있다.
+  proxy 우회 방법을 쓴 것처럼 next.config.js에서 rewrites()를 이용해 요청 url을 우회할 수 있음
   - source : 클라이언트에서의 요청 경로
   - destination : 해당 요청이 재작성될 목적지 URL 지정
   ```
@@ -210,9 +210,9 @@ return openBankingWebClient
   ```
 #### 카카오 맵이 next.js 화면에 띄워지지 않는 에러 처리(window is not defined)
 - <b>문제 원인</b><br />
-  app router 내에 있는 컴포넌트는 기본 서버 컴포넌트로, SSR을 디폴트로 하기 때문에 서버에서 렌더링 하는 시점에서는 브라우저 안의 모든 요소들이 소속된 객체인 window 전역 객체에 대한 접근이 불가함.
+  app router 내에 있는 컴포넌트는 기본 서버 컴포넌트로, SSR을 디폴트로 하기 때문에 서버에서 렌더링 하는 시점에서는 브라우저 안의 모든 요소들이 소속된 객체인 window 전역 객체에 대한 접근이 불가함
 - <b>해결 방법</b><br />
-  dynamic 사용 -> import() 안에 원하는 컴포넌트를 넣고 ssr:false를 처리하면 클라이언트에서 렌더링 되기 때문에 window 객체에도 접근 가능.
+  dynamic 사용 -> import() 안에 원하는 컴포넌트를 넣고 ssr:false를 처리하면 클라이언트에서 렌더링 되기 때문에 window 객체에도 접근 가능
 
 ## 8. 설계 문서
 #### API
