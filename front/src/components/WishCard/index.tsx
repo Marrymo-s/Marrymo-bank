@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import {commonButton} from '@/components/Button/index.css';
 import { signupRequest } from '@/types/auth';
 import { fetchInstance } from "@/services";
+import wishlist from '@/components/InvitationCard/wishlist';
 
 
 // 여기 페이지 타입들 수정하기
