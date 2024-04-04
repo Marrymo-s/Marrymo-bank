@@ -1,31 +1,41 @@
 'use client';
 
-import React, {useEffect} from "react";
-
-import * as styles from './index.css'
+import React, {useEffect} from 'react';
 
 interface keywordProps {
   searchKeyword: string;
 }
+
+interface Place {
+  y: string;
+  x: string;
+}
+
 export const KakaoMap = ({searchKeyword}: keywordProps) => {
-  // TODO: 이 부분은 preview, home에서 띄워주는 게 맞을 듯
   useEffect(() => {
-    if (window.kakao) {
-      window.kakao.maps.load(() => {
-        // id가 'map'인 요소에 지도를 생성
-        const mapContainer = document.getElementById("map"),
-          mapOption = {
-            // 해당 좌표는 멀티캠퍼스를 중심으로 함(기초 좌표)
-            center: new window.kakao.maps.LatLng(37.501286, 127.039602),
-            // 줌 레벨 기본값
-            level: 3,
-          };
-        const map = new window.kakao.maps.Map(mapContainer, mapOption);
-      });
-    }
-  }, []);
-  return (
-    // id가 'map'인 div 출력, width와 height를 설정해줘야 정상 출력됨
-    <div id="map" className={styles.mapContainer}/>
-  );
+    const initMap = () => {
+      if (window.kakao && window.kakao.maps) {
+        window.kakao.maps.load(() => {
+          const mapContainer = document.getElementById('map'),
+            mapOption = {
+              center: new window.kakao.maps.LatLng(37.501286, 127.039602),
+              level: 3,
+            };
+          const map = new window.kakao.maps.Map(mapContainer, mapOption);
+
+          const ps = new window.kakao.maps.services.Places();
+          /* eslint-disable @typescript-eslint/no-explicit-any */
+          ps.keywordSearch(searchKeyword, (data: Place[], status: any) => {
+            if (status === window.kakao.maps.services.Status.OK && data[0]) {
+              const firstPlace = data[0];
+              map.setCenter(new window.kakao.maps.LatLng(parseFloat(firstPlace.y), parseFloat(firstPlace.x)));
+            }
+          });
+        });
+      }
+    };
+    initMap();
+  }, [searchKeyword]);
+
+  return <div id="map" style={{width: '300px', height: '300px'}} />;
 };

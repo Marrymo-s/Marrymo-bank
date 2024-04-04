@@ -16,7 +16,7 @@ import useModal from '@/hooks/useModal';
 
 import WeddingImageUpload from '@/containers/signup/WeddingImageUpload';
 import {userInfoStore} from '@/store/useUserInfo';
-import {fetchInstance, fetchNoJson} from '@/services';
+import {fetchInstance} from '@/services';
 
 const today = new Date();
 const weekDay: string[] = ['일', '월', '화', '수', '목', '금', '토'];
