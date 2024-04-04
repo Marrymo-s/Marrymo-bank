@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.SQLDelete;
-import org.springframework.web.multipart.MultipartFile;
+import org.hibernate.annotations.SQLRestriction;
 
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.user.entity.User;
@@ -16,6 +16,7 @@ import site.marrymo.restapi.user.entity.User;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE wish_item SET deleted_at = NOW() WHERE wish_item_sequence = ?")
+@SQLRestriction("deleted_at IS NULL")
 @Table(name = "wish_item")
 public class WishItem extends BaseTimeEntity {
     @Id

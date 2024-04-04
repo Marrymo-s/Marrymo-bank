@@ -1,7 +1,7 @@
-import { recipe } from '@vanilla-extract/recipes';
-import { style } from '@vanilla-extract/css';
+import {recipe} from '@vanilla-extract/recipes';
+import {style} from '@vanilla-extract/css';
 
-import{ defaultWrapper, flex } from'@/styles/common.css';
+import {defaultWrapper, flex} from '@/styles/common.css';
 
 const contentWrapperBase = style([
   defaultWrapper({
@@ -19,19 +19,12 @@ const contentWrapperBase = style([
 ])
 
 export const contentWrapper = recipe({
-  base:contentWrapperBase,
+  base: contentWrapperBase,
 
   variants: {
     contentArea: {
-      headerOnly: {
+      header: {
         paddingTop: '80px',
-      },
-      navBarOnly: {
-        paddingBottom: '48px',
-      },
-      headerAndNavBar: {
-        paddingTop: '80px',
-        paddingBottom: '48px',
       },
     },
     heightStyle: {

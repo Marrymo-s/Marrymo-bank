@@ -1,0 +1,58 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:8.0.36
+    container_name: mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+      TZ: 'Asia/Seoul'
+    ports: # 테스트 환경을 위해 열어놔야함
+      - 3306:3306
+    volumes:
+      - ${MYSQL_PATH}:/var/lib/mysql # 앞: 로컬 / 뒤: mysql 이미지 공식 문서
+    networks:
+      - bank_net
+
+  redis:
+    image: redis:latest
+    hostname: redis
+    container_name: redis
+    restart: always
+    command: redis-server --requirepass leon0115
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ${REDIS_DATA_PATH}:/data # 앞: 로컬 / 뒤 : redis 이미지 공식 문서
+    networks:
+      - bank_net
+
+  bank-app:
+    container_name: bank-app
+    image: jaeyun1650/marrymo_bank
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: ${SPRING_REDIS_PASSWORD}
+    env_file:
+      - /home/ubuntu/config/.env
+    ports:
+      - 80:80
+    depends_on:
+      - mysql
+      - redis
+
+    networks:
+      - bank_net
+
+
+networks:
+  bank_net:
+    external: true

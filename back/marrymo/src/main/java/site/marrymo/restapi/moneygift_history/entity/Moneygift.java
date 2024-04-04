@@ -1,13 +1,12 @@
 package site.marrymo.restapi.moneygift_history.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
+import site.marrymo.restapi.moneygift_history.dto.GuestType;
 import site.marrymo.restapi.moneygift_history.dto.Type;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.wishitem.entity.WishItem;
@@ -16,6 +15,7 @@ import site.marrymo.restapi.wishitem.entity.WishItem;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE moneygift_history SET deleted_at = NOW() WHERE moneygift_sequence = ?")
+@SQLRestriction("deleted_at IS NULL")
 @Table(name = "moneygift_history")
 public class Moneygift extends BaseTimeEntity {
     @Id
@@ -23,13 +23,18 @@ public class Moneygift extends BaseTimeEntity {
     @Column(name = "moneygift_sequence")
     private Long moneygiftSequence;
 
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence")
+    @JoinColumn(name = "user_sequence", referencedColumnName = "user_sequence", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wish_item_sequence", referencedColumnName = "wish_item_sequence")
     private WishItem wishItem;
+
+    @NotNull
+    @Column(name = "guest_type", nullable = false)
+    private GuestType guestType;
 
     @NotNull
     @Column(name = "type", nullable = false)
@@ -50,10 +55,29 @@ public class Moneygift extends BaseTimeEntity {
     @Builder
     public Moneygift(
                      Type type,
-                     int amount,
+                     Integer amount,
                      String relationship,
                      String sender
                      ){
+        this.type = type;
+        this.amount = amount;
+        this.relationship = relationship;
+        this.sender = sender;
+    }
+
+    @Builder
+    public Moneygift(
+            User user,
+            WishItem wishItem,
+            GuestType guestType,
+            Type type,
+            Integer amount,
+            String relationship,
+            String sender
+    ){
+        this.user = user;
+        this.wishItem = wishItem;
+        this.guestType = guestType;
         this.type = type;
         this.amount = amount;
         this.relationship = relationship;

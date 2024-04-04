@@ -13,6 +13,8 @@ services:
       TZ: 'Asia/Seoul'
     ports:   # 테스트 환경을 위해 열어놔야함
       - 3306:3306
+    env_file:
+      - /home/ubuntu/config/.env
     volumes:
       - ${MYSQL_PATH}:/var/lib/mysql # 앞: 로컬 / 뒤: mysql 이미지 공식 문서
     networks:
@@ -22,26 +24,34 @@ services:
     image: redis:latest
     hostname: redis
     container_name: redis
-    command: redis-server /usr/local/redis/redis.conf
     restart: always
+    command: redis-server --requirepass leon0115
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    env_file:
+      - /home/ubuntu/config/.env
+    ports:
+      - 6379:6379
     volumes:
       - ${REDIS_DATA_PATH}:/data # 앞: 로컬 / 뒤 : redis 이미지 공식 문서
-      - ${REDIS_DATA_CONF_PATH}:/etc/redis/redis.conf # 앞: 로컬 / 뒤 : 컨테이너 내부 경로
     networks:
       - marrymo_net
 
 
   marrymo-app:
     container_name: marrymo-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jaeyun1650/marrymo_be
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_HOST: ${SPRING_REDIS_HOST}
+      SPRING_REDIS_PORT: ${SPRING_REDIS_PORT}
+      SPRING_REDIS_PASSWORD: ${SPRING_REDIS_PASSWORD}
+    ports:
+      - 8080:8080
+    env_file:
+      - /home/ubuntu/config/.env
     depends_on:
       - mysql
       - redis

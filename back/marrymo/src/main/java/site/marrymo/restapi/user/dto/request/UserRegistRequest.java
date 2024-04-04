@@ -24,10 +24,13 @@ public class UserRegistRequest {
     @NotEmpty(message = "결혼식 날짜는 빈칸이면 안되고 null이어도 안됩니다")
     private String weddingDate;
 
+    @NotEmpty(message = "결혼식 요일은 필수적입니다")
+    private String weddingDay;
+
     @NotEmpty(message = "결혼식 시간은 빈칸이면 안되고 null이어도 안됩니다")
     private String weddingTime;
 
-    @NotEmpty(message = "결혼식 날짜는 빈칸이면 안되고 null이어도 안됩니다")
+    @NotEmpty(message = "결혼식 장소는 빈칸이면 안되고 null이어도 안됩니다")
     private String location;
 
     @NotEmpty(message = "정산을 받을 이메일은 빈칸이면 안되고 null이어도 안됩니다")
