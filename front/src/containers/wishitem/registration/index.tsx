@@ -44,7 +44,7 @@ const Registration = ({ trigger, userCode}: RegistrationProps) => {
     } else {
       console.log('userCode is not defined yet.');
     }
-  }, [trigger])
+  }, [trigger, wishLists])
 
 
   const goToDetail = (num: number) => {
