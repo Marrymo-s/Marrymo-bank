@@ -153,7 +153,6 @@ const Edit = () => {
       };
 
       const putResponse = await fetch('https://spring.marrymo.site/users', putOptions);
-      console.log(formData);
 
       if (!putResponse.ok) {
         const errorPutResponse = await putResponse.text();
@@ -182,7 +181,6 @@ const Edit = () => {
     } catch (error) {
       console.error('청첩장 발급 과정 중의 에러', error);
     }
-
   };
 
   const handleSetGroomName = (name: string) => {
@@ -252,8 +250,7 @@ const Edit = () => {
   const [isGreetingValid, setIsGreetingValid] = useState(true);
   const [isWeddingLocationValid, setIsWeddingLocationValid] = useState(false);
   const [checkValidation, setCheckValidation] = useState<boolean>(false);
-  // TODO: isAccountRegistered: true인 이유는 시연 때 발급하기를 진행하려고(발표 후 false로 reset 예정)
-  const [isAccountRegistered, setIsAccountRegistered] = useState<boolean>(true);
+  const [isAccountRegistered, setIsAccountRegistered] = useState<boolean>(false);
 
   const isValidateName = (value: string) => {
     // 유효성 검사: 한국어 2 ~ 19자, 영어 4 ~ 38자
@@ -297,7 +294,7 @@ const Edit = () => {
         throw new Error('Failed to fetch account status');
       }
       const data = await response.json();
-      return data.isRegistered; // Assuming the API returns an object with an 'isRegistered' field
+      return data.isRegistered;
     } catch (error) {
       console.error('Error fetching account status:', error);
       return false;
@@ -311,6 +308,7 @@ const Edit = () => {
 
   const canIssueInvitation = () => {
     return isAccountRegistered && checkValidation;
+
   };
 
   useEffect(() => {

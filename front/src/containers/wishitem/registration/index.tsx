@@ -26,6 +26,7 @@ interface RegistrationProps {
 const Registration = ({ trigger, userCode}: RegistrationProps) => {
   const [wishLists, setWishLists] = useState<WishListItem[]>([]);
   const router = useRouter();
+  const wishLen = wishLists.length
 
   useEffect(() => {
     console.log(`userCode: ${userCode}`)
@@ -44,8 +45,7 @@ const Registration = ({ trigger, userCode}: RegistrationProps) => {
     } else {
       console.log('userCode is not defined yet.');
     }
-  }, [trigger, userCode])
-
+  }, [trigger])
 
   const goToDetail = (num: number) => {
     router.push(`detail/${userCode}/${num}`);
