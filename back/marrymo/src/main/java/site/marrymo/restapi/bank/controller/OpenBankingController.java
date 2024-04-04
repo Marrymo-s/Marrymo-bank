@@ -36,6 +36,7 @@ public class OpenBankingController {
         OpenBankingAccountInquiryResponse openBankingAccountInquiryResponse = openBankingService.callAccountListApi(
             openBankingTokenApiResponse.getAccess_token(), openBankingTokenApiResponse.getUser_seq_no());
 
+        log.debug("openbanking-account-inquiry-response:"+openBankingAccountInquiryResponse.toString());
         //MoBankTokenApiResponse moBankTokenApiResponse = moBankService.callMoBankTokenApi();
 
         // 메리모 은행과 메리모 서비스 데이터베이스에 계좌 등록
