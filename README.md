@@ -157,7 +157,8 @@
 ![카카오_단건_결제_API_로직](/uploads/98f56a555f373d22a428ae5384fffa6d/카카오_단건_결제_API_로직.png)
 
 ## 7. 트러블 슈팅
-#### Backend - Open Banking API(토큰 발급 API) Web Client를 통해 호출
+#### Backend
+#### Open Banking API(토큰 발급 API) Web Client를 통해 호출
 ![토큰_발급_api-1](/uploads/23e25120d2163799ba0714604894960a/토큰_발급_api-1.PNG)
 ![토큰_발급_api-2](/uploads/4f45832204aa9105f5f188f5ef8c855c/토큰_발급_api-2.PNG)
 - <b>문제 원인</b> <br />
@@ -190,7 +191,8 @@ return openBankingWebClient
                 .block();
 ```
 
-#### Frontend - next.js CSR에서 CORS 에러 처리
+#### Frontend 
+#### next.js CSR에서 CORS 에러 처리
 - <b>문제 원인</b> <br />
   next의 app router는 기본적으로 서버 컴포넌트로 구성되어 있어 SSR 페이지에서만 api 호출하거나 SSG로 도메인이 같기 때문에 CORS 에러 날 일이 없다. 하지만 use client를 쓴 CSR 페이지에서는 localhost로 요청이 가기 때문에 CORS 에러가 날 수 있다.
 - <b>해결 방법</b> <br />
@@ -206,8 +208,11 @@ return openBankingWebClient
       },
 
   ```
-
-</details>
+#### 카카오 맵이 next.js 화면에 띄워지지 않는 에러 처리(window is not defined)
+- <b>문제 원인</b><br />
+  app router 내에 있는 컴포넌트는 기본 서버 컴포넌트로, SSR을 디폴트로 하기 때문에 서버에서 렌더링 하는 시점에서는 브라우저 안의 모든 요소들이 소속된 객체인 window 전역 객체에 대한 접근이 불가함.
+- <b>해결 방법</b><br />
+  dynamic 사용 -> import() 안에 원하는 컴포넌트를 넣고 ssr:false를 처리하면 클라이언트에서 렌더링 되기 때문에 window 객체에도 접근 가능.
 
 ## 8. 설계 문서
 #### API
