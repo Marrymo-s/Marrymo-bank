@@ -170,7 +170,8 @@ export const inputBoxStyle = style({
 
 export const buttonContainer = style({
   width: '100%',
-  margin: vars.space['2x'],
+  marginTop: vars.space['2x'],
+  marginBottom: vars.space['2x'],
 });
 
 export const errorMessage = style({
