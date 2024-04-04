@@ -153,7 +153,6 @@ const Edit = () => {
       };
 
       const putResponse = await fetch('https://spring.marrymo.site/users', putOptions);
-      console.log(formData);
 
       if (!putResponse.ok) {
         const errorPutResponse = await putResponse.text();
@@ -183,7 +182,7 @@ const Edit = () => {
       console.error('청첩장 발급 과정 중의 에러', error);
     }
   };
-  
+
   const handleSetGroomName = (name: string) => {
     setGroomName(name);
   };
@@ -308,9 +307,7 @@ const Edit = () => {
   };
 
   const canIssueInvitation = () => {
-    // 시연용으로 isAccountRegistered 상태 값은 임시로 주석 처리
-    // return isAccountRegistered && checkValidation;
-    return checkValidation;
+    return isAccountRegistered && checkValidation;
 
   };
 
