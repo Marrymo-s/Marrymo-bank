@@ -1,5 +1,6 @@
 package site.marrymo.restapi.user.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import site.marrymo.restapi.card.entity.Card;
@@ -17,8 +18,10 @@ public class UserGetResponse {
     private String brideName;
     private String groomContact;
     private String brideContact;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate weddingDate;
     private String weddingDay;
+    @JsonFormat(pattern = "kk:mm:ss")
     private LocalTime weddingTime;
     private String location;
     private String email;
@@ -28,8 +31,10 @@ public class UserGetResponse {
     private String brideFather;
     private String brideMother;
     private List<String> imgUrl;
+    private String userCode;
+    private Boolean isMem;
 
-    public static UserGetResponse toDto(User user, Card card, List<String> imgUrl){
+    public static UserGetResponse toDto(User user, Card card, List<String> imgUrl, Boolean isMem){
         return UserGetResponse.builder()
                 .userSequence(user.getUserSequence())
                 .groomName(card.getGroomName())
@@ -47,6 +52,8 @@ public class UserGetResponse {
                 .brideFather(card.getBrideFather())
                 .brideMother(card.getBrideMother())
                 .imgUrl(imgUrl)
+                .userCode(user.getUserCode())
+                .isMem(isMem)
                 .build();
     }
 }

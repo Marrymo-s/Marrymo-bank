@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import site.marrymo.restapi.moneygift_history.entity.Moneygift;
 import site.marrymo.restapi.moneygift_history.repository.MoneygiftRepository;
+import site.marrymo.restapi.user.dto.UserDTO;
 import site.marrymo.restapi.user.entity.User;
 import site.marrymo.restapi.user.exception.UserErrorCode;
 import site.marrymo.restapi.user.exception.UserException;
@@ -17,6 +18,8 @@ import site.marrymo.restapi.wishitem.dto.response.WishItemDetailResponse;
 import site.marrymo.restapi.wishitem.dto.response.WishItemEach;
 import site.marrymo.restapi.wishitem.dto.response.WishItemGetResponse;
 import site.marrymo.restapi.wishitem.entity.WishItem;
+import site.marrymo.restapi.wishitem.exception.WishItemErrorCode;
+import site.marrymo.restapi.wishitem.exception.WishItemException;
 import site.marrymo.restapi.wishitem.repository.WishItemRepository;
 
 import java.util.List;
@@ -32,9 +35,9 @@ public class WishItemService {
     private final MoneygiftRepository moneygiftRepository;
 
     //아직 accessToken 없어서 userSequence 파라미터로 넣는 걸로
-    public void registWishItem(Long userSequence, WishItemRegistRequest wishItemRegistRequest) {
+    public void registWishItem(UserDTO userDTO, WishItemRegistRequest wishItemRegistRequest) {
         //사용자 조회
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         //WishItem 생성 및 저장
@@ -55,8 +58,7 @@ public class WishItemService {
 
         //여기 에러 바꾸기
         //2. user로 WishItem 엔티티 목록 조회
-        List<WishItem> items = wishItemRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+        List<WishItem> items = wishItemRepository.findByUser(user);
 
         //3. WishItem 엔티티 -> WishItemEach dto로 변환
         //4. WishItem들을 리스트에 추가
@@ -81,35 +83,38 @@ public class WishItemService {
 
         //2. wishItemSequence로 wishItem 조회
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemSequence, user)
-                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+                .orElseThrow(() -> new WishItemException(WishItemErrorCode.WISH_ITEM_NOT_FOUNT_FOR_USER));
 
         //3. user와 wishItem으로 moneygift 내역 list로 가져오기
         List<Moneygift> moneygiftList = moneygiftRepository.findByUserAndWishItem(user, wishItem);
-//                .orElseThrow(() -> new RuntimeException("Wish items not found"));
 
         //4. moneygiftList에서 amount 합산하여 fund 계산
         int fund = moneygiftList.stream()
                 .mapToInt(Moneygift::getAmount)
                 .sum();
 
+        long person=moneygiftList.stream()
+                .count();
+
         //5. 반환
         return WishItemDetailResponse.builder()
                 .wishItemSequence(wishItem.getWishItemSequence())
                 .name(wishItem.getName())
                 .fund(fund)
+                .person(person)
                 .price(wishItem.getPrice())
                 .img(wishItem.getImg())
                 .build();
     }
 
-    public void deleteWishItem(Long userSequence, WishItemDeleteRequest wishItemDeleteRequest) {
+    public void deleteWishItem(UserDTO userDTO, WishItemDeleteRequest wishItemDeleteRequest) {
         //사용자 조회
-        User user = userRepository.findByUserSequence(userSequence)
+        User user = userRepository.findByUserSequence(userDTO.getUserSequence())
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
-        //log.debug("userEmail = ",user.getEmail());
+
         //wishItemSequence로 wishItem 조회
         WishItem wishItem = wishItemRepository.findByWishItemSequenceAndUser(wishItemDeleteRequest.getWishItemSequence(), user)
-                .orElseThrow(() -> new RuntimeException("Wish items not found"));
+                .orElseThrow(() -> new WishItemException(WishItemErrorCode.WISH_ITEM_NOT_FOUNT_FOR_USER));
 
         wishItemRepository.delete(wishItem);
     }

@@ -1,12 +1,10 @@
 package site.marrymo.restapi.moneygift_history.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import site.marrymo.restapi.global.entity.BaseTimeEntity;
 import site.marrymo.restapi.moneygift_history.dto.GuestType;
 import site.marrymo.restapi.moneygift_history.dto.Type;
@@ -17,6 +15,7 @@ import site.marrymo.restapi.wishitem.entity.WishItem;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE moneygift_history SET deleted_at = NOW() WHERE moneygift_sequence = ?")
+@SQLRestriction("deleted_at IS NULL")
 @Table(name = "moneygift_history")
 public class Moneygift extends BaseTimeEntity {
     @Id
@@ -60,6 +59,25 @@ public class Moneygift extends BaseTimeEntity {
                      String relationship,
                      String sender
                      ){
+        this.type = type;
+        this.amount = amount;
+        this.relationship = relationship;
+        this.sender = sender;
+    }
+
+    @Builder
+    public Moneygift(
+            User user,
+            WishItem wishItem,
+            GuestType guestType,
+            Type type,
+            Integer amount,
+            String relationship,
+            String sender
+    ){
+        this.user = user;
+        this.wishItem = wishItem;
+        this.guestType = guestType;
         this.type = type;
         this.amount = amount;
         this.relationship = relationship;
