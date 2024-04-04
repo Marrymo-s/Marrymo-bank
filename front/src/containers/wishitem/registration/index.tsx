@@ -45,8 +45,7 @@ const Registration = ({ trigger, userCode}: RegistrationProps) => {
     } else {
       console.log('userCode is not defined yet.');
     }
-  }, [wishLen])
-
+  }, [trigger])
 
   const goToDetail = (num: number) => {
     router.push(`detail/${userCode}/${num}`);
