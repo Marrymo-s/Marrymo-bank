@@ -5,6 +5,7 @@ import { signupRequest } from '@/types/auth';
 type sentenceProps = Pick<signupRequest, 'greeting'>
 // 줄 띄어쓰기랑 문장 어떻게 나눌지 나중에
 const sentence = ({ greeting }: sentenceProps) => {
+  console.log('greeting:',greeting)
   return (
 
     <div className={styles.sentenceWrapper}>
