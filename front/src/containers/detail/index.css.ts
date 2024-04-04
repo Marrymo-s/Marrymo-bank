@@ -14,6 +14,7 @@ export const detailWrapper = style([
     direction: 'column',
   }),
   {
+    top: 60,
     padding: vars.space['4x'],
   },
   {
@@ -28,7 +29,7 @@ export const detailWrapper = style([
 ]);
 
 export const detailImageWrapper = style({
-  borderColor: vars.colors.black,
+  borderColor: vars.colors.lightGray,
   borderWidth: '1px',
   borderStyle: 'solid',
   objectFit: 'cover',
@@ -57,13 +58,13 @@ export const detailImage = style({
 })
 
 export const detailNameText = style({
-  fontSize: vars.fontSize['4x'],
+  fontSize: vars.fontSize['3x'],
   overflow: 'hidden', // 내용이 넘칠 때 숨김
   textOverflow: 'ellipsis', // 넘친 텍스트를 말줄임표로 표시
   whiteSpace: 'nowrap', // 텍스트가 줄바꿈 없이 한 줄로 표시
   width: '100%', // 부모 요소에 맞춰 너비를 설정
-  maxWidth: '100%', // 최대 너비를 부모 요소에 맞춰 설정
-  paddingLeft: '110px',
+  maxWidth: '360px', // 최대 너비를 부모 요소에 맞춰 설정
+  paddingLeft: '5px',
 })
 
 export const detailTotalPriceText = style({
@@ -78,5 +79,6 @@ export const detailPartialPriceText = style({
 export const detailColorText = style({
   color: vars.colors.strongYellow,
   fontSize: vars.fontSize["4x"],
-  fontWeight: vars.fontWeight.accent
+  fontWeight: vars.fontWeight.accent,
+
 })

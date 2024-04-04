@@ -10,10 +10,13 @@ import Image from 'next/image';
 import {useRouter} from 'next/navigation';
 import { useParams } from 'next/navigation';
 
+import { useWishitemSeqStore } from '@/store/useWishitemSeq';
+
 import ProgressBar from '@/containers/detail/ProgressBar';
 import {detailColorText, detailTotalPriceText} from "./index.css";
 
 import {formatPrice} from '@/utils/format';
+import {userInfoStore} from "@/store/useUserInfo";
 
 
 interface wishItemDetailProps {
@@ -29,8 +32,9 @@ interface wishItemDetailProps {
 const Detail = async () => {
   const { userCode, wishItemSequence } = useParams()
   const router = useRouter()
+  const setWishitemSeq = useWishitemSeqStore((state) => state.setWishitemSeq);
+  setWishitemSeq(Number(wishItemSequence))
   const wishItemDetailData = await fetchInstance(`/wish-item/${userCode}/${wishItemSequence}`) as wishItemDetailProps
-  console.log(wishItemDetailData)
 
   const formattedPrice = formatPrice(String(wishItemDetailData.price));
   const formattedFund = formatPrice(String(wishItemDetailData.fund));
@@ -48,8 +52,8 @@ const Detail = async () => {
           <Image
             src={wishItemDetailData.img}
             alt="cardTopImage"
-            width={480}
-            height={480}
+            width={400}
+            height={400}
             sizes='100vw'
           />
         </div>
@@ -63,20 +67,20 @@ const Detail = async () => {
         <hr/>
         <div>
           <div>
-            현재 <span className={styles.detailTotalPriceText}>
+            현재 &nbsp;<span className={styles.detailTotalPriceText}>
                   {formattedPrice}
-                </span> 중 <br />
+                </span> 중 <br/>
             <span className={styles.detailPartialPriceText}>
-              {formattedFund}
-            </span>원이  모였어요 <br />
-            모금 마감까지
-            <span className={styles.detailColorText}>
-              n
-            </span>일이 남았어요! <br />
-            지금까지
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formattedFund}
+            </span> 원이 모였어요 <br/>
+            모금 마감까지&nbsp;
+            {/*<span className={styles.detailColorText}>*/}
+            {/*   n*/}
+            {/*</span> 일이 남았어요! <br/>*/}
+            지금까지&nbsp;
             <span className={styles.detailColorText}>
               {wishItemDetailData.person}
-            </span>명이 모금에 참여했어요
+            </span> 명이 모금에 참여했어요
           </div>
         </div>
         <Button

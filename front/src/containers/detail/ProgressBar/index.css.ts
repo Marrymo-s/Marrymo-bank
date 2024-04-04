@@ -9,12 +9,14 @@ import {vars} from '@/styles/vars.css';
 
 export const progressTotalContainer = style({
 
-  width: '300px',
-  height: '30px',
+  width: '360px',
+  height: '40px',
+  marginTop: '30px',
   borderColor: vars.colors.black,
   borderWidth: '1px',
   borderStyle: 'solid',
   overflow: 'hidden',
+
 })
 
 export const progressPartialContainer = style({
