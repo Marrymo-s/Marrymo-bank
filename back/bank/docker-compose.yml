@@ -12,7 +12,7 @@ services:
       MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
       TZ: 'Asia/Seoul'
     ports: # 테스트 환경을 위해 열어놔야함
-      - 3306:3306
+      - 3307:3306
     volumes:
       - ${MYSQL_PATH}:/var/lib/mysql # 앞: 로컬 / 뒤: mysql 이미지 공식 문서
     networks:
@@ -44,7 +44,7 @@ services:
     env_file:
       - /home/ubuntu/config/bank/.env
     ports:
-      - 80:80
+      - 9000:80
     depends_on:
       - mysql
       - redis
