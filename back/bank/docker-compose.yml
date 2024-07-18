@@ -16,7 +16,7 @@ services:
     volumes:
       - ${MYSQL_PATH}:/var/lib/mysql # 앞: 로컬 / 뒤: mysql 이미지 공식 문서
     networks:
-      - bank_net
+      - marrymo
 
   redis:
     image: redis:latest
@@ -29,7 +29,7 @@ services:
     volumes:
       - ${REDIS_DATA_PATH}:/data # 앞: 로컬 / 뒤 : redis 이미지 공식 문서
     networks:
-      - bank_net
+      - marrymo
 
   bank-app:
     container_name: bank-app
@@ -50,7 +50,7 @@ services:
       - redis
 
     networks:
-      - bank_net
+      - marrymo
 
 
 networks:
