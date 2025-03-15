@@ -38,6 +38,7 @@
         update account
         set balance=balance+#{amount}
         where account_num=#{accountNum}
+        for update
     </update>
 
     <select id="countAccountNum" parameterType="String">
